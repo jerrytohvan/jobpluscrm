@@ -11,29 +11,30 @@
 |
 */
 Route::group(['middleware' => ['web']], function(){
+  // Route::get('/', function () {
+  //     return view('welcome'); //points to welcome.blade.php
+  // })->name('/');
+  Route::get('/', 'AccountController@welcome');
 
-  Route::get('/', function () {
-      return view('welcome'); //points to welcome.blade.php
-  })->name('/');
-
-  Route::get('/dashboard', [
-    'as' => 'dashboard',
-    'uses' => 'AccountController@index',
-  ]);
-
-  Route::post('/login', [
-      'as' => 'login',
-      'uses' => 'UserController@signIn',
-  ]);
-
-  Route::get('/register', [
-    'as' => 'register',
-    'uses' => 'AccountController@register',
-  ]);
-
-  Route::get('/logout', [
-    'as' => 'logout',
-    'uses' => 'UserController@logout',
-  ]);
+  //
+  // Route::get('/dashboard', [
+  //   'as' => 'dashboard',
+  //   'uses' => 'AccountController@index',
+  // ]);
+  //
+  // Route::post('/login', [
+  //     'as' => 'login',
+  //     'uses' => '\App\Users\UserController@signIn',
+  // ]);
+  //
+  // Route::get('/register', [
+  //   'as' => 'register',
+  //   'uses' => 'AccountController@register',
+  // ]);
+  //
+  // Route::get('/logout', [
+  //   'as' => 'logout',
+  //   'uses' => '\App\Users\UserController@logout',
+  // ]);
 
 });
