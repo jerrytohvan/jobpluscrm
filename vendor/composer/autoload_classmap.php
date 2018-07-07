@@ -19,6 +19,9 @@ return array(
     'CreatePostsTable' => $baseDir . '/database/migrations/2018_07_01_164136_create_posts_table.php',
     'CreateProjectGroupsTable' => $baseDir . '/database/migrations/2018_07_01_000715_create_project_groups_table.php',
     'CreateResumesTable' => $baseDir . '/database/migrations/2018_07_01_000833_create_resumes_table.php',
+    'CreateTagGroupsTable' => $baseDir . '/database/migrations/2016_06_29_073615_create_tag_groups_table.php',
+    'CreateTaggedTable' => $baseDir . '/database/migrations/2014_01_07_073615_create_tagged_table.php',
+    'CreateTagsTable' => $baseDir . '/database/migrations/2014_01_07_073615_create_tags_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'DivisionByZeroError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/DivisionByZeroError.php',
@@ -559,4 +562,5 @@ return array(
     'SessionUpdateTimestampHandlerInterface' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/SessionUpdateTimestampHandlerInterface.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
     'TypeError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/TypeError.php',
+    'UpdateTagsTable' => $baseDir . '/database/migrations/2016_06_29_073615_update_tags_table.php',
 );

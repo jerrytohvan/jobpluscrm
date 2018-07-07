@@ -12,6 +12,7 @@ return [
     | services your application utilizes. Set this in your ".env" file.
     |
     */
+    'name' => env('APP_NAME', 'Laravel'),
 
     'env' => env('APP_ENV', 'production'),
 

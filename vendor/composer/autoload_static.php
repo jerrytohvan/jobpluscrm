@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit827dc8477f31ff332909af6661d738ea
+class ComposerStaticInitcb2a5faa891995e99feb496389a64e18
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -304,6 +304,9 @@ class ComposerStaticInit827dc8477f31ff332909af6661d738ea
         'CreatePostsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_164136_create_posts_table.php',
         'CreateProjectGroupsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000715_create_project_groups_table.php',
         'CreateResumesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000833_create_resumes_table.php',
+        'CreateTagGroupsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_29_073615_create_tag_groups_table.php',
+        'CreateTaggedTable' => __DIR__ . '/../..' . '/database/migrations/2014_01_07_073615_create_tagged_table.php',
+        'CreateTagsTable' => __DIR__ . '/../..' . '/database/migrations/2014_01_07_073615_create_tags_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'DivisionByZeroError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/DivisionByZeroError.php',
@@ -844,16 +847,17 @@ class ComposerStaticInit827dc8477f31ff332909af6661d738ea
         'SessionUpdateTimestampHandlerInterface' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/SessionUpdateTimestampHandlerInterface.php',
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',
         'TypeError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/TypeError.php',
+        'UpdateTagsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_29_073615_update_tags_table.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit827dc8477f31ff332909af6661d738ea::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit827dc8477f31ff332909af6661d738ea::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit827dc8477f31ff332909af6661d738ea::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit827dc8477f31ff332909af6661d738ea::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit827dc8477f31ff332909af6661d738ea::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitcb2a5faa891995e99feb496389a64e18::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitcb2a5faa891995e99feb496389a64e18::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInitcb2a5faa891995e99feb496389a64e18::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitcb2a5faa891995e99feb496389a64e18::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitcb2a5faa891995e99feb496389a64e18::$classMap;
 
         }, null, ClassLoader::class);
     }
