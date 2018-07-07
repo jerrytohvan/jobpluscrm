@@ -42,7 +42,7 @@ class Authorize
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @param  string  $ability
-     * @param  array|null  ...$models
+     * @param  array|null  $models
      * @return mixed
      *
      * @throws \Illuminate\Auth\AuthenticationException
@@ -80,7 +80,7 @@ class Authorize
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  string  $model
-     * @return \Illuminate\Database\Eloquent\Model|string
+     * @return string|\Illuminate\Database\Eloquent\Model
      */
     protected function getModel($request, $model)
     {

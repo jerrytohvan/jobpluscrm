@@ -8,12 +8,12 @@ $_SERVER['argv'][3] = 'MultiDependencyTest';
 $_SERVER['argv'][4] = __DIR__ . '/../_files/MultiDependencyTest.php';
 
 require __DIR__ . '/../bootstrap.php';
-PHPUnit\TextUI\Command::main();
+PHPUnit_TextUI_Command::main();
 --EXPECTF--
 PHPUnit %s by Sebastian Bergmann and contributors.
 
-.....                                                               5 / 5 (100%)
+...                                                                 3 / 3 (100%)
 
 Time: %s, Memory: %s
 
-OK (5 tests, 6 assertions)
+OK (3 tests, 2 assertions)

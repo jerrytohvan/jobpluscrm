@@ -25,8 +25,8 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  *
- * @method Request  getRequest()  A Request instance
- * @method Response getResponse() A Response instance
+ * @method Request|null  getRequest()  A Request instance
+ * @method Response|null getResponse() A Response instance
  */
 class Client extends BaseClient
 {
@@ -168,6 +168,7 @@ EOF;
                         '',
                         $value->getClientOriginalName(),
                         $value->getClientMimeType(),
+                        0,
                         UPLOAD_ERR_INI_SIZE,
                         true
                     );
@@ -176,6 +177,7 @@ EOF;
                         $value->getPathname(),
                         $value->getClientOriginalName(),
                         $value->getClientMimeType(),
+                        $value->getClientSize(),
                         $value->getError(),
                         true
                     );

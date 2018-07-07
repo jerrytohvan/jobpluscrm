@@ -2,8 +2,6 @@
 
 namespace Illuminate\Console;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Support\Arrayable;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -17,8 +15,6 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 class Command extends SymfonyCommand
 {
-    use Macroable;
-
     /**
      * The Laravel application instance.
      *
@@ -181,7 +177,9 @@ class Command extends SymfonyCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        return $this->laravel->call([$this, 'handle']);
+        $method = method_exists($this, 'handle') ? 'handle' : 'fire';
+
+        return $this->laravel->call([$this, $method]);
     }
 
     /**
@@ -196,7 +194,7 @@ class Command extends SymfonyCommand
         $arguments['command'] = $command;
 
         return $this->getApplication()->find($command)->run(
-            $this->createInputFromArguments($arguments), $this->output
+            new ArrayInput($arguments), $this->output
         );
     }
 
@@ -212,23 +210,8 @@ class Command extends SymfonyCommand
         $arguments['command'] = $command;
 
         return $this->getApplication()->find($command)->run(
-            $this->createInputFromArguments($arguments), new NullOutput
+            new ArrayInput($arguments), new NullOutput
         );
-    }
-
-    /**
-     * Create an input instance from the given arguments.
-     *
-     * @param  array  $arguments
-     * @return \Symfony\Component\Console\Input\ArrayInput
-     */
-    protected function createInputFromArguments(array $arguments)
-    {
-        return tap(new ArrayInput($arguments), function ($input) {
-            if ($input->hasParameterOption(['--no-interaction'], true)) {
-                $input->setInteractive(false);
-            }
-        });
     }
 
     /**
@@ -281,7 +264,7 @@ class Command extends SymfonyCommand
     /**
      * Get the value of a command option.
      *
-     * @param  string|null  $key
+     * @param  string  $key
      * @return string|array
      */
     public function option($key = null)
@@ -319,7 +302,7 @@ class Command extends SymfonyCommand
      * Prompt the user for input.
      *
      * @param  string  $question
-     * @param  string|null  $default
+     * @param  string  $default
      * @return string
      */
     public function ask($question, $default = null)
@@ -332,7 +315,7 @@ class Command extends SymfonyCommand
      *
      * @param  string  $question
      * @param  array   $choices
-     * @param  string|null  $default
+     * @param  string  $default
      * @return string
      */
     public function anticipate($question, array $choices, $default = null)
@@ -345,7 +328,7 @@ class Command extends SymfonyCommand
      *
      * @param  string  $question
      * @param  array   $choices
-     * @param  string|null  $default
+     * @param  string  $default
      * @return string
      */
     public function askWithCompletion($question, array $choices, $default = null)
@@ -378,9 +361,9 @@ class Command extends SymfonyCommand
      *
      * @param  string  $question
      * @param  array   $choices
-     * @param  string|null  $default
-     * @param  mixed|null   $attempts
-     * @param  bool|null    $multiple
+     * @param  string  $default
+     * @param  mixed   $attempts
+     * @param  bool    $multiple
      * @return string
      */
     public function choice($question, array $choices, $default = null, $attempts = null, $multiple = null)
@@ -397,11 +380,10 @@ class Command extends SymfonyCommand
      *
      * @param  array   $headers
      * @param  \Illuminate\Contracts\Support\Arrayable|array  $rows
-     * @param  string  $tableStyle
-     * @param  array   $columnStyles
+     * @param  string  $style
      * @return void
      */
-    public function table($headers, $rows, $tableStyle = 'default', array $columnStyles = [])
+    public function table(array $headers, $rows, $style = 'default')
     {
         $table = new Table($this->output);
 
@@ -409,13 +391,7 @@ class Command extends SymfonyCommand
             $rows = $rows->toArray();
         }
 
-        $table->setHeaders((array) $headers)->setRows($rows)->setStyle($tableStyle);
-
-        foreach ($columnStyles as $columnIndex => $columnStyle) {
-            $table->setColumnStyle($columnIndex, $columnStyle);
-        }
-
-        $table->render();
+        $table->setHeaders($headers)->setRows($rows)->setStyle($style)->render();
     }
 
     /**
@@ -507,13 +483,11 @@ class Command extends SymfonyCommand
      */
     public function alert($string)
     {
-        $length = Str::length(strip_tags($string)) + 12;
-
-        $this->comment(str_repeat('*', $length));
+        $this->comment(str_repeat('*', strlen($string) + 12));
         $this->comment('*     '.$string.'     *');
-        $this->comment(str_repeat('*', $length));
+        $this->comment(str_repeat('*', strlen($string) + 12));
 
-        $this->output->newLine();
+        $this->output->writeln('');
     }
 
     /**
@@ -530,7 +504,7 @@ class Command extends SymfonyCommand
     /**
      * Get the verbosity level in terms of Symfony's OutputInterface level.
      *
-     * @param  string|int|null  $level
+     * @param  string|int  $level
      * @return int
      */
     protected function parseVerbosity($level = null)

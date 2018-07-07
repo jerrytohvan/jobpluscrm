@@ -4,7 +4,6 @@ namespace Illuminate\Auth;
 
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Auth\UserProvider;
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 
@@ -63,15 +62,10 @@ class EloquentUserProvider implements UserProvider
     {
         $model = $this->createModel();
 
-        $model = $model->where($model->getAuthIdentifierName(), $identifier)->first();
-
-        if (! $model) {
-            return null;
-        }
-
-        $rememberToken = $model->getRememberToken();
-
-        return $rememberToken && hash_equals($rememberToken, $token) ? $model : null;
+        return $model->newQuery()
+            ->where($model->getAuthIdentifierName(), $identifier)
+            ->where($model->getRememberTokenName(), $token)
+            ->first();
     }
 
     /**
@@ -102,9 +96,7 @@ class EloquentUserProvider implements UserProvider
      */
     public function retrieveByCredentials(array $credentials)
     {
-        if (empty($credentials) ||
-           (count($credentials) === 1 &&
-            array_key_exists('password', $credentials))) {
+        if (empty($credentials)) {
             return;
         }
 
@@ -114,13 +106,7 @@ class EloquentUserProvider implements UserProvider
         $query = $this->createModel()->newQuery();
 
         foreach ($credentials as $key => $value) {
-            if (Str::contains($key, 'password')) {
-                continue;
-            }
-
-            if (is_array($value) || $value instanceof Arrayable) {
-                $query->whereIn($key, $value);
-            } else {
+            if (! Str::contains($key, 'password')) {
                 $query->where($key, $value);
             }
         }

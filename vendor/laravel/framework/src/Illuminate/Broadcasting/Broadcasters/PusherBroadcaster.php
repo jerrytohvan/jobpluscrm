@@ -2,25 +2,25 @@
 
 namespace Illuminate\Broadcasting\Broadcasters;
 
-use Pusher\Pusher;
+use Pusher;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Broadcasting\BroadcastException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class PusherBroadcaster extends Broadcaster
 {
     /**
      * The Pusher SDK instance.
      *
-     * @var \Pusher\Pusher
+     * @var \Pusher
      */
     protected $pusher;
 
     /**
      * Create a new broadcaster instance.
      *
-     * @param  \Pusher\Pusher  $pusher
+     * @param  \Pusher  $pusher
      * @return void
      */
     public function __construct(Pusher $pusher)
@@ -33,13 +33,12 @@ class PusherBroadcaster extends Broadcaster
      *
      * @param  \Illuminate\Http\Request  $request
      * @return mixed
-     * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
      */
     public function auth($request)
     {
         if (Str::startsWith($request->channel_name, ['private-', 'presence-']) &&
             ! $request->user()) {
-            throw new AccessDeniedHttpException;
+            throw new HttpException(403);
         }
 
         $channelName = Str::startsWith($request->channel_name, 'private-')
@@ -62,34 +61,25 @@ class PusherBroadcaster extends Broadcaster
     {
         if (Str::startsWith($request->channel_name, 'private')) {
             return $this->decodePusherResponse(
-                $request, $this->pusher->socket_auth($request->channel_name, $request->socket_id)
+                $this->pusher->socket_auth($request->channel_name, $request->socket_id)
             );
         }
 
         return $this->decodePusherResponse(
-            $request,
             $this->pusher->presence_auth(
-                $request->channel_name, $request->socket_id,
-                $request->user()->getAuthIdentifier(), $result
-            )
+                $request->channel_name, $request->socket_id, $request->user()->getAuthIdentifier(), $result)
         );
     }
 
     /**
      * Decode the given Pusher response.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  mixed  $response
      * @return array
      */
-    protected function decodePusherResponse($request, $response)
+    protected function decodePusherResponse($response)
     {
-        if (! $request->input('callback', false)) {
-            return json_decode($response, true);
-        }
-
-        return response()->json(json_decode($response, true))
-                    ->withCallback($request->callback);
+        return json_decode($response, true);
     }
 
     /**
@@ -121,7 +111,7 @@ class PusherBroadcaster extends Broadcaster
     /**
      * Get the Pusher SDK instance.
      *
-     * @return \Pusher\Pusher
+     * @return \Pusher
      */
     public function getPusher()
     {

@@ -17,9 +17,11 @@ class ProjectUrlMatcher extends Symfony\Component\Routing\Matcher\UrlMatcher
 
     public function match($rawPathinfo)
     {
-        $allow = $allowSchemes = array();
+        $allow = array();
         $pathinfo = rawurldecode($rawPathinfo);
+        $trimmedPathinfo = rtrim($pathinfo, '/');
         $context = $this->context;
+        $request = $this->request ?: $this->createRequest($pathinfo);
         $requestMethod = $canonicalMethod = $context->getMethod();
 
         if ('HEAD' === $requestMethod) {
@@ -30,6 +32,6 @@ class ProjectUrlMatcher extends Symfony\Component\Routing\Matcher\UrlMatcher
             throw new Symfony\Component\Routing\Exception\NoConfigurationException();
         }
 
-        throw $allow ? new MethodNotAllowedException(array_keys($allow)) : new ResourceNotFoundException();
+        throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
     }
 }
