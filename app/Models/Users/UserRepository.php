@@ -1,7 +1,7 @@
 
 <?php
 
-namespace App\Users;
+namespace App\Models\Users;
 
 use Illuminate\Http\Request;
 

@@ -1,7 +1,7 @@
 
 <?php
 
-namespace App\Messages;
+namespace App\Models\Messages;
 
 use Illuminate\Http\Request;
 

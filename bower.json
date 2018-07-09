@@ -9,6 +9,7 @@
     "laravel-gentelella",
     "template",
     "bootstrap",
+    "jquery",
     "responsive",
     "admin",
     "php",
@@ -29,6 +30,7 @@
     "tests"
   ],
   "dependencies": {
-    "gentelella": "^1.4.0"
+    "gentelella": "^1.4.0",
+    "datatables.net-bs": "^2.1.1"
   }
 }

@@ -1,20 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Requests;
+use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
-  public function welcome()
+  //points to auth::
+  public function __construct()
   {
-      return view('welcome');
+      $this->middleware('auth');
   }
-    public function index()
-    {
-        return view('dashboard');
-    }
+  public function index()
+  {
+      return view('dashboard');
+  }
 
-    public function register()
-    {
-        return view('includes.register');
-    }
 }

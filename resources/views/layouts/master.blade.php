@@ -13,61 +13,89 @@
     @yield('title')
   </title>
 
-  <script src="./js/jobplus_app.js"></script>
-
+  <!-- Bootstrap -->
+  <link href="{{ asset("css/bootstrap.min.css") }}" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="{{ asset("css/font-awesome.min.css") }}" rel="stylesheet">
   <!-- Custom Theme Style -->
-  <link href="./css/custom.css" rel="stylesheet">
+  <link href="{{ asset("css/gentelella.min.css") }}" rel="stylesheet">
+ <!--  Boostrap Datepick -->
+  <link href="{{ asset("css/daterangepicker.css") }}" rel="stylesheet">
+
+  <!--  dropzone  -->
+   <link href="{{ asset("css/dropzone.min.css") }}" rel="stylesheet">
+
+  @stack('stylesheets')
 
 </head>
 
-
-
-  <!-- Navigation-->
-  @if(Auth::user()) <!-- USER AUTHENTICATED? -->
-
+@if (Auth::check())  <!-- Navigation-->
   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
-        <div class="col-md-3 left_col">
-          <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Job Plus CRM</span></a>
-            </div>
 
-            <div class="clearfix"></div>
-              @include('includes.menu_profile')
 
-              <br />
+              @include('includes.sidebar')
 
-              @include('includes.sidebar_menu')
-              @include('includes.footer_menu')
+              <!-- top navigation -->
+              @include('includes.topnav')
+              <!-- /top navigation -->
+
+              <!-- page content -->
+              @yield('content')
+              <!-- /page content -->
+
+              <!-- footer content -->
+              @include('includes.footer')
+              <!-- /footer content -->
 
           </div>
         </div>
-        <!-- top navigation -->
-        @include('includes.top_nav')
-        <!-- /top navigation -->
-        <!-- page content -->
-        <div class="right_col" role="main">
-          @yield('content')
-        </div>
-        <!-- /page content -->
 
-        <!-- footer content -->
-        @include('includes.footer_content')
-        <!-- /footer content -->
+        <!-- jQuery -->
+        <script src="{{ asset("js/jquery.min.js") }}"></script>
 
-      </div>
-    </div>
+        <!-- Bootstrap -->
+        <script src="{{ asset("js/bootstrap.min.js") }}"></script>
 
-    <!-- Custom Theme Scripts
-    <script src="./js/custom.min.js"></script>-->
-      <script src="./js/custom.js"></script>
+        <!-- Bootstrap Progressbar -->
+        <script src="{{asset("js/bootstrap-progressbar.min.js")}}"></script>
+
+        <!-- iCheck -->
+        <script src="{{asset("js/icheck.min.js")}}"></script>
+
+        <!-- Jquery Sparkline -->
+        <script src="{{asset("js/jquery.sparkline.min.js")}}"></script>
+
+        <!-- Auto Resize Text Area -->
+        <script src="{{asset("js/autosize.min.js")}}"></script>
+
+        <!-- Chart.js -->
+        <script src="{{asset("js/Chart.min.js")}}"></script>
+
+        <!-- jQuery Tags Input
+        <script src="{{asset("js/jquery.tagsinput.min.js")}}"></script>
+-->
+        <!-- bootstrap-daterangepicker -->
+        <script src="{{asset("js/daterangepicker.js")}}"></script>
+
+        <!-- bootstrap-fileupload !!!!  http://blueimp.github.io/jQuery-File-Upload/
+        <script src="{{asset("js/.js")}}"></script>-->
+
+        <!-- bootstrap-wysihtml5  -->
+        <script src="{{asset("js/bootstrap-wysiwyg.min.js")}}"></script>
+
+        <!-- Dropzone -->
+        <script src="{{asset("js/dropzone.min.js")}}"></script>
+
+        <!-- Custom Theme Scripts -->
+        <script src="{{ asset("js/gentelella.min.js") }}"></script>
+
+        @stack('scripts')
 
   </body>
+  <!-- ELSE YIELD LOGIN-->
   @else
- <!-- SHOW LOGIN PAGE -->
-    @yield('login')
     @yield('content')
   @endif
 </html>

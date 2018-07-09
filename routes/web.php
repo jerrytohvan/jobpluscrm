@@ -12,30 +12,17 @@
 */
 
 Auth::routes();
-
-Route::get('/', 'HomeController@index');
+Route::get('/', 'AccountController@index');
 
 Route::group(['middleware' => ['web']], function(){
 
-  Route::get('/logout', 'Auth\LoginController@logout');
-
-  // Route::get('/', function () {
-  //     return view('welcome'); //points to welcome.blade.php
-  // });
-
-  Route::get('/dashboard', [
-    'as' => 'dashboard',
-    'uses' => 'AccountController@index',
-  ]);
-
-
-  Route::get('/register', [
-    'as' => 'register',
-    'uses' => 'AccountController@register',
-  ]);
-
-  Route::get('/logout', [
-    'as' => 'logout',
-    'uses' => '\App\Users\UserController@logout',
-  ]);
+  // Route::get('/register', [
+  //   'as' => 'register',
+  //   'uses' => 'AccountController@register',
+  // ]);
+  //
+  // Route::get('/logout', [
+  //   'as' => 'logout',
+  //   'uses' => '\App\Models\Users\UserController@logout',
+  // ]);
 });

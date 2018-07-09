@@ -209,11 +209,11 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-		'Notification' => Illuminate\Support\Facades\Notification::class,
-		'Gravatar' => Thomaswelton\LaravelGravatar\Facades\Gravatar::class,
-		'Form' => Collective\Html\FormFacade::class,
-		'Html' => Collective\Html\HtmlFacade::class,
-		'BootForm' => Watson\BootstrapForm\Facades\BootstrapForm::class,
+    		'Notification' => Illuminate\Support\Facades\Notification::class,
+    		'Gravatar' => Thomaswelton\LaravelGravatar\Facades\Gravatar::class,
+    		'Form' => Collective\Html\FormFacade::class,
+    		'Html' => Collective\Html\HtmlFacade::class,
+    		'BootForm' => Watson\BootstrapForm\Facades\BootstrapForm::class,
     ],
 
 ];

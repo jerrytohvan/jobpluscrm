@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Comments;
+namespace App\Models\Comments;
 
 use Illuminate\Database\Eloquent\Model;
 
