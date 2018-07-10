@@ -13,7 +13,17 @@ class AccountController extends Controller
   }
   public function index()
   {
-      return view('dashboard');
+      return view('layouts.dashboard');
+  }
+
+  public function index_data_presentation()
+  {
+      return view('layouts.data_presentation');
+  }
+
+  public function index_settings()
+  {
+      return view('layouts.settings');
   }
 
 }
