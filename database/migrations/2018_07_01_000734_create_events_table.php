@@ -18,6 +18,7 @@ class CreateEventsTable extends Migration
             $table->string('event_name');
             $table->string('description');
             $table->dateTime('reminder');
+            $table->string('user_id');
             $table->timestamps();
         });
     }

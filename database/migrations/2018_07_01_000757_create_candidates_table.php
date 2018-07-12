@@ -19,7 +19,7 @@ class CreateCandidatesTable extends Migration
             $table->string('handphone');
             $table->string('group_name');
             $table->integer('interest_id')->nullable();
-            $table->integer('field_of_interest_id');
+            $table->integer('field_id');
             $table->timestamps();
         });
     }
