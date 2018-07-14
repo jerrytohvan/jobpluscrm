@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateResultTable extends Migration
+class CreateFieldsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateResultTable extends Migration
      */
     public function up()
     {
-        Schema::create('result', function (Blueprint $table) {
+        Schema::create('fields', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('interest_id');
-            $table->integer('field_id');
-            $table->integer('candidate_id');
-            $table->integer('user_id');
-            $table->integer('project_group_id');
+            $table->string('field_name');
         });
     }
 
@@ -29,6 +27,6 @@ class CreateResultTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('result');
+        Schema::dropIfExists('fields');
     }
 }

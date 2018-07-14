@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInterestTable extends Migration
+class CreateResultsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreateInterestTable extends Migration
      */
     public function up()
     {
-        Schema::create('interest', function (Blueprint $table) {
+        Schema::create('results', function (Blueprint $table) {
             $table->integer('interest_id');
-            $table->string('interest_name');
+            $table->integer('field_id');
+            $table->integer('candidate_id');
+            $table->integer('user_id');
+            $table->integer('project_group_id');
         });
     }
 
@@ -26,6 +29,6 @@ class CreateInterestTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('interest');
+        Schema::dropIfExists('results');
     }
 }

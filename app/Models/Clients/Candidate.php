@@ -15,4 +15,13 @@ class Candidate extends Model
       return $this->belongsToMany('App\Models\Events\Event');
   }
 
+  public function interests()
+  {
+      return $this->hasMany('App\Models\Interests\Interest');
+  }
+
+  public function fields()
+    {
+      return $this.hasMany('App\Models\Fields\Field');
+    }
 }
