@@ -299,6 +299,7 @@ class ComposerStaticInit21c012096aabd71526dda2a6ffb611df
         'CreateCustomersTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000556_create_customers_table.php',
         'CreateEmployeesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000647_create_employees_table.php',
         'CreateEventsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000734_create_events_table.php',
+        'CreateLikesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_14_162904_create_likes_table.php',
         'CreateMessagesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000818_create_messages_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreatePostsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_164136_create_posts_table.php',
@@ -848,6 +849,7 @@ class ComposerStaticInit21c012096aabd71526dda2a6ffb611df
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',
         'TypeError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/TypeError.php',
         'UpdateTagsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_29_073615_update_tags_table.php',
+        'UsersTableSeeder' => __DIR__ . '/../..' . '/database/seeds/UsersTableSeeder.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

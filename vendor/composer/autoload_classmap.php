@@ -14,6 +14,7 @@ return array(
     'CreateCustomersTable' => $baseDir . '/database/migrations/2018_07_01_000556_create_customers_table.php',
     'CreateEmployeesTable' => $baseDir . '/database/migrations/2018_07_01_000647_create_employees_table.php',
     'CreateEventsTable' => $baseDir . '/database/migrations/2018_07_01_000734_create_events_table.php',
+    'CreateLikesTable' => $baseDir . '/database/migrations/2018_07_14_162904_create_likes_table.php',
     'CreateMessagesTable' => $baseDir . '/database/migrations/2018_07_01_000818_create_messages_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreatePostsTable' => $baseDir . '/database/migrations/2018_07_01_164136_create_posts_table.php',
@@ -563,4 +564,5 @@ return array(
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
     'TypeError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/TypeError.php',
     'UpdateTagsTable' => $baseDir . '/database/migrations/2016_06_29_073615_update_tags_table.php',
+    'UsersTableSeeder' => $baseDir . '/database/seeds/UsersTableSeeder.php',
 );
