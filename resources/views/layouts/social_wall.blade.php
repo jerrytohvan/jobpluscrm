@@ -31,11 +31,13 @@
                       Posted by {{ $post->user->name }} on {{ $post->created_at }}
                   </div>
                   <div class="interaction">
+                    <!-- Should use icon when liked, light up icon and grey icon -->
                       <a href="#" class="like">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like'  }}</a> |
-                      <a href="#" class="like">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 0 ? 'You don\'t like this post' : 'Dislike' : 'Dislike'  }}</a>
                       @if(Auth::user() == $post->user)
+
+                          <a data-id="{{ $post->id }}" data-content="{{ $post->content }}" class="edit" id="Edit-modal"
+                                 href="#edit-modal">Edit</a>
                           |
-                          <a href="#" class="edit">Edit</a> |
                           <a href="{{ route('delete.post', ['post_id' => $post->id]) }}">Delete</a>
                       @endif
                   </div>
@@ -73,5 +75,27 @@
     var token = '{{ Session::token() }}';
     var urlEdit = '{{ route('edit.post') }}';
     var urlLike = '{{ route('like.post') }}';
+    var postId = 0;
+
+    $(document).ready(function () {
+      $(".edit").click(function () {
+          postId = $(this).data('id');
+          $('#post-body').val($(this).data('content'));
+          $('#edit-modal').modal('show');
+        });
+
+        //Pending for a more modern way to solve this
+        $("#modal-save").click(function () {
+          var saveData = $.ajax({
+          type: 'POST',
+          url: urlEdit,
+          data:  {id: postId, content: $('#post-body').val(), _token:token},
+          dataType: "text",
+          success: function(resultData) {
+              window.location.reload();
+               }
+            });
+          });
+      });
 </script>
 @endsection

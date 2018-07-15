@@ -42,22 +42,23 @@ class SocialWallController extends Controller
       if (Auth::user() != $post->user) {
           return redirect()->back();
       }
+      $comment = $post->comment()->delete();
       $post->delete();
-      return redirect()->route('layouts.social_wall')->with(['message' => 'Successfully deleted!']);
+      return redirect()->route('social.wall')->with(['message' => 'Successfully deleted!']);
   }
 
   public function editPost(Request $request)
   {
       $this->validate($request, [
-          'body' => 'required'
+          'content' => 'required'
       ]);
-      $post = Post::find($request['postId']);
+      $post = Post::find($request['id']);
       if (Auth::user() != $post->user) {
           return redirect()->back();
       }
-      $post->body = $request['body'];
+      $post->content = $request['content'];
       $post->update();
-      return response()->json(['new_body' => $post->body], 200);
+      return response()->json(['updated_content' => $post->content], 200);
   }
 
   public function postLikePost(Request $request)

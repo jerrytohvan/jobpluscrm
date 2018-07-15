@@ -61,18 +61,18 @@ Route::get('/settings',  [
   'uses' => '\App\Models\SocialWall\SocialWallController@addPost'
   ]);
 
-  Route::post('/deletepost ',  [
+  Route::get('/deletepost/{post_id}',  [
     'as' => 'delete.post',
-  'uses' => '\App\Models\SocialWall\SocialWallController@removePost'
+    'uses' => '\App\Models\SocialWall\SocialWallController@removePost'
   ]);
 
 
-    Route::post('/editpost ',  [
+    Route::post('/editpost',  [
       'as' => 'edit.post',
     'uses' => '\App\Models\SocialWall\SocialWallController@editPost'
     ]);
 
-    Route::post('/likepost ',  [
+    Route::post('/likepost',  [
       'as' => 'like.post',
     'uses' => '\App\Models\SocialWall\SocialWallController@postLikePost'
     ]);

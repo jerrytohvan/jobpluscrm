@@ -33,6 +33,8 @@
 
    <!--  Boostrap Datepick -->
     <link href="{{ asset('css/daterangepicker.css') }}" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
 
   @stack('stylesheets')
 
@@ -61,8 +63,6 @@
           </div>
         </div>
 
-        <!-- jQuery -->
-        <script src="{{ asset('js/jquery.min.js') }}"></script>
 
         <!-- Bootstrap -->
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
