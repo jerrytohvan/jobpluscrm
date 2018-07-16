@@ -16,15 +16,26 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->safeEmail,
         'password' => bcrypt(str_random(10)),
+        'admin' => false,
         'remember_token' => str_random(10),
     ];
 });
 
-$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
+$factory->defineAs(App\Models\User::class, 'admin', function (Faker\Generator $faker) {
     return [
-        'name' => 'admin',
-        'email' => $faker->safeEmail,
-        'password' => bcrypt('admin'),
+        'name' => $faker->name,
+        'email' => $faker->email,
+        'password' => bcrypt(str_random(10)),
+        'admin' => true,
         'remember_token' => str_random(10),
+    ];
+});
+
+$factory->define(App\Models\Employees\Employee::class, function (Faker\Generator $faker) {
+    return [
+        'company_name' => $faker->company,
+        'name' => $faker->name,
+        'handphone' => $faker ->phoneNumber,
+        'telephone' => $faker ->phoneNumber
     ];
 });

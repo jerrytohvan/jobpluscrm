@@ -299,15 +299,12 @@ class ComposerStaticInit21c012096aabd71526dda2a6ffb611df
         'CreateCustomersTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000556_create_customers_table.php',
         'CreateEmployeesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000647_create_employees_table.php',
         'CreateEventsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000734_create_events_table.php',
-        'CreateFieldTable' => __DIR__ . '/../..' . '/database/migrations/field.php',
         'CreateFieldsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_14_092824_create_fields_table.php',
-        'CreateInterestTable' => __DIR__ . '/../..' . '/database/migrations/interest.php',
         'CreateInterestsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_14_092938_create_interests_table.php',
         'CreateMessagesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000818_create_messages_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreatePostsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_164136_create_posts_table.php',
         'CreateProjectGroupsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000715_create_project_groups_table.php',
-        'CreateResultTable' => __DIR__ . '/../..' . '/database/migrations/result.php',
         'CreateResultsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_14_093049_create_results_table.php',
         'CreateResumesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000833_create_resumes_table.php',
         'CreateTagGroupsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_29_073615_create_tag_groups_table.php',
@@ -316,6 +313,7 @@ class ComposerStaticInit21c012096aabd71526dda2a6ffb611df
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'DivisionByZeroError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/DivisionByZeroError.php',
+        'EmployeeTableSeeder' => __DIR__ . '/../..' . '/database/seeds/EmployeeTableSeeder.php',
         'Error' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/Error.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
@@ -959,6 +957,7 @@ class ComposerStaticInit21c012096aabd71526dda2a6ffb611df
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',
         'TypeError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/TypeError.php',
         'UpdateTagsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_29_073615_update_tags_table.php',
+        'UsersTableSeeder' => __DIR__ . '/../..' . '/database/seeds/UsersTableSeeder.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
