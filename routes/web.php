@@ -34,19 +34,48 @@ Route::group(['middleware' => ['web']], function(){
     'as' => 'companies.fulllist',
   'uses' => '\App\Models\Clients\ClientController@index_companies_full_list'
 ]);
+
 Route::get('/companies-new',  [
   'as' => 'companies.new',
 'uses' => '\App\Models\Clients\ClientController@index_companies_new'
 ]);
+
 Route::get('/data-presentation',  [
   'as' => 'data.presentation',
 'uses' => 'AccountController@index_data_presentation'
 ]);
+
 Route::get('/settings',  [
   'as' => 'settings',
 'uses' => 'AccountController@index_settings'
 ]);
 
+  Route::get('/socialwall',  [
+    'as' => 'social.wall',
+  'uses' => '\App\Models\SocialWall\SocialWallController@index'
+  ]);
+
+
+  Route::post('/newpost',  [
+    'as' => 'new.post',
+  'uses' => '\App\Models\SocialWall\SocialWallController@addPost'
+  ]);
+
+  Route::get('/deletepost/{post_id}',  [
+    'as' => 'delete.post',
+    'uses' => '\App\Models\SocialWall\SocialWallController@removePost'
+  ]);
+
+
+    Route::post('/editpost',  [
+      'as' => 'edit.post',
+    'uses' => '\App\Models\SocialWall\SocialWallController@editPost'
+    ]);
+
+    Route::post('/likepost',  [
+      'as' => 'like.post',
+    'uses' => '\App\Models\SocialWall\SocialWallController@postLikePost'
+    ]);
   // Route::get('/register', [
   //   'as' => 'register',
   //   'uses' => 'AccountController@register',

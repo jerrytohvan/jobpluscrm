@@ -37,6 +37,16 @@ elixir(function(mix) {
     // datatables bootstrap
     mix.copy('bower_components/gentelella/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css', 'public/css/dataTables.bootstrap.min.css');
 
+    //NProgress
+    mix.copy('bower_components/gentelella/vendors/nprogress/nprogress.css', 'public/css/nprogress.css');
+
+    //icheck
+    mix.copy('bower_components/gentelella/vendors/iCheck/skins/flat/green.css', 'public/css/green.css');
+    mix.copy('bower_components/gentelella/vendors/iCheck/skins/flat/green@2x.png', 'public/css/green@2x.png');
+
+//progress bar
+mix.copy('bower_components/gentelella/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css', 'public/css/bootstrap-progressbar-3.3.4.min.css');
+
     /****************/
     /* Copy Scripts */
     /****************/
@@ -65,8 +75,6 @@ elixir(function(mix) {
     // jQuery Tags Input
     //mix.copy('bower_components/gentelella/vendors/jquery.tagsinput/dist/jquery.tagsinput.min.js', 'public/js/jquery.tagsinput.min.js');
 
-    // bootstrap-daterangepicker
-    mix.copy('bower_components/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.js', 'public/js/daterangepicker.js');
 
     // bootstrap-wysiwyg
     mix.copy('bower_components/gentelella/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js', 'public/js/bootstrap-wysiwyg.min.js');
@@ -80,8 +88,42 @@ elixir(function(mix) {
     // datatables bootstrap
     mix.copy('bower_components/gentelella/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js', 'public/js/dataTables.bootstrap.min.js');
 
-//FullCalendar
-//echarts
+    //fastclick
+    mix.copy('bower_components/gentelella/vendors/fastclick/lib/fastclick.js', 'public/js/fastclick.js');
+
+    //nprogres
+    mix.copy('bower_components/gentelella/vendors/nprogress/nprogress.js', 'public/js/nprogress.js');
+
+    //gauge js
+    mix.copy('bower_components/gentelella/vendors/gauge.js/dist/gauge.min.js', 'public/js/gauge.min.js');
+
+    //skycons
+    mix.copy('bower_components/gentelella/vendors/skycons/skycons.js', 'public/js/skycons.js');
+
+    //flot
+    mix.copy('bower_components/gentelella/vendors/Flot/jquery.flot.js', 'public/js/jquery.flot.js');
+    mix.copy('bower_components/gentelella/vendors/Flot/jquery.flot.pie.js', 'public/js/jquery.flot.pie.js');
+    mix.copy('bower_components/gentelella/vendors/Flot/jquery.flot.time.js', 'public/js/jquery.flot.time.js');
+    mix.copy('bower_components/gentelella/vendors/Flot/jquery.flot.stack.js', 'public/js/jquery.flot.stack.js');
+    mix.copy('bower_components/gentelella/vendors/Flot/jquery.flot.resize.js', 'public/js/jquery.flot.resize.js');
+
+    //flot-plugin
+    mix.copy('bower_components/gentelella/vendors/flot.orderbars/js/jquery.flot.orderBars.js', 'public/js/jquery.flot.orderBars.js');
+    mix.copy('bower_components/gentelella/vendors/flot-spline/js/jquery.flot.spline.min.js', 'public/js/jquery.flot.spline.min.js');
+    mix.copy('bower_components/gentelella/vendors/flot.curvedlines/curvedLines.js', 'public/js/curvedLines.js');
+
+    //datejs
+    mix.copy('bower_components/gentelella/vendors/DateJS/build/date.js', 'public/js/date.js');
+
+    //bootstrap-daterangepicker
+    mix.copy('bower_components/gentelella/vendors/moment/min/moment.min.js', 'public/js/moment.min.js');
+    mix.copy('bower_components/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.js', 'public/js/daterangepicker.js');
+
+    //FullCalendar
+    //echarts
+
+    //prettyPrint
+    mix.copy('bower_components/prettyPrint/prettyPrint.js', 'public/js/prettyPrint.js');
 
     // Gentelella
     mix.copy('bower_components/gentelella/build/js/custom.min.js', 'public/js/gentelella.min.js');
