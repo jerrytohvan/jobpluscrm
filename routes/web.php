@@ -76,6 +76,11 @@ Route::get('/settings',  [
       'as' => 'like.post',
     'uses' => '\App\Models\SocialWall\SocialWallController@postLikePost'
     ]);
+
+    Route::get('/calendar',  [
+      'as' => 'index.calendar',
+    'uses' => '\App\Models\Calendar\CalendarController@index'
+    ]);
   // Route::get('/register', [
   //   'as' => 'register',
   //   'uses' => 'AccountController@register',
