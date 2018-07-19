@@ -53,7 +53,7 @@ return [
             'port' =>  '5432',
             'database' =>  'jobplus',
             'username' => 'postgres',
-            'password' => '1234',
+            'password' => 'root',
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',

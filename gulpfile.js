@@ -48,8 +48,21 @@ elixir(function(mix) {
   mix.copy('bower_components/gentelella/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css', 'public/css/bootstrap-progressbar-3.3.4.min.css');
 
   //full calendar
-mix.copy('bower_components/gentelella/vendors/fullcalendar/dist/fullcalendar.min.css', 'public/css/fullcalendar.min.css');
-mix.copy('bower_components/gentelella/vendors/fullcalendar/dist/fullcalendar.print.css', 'public/css/fullcalendar.print.css');
+    mix.copy('bower_components/gentelella/vendors/fullcalendar/dist/fullcalendar.min.css', 'public/css/fullcalendar.min.css');
+    mix.copy('bower_components/gentelella/vendors/fullcalendar/dist/fullcalendar.print.css', 'public/css/fullcalendar.print.css');
+
+    //prettify
+    mix.copy('bower_components/gentelella/vendors/google-code-prettify/bin/prettify.min.css', 'public/css/prettify.print.css');
+
+    //select2
+    mix.copy('bower_components/gentelella/vendors/select2/dist/css/select2.min.css', 'public/css/select2.min.css');
+
+    //switchery
+    mix.copy('bower_components/gentelella/vendors/switchery/dist/switchery.min.css', 'public/css/switchery.min.css');
+
+    //starrr
+    mix.copy('bower_components/gentelella/vendors/starrr/dist/starrr.css', 'public/css/starrr.css');
+
 
 
     /****************/
@@ -132,8 +145,34 @@ mix.copy('bower_components/gentelella/vendors/fullcalendar/dist/fullcalendar.pri
     //prettyPrint
     mix.copy('bower_components/prettyPrint/prettyPrint.js', 'public/js/prettyPrint.js');
 
+  //prettify
+    mix.copy('bower_components/gentelella/vendors/google-code-prettify/src/prettify.js', 'public/js/prettify.js');
+
+    //jqhotkeys
+    mix.copy('bower_components/gentelella/vendors/jquery.hotkeys/jquery.hotkeys.js', 'public/js/jquery.hotkeys.js');
+
+    //Switchery
+    mix.copy('bower_components/gentelella/vendors/switchery/dist/switchery.min.js', 'public/js/switchery.min.js');
+
+    //select2
+    mix.copy('bower_components/gentelella/vendors/select2/dist/js/select2.full.min.js', 'public/js/select2.full.min.js');
+
+    //parsley
+    mix.copy('bower_components/gentelella/vendors/parsleyjs/dist/parsley.min.js', 'public/js/parsley.min.js');
+
+    //autosize
+    mix.copy('bower_components/gentelella/vendors/autosize/dist/autosize.min.js', 'public/js/autosize.min.js');
+
+    //jquery autocomplete
+    mix.copy('bower_components/gentelella/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js', 'public/js/jquery.autocomplete.min.js');
+
+    //starr
+    mix.copy('bower_components/gentelella/vendors/starrr/dist/starrr.js', 'public/js/starrr.js');
+
+
     // Gentelella
     mix.copy('bower_components/gentelella/build/js/custom.min.js', 'public/js/gentelella.min.js');
+
 
     /**************/
     /* Copy Fonts */

@@ -20,15 +20,15 @@ class RegisterController extends Controller
 	|
 	*/
 
-	use RegistersUsers;
+	// use RegistersUsers;
 
 	/**
 	 * Where to redirect users after login / registration.
 	 *
 	 * @var string
 	 */
-	protected $redirectTo = '/';
-	protected $registerView = 'auth.register';
+	// protected $redirectTo = '/register';
+	// protected $registerView = 'layouts.register';
 
 	/**
 	 * Create a new controller instance.
@@ -37,7 +37,12 @@ class RegisterController extends Controller
 	 */
 	public function __construct()
 	{
-		$this->middleware('guest');
+		$this->middleware('auth');
+	}
+
+	public function index()
+	{
+		return view('layouts.register');
 	}
 
 	/**

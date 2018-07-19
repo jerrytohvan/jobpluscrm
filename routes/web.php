@@ -81,6 +81,16 @@ Route::get('/settings',  [
       'as' => 'index.calendar',
     'uses' => '\App\Models\Calendar\CalendarController@index'
     ]);
+
+    Route::get('/mail',  [
+      'as' => 'index.mail',
+    'uses' => '\App\Models\Mail\MailController@index'
+    ]);
+
+    // Route::get('/register-account',  [
+    //   'as' => 'register.account',
+    // 'uses' => '\App\Models\Mail\MailController@index'
+    // ]);
   // Route::get('/register', [
   //   'as' => 'register',
   //   'uses' => 'AccountController@register',
