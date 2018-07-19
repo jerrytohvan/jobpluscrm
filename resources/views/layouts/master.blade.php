@@ -59,7 +59,7 @@
               <!-- footer content -->
               @include('includes.footer')
               <!-- /footer content -->
-
+              @yield('bottom_content')
           </div>
         </div>
 

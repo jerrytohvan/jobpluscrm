@@ -44,8 +44,13 @@ elixir(function(mix) {
     mix.copy('bower_components/gentelella/vendors/iCheck/skins/flat/green.css', 'public/css/green.css');
     mix.copy('bower_components/gentelella/vendors/iCheck/skins/flat/green@2x.png', 'public/css/green@2x.png');
 
-//progress bar
-mix.copy('bower_components/gentelella/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css', 'public/css/bootstrap-progressbar-3.3.4.min.css');
+    //progress bar
+  mix.copy('bower_components/gentelella/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css', 'public/css/bootstrap-progressbar-3.3.4.min.css');
+
+  //full calendar
+mix.copy('bower_components/gentelella/vendors/fullcalendar/dist/fullcalendar.min.css', 'public/css/fullcalendar.min.css');
+mix.copy('bower_components/gentelella/vendors/fullcalendar/dist/fullcalendar.print.css', 'public/css/fullcalendar.print.css');
+
 
     /****************/
     /* Copy Scripts */
@@ -120,6 +125,8 @@ mix.copy('bower_components/gentelella/vendors/bootstrap-progressbar/css/bootstra
     mix.copy('bower_components/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.js', 'public/js/daterangepicker.js');
 
     //FullCalendar
+    mix.copy('bower_components/gentelella/vendors/fullcalendar/dist/fullcalendar.min.js', 'public/js/fullcalendar.min.js');
+
     //echarts
 
     //prettyPrint
