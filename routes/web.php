@@ -87,6 +87,11 @@ Route::get('/settings',  [
     'uses' => '\App\Models\Mail\MailController@index'
     ]);
 
+    Route::get('/event',  [
+      'as' => 'index.event',
+    'uses' => '\App\Models\Events\EventController@index'
+    ]);
+
     // Route::get('/register-account',  [
     //   'as' => 'register.account',
     // 'uses' => '\App\Models\Mail\MailController@index'

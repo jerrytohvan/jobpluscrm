@@ -63,6 +63,14 @@ elixir(function(mix) {
     //starrr
     mix.copy('bower_components/gentelella/vendors/starrr/dist/starrr.css', 'public/css/starrr.css');
 
+    //datetimepicker Bootstrap
+    mix.copy('bower_components/gentelella/bower_components/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css', 'public/css/bootstrap-datetimepicker.min.css');
+
+    //ion rangeSlider
+    mix.copy('bower_components/gentelella/vendors/normalize-css/normalize.css', 'public/css/normalize.css');
+    mix.copy('bower_components/gentelella/vendors/ion.rangeSlider/css/ion.rangeSlider.css', 'public/css/ion.rangeSlider.css');
+    mix.copy('bower_components/gentelella/vendors/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css', 'public/css/ion.rangeSlider.skinFlat.css');
+    mix.copy('bower_components/gentelella/vendors/cropper/dist/cropper.min.css', 'public/css/cropper.min.css');
 
 
     /****************/
@@ -169,9 +177,24 @@ elixir(function(mix) {
     //starr
     mix.copy('bower_components/gentelella/vendors/starrr/dist/starrr.js', 'public/js/starrr.js');
 
+        // datetimepicker
+        mix.copy('bower_components/gentelella/bower_components/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js', 'public/js/bootstrap-datetimepicker.min.js');
 
-    // Gentelella
-    mix.copy('bower_components/gentelella/build/js/custom.min.js', 'public/js/gentelella.min.js');
+        // Ion.RangeSlider
+        mix.copy('bower_components/gentelella/vendors/ion.rangeSlider/js/ion.rangeSlider.min.js', 'public/js/ion.rangeSlider.min.js');
+
+        // jquery.inputmask
+        mix.copy('bower_components/gentelella/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js', 'public/js/jquery.inputmask.bundle.min.js');
+
+        // jQuery Knob
+        mix.copy('bower_components/gentelella/vendors/jquery-knob/dist/jquery.knob.min.js', 'public/js/jquery.knob.min.js');
+
+        // Cropper
+        mix.copy('bower_components/gentelella/vendors/cropper/dist/cropper.min.js', 'public/js/cropper.min.js');
+
+
+        // Gentelella
+        mix.copy('bower_components/gentelella/build/js/custom.min.js', 'public/js/gentelella.min.js');
 
 
     /**************/
