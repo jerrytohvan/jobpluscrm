@@ -1,3 +1,4 @@
+@if(Auth::user()->admin == 1)
 @extends('layouts.master')
 
 @push('stylesheets')
@@ -23,23 +24,14 @@
         <h3>Register Admin</h3>
       </div>
 
-      <div class="title_right">
-        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for...">
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="button">Go!</button>
-            </span>
-          </div>
-        </div>
-      </div>
+
     </div>
     <div class="clearfix"></div>
     <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
           <div class="x_title">
-            <h2>New Admin <small>Fill particulars below</small></h2>
+            <h2>Create New Admin <small>Fill in the particulars below</small></h2>
             <ul class="nav navbar-right panel_toolbox">
               <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
               </li>
@@ -59,58 +51,59 @@
           </div>
           <div class="x_content">
             <br />
-            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-
+            <!-- <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left"> -->
+            {{  Form::open(['route' => 'new.admin','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
               <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">First Name <span class="required">*</span>
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Full Name <span class="required">*</span>
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                  <input type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12">
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Last Name <span class="required">*</span>
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+                  <input type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
                 </div>
               </div>
               <div class="form-group">
-                <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Middle Name / Initial</label>
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">Password <span class="required">*</span>
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="middle-name">
+                  <input type="password" id="password" name="password" required="required" class="form-control col-md-7 col-xs-12">
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="repeat-password">Confirm Password <span class="required">*</span>
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                  <div id="gender" class="btn-group" data-toggle="buttons">
+                  <input type="password" id="repeat-password"  data-parsley-equalto="#password" name="repeat-password" required="required" class="form-control col-md-7 col-xs-12">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">Admin Type</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div id="admin" class="btn-group" data-toggle="buttons">
                     <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                      <input type="radio" name="gender" value="male"> &nbsp; Male &nbsp;
+                      <input type="radio" name="admin" value="1"> &nbsp; Admin &nbsp;
                     </label>
                     <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                      <input type="radio" name="gender" value="female"> Female
+                      <input type="radio" name="admin" value="0"> User
                     </label>
                   </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12">Date Of Birth <span class="required">*</span>
-                </label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
                 </div>
               </div>
               <div class="ln_solid"></div>
               <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                  <button class="btn btn-primary" type="button">Cancel</button>
-      <button class="btn btn-primary" type="reset">Reset</button>
-                  <button type="submit" class="btn btn-success">Submit</button>
+                  <button class="btn btn-primary" type="reset">Reset</button>
+                  {{ Form::submit('Submit', ['class'=>'btn btn-success']) }}
+
                 </div>
               </div>
 
-            </form>
+          {!! Form::close() !!}
           </div>
         </div>
       </div>
@@ -143,3 +136,8 @@
 
 @push('scripts')
 @endpush
+
+@else
+@php abort(404) @endphp
+
+@endif

@@ -45,8 +45,10 @@
                 </ul>
               </li>
             </li>
+            @if(Auth::user()->admin == 1)
             <li><a href="{{ route('register') }}"><i class="fa fa-users"></i>Register Account</a>
             </li>
+            @endif
             <li><a href="{{ route('index.mail') }}"><i class="fa fa-envelope-o"></i>Mail</a>
             </li>
             <li><a href="{{ route('index.calendar') }}"><i class="fa fa-calendar"></i>Calendar</a>

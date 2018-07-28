@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -42,7 +44,7 @@ class RegisterController extends Controller
 
 	public function index()
 	{
-		return view('layouts.register');
+		return Auth::user()->admin == 1 ? view('layouts.register'): abort(403, 'Unauthorized action.');
 	}
 
 	/**
@@ -67,14 +69,15 @@ class RegisterController extends Controller
 	 * @param  array  $data
 	 * @return User
 	 */
-	protected function create(array $data)
+	protected function register(Request $data)
 	{
-		return User::create([
+		$user = User::create([
 			'name' => $data['name'],
 			'email' => $data['email'],
 			'password' => bcrypt($data['password']),
-			//user type
-			'user_type' => 'User'
+			'admin' => $data['admin']
 		]);
+		return view('layouts.register');
+
 	}
 }

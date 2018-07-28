@@ -92,17 +92,14 @@ Route::get('/settings',  [
     'uses' => '\App\Models\Events\EventController@index'
     ]);
 
+    // Route::get('/register', [
+    //   'as' => 'register',
+    //   'uses' => 'AccountController@register',
+    // ]);
     // Route::get('/register-account',  [
     //   'as' => 'register.account',
     // 'uses' => '\App\Models\Mail\MailController@index'
     // ]);
-  // Route::get('/register', [
-  //   'as' => 'register',
-  //   'uses' => 'AccountController@register',
-  // ]);
-  //
-  // Route::get('/logout', [
-  //   'as' => 'logout',
-  //   'uses' => '\App\Models\Users\UserController@logout',
-  // ]);
+
+
 });

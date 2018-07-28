@@ -23,9 +23,9 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
 
 $factory->defineAs(App\Models\User::class, 'admin', function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email,
-        'password' => bcrypt(str_random(10)),
+        'name' => 'admin',
+        'email' =>'admin@jobpluscrm.com',
+        'password' => bcrypt('admin'),
         'admin' => true,
         'remember_token' => str_random(10),
     ];

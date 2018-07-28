@@ -1009,11 +1009,11 @@ class Router implements RegistrarContract, BindingRegistrar
         // Authentication Routes...
         $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
         $this->post('login', 'Auth\LoginController@login');
-        $this->post('logout', 'Auth\LoginController@logout')->name('logout');
+        $this->get('logout', '\App\Models\Users\UserController@logout')->name('logout');
 
         // Registration Routes...
         $this->get('register', 'Auth\RegisterController@index')->name('register');
-        $this->post('register', 'Auth\RegisterController@register');
+        $this->post('register', 'Auth\RegisterController@register')->name('new.admin');
 
         // Password Reset Routes...
         $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
