@@ -13,7 +13,36 @@
 
 
 Route::group(['middleware' => ['web']], function () {
-    Auth::routes();
+    // Auth::routes();
+    Route::get('/login', [
+    'as' => 'login',
+    'uses' => '\App\Http\Controllers\AuthLoginController@showLoginForm'
+  ]);
+    Route::post(
+      '/login',
+    ['uses' => '\App\Http\Controllers\AuthLoginController@login'
+]
+);
+    Route::get(
+        '/logout',
+  ['as' => 'logout','uses' => '\App\Http\Controllers\Auth\LoginController@logout'
+]
+);
+    Route::get(
+'/register',
+['as' => 'register',
+'uses' => '\App\Http\Controllers\Auth\RegisterController@index'
+]
+);
+
+
+    Route::post(
+        '/new-admin',
+['as'=>'new.admin',
+  'uses' => '\App\Http\Controllers\Auth\RegisterController@register'
+]
+);
+
     Route::get('/', 'AccountController@index')->name('dashboard');
 
 
@@ -183,17 +212,17 @@ Route::post('/likes/create', 'LikesController@store');
 Route::delete('/likes/{like}', 'LikesController@destroy');
 Route::put('/likes/{like}', 'LikesController@update');
 
-Route::get('/resumes','ResumesController@index');
-Route::get('/resumes/{id}','ResumesController@show');
-Route::post('/resumes/create','ResumesController@store');
-Route::delete('/resumes/{id}','ResumesController@destroy');
-Route::put('/resumes/{id}','ResumesController@update');
+Route::get('/resumes', 'ResumesController@index');
+Route::get('/resumes/{id}', 'ResumesController@show');
+Route::post('/resumes/create', 'ResumesController@store');
+Route::delete('/resumes/{id}', 'ResumesController@destroy');
+Route::put('/resumes/{id}', 'ResumesController@update');
 
-Route::get('/tasks','TasksController@index');
-Route::get('/tasks/{id}','TasksController@show');
-Route::post('/tasks/create','TasksController@store');
-Route::delete('/tasks/{id}','TasksController@destroy');
-Route::put('/tasks/{id}','TasksController@update');
+Route::get('/tasks', 'TasksController@index');
+Route::get('/tasks/{id}', 'TasksController@show');
+Route::post('/tasks/create', 'TasksController@store');
+Route::delete('/tasks/{id}', 'TasksController@destroy');
+Route::put('/tasks/{id}', 'TasksController@update');
 
 Auth::routes();
 Route::resource('/gcalendar', 'gCalendarController');
