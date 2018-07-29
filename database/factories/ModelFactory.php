@@ -31,11 +31,12 @@ $factory->defineAs(App\Models\User::class, 'admin', function (Faker\Generator $f
     ];
 });
 
-$factory->define(App\Models\Employees\Employee::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Clients\Company::class, function (Faker\Generator $faker) {
     return [
-        'company_name' => $faker->company,
-        'name' => $faker->name,
-        'handphone' => $faker ->phoneNumber,
-        'telephone' => $faker ->phoneNumber
+        'name' => $faker->company,
+        'email' => $faker->companyEmail,
+        'address' => $faker->address,
+        'fax_no' => $faker ->phoneNumber,
+        'telephone_no' => $faker ->phoneNumber
     ];
 });

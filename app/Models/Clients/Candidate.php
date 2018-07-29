@@ -22,6 +22,6 @@ class Candidate extends Model
 
   public function fields()
     {
-      return $this.hasMany('App\Models\Fields\Field');
+      return $this->hasMany('App\Models\Fields\Field');
     }
 }

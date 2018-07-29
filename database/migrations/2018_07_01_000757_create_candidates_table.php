@@ -15,10 +15,11 @@ class CreateCandidatesTable extends Migration
     {
         Schema::create('candidates', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
             $table->string('email');
             $table->string('handphone');
-            $table->string('group_name');
             $table->integer('interest_id')->nullable();
+            $table->boolean('type')->default(false); //1=candidate, 2=application
             $table->integer('field_id');
             $table->timestamps();
         });

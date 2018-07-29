@@ -4,7 +4,7 @@ namespace App\Models\Clients;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class Company extends Model
 {
   public function employees()
   {
@@ -14,5 +14,4 @@ class Customer extends Model
   {
       return $this->belongsToMany('App\Models\Events\Event');
   }
-
 }

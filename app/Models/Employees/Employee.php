@@ -21,6 +21,11 @@ class Employee extends Model
       return $this->hasOne('App\Models\Resumes\Resume');
   }
 
+  public function company()
+  {
+      return $this->belongsTo('App\Models\Clients\Company');
+  }
+
   public function events()
   {
       return $this->hasMany('App\Models\Events\Event');
