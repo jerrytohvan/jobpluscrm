@@ -38,15 +38,15 @@
                   <li><a href="{{ route('companies.new') }}">New</a></li>
                     </ul>
               </li>
-              <li><a><i class="fa fa-desktop"></i> Clients <span class="fa fa-chevron-down"></span></a>
+              <li><a><i class="fa fa-desktop"></i> Accounts <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                  <li><a href="{{ route('clients.fulllist') }}">Full List</a></li>
-                  <li><a href="{{ route('clients.new') }}">New</a></li>
+                  <li><a href="{{ route('accounts.fulllist') }}">Full List</a></li>
+                  <li><a href="{{ route('accounts.new') }}">New</a></li>
                 </ul>
               </li>
             </li>
             @if(Auth::user()->admin == 1)
-            <li><a href="{{ route('register') }}"><i class="fa fa-users"></i>Register Account</a>
+            <li><a href="{{ route('register') }}"><i class="fa fa-users"></i>Manage Admin</a>
             </li>
             @endif
             <li><a href="{{ route('index.mail') }}"><i class="fa fa-envelope-o"></i>Mail</a>

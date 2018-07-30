@@ -10,8 +10,12 @@
 | database. Just tell the factory how a default model should look.
 |
 */
+use Faker\Generator;
+use App\Models\Users\User;
+use App\Models\Posts\Post;
+use App\Models\Clients\Company;
 
-$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
+$factory->define(User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->safeEmail,
@@ -21,7 +25,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->defineAs(App\Models\User::class, 'admin', function (Faker\Generator $faker) {
+$factory->defineAs(User::class, 'admin', function (Faker\Generator $faker) {
     return [
         'name' => 'admin',
         'email' =>'admin@jobpluscrm.com',
@@ -31,12 +35,20 @@ $factory->defineAs(App\Models\User::class, 'admin', function (Faker\Generator $f
     ];
 });
 
-$factory->define(App\Models\Clients\Company::class, function (Faker\Generator $faker) {
+$factory->define(Company::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->company,
         'email' => $faker->companyEmail,
         'address' => $faker->address,
         'fax_no' => $faker ->phoneNumber,
         'telephone_no' => $faker ->phoneNumber
+    ];
+});
+
+$factory->define(Post::class, function (Faker\Generator $faker) {
+    $user =  factory(User::class)->create();
+    return [
+        'content' => $faker->sentence,
+        'user_id' => $user->id
     ];
 });

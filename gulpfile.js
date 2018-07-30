@@ -52,7 +52,7 @@ elixir(function(mix) {
     mix.copy('bower_components/gentelella/vendors/fullcalendar/dist/fullcalendar.print.css', 'public/css/fullcalendar.print.css');
 
     //prettify
-    mix.copy('bower_components/gentelella/vendors/google-code-prettify/bin/prettify.min.css', 'public/css/prettify.print.css');
+    mix.copy('bower_components/gentelella/vendors/google-code-prettify/bin/prettify.min.css', 'public/css/prettify.min.css');
 
     //select2
     mix.copy('bower_components/gentelella/vendors/select2/dist/css/select2.min.css', 'public/css/select2.min.css');
@@ -72,6 +72,21 @@ elixir(function(mix) {
     mix.copy('bower_components/gentelella/vendors/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css', 'public/css/ion.rangeSlider.skinFlat.css');
     mix.copy('bower_components/gentelella/vendors/cropper/dist/cropper.min.css', 'public/css/cropper.min.css');
 
+    //jquery tags input
+    mix.copy('bower_components/gentelella/bower_components/jquery.tagsinput/dist/jquery.tagsinput.min.css', 'public/css/jquery.tagsinput.min.css');
+
+    //datatables
+    mix.copy('bower_components/gentelella/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css', 'public/css/dataTables.bootstrap.min.css');
+    mix.copy('bower_components/gentelella/bower_components/datatables.net-buttons-bs/css/buttons.bootstrap.min.css', 'public/css/buttons.bootstrap.min.css');
+    mix.copy('bower_components/gentelella/bower_components/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css', 'public/css/fixedHeader.bootstrap.min.css');
+    mix.copy('bower_components/gentelella/bower_components/datatables.net-responsive-bs/css/responsive.bootstrap.min.css', 'public/css/responsive.bootstrap.min.css');
+    mix.copy('bower_components/gentelella/bower_components/datatables.net-scroller-bs/css/scroller.bootstrap.min.css', 'public/css/scroller.bootstrap.min.css');
+
+
+    //pnotify
+    mix.copy('bower_components/gentelella/bower_components/pnotify/dist/pnotify.css', 'public/css/pnotify.css');
+    mix.copy('bower_components/gentelella/bower_components/pnotify/dist/pnotify.buttons.css', 'public/css/pnotify.buttons.css');
+    mix.copy('bower_components/gentelella/bower_components/pnotify/dist/pnotify.nonblock.css', 'public/css/pnotify.nonblock.css');
 
     /****************/
     /* Copy Scripts */
@@ -192,6 +207,36 @@ elixir(function(mix) {
         // Cropper
         mix.copy('bower_components/gentelella/vendors/cropper/dist/cropper.min.js', 'public/js/cropper.min.js');
 
+        //jquery tags input
+        mix.copy('bower_components/gentelella/bower_components/jquery.tagsinput/src/jquery.tagsinput.js', 'public/js/jquery.tagsinput.js');
+
+        //pnotify
+        mix.copy('bower_components/gentelella/bower_components/pnotify/dist/pnotify.js', 'public/js/pnotify.js');
+        mix.copy('bower_components/gentelella/bower_components/pnotify/dist/pnotify.buttons.js', 'public/js/pnotify.buttons.js');
+        mix.copy('bower_components/gentelella/bower_components/pnotify/dist/pnotify.nonblock.js', 'public/js/pnotify.nonblock.js');
+
+        //dataTable
+        mix.copy('bower_components/gentelella/bower_components/datatables.net/js/jquery.dataTables.min.js', 'public/js/jquery.dataTables.min.js');
+        mix.copy('bower_components/gentelella/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js', 'public/js/dataTables.bootstrap.min.js');
+        mix.copy('bower_components/gentelella/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js', 'public/js/dataTables.buttons.min.js');
+
+        mix.copy('bower_components/gentelella/bower_components/datatables.net-buttons-bs/js/buttons.bootstrap.min.js', 'public/js/buttons.bootstrap.min.js');
+        mix.copy('bower_components/gentelella/bower_components/datatables.net-buttons/js/buttons.flash.min.js', 'public/js/buttons.flash.min.js');
+        mix.copy('bower_components/gentelella/bower_components/datatables.net-buttons/js/buttons.html5.min.js', 'public/js/buttons.html5.min.js');
+        mix.copy('bower_components/gentelella/bower_components/datatables.net-buttons/js/buttons.print.min.js', 'public/js/buttons.print.min.js');
+        mix.copy('bower_components/gentelella/bower_components/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js', 'public/js/dataTables.fixedHeader.min.js');
+        mix.copy('bower_components/gentelella/bower_components/datatables.net-keytable/js/dataTables.keyTable.min.js', 'public/js/dataTables.keyTable.min.js');
+
+        mix.copy('bower_components/gentelella/bower_components/datatables.net-responsive/js/dataTables.responsive.min.js', 'public/js/dataTables.responsive.min.js');
+        mix.copy('bower_components/gentelella/bower_components/datatables.net-responsive-bs/js/responsive.bootstrap.js', 'public/js/responsive.bootstrap.js');
+        mix.copy('bower_components/gentelella/bower_components/datatables.net-scroller/js/dataTables.scroller.min.js', 'public/js/dataTables.scroller.min.js');
+
+
+        // jszip
+        mix.copy('bower_components/gentelella/bower_components/jszip/dist/jszip.min.js', 'public/js/jszip.min.js');
+        // pdfmake
+        mix.copy('bower_components/gentelella/bower_components/pdfmake/build/pdfmake.min.js', 'public/js/pdfmake.min.js');
+        mix.copy('bower_components/gentelella/bower_components/pdfmake/build/vfs_fonts.js', 'public/js/vfs_fonts.js');
 
         // Gentelella
         mix.copy('bower_components/gentelella/build/js/custom.min.js', 'public/js/gentelella.min.js');

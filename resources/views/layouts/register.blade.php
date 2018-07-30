@@ -115,6 +115,10 @@
 
 
 @section('bottom_content')
+
+@endsection
+
+@push('scripts')
 <!-- Switchery -->
 <script src="{{ asset('js/switchery.min.js') }}"></script>
 <!-- Select2 -->
@@ -131,9 +135,6 @@
 <script src="{{ asset('js/jquery.hotkeys.js') }}"></script>
 <script src="{{ asset('js/prettify.js') }}"></script>
 
-@endsection
-
-@push('scripts')
 @endpush
 
 @else
