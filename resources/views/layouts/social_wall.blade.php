@@ -11,7 +11,17 @@
   </div>
 
   <section class="row new-post">
-      <div class="col-md-6 col-md-offset-3">
+    
+    <!--Add profile img-->
+    <div class="col-md-2 col-md-offset-1">
+        <div class="x_panel">
+            <img class="center-block" src="https://secure.gravatar.com/avatar/ef76f4019c437fa1ea0b8345486ba571?s=80&r=g&d=identicon">
+        </div>
+    </div>
+    <!-- /Add profile img -->
+
+      <div class="col-md-6">
+         <div class="x_panel"> <!-- panel --> 
           <header><h3>What do you have to say?</h3></header>
             {{  Form::open(['route' => 'new.post','method'=>'post']) }}
               <div class="form-group">
@@ -19,12 +29,15 @@
               </div>
               {{ Form::submit('Create Post', ['class'=>'btn btn-primary']) }}
           {!! Form::close() !!}
-         </div>
+         </div> <!-- /panel --> 
+      </div>
   </section>
+
   <section class="row posts">
       <div class="col-md-6 col-md-offset-3">
           <header><h3>What other people say...</h3></header>
           @foreach($posts as $post)
+           <div class="x_panel">  <!-- panel for post -->
               <article class="post" data-postid="{{ $post->id }}">
                   <p>{{ $post->content }}</p>
                   <div class="info">
@@ -42,6 +55,7 @@
                       @endif
                   </div>
               </article>
+            </div>  <!-- /panel for post -->
           @endforeach
       </div>
   </section>
