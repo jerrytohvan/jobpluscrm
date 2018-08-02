@@ -20,15 +20,19 @@ Route::group(['middleware' => ['web']], function(){
 
   Route::get('/accounts-full-list',
   ['as' => 'accounts.fulllist',
-   'uses' => '\App\Models\Clients\ClientController@index_client_full_list'
+   'uses' => '\App\Models\Clients\ClientController@index_account_full_list'
  ]);
 
 
   Route::get('/accounts-new',  [
     'as' => 'accounts.new',
-  'uses' => '\App\Models\Clients\ClientController@index_client_new'
+  'uses' => '\App\Models\Clients\ClientController@index_account_new'
 ]);
 
+Route::post('/accounts-new',  [
+  'as' => 'add.new.account',
+'uses' => '\App\Models\Clients\ClientController@add_new_account'
+]);
 
   Route::get('/companies-full-list',  [
     'as' => 'companies.fulllist',
