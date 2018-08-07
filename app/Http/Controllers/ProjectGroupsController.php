@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ProjectGroups\ProjectGroup;
 
-class CustomersController extends Controller
+class ProjectGroupsController extends Controller
 {
     //
     /**
@@ -33,16 +33,13 @@ class CustomersController extends Controller
     public function store(Request $request)
     {
         //
-        $employee = new Employee;
-        $employee->id = $request->id;
-        $employee->name = $request->name;
-        $employee->title = $request->title;
-        $employee->handphone = $request->handphone;
-        $employee->email = $request->email;
-        $employee->telephone = $request->telephone;
-        $employee->company_id = $request->company_id;
-        $employee->save();
-        return $employee;
+        $projectGroup = new ProjectGroup;
+        $projectGroup->id = $request->id;
+        $projectGroup->group_name = $request->group_name;
+        $projectGroup->admin_id = $request->admin_id;
+        $projectGroup->user_id = $request->user_id;
+        $projectGroup->save();
+        return $projectGroup;
     }
 
     /**
@@ -54,8 +51,8 @@ class CustomersController extends Controller
     public function show($id)
     {
         //
-        $employee= Employee::find($id);
-      return $employee;
+        $projectGroup= ProjectGroup::find($id);
+      return $projectGroup;
       
     }
 
@@ -69,15 +66,12 @@ class CustomersController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $employee = Employee::find($id);
-        $employee->name = $request->name;
-        $employee->title = $request->title;
-        $employee->handphone = $request->handphone;
-        $employee->email = $request->email;
-        $employee->telephone = $request->telephone;
-        $employee->company_id = $request->company_id;
-        $employee->update();
-        return $employee;
+        $projectGroup = ProjectGroup::find($id);
+        $projectGroup->group_name = $request->group_name;
+        $projectGroup->admin_id = $request->admin_id;
+        $projectGroup->user_id = $request->user_id;
+        $projectGroup->update();
+        return $projectGroup;
     }
 
     /**
@@ -89,7 +83,7 @@ class CustomersController extends Controller
     public function destroy($id)
     {
         //
-        Employee::findOrFail($id)->delete();
+        ProjectGroup::findOrFail($id)->delete();
         return 204;
     }
 }

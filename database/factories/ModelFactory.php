@@ -9,13 +9,13 @@
 | you a convenient way to create models for testing and seeding your
 | database. Just tell the factory how a default model should look.
 |
-*/
-use Faker\Generator;
-use App\Models\Users\User;
-use App\Models\Posts\Post;
+ */
 use App\Models\Clients\Company;
 use App\Models\Employees\Employee;
+use App\Models\Posts\Post;
 use App\Models\ProjectGroups\ProjectGroup;
+use App\Models\Users\User;
+use Faker\Generator;
 
 $factory->define(User::class, function (Faker\Generator $faker) {
     return [
@@ -42,33 +42,32 @@ $factory->define(Company::class, function (Faker\Generator $faker) {
         'name' => $faker->company,
         'email' => $faker->companyEmail,
         'address' => $faker->address,
-        'fax_no' => $faker ->phoneNumber,
-        'telephone_no' => $faker ->phoneNumber
+        'fax_no' => $faker->phoneNumber,
+        'telephone_no' => $faker->phoneNumber,
     ];
 });
 
 $factory->define(Post::class, function (Faker\Generator $faker) {
-    $user =  factory(User::class)->create();
+    $user = factory(User::class)->create();
     return [
         'content' => $faker->sentence,
-        'user_id' => $user->id
+        'user_id' => $user->id,
     ];
 });
 
-$factory->define(Employee::class,function(Faker\Generator $faker){
-    return[
+$factory->define(Employee::class, function (Faker\Generator $faker) {
+    return [
         'name' => $faker->company,
-        'title'=> $faker->name,
-        'handphone' =>$faker->phoneNumber,
+        'title' => $faker->name,
+        'handphone' => $faker->phoneNumber,
         'email' => $faker->companyEmail,
         'telephone' => $faker->phoneNumber,
-        'company_id' => $faker ->randomDigit 
+        'company_id' => $faker->randomDigit,
     ];
 });
 
-
 $factory->define(ProjectGroup::class, function (Faker\Generator $faker) {
-    $user =  factory(User::class,20)->create();
+     $user = factory(User::class)->create();
     return [
         'group_name' => $faker->unique()->name,
         'admin_id' => $faker->randomDigit,

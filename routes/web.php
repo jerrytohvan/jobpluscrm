@@ -122,6 +122,11 @@ Route::delete('/employees/{id}','employeeController@destroy');
 Route::put('/employees/{id}','employeeController@update');
 
 
+Route::get('/projectGroups','ProjectGroupsController@index');
+Route::get('/projectGroups/{id}','ProjectGroupsController@show');
+Route::post('/projectGroups/create','ProjectGroupsController@store');
+Route::delete('/projectGroups/{id}','ProjectGroupsController@destroy');
+Route::put('/projectGroups/{id}','ProjectGroupsController@update');
 
 
 Auth::routes();

@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProjectGroup extends Model
 {
-    protected $casts = [
-        'user_id' => 'array'
-    ];
+   
   public function users()
   {
       return $this->hasMany('App\Models\Users\User');
