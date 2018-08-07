@@ -101,6 +101,17 @@ class GCECredentials extends CredentialsLoader
     }
 
     /**
+     * Determines if this an App Engine Flexible instance, by accessing the
+     * GAE_INSTANCE environment variable.
+     *
+     * @return true if this an App Engine Flexible Instance, false otherwise
+     */
+    public static function onAppEngineFlexible()
+    {
+        return substr(getenv('GAE_INSTANCE'), 0, 4) === 'aef-';
+    }
+
+    /**
      * Determines if this a GCE instance, by accessing the expected metadata
      * host.
      * If $httpHandler is not specified a the default HttpHandler is used.

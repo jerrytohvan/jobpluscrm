@@ -91,3 +91,23 @@ Route::get('/settings',  [
   //   'uses' => '\App\Models\Users\UserController@logout',
   // ]);
 });
+
+
+Route::get('/employees','employeeController@index');
+Route::get('/employees/{id}','employeeController@show');
+Route::post('/employees/create','employeeController@store');
+Route::delete('/employees/{id}','employeeController@destroy');
+Route::put('/employees/{id}','employeeController@update');
+
+
+
+
+Auth::routes();
+Route::resource('/gcalendar', 'gCalendarController');
+Route:: get('/callback',  [
+  'as' => 'cal.index',
+  'uses' => 'gCalendarController@callback'
+]);
+Route::get('oauth', [
+  'as' => 'oauthCallback', 
+  'uses' => 'gCalendarController@oauth']);

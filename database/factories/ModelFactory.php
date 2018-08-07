@@ -25,7 +25,7 @@ $factory->defineAs(App\Models\User::class, 'admin', function (Faker\Generator $f
     return [
         'name' => $faker->name,
         'email' => $faker->email,
-        'password' => bcrypt(str_random(10)),
+        'password' => bcrypt("password"),
         'admin' => true,
         'remember_token' => str_random(10),
     ];
