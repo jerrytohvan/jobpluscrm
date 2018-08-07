@@ -27,15 +27,6 @@ class employeeController extends Controller
         return $employees;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -48,10 +39,12 @@ class employeeController extends Controller
         //
         $employee = new Employee;
         $employee->id = $request->id;
-        $employee->company_name = $request->company_name;
         $employee->name = $request->name;
+        $employee->title = $request->title;
         $employee->handphone = $request->handphone;
+        $employee->email = $request->email;
         $employee->telephone = $request->telephone;
+        $employee->company_id = $request->company_id;
         $employee->save();
         return $employee;
     }
@@ -71,17 +64,6 @@ class employeeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -92,10 +74,12 @@ class employeeController extends Controller
     {
         //
         $employee = Employee::find($id);
-        $employee->company_name = $request->company_name;
         $employee->name = $request->name;
+        $employee->title = $request->title;
         $employee->handphone = $request->handphone;
+        $employee->email = $request->email;
         $employee->telephone = $request->telephone;
+        $employee->company_id = $request->company_id;
         $employee->update();
         return $employee;
     }

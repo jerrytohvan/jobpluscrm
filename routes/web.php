@@ -18,17 +18,21 @@ Route::group(['middleware' => ['web']], function(){
 
 
 
-  Route::get('/clients-full-list',
-  ['as' => 'clients.fulllist',
-   'uses' => '\App\Models\Clients\ClientController@index_client_full_list'
+  Route::get('/accounts-full-list',
+  ['as' => 'accounts.fulllist',
+   'uses' => '\App\Models\Clients\ClientController@index_account_full_list'
  ]);
 
 
-  Route::get('/clients-new',  [
-    'as' => 'clients.new',
-  'uses' => '\App\Models\Clients\ClientController@index_client_new'
+  Route::get('/accounts-new',  [
+    'as' => 'accounts.new',
+  'uses' => '\App\Models\Clients\ClientController@index_account_new'
 ]);
 
+Route::post('/accounts-new',  [
+  'as' => 'add.new.account',
+'uses' => '\App\Models\Clients\ClientController@add_new_account'
+]);
 
   Route::get('/companies-full-list',  [
     'as' => 'companies.fulllist',
@@ -39,6 +43,12 @@ Route::get('/companies-new',  [
   'as' => 'companies.new',
 'uses' => '\App\Models\Clients\ClientController@index_companies_new'
 ]);
+
+Route::post('/companies-new',  [
+  'as' => 'add.new.company',
+'uses' => '\App\Models\Clients\ClientController@add_new_company'
+]);
+
 
 Route::get('/data-presentation',  [
   'as' => 'data.presentation',
@@ -81,15 +91,27 @@ Route::get('/settings',  [
       'as' => 'index.calendar',
     'uses' => '\App\Models\Calendar\CalendarController@index'
     ]);
-  // Route::get('/register', [
-  //   'as' => 'register',
-  //   'uses' => 'AccountController@register',
-  // ]);
-  //
-  // Route::get('/logout', [
-  //   'as' => 'logout',
-  //   'uses' => '\App\Models\Users\UserController@logout',
-  // ]);
+
+    Route::get('/mail',  [
+      'as' => 'index.mail',
+    'uses' => '\App\Models\Mail\MailController@index'
+    ]);
+
+    Route::get('/event',  [
+      'as' => 'index.event',
+    'uses' => '\App\Models\Events\EventController@index'
+    ]);
+
+    // Route::get('/register', [
+    //   'as' => 'register',
+    //   'uses' => 'AccountController@register',
+    // ]);
+    // Route::get('/register-account',  [
+    //   'as' => 'register.account',
+    // 'uses' => '\App\Models\Mail\MailController@index'
+    // ]);
+
+
 });
 
 

@@ -17,6 +17,7 @@
 				{!! BootForm::email('email', 'Email', old('email'), ['placeholder' => 'Email', 'afterInput' => '<span>test</span>'] ) !!}
 
 				{!! BootForm::password('password', 'Password', ['placeholder' => 'Password']) !!}
+        <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
 
 				<div>
 					{!! BootForm::submit('Log in', ['class' => 'btn btn-default submit']) !!}

@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
+  protected $fillable = [
+      'name', 'handphone', 'email', 'title', 'telephone', 'company_id'
+      ];
   public function customer()
   {
       return $this->belongsTo('App\Models\Clients\Customer');
@@ -19,6 +22,11 @@ class Employee extends Model
   public function resume()
   {
       return $this->hasOne('App\Models\Resumes\Resume');
+  }
+
+  public function company()
+  {
+      return $this->belongsTo('App\Models\Clients\Company');
   }
 
   public function events()

@@ -9,26 +9,20 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
+  public function __construct(UserService $userSvc)
+  {
+      $this->svc = $userSvc;
+  }
   public function signUp(Request $request){
     // validation helper: request and rules parameters. if failed will be validated back
     $this->validate($request, [
       'email' => 'email|required|unique:users',
       'name' => 'required|max:50',
-      'password' => 'required|min:4'
+      'password' => 'required|min:4',
+      'admin' => 'required|boolean'
     ]);
+    $user = $this->svc->createUser($request);
 
-    $name = $request->name;
-    $email = $request->email;
-    $password = bcrypt($request->password);
-
-    $user = new User();
-    $user->email = $email;
-    $user->name = $name;
-    $user->password = $password;
-
-    $user->save();
-
-    //protect the routes through laravel's helper method
     Auth::login($user);
 
     return redirect()->route('dashboard');
@@ -49,6 +43,6 @@ class UserController extends Controller
 
      public function logout(){
        Auth::logout();
-       return redirect()->route('/');
+       return redirect()->back();
      }
 }
