@@ -1,5 +1,5 @@
 .left_col {
-  background: #2A3F54;
+  background: #32213A;
 }
 .nav-sm .container.body .col-md-3.left_col {
   min-height: 100%;
@@ -210,7 +210,7 @@ body .container.body .right_col {
 .nav_title {
   width: 230px;
   float: left;
-  background: #2A3F54;
+  background: #401f3e;
   border-radius: 0;
   height: 57px;
 }
@@ -335,8 +335,8 @@ body .container.body .right_col {
   background: #D9DEE4;
 }
 body {
-  color: #73879C;
-  background: #2A3F54;
+  color: #615e5e;
+  background: #32213A;
   font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
   font-size: 13px;
   font-weight: 400;
@@ -547,7 +547,7 @@ a:hover, a:focus {
   top: 0;
 }
 .nav.side-menu>li>a, .nav.child_menu>li>a {
-  color: #E7E7E7;
+  color: #D3D4D9;
   font-weight: 500;
 }
 .nav.child_menu li li:hover,
@@ -598,7 +598,7 @@ a:hover, a:focus {
   font-weight: 400;
   font-size: 22px;
   width: 100%;
-  color: #ECF0F1 !important;
+  color: #eeeeef !important;
   margin-left: 0 !important;
   line-height: 59px;
   display: block;
@@ -1533,7 +1533,7 @@ span.right {
   padding: 5px 0 0 0;
   position: fixed;
   width: 230px;
-  background: #2A3F54;
+  background: #401f3e;
 }
 .sidebar-footer a {
   padding: 7px 0 3px;
@@ -1542,7 +1542,8 @@ span.right {
   font-size: 17px;
   display: block;
   float: left;
-  background: #172D44;
+  color: #D3D4D9;
+  background: #401f3e;
 }
 .sidebar-footer a:hover {
   background: #425567;
