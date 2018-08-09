@@ -14,6 +14,11 @@ class VerifyCsrfToken extends BaseVerifier
     protected $except = [
         //
         'employees/*',
-        'projectGroups/*'
+        'projectGroups/*',
+        'companies/*',
+        'candidates/*',
+        'results/*',
+        'interests/*',
+        'fields/*'
     ];
 }

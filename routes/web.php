@@ -129,6 +129,36 @@ Route::delete('/projectGroups/{id}','ProjectGroupsController@destroy');
 Route::put('/projectGroups/{id}','ProjectGroupsController@update');
 
 
+Route::get('/companies','CompaniesController@index');
+Route::get('/companies/{id}','CompaniesController@show');
+Route::post('/companies/create','CompaniesController@store');
+Route::delete('/companies/{id}','CompaniesController@destroy');
+Route::put('/companies/{id}','CompaniesController@update');
+
+Route::get('/candidates','CandidatesController@index');
+Route::get('/candidates/{id}','CandidatesController@show');
+Route::post('/candidates/create','CandidatesController@store');
+Route::delete('/candidates/{id}','CandidatesController@destroy');
+Route::put('candidates/{id}','CandidatesController@update');
+
+Route::get('/results','ResultsController@index');
+Route::get('/results/{id}','ResultsController@show');
+Route::post('/results/create','ResultsController@store');
+Route::delete('/results/{id}','ResultsController@destroy');
+Route::put('results/{id}','ResultsController@update');
+
+Route::get('/interests','InterestsController@index');
+Route::get('/interests/{id}','InterestsController@show');
+Route::post('/interests/create','InterestsController@store');
+Route::delete('/interests/{id}','InterestsController@destroy');
+Route::put('/interests/{id}','InterestsController@update');
+
+Route::get('/fields','FieldsController@index');
+Route::get('/fields/{id}','FieldsController@show');
+Route::post('/fields/create','FieldsController@store');
+Route::delete('/fields/{id}','FieldsController@destroy');
+Route::put('/fields/{id}','FieldsController@update');
+
 Auth::routes();
 Route::resource('/gcalendar', 'gCalendarController');
 Route:: get('/callback',  [
