@@ -457,6 +457,8 @@ class ComposerStaticInit53533173798f927dd7e00a7e0258c5ee
         'Hamcrest\\Util' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
         'InterestsTableSeeder' => __DIR__ . '/../..' . '/database/seeds/InterestsTableSeeder.php',
+        'LikesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/LikesTableSeeder.php',
+        'MessagesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/MessagesTableSeeder.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/AssertionFailedError.php',

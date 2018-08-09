@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ResultsTableSeeder::class);
         $this->call(InterestsTableSeeder::class);
         $this->call(FieldsTableSeeder::class);
+        $this->call(MessagesTableSeeder::class);
+        $this->call(LikesTableSeeder::class);
 
     }
 }

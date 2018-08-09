@@ -19,6 +19,8 @@ use App\Models\Results\Result;
 use App\Models\Users\User;
 use App\Models\Interests\Interest;
 use App\Models\Fields\Field;
+use App\Models\Messages\Message;
+use App\Models\Likes\Like;
 use Faker\Generator;
 
 $factory->define(User::class, function (Faker\Generator $faker) {
@@ -113,5 +115,21 @@ $factory->define(Field::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(Message::class, function (Faker\Generator $faker) {
+    return [
+        'message_content' => $faker->text($maxNbChars = 200),
+        'sender_id' => $faker->randomDigit,
+        'receiver_id' => $faker->randomDigit,
+        'broadcast' => $faker->randomLetter
+    ];
+});
 
+$factory->define(Like::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => $faker->randomDigit,
+        'post_id' => $faker->randomDigit,
+        'comment_id' => $faker->randomDigit,
+        'like' => true
+    ];
+});
 

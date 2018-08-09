@@ -159,6 +159,18 @@ Route::post('/fields/create','FieldsController@store');
 Route::delete('/fields/{id}','FieldsController@destroy');
 Route::put('/fields/{id}','FieldsController@update');
 
+Route::get('/messages','MessagesController@index');
+Route::get('/messages/{id}','MessagesController@show');
+Route::post('/messages/create','MessagesController@store');
+Route::delete('/messages/{id}','MessagesController@destroy');
+Route::put('/messages/{id}','MessagesController@update');
+
+Route::get('/likes','LikesController@index');
+Route::get('/likes/{id}','LikesController@show');
+Route::post('/likes/create','LikesController@store');
+Route::delete('/likes/{id}','LikesController@destroy');
+Route::put('/likes/{id}','LikesController@update');
+
 Auth::routes();
 Route::resource('/gcalendar', 'gCalendarController');
 Route:: get('/callback',  [
