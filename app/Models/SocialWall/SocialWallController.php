@@ -4,6 +4,7 @@ namespace App\Models\SocialWall;
 
 use App\Models\Users\User;
 use App\Models\Posts\Post;
+use App\Models\SocialWall\SocialWallService;
 use App\Models\Comments\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,10 @@ use App\Http\Controllers\Controller;
 
 class SocialWallController extends Controller
 {
+  public function __construct(SocialWallService $socialWallSvc){
+    $this->socialWallSvc = $socialWallSvc;
+}
+
   public function index(){
     //retrieve posts
     $posts = Post::orderBy('created_at', 'desc')->get();
@@ -19,21 +24,13 @@ class SocialWallController extends Controller
 
   public function addPost(Request $request)
   {
-    // dd($request);
       $user = Auth::user();
       $this->validate($request, [
           'body' => 'required|max:1000'
       ]);
-      $post = new Post();
-      $post->content = $request['body'];
-      $post->user_id = $user->id;
-      $message = 'There was an error';
-      if ($user->comments()->save($post)) {
-          $comment = new Comment();
-          $post->comment()->save($comment);
-          $message = 'Post successfully created!';
-      }
-      return redirect()->route('social.wall')->with(['message' => $message]);
+      $post = $this->socialWallSvc->addPost($user, $request);
+      $message = $post != null ? 'Post successfully created!': 'There was an error';
+      return redirect()->route('social.wall', compact('message'));
   }
 
   public function removePost($post_id)

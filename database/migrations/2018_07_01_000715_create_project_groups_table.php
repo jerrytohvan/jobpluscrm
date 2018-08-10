@@ -17,6 +17,7 @@ class CreateProjectGroupsTable extends Migration
             $table->increments('id');
             $table->string('group_name')->unique();
             $table->integer('admin_id');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }
