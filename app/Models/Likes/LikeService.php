@@ -32,9 +32,10 @@ class LikeService
    */
   public function updateLike(Like $like, $array)
   {
-      $like->user_id = request()->input('user_id');
-      $like->post_id = request()->input('post_id');
-      $like->comment_id = request()->input('comment_id');
+
+    foreach($array as $key => $value){
+      $like->$key = $value;
+    }
       $like->save();
       return $like;
   }
@@ -47,8 +48,9 @@ class LikeService
    */
   public function destroyLike(Like $like)
   {
-      $like->delete();
-      return 204;
+      if($like->delete()){
+        return 204;
+      }
   }
 
 }
