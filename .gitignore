@@ -9,6 +9,7 @@
 .idea
 .DS_Store
 .sass-cache
+database.php
 Thumbs.db     # [1]
 ehthumbs.db   # [1]
 Desktop.ini   # [2]
