@@ -27,16 +27,16 @@
 				<div class="clearfix"></div>
 
 				<div class="separator">
-					<p class="change_link">New to site?
+					<!-- <p class="change_link">New to site?
 						<a href="{{ url('/register') }}" class="to_register"> Create Account </a>
-					</p>
+					</p> -->
 
 					<div class="clearfix"></div>
 					<br />
 
 					<div>
-						<h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-						<p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+						<h1><i class="fa fa-odnoklassniki"></i> JobPlus </h1>
+						<p>©2018 All Rights Reserved. Artwork by <a href="https://http://jobplus.sg/">JobPlus</a></p>
 					</div>
 				</div>
 				{!! BootForm::close() !!}

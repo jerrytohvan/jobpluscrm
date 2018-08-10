@@ -88,6 +88,9 @@ elixir(function(mix) {
     mix.copy('bower_components/gentelella/bower_components/pnotify/dist/pnotify.buttons.css', 'public/css/pnotify.buttons.css');
     mix.copy('bower_components/gentelella/bower_components/pnotify/dist/pnotify.nonblock.css', 'public/css/pnotify.nonblock.css');
 
+    mix.sass('../../../bower_components/gentelella/src/scss/custom.scss','public/css/custom.css');
+    // mix.minify('public/css/custom.css');
+
     /****************/
     /* Copy Scripts */
     /****************/
@@ -240,7 +243,6 @@ elixir(function(mix) {
 
         // Gentelella
         mix.copy('bower_components/gentelella/build/js/custom.min.js', 'public/js/gentelella.min.js');
-
 
     /**************/
     /* Copy Fonts */
