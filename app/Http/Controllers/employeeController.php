@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Employees\Employee;
 use Illuminate\Http\Request;
 
-class employeeController extends Controller
+class EmployeeController extends Controller
 {
 
-    // public function __construct(employeeService $employeeSvc)
+    // public function __construct(EmployeeService $employeeSvc)
     // {
     //     $this->employeeSvc = $employeeSvc;
     // }
@@ -60,7 +60,7 @@ class employeeController extends Controller
         //
         $employee= Employee::find($id);
       return $employee;
-      
+
     }
 
     /**
