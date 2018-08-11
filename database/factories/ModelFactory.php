@@ -36,8 +36,8 @@ $factory->define(User::class, function (Faker\Generator $faker) {
 $factory->defineAs(User::class, 'admin', function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
-        'email' => $faker->unique()->email,
-        'password' => bcrypt("password"),
+        'email' => 'admin@jobpluscrm.com',
+        'password' => bcrypt("admin"),
         'admin' => true,
         'remember_token' => str_random(10),
     ];
@@ -132,4 +132,3 @@ $factory->define(Like::class, function (Faker\Generator $faker) {
         'like' => true
     ];
 });
-
