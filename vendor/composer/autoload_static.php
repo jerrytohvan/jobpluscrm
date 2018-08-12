@@ -67,6 +67,7 @@ class ComposerStaticInit53533173798f927dd7e00a7e0258c5ee
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Cache\\' => 10,
+            'Phpml\\' => 6,
         ),
         'M' => 
         array (
@@ -222,6 +223,10 @@ class ComposerStaticInit53533173798f927dd7e00a7e0258c5ee
         'Psr\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
+        'Phpml\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-ai/php-ml/src',
         ),
         'Monolog\\' => 
         array (
