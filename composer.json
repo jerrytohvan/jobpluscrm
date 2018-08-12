@@ -32,7 +32,8 @@
         "spatie/laravel-permission": "^2.3",
         "google/apiclient": "2.0",
         "fzaninotto/faker": "^1.8",
-        "phpunit/phpunit": "^7.2"
+        "phpunit/phpunit": "^7.2",
+        "php-ai/php-ml": "^0.6.2"
           },
     "require-dev": {
         "mockery/mockery": "0.9.*",
