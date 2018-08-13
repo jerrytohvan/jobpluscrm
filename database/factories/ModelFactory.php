@@ -62,13 +62,14 @@ $factory->define(Post::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(Employee::class, function (Faker\Generator $faker) {
+    $companies = Company::all()->pluck('id')->toArray();
     return [
-        'name' => $faker->company,
-        'title' => $faker->name,
+        'name' => $faker->name,
+        'title' => $faker->title,
         'handphone' => $faker->phoneNumber,
         'email' => $faker->companyEmail,
         'telephone' => $faker->phoneNumber,
-        'company_id' => $faker->randomDigit,
+        'company_id' => array_rand($companies,1)
     ];
 });
 
