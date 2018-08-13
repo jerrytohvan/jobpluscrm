@@ -19,7 +19,7 @@
          <div class="">
            <div class="page-title">
              <div class="title_left">
-               <h3>Events</h3>
+               <h3>Tasks</h3>
              </div>
 
              <div class="title_right">
@@ -41,7 +41,7 @@
                <div class="col-md-12 col-sm-12 col-xs-12">
                  <div class="x_panel">
                    <div class="x_title">
-                     <h2>Add New Event <small>Fill Event Details</small></h2>
+                     <h2>Add New Task <small>Fill Task Details</small></h2>
                      <ul class="nav navbar-right panel_toolbox">
                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                        </li>
@@ -64,7 +64,7 @@
                      <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
                        <div class="form-group">
-                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="event-name">Event Name <span class="required">*</span>
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="event-name">Task Name <span class="required">*</span>
                          </label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
                            <input type="text" id="event-name" required="required" class="form-control col-md-7 col-xs-12">
@@ -78,7 +78,7 @@
                          </div>
                        </div>
                        <div class="form-group">
-                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Whatsapp Reminder? </label>
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Telegram Reminder? </label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
                            <div id="wa_reminder" class="btn-group" data-toggle="buttons">
                              <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
@@ -125,7 +125,7 @@
              <div class="col-md-4">
                <div class="x_panel">
                  <div class="x_title">
-                   <h2>Upcoming Events <small>Today</small></h2>
+                   <h2>Upcoming Task <small>Today</small></h2>
                    <ul class="nav navbar-right panel_toolbox">
                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                      </li>

@@ -53,7 +53,7 @@
             </li>
             <li><a href="{{ route('index.calendar') }}"><i class="fa fa-calendar"></i>Calendar</a>
             </li>
-            <li><a href="{{ route('index.event') }}"><i class="fa fa-clock-o"></i>My Events</a>
+            <li><a href="{{ route('index.event') }}"><i class="fa fa-clock-o"></i>Tasks</a>
             </li>
               <li><a href="{{ route('data.presentation') }}"><i class="fa fa-table"></i> Data Presentation <span class="fa fa-chevron-down"></span></a>
               </li>
