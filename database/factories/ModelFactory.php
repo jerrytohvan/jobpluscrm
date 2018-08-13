@@ -86,6 +86,8 @@ $factory->define(Candidate::class, function (Faker\Generator $faker) {
         'name' => $faker->unique()->name,
         'email' => $faker->companyEmail,
         'handphone' => $faker->phoneNumber,
+        'working_experience' => $faker->randomDigit,
+        'graduation_year' => $faker->randomDigit,
         'interest_id' => $faker->randomDigit,
         'type' => false,
         'field_id' =>$faker ->randomDigit

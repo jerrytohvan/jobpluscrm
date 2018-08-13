@@ -20,6 +20,8 @@ class CandidateService
             'name' => $array['name'],
             'email' => $array['email'],
             'handphone' => $array['handphone'],
+            'working_experience' => $array['working_experience'],
+            'graduation_year'=>$array['graduation_year'],
             'interest_id' => $array['interest_id'],
             'type' => $array['type'],
             'field_id' => $array['field_id']

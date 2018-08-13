@@ -5,10 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Tasks\Task;
+use App\Models\Tasks\TaskService;
 
 class TasksController extends Controller
 {
     //
+    public function __construct(TaskService $taskSvc)
+    {
+        $this->svc = $taskSvc;
+        // $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -30,21 +36,10 @@ class TasksController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Task $task)
     {
         //
-        $task = new Task;
-        $task->id = $request->id;
-        $task->title = $request->title;
-        $task->description = $request->description;
-        $task->date_reminder = $request->date_reminder;
-        $task->reminder_type = $request->reminder_type;
-        $task->date_completed = $request->date_completed;
-        $task->company_id = $request->company_id;
-        $task->employee_id = $request->employee_id;
-        $task->assigned_to_id = $request->assigned_to_id;
-        $task->save();
-        return $task;
+        return $this->svc->storeTask(request()->all());
     }
 
     /**
@@ -68,20 +63,10 @@ class TasksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
-        $task = Task::find($id);
-        $task->title = $request->title;
-        $task->description = $request->description;
-        $task->date_reminder = $request->date_reminder;
-        $task->reminder_type = $request->reminder_type;
-        $task->date_completed = $request->date_completed;
-        $task->company_id = $request->company_id;
-        $task->employee_id = $request->employee_id;
-        $task->assigned_to_id = $request->assigned_to_id;
-        $task->update();
-        return $task;
+        return $this->svc->updateTask($id, request()->all());
     }
 
     /**
@@ -93,7 +78,6 @@ class TasksController extends Controller
     public function destroy($id)
     {
         //
-        Task::findOrFail($id)->delete();
-        return 204;
+        return $this->svc->destroyTask($id);
     }
 }

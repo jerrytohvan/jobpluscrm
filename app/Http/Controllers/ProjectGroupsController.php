@@ -5,10 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ProjectGroups\ProjectGroup;
+use App\Models\ProjectGroups\ProjectGroupService;
 
 class ProjectGroupsController extends Controller
 {
     //
+    public function __construct(ProjectGroupService $projectGroupSvc)
+    {
+        $this->svc = $projectGroupSvc;
+        // $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -30,16 +36,10 @@ class ProjectGroupsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProjectGroup $projectGroup)
     {
         //
-        $projectGroup = new ProjectGroup;
-        $projectGroup->id = $request->id;
-        $projectGroup->group_name = $request->group_name;
-        $projectGroup->admin_id = $request->admin_id;
-        $projectGroup->user_id = $request->user_id;
-        $projectGroup->save();
-        return $projectGroup;
+        return $this->svc->storeProjectGroup(request()->all());
     }
 
     /**
@@ -63,15 +63,10 @@ class ProjectGroupsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
-        $projectGroup = ProjectGroup::find($id);
-        $projectGroup->group_name = $request->group_name;
-        $projectGroup->admin_id = $request->admin_id;
-        $projectGroup->user_id = $request->user_id;
-        $projectGroup->update();
-        return $projectGroup;
+        return $this->svc->updateProjectGroup($id, request()->all());
     }
 
     /**
@@ -83,7 +78,6 @@ class ProjectGroupsController extends Controller
     public function destroy($id)
     {
         //
-        ProjectGroup::findOrFail($id)->delete();
-        return 204;
+        return $this->svc->destroyProjectGroup($id);
     }
 }

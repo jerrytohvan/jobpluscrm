@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Field extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['interest_id','field_name'];
+    protected $guarded = [];
     
     public function candidates()
     {

@@ -5,10 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Resumes\Resume;
+use App\Models\Resumes\ResumeService;
 
 class ResumesController extends Controller
 {
     //
+    public function __construct(ResumeService $resumeSvc)
+    {
+        $this->svc = $resumeSvc;
+        // $this->middleware('auth');
+    }
         /**
      * Display a listing of the resource.
      *
@@ -30,16 +36,10 @@ class ResumesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Resume $resume)
     {
         //
-        $resume = new Resume;
-        $resume->id = $request->id;
-        $resume->filename = $request->filename;
-        $resume->candidate_id = $request->candidate_id;
-        $resume->extension = $request->extension;
-        $resume->save();
-        return $resume;
+        return $this->svc->storeResume(request()->all());
     }
 
     /**
@@ -63,14 +63,10 @@ class ResumesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
-        $resume = Resume::find($id);
-        $resume->filename = $request->filename;
-        $resume->extension = $request->extension;
-        $resume->update();
-        return $resume;
+        return $this->svc->updateResume($id, request()->all());
     }
 
     /**
@@ -82,7 +78,6 @@ class ResumesController extends Controller
     public function destroy($id)
     {
         //
-        Resume::findOrFail($id)->delete();
-        return 204;
+        return $this->svc->destroyResume($id);
     }
 }

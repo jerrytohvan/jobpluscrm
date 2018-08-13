@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-  protected $fillable = ['commentable_type', 'commentable_id', 'content'];
+  protected $guarded = [];
 
   //post, event, project group
     public function commentable()
