@@ -5,10 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Interests\Interest;
+use App\Models\Interests\InterestService;
 
 class InterestsController extends Controller
 {
     //
+    public function __construct(InterestService $interestSvc)
+    {
+        $this->svc = $interestSvc;
+        // $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -30,14 +36,10 @@ class InterestsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Interest $interest)
     {
         //
-        $interest = new Interest;
-        $interest->id = $request->id;
-        $interest->interest_name = $request->interest_name;
-        $interest->save();
-        return $interest;
+        return $this->svc->storeInterest(request()->all());
     }
 
     /**
@@ -61,13 +63,10 @@ class InterestsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
-        $interest = Interest::find($id);
-        $interest->interest_name = $request->interest_name;
-        $interest->update();
-        return $interest;
+        return $this->svc->updateInterest($id, request()->all());
     }
 
     /**
@@ -79,7 +78,6 @@ class InterestsController extends Controller
     public function destroy($id)
     {
         //
-        Interest::findOrFail($id)->delete();
-        return 204;
+        return $this->svc->destroyInterest($id);
     }
 }

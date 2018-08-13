@@ -4,19 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Results\Result;
-use App\Models\Results\ResultService;
+use App\Models\Resumes\Resume;
+use App\Models\Resumes\ResumeService;
 
-class ResultsController extends Controller
+class ResumesController extends Controller
 {
     //
-    public function __construct(ResultService $resultSvc)
+    public function __construct(ResumeService $resumeSvc)
     {
-        $this->svc = $resultSvc;
+        $this->svc = $resumeSvc;
         // $this->middleware('auth');
     }
-
-     /**
+        /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -24,11 +23,12 @@ class ResultsController extends Controller
     public function index()
     {
         //
-        $results = Result::orderBy('id', 'asc')->get();
+        $resumes = Resume::orderBy('id', 'asc')->get();
 
         // load the view and pass the employees
-        return $results;
+        return $resumes;
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -36,10 +36,10 @@ class ResultsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Result $result)
+    public function store(Resume $resume)
     {
         //
-        return $this->svc->storeResult(request()->all());
+        return $this->svc->storeResume(request()->all());
     }
 
     /**
@@ -51,9 +51,9 @@ class ResultsController extends Controller
     public function show($id)
     {
         //
-        $result = Result::find($id);
-        return $result;
-
+        $resume= Resume::find($id);
+      return $resume;
+      
     }
 
     /**
@@ -66,7 +66,7 @@ class ResultsController extends Controller
     public function update($id)
     {
         //
-        return $this->svc->updateResult($id, request()->all());
+        return $this->svc->updateResume($id, request()->all());
     }
 
     /**
@@ -78,6 +78,6 @@ class ResultsController extends Controller
     public function destroy($id)
     {
         //
-        return $this->svc->destroyResult($id);
+        return $this->svc->destroyResume($id);
     }
 }
