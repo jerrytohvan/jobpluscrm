@@ -2,20 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Clients\Company;
-use App\Models\Clients\CompanyService;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Resumes\Resume;
 
-class CompaniesController extends Controller
+class ResumesController extends Controller
 {
     //
-    public function __construct(CompanyService $companySvc)
-    {
-        $this->svc = $companySvc;
-        // $this->middleware('auth');
-    }
-    /**
+        /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -23,11 +17,12 @@ class CompaniesController extends Controller
     public function index()
     {
         //
-        $companies = Company::orderBy('id', 'asc')->get();
+        $resumes = Resume::orderBy('id', 'asc')->get();
 
         // load the view and pass the employees
-        return $companies;
+        return $resumes;
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -35,10 +30,16 @@ class CompaniesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Company $company)
+    public function store(Request $request)
     {
         //
-        return $this->svc->storeCompany(request()->all());
+        $resume = new Resume;
+        $resume->id = $request->id;
+        $resume->filename = $request->filename;
+        $resume->candidate_id = $request->candidate_id;
+        $resume->extension = $request->extension;
+        $resume->save();
+        return $resume;
     }
 
     /**
@@ -50,9 +51,9 @@ class CompaniesController extends Controller
     public function show($id)
     {
         //
-        $company = Company::find($id);
-        return $company;
-
+        $resume= Resume::find($id);
+      return $resume;
+      
     }
 
     /**
@@ -62,10 +63,14 @@ class CompaniesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
         //
-        return $this->svc->updateCompany($id, request()->all());
+        $resume = Resume::find($id);
+        $resume->filename = $request->filename;
+        $resume->extension = $request->extension;
+        $resume->update();
+        return $resume;
     }
 
     /**
@@ -77,7 +82,7 @@ class CompaniesController extends Controller
     public function destroy($id)
     {
         //
-        return $this->svc->destroyCompany($id);
+        Resume::findOrFail($id)->delete();
+        return 204;
     }
-
 }

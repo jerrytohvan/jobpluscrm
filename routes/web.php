@@ -135,6 +135,7 @@ Route::post('/companies/create','CompaniesController@store');
 Route::delete('/companies/{id}','CompaniesController@destroy');
 Route::put('/companies/{id}','CompaniesController@update');
 
+
 Route::get('/candidates','CandidatesController@index');
 Route::get('/candidates/{id}','CandidatesController@show');
 Route::post('/candidates/create','CandidatesController@store');
