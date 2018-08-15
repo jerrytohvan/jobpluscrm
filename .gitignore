@@ -10,6 +10,7 @@
 .DS_Store
 .sass-cache
 database.php
+.env
 *.csv
 Thumbs.db     # [1]
 ehthumbs.db   # [1]
@@ -24,11 +25,14 @@ logs
 *.log
 npm-debug.log*
 node_modules
+vendor
 yarn.lock
 package-lock.json
+composer.lock
 
 # ----------------------------
 # Project Folders
 # ----------------------------
 
 build/
+vendor/

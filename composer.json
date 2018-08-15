@@ -33,7 +33,9 @@
         "google/apiclient": "2.0",
         "fzaninotto/faker": "^1.8",
         "php-ai/php-ml": "^0.6.2",
-        "maatwebsite/excel": "^3.0"
+        "maatwebsite/excel": "^3.0",
+        "php-science/textrank": "^1.0",
+        "smalot/pdfparser": "^0.13.2"
           },
     "require-dev": {
         "mockery/mockery": "0.9.*",
