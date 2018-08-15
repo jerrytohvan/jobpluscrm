@@ -30,7 +30,7 @@
               <li><a href="{{ route('dashboard') }}"><i class="fa fa-home"></i> Home </span></a></li>
             </li>
 
-            <li><a href="{{ route('social.wall') }}"><i class="fa fa-comments-o"></i>Social Wall </a>
+            <li><a href="{{ route('social.wall') }}"><i class="fa fa-comments-o"></i>Announcements</a>
             </li>
               <li><a><i class="fa fa-edit"></i> Companies <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
@@ -57,6 +57,7 @@
             </li>
               <li><a href="{{ route('data.presentation') }}"><i class="fa fa-table"></i> Data Presentation <span class="fa fa-chevron-down"></span></a>
               </li>
+              <li><a href="{{ route('social.wall') }}"><i class="fa fa-bar-chart-o"></i> Telegram</a></li>
               <li><a href="{{ route('settings') }}"><i class="fa fa-bar-chart-o"></i> Settings</a>
 
             </ul>

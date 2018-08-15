@@ -6,7 +6,7 @@
 <div class="right_col" role="main">
   <div class="row tile_count">
     <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
-      <div class="count">Social Wall</div>
+      <div class="count">Announcements</div>
     </div>
   </div>
 
@@ -23,7 +23,7 @@
   </section>
   <section class="row posts">
       <div class="col-md-6 col-md-offset-3">
-          <header><h3>What other people say...</h3></header>
+          <header><h3>Past announcements</h3></header>
           @foreach($posts as $post)
               <article class="post" data-postid="{{ $post->id }}">
                   <p>{{ $post->content }}</p>
