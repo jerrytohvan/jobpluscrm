@@ -23,7 +23,7 @@
   </section>
   <section class="row posts">
       <div class="col-md-6 col-md-offset-3">
-          <header><h3>Past announcements</h3></header>
+          <header><h3>Past Announcements</h3></header>
           @foreach($posts as $post)
               <article class="post" data-postid="{{ $post->id }}">
                   <p>{{ $post->content }}</p>
