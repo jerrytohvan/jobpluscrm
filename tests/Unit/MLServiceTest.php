@@ -37,15 +37,30 @@ class MLServiceTest extends TestCase
      }
 
      /** @test */
-    public function store_sample_data_to_database()
-    {
-      $sampleData = $this->svc->setDataIntoDB('http://127.0.0.1:8000/data_samples.csv');
-    }
+    // public function store_sample_data_to_database()
+    // {
+    //   $sampleData = $this->svc->setDataIntoDB('http://127.0.0.1:8000/data_samples.csv');
+    //   dd($sampleData);
+    // }
 
      /** @test */
-    public function can_train_with_sample_data()
+    // public function can_train_with_sample_data()
+    // {
+    //   $data = $this->svc->constructData();
+    //   dd($data);
+    // }
+    /** @test */
+    // public function can_train_with_sample_data()
+    // {
+    //   $data = $this->svc->retrieveKeywordsByRake("");
+    //   dd($data);
+    // }
+    /** @test */
+    public function can_parse_files_to_text()
     {
-      $data = $this->svc->constructData();
+      //localfiles only
+      $data = $this->svc->convertFileIntoText('testpdf.pdf');
+      dd($data);
     }
 
 }

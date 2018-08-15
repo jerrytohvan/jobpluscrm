@@ -9,19 +9,26 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use App\Models\MachineLearning\StoreSampleData;
+use PhpScience\TextRank\Tool\StopWords\English;
+use PhpScience\TextRank\TextRankFacade;
+use App\Models\DocxConversion;
+use Smalot\PdfParser\Parser;
 
 class MLService
 {
 
   public function __construct(){
+    $this->associator = new Apriori($support = 0.2, $confidence = 0.2);
     $this->stopwords =  file(storage_path('app/stop_words.txt'));
     // Remove line breaks and spaces from stopwords
     $this->stopwords = array_map(function($x){
-      yield trim(strtolower($x));
+      return trim(strtolower($x));
     }, $this->stopwords);
   }
 
     public function setDataIntoDB($fileDir){
+      $begin = memory_get_usage();
+
       // $container = new Collection();
       if(($handle = fopen($fileDir, 'r')) !== false){
             $header = fgetcsv($handle);
@@ -35,39 +42,20 @@ class MLService
                 'industry' => !empty($data[4]) ? $data[4]:'-',
                 'prefered_years_experience' => !empty($data[5]) ? $data[5]:'-',
               ]);
-
-
               unset($data);
             }
             fclose($handle);
-
-          // $contain =  $container->chunk(100, function ($container) {
-          //   foreach($container as $data){
-          //     dd('ok');
-          //     // StoreSampleData::create(
-          //     //   [
-          //     //     'job_title' => !empty($data[0]) ? $data[0]:'-',
-          //     //     'job_description' => !empty($data[1]) ? json_encode(Self::extract_keywords($data[1])):'-',
-          //     //     'category' => !empty($data[2]) ? $data[2]:'-',
-          //     //     'skills' => !empty($data[3]) ? $data[3]:'-',
-          //     //     'industry' => !empty($data[4]) ? $data[4]:'-',
-          //     //     'prefered_years_experience' => !empty($data[5]) ? $data[5]:'-',
-          //     //   ]
-          //     // );
-          //   }
-          //   });
-            // dd($contain[0]->toArray());
-
         }
         $allData =StoreSampleData::all();
         StoreSampleData::chunk(100, function ($allData) {
               foreach ($allData as $data) {
                   $data->update(['job_description' => serialize(Self::extract_keywords($data->job_description))]);
+                  unset($data);
               }
           });
+        unset($allData);
+        echo 'Total memory usage : '. (memory_get_usage() - $begin);
 
-          var_dump($allData);
-      dd( StoreSampleData::all());
       return StoreSampleData::all();
     }
 
@@ -80,94 +68,66 @@ class MLService
     // remove whitespace and lowercase words in $text
     $text_array = array_map('trim', $text_array);
     $text_array =  array_map('strtolower', $text_array);
-    $textCollection = collect($text_array);
-    $textCollection = $textCollection->filter(function ($word, $key) {
-          if(!in_array($word, $this->stopwords)){
-            return true;
-          };
-    });
 
+    $data = array_diff($text_array, $this->stopwords);
+    unset($text_array);
+    return array_values(array_filter($data));
     //Strpos way?
     //array_diff($strarray, $stopwords);
-    return array_filter($textCollection->all());
+    // return array_filter($textCollection->all());
 }
 
-  public function constructData($fileDir)
+  public function constructData()
   {
     # format: job_title, job_description, category, skills/requirement, industry, prefered_years_experience,
-
-    // 1. Read CSV File
-    // 2. turn into array collection
-    // 3. loop everything
-    // 4. each row perform cleaning and keywords
-    // 5. train ML based on array
-
-    //word frequency, density and prominence?
-    // $collection = [];
-    // $collection = new Collection();
-    // $handle = fopen($fileDir, "r");
-    // $header = true;
-    // while ($csvLine = fgetcsv($handle, ",")) {
-    //   if ($header) {
-    //       $header = false;
-    //   } else {
-    //     //using json
-    //     $collection->push(
-    //       json_encode([
-    //         'job_title' => !empty($csvLine[0]) ? $csvLine[0]:'-',
-    //         'job_description' => !empty($csvLine[1]) ? Self::extract_keywords($csvLine[1]):'-',
-    //         'category' => !empty($csvLine[2]) ? $csvLine[2]:'-',
-    //         'skills' => !empty($csvLine[3]) ? $csvLine[3]:'-',
-    //         'industry' => !empty($csvLine[4]) ? $csvLine[4]:'-',
-    //         'prefered_years_experience' => !empty($csvLine[5]) ? $csvLine[5]:'-',
-    //       ])
-    //     );
-    //   }
-    //   unset($csvLine);
-    // }
-    // fclose($handle);
-    // dd($collection);
-
-    // $jobTitleKeywords =  $collection->map(function ($row, $key) {
-    //   return Self::extract_keywords($row['job_title']);
-    // });
-
-    // $jobDescriptionKeywords =  $collection->map(function ($row, $key) {
-    //   return $row['job_description'];
-    // });
-
-    $collection = StoreSampleData::all();
-    // $jobDescriptionKeywords =  $collection->pluck('job_description');
-//do sum
-    $jobDescriptionKeywords =  $collection->map(function ($row, $key) {
-          return [
-            Self::extract_keywords($row['job_description'])
-        ];
-    });
-
-// $jobDescriptionKeywords =  $collection->map(function ($row, $key) {
-//     return [
-//       'job_title' => $row['job_title'],
-//     'job_description' =>   Self::extract_keywords($row['job_description']),
-//     'category' =>   $row['category'],
-//       'skills' => $row['skills'],
-//       'industry' => $row['industry'],
-//       'prefered_years_experience' => $row['prefered_years_experience'],
-//   ];
-// });
-
-
-    dd($jobDescriptionKeywords->all());
-
+    $begin = memory_get_usage();
+   $allData = StoreSampleData::all()->pluck('job_description')->toArray();
+//write to file?
+$contain =[];
+   foreach($allData as $data){
+     $contain[] = unserialize($data);
+     unset($data);
+   }
+   $this->associator->train($contain,[]);
+   //https://phpdoc.hotexamples.com/class/phpml.association/Apriori & RAKE
+   dd($this->associator->getRules());
+    echo 'Total memory usage : '. (memory_get_usage() - $begin);
+    return $jobDescriptionKeywords->all();
 }
+
+public function retrieveKeywordsByRake($text){
+  $api = new TextRankFacade();
+  // English implementation for stopwords/junk words:
+  $stopWords = new English();
+  $api->setStopWords($stopWords);
+  $result = $api->summarizeTextBasic($text);
+  dd($api->getOnlyKeyWords(array_values($result)[0]));
+}
+
+
+
 
   public function findEmployeesByJobDesc(){
     //Revese function for partners to try out and apply for request
   }
 
-public function convertFileIntoText(){
-  #UI will be a wizard kind, predefined steps.
-  #pdf or word? -> add as
+public function convertFileIntoText($fileName){
+  //read filetype
+  // clearstatcache();
+  $fileDir = realpath($_SERVER["DOCUMENT_ROOT"])."/public/".$fileName;
+  $path = parse_url($fileDir, PHP_URL_PATH);
+  $type = pathinfo($path, PATHINFO_EXTENSION);
+  $docObj = new DocxConversion($fileDir);
+  $docText = $docObj->convertToText();
+  if(!$docText && $type == "pdf" ){
+    $parser = new Parser();
+    $pdf = $parser->parseFile($fileDir);
+    $text = $pdf->getText();
+    return $text;
+  }
+
+  return $docText;
+  //pdf use fopen
 }
 
 public function readEmployeeEmail(){
@@ -183,10 +143,6 @@ public function readEmployeeEmail(){
 
   public function trainML()
   {
-    $associator = new Apriori($support = 0.5, $confidence = 0.5);
-    $samples = [['alpha', 'beta', 'epsilon'], ['alpha', 'beta', 'theta'], ['alpha', 'beta', 'epsilon'], ['alpha', 'beta', 'theta']];
-    $labels  = [];
-    $associator->train($samples, $labels);
   }
 
   public function generateEmployeeKeywords(){
