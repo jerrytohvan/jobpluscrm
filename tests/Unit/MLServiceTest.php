@@ -34,13 +34,18 @@ class MLServiceTest extends TestCase
        $predict = $this->associator->predict([['alpha','epsilon'],['beta','theta']]);
        $this->assertCount(2, $predict);
        $this->assertEquals([[['beta']],[['alpha']]], $predict);
-
-       dd($this->associator->predict(['alpha']));
      }
+
+     /** @test */
+    public function store_sample_data_to_database()
+    {
+      $sampleData = $this->svc->setDataIntoDB('http://127.0.0.1:8000/data_samples.csv');
+    }
+
      /** @test */
     public function can_train_with_sample_data()
     {
-      
+      $data = $this->svc->constructData();
     }
 
 }
