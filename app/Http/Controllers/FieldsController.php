@@ -4,11 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fields\Field;
+use App\Models\Fields\FieldService;
 use Illuminate\Http\Request;
 
 class FieldsController extends Controller
 {
     //
+    public function __construct(FieldService $fieldSvc)
+    {
+        $this->svc = $fieldSvc;
+        // $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -29,15 +35,10 @@ class FieldsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Field $field)
     {
         //
-        $field = new Field;
-        $field->id = $request->id;
-        $field->interest_id = $request->interest_id;
-        $field->field_name = $request->field_name;
-        $field->save();
-        return $field;
+        return $this->svc->storeField(request()->all());
     }
 
     /**
@@ -61,14 +62,10 @@ class FieldsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
-        $field = Field::find($id);
-        $field->interest_id = $request->interest_id;
-        $field->field_name = $request->field_name;
-        $field->update();
-        return $field;
+        return $this->svc->updateField($id, request()->all());
     }
 
     /**
@@ -80,7 +77,6 @@ class FieldsController extends Controller
     public function destroy($id)
     {
         //
-        Field::findOrFail($id)->delete();
-        return 204;
+        return $this->svc->destroyField($id);
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Result extends Model
 {
     public $timestamps = false;
-    
+    protected $guarded = [];
     public function candidates()
     {
         return $this->hasMany('App\Models\Clients\Candidate');

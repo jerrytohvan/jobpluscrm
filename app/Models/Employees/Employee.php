@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
-  protected $fillable = [
-      'name', 'handphone', 'email', 'title', 'telephone', 'company_id'
-      ];
+  protected $guarded = [];
   public function customer()
   {
       return $this->belongsTo('App\Models\Clients\Customer');

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Interest extends Model
 {
     public $timestamps = false;
+    protected $guarded = [];
     public function candidates()
     {
         return $this->belongsToMany('App\Models\Clients\Candidate');

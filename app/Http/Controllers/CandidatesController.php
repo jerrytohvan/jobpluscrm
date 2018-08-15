@@ -4,11 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Clients\CandidateService;
 use App\Models\Clients\Candidate;
 
 class CandidatesController extends Controller
 {
     //
+    public function __construct(CandidateService $candidateSvc)
+    {
+        $this->svc = $candidateSvc;
+        // $this->middleware('auth');
+    }
      /**
      * Display a listing of the resource.
      *
@@ -29,19 +35,10 @@ class CandidatesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Candidate $candidate)
     {
         //
-        $candidate = new Candidate;
-        $candidate->id = $request->id;
-        $candidate->name = $request->name;
-        $candidate->email = $request->email;
-        $candidate->handphone = $request->handphone;
-        $candidate->interest_id = $request->interest_id;
-        $candidate->type = $request->type;
-        $candidate->field_id = $request->field_id;
-        $candidate->save();
-        return $candidate;
+        return $this->svc->storeCandidate(request()->all());
     }
 
     /**
@@ -65,19 +62,10 @@ class CandidatesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
-        $candidate = Candidate::find($id);
-        $candidate->id = $request->id;
-        $candidate->name = $request->name;
-        $candidate->email = $request->email;
-        $candidate->handphone = $request->handphone;
-        $candidate->interest_id = $request->interest_id;
-        $candidate->type = $request->type;
-        $candidate->field_id = $request->field_id;
-        $candidate->update();
-        return $candidate;
+        return $this->svc->updateCandidate($id, request()->all());
     }
 
     /**
@@ -89,7 +77,6 @@ class CandidatesController extends Controller
     public function destroy($id)
     {
         //
-        Candidate::findOrFail($id)->delete();
-        return 204;
+        return $this->svc->destroyCandidate($id);
     }
 }

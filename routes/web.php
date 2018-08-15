@@ -135,6 +135,7 @@ Route::post('/companies/create','CompaniesController@store');
 Route::delete('/companies/{id}','CompaniesController@destroy');
 Route::put('/companies/{id}','CompaniesController@update');
 
+
 Route::get('/candidates','CandidatesController@index');
 Route::get('/candidates/{id}','CandidatesController@show');
 Route::post('/candidates/create','CandidatesController@store');
@@ -170,6 +171,18 @@ Route::get('/likes/{like}','LikesController@show');
 Route::post('/likes/create','LikesController@store');
 Route::delete('/likes/{like}','LikesController@destroy');
 Route::put('/likes/{like}','LikesController@update');
+
+Route::get('/resumes','ResumesController@index');
+Route::get('/resumes/{id}','ResumesController@show');
+Route::post('/resumes/create','ResumesController@store');
+Route::delete('/resumes/{id}','ResumesController@destroy');
+Route::put('/resumes/{id}','ResumesController@update');
+
+Route::get('/tasks','TasksController@index');
+Route::get('/tasks/{id}','TasksController@show');
+Route::post('/tasks/create','TasksController@store');
+Route::delete('/tasks/{id}','TasksController@destroy');
+Route::put('/tasks/{id}','TasksController@update');
 
 Auth::routes();
 Route::resource('/gcalendar', 'gCalendarController');

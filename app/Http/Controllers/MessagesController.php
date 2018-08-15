@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Messages\Message;
+use App\Models\Messages\MessageService;
 
 class MessagesController extends Controller
 {
     //
-
+    public function __construct(MessageService $messageSvc)
+    {
+        $this->svc = $messageSvc;
+        // $this->middleware('auth');
+    }
      /**
      * Display a listing of the resource.
      *
@@ -30,17 +35,10 @@ class MessagesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Message $message)
     {
         //
-        $message = new Message;
-        $message->id = $request->id;
-        $message->message_content = $request->message_content;
-        $message->sender_id = $request->sender_id;
-        $message->receiver_id = $request->receiver_id;
-        $message->broadcast = $request->broadcast;
-        $message->save();
-        return $message;
+        return $this->svc->storeMessage(request()->all());
     }
 
     /**
@@ -64,14 +62,10 @@ class MessagesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
-        $message = Message::find($id);
-        $message->message_content = $request->message_content;
-        $message->broadcast = $request->broadcast;
-        $message->update();
-        return $message;
+        return $this->svc->updateMessage($id, request()->all());
     }
 
     /**
@@ -83,7 +77,6 @@ class MessagesController extends Controller
     public function destroy($id)
     {
         //
-        Message::findOrFail($id)->delete();
-        return 204;
+        return $this->svc->destroyMessage($id);
     }
 }
