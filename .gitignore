@@ -12,6 +12,10 @@
 database.php
 .env
 *.csv
+node_modules/
+vendor/
+composer.lock
+
 Thumbs.db     # [1]
 ehthumbs.db   # [1]
 Desktop.ini   # [2]
@@ -24,11 +28,8 @@ $RECYCLE.BIN  # [3]
 logs
 *.log
 npm-debug.log*
-node_modules
-vendor
 yarn.lock
 package-lock.json
-composer.lock
 
 # ----------------------------
 # Project Folders
