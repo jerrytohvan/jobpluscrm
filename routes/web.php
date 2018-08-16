@@ -65,7 +65,6 @@ Route::get('/settings',  [
   'uses' => '\App\Models\SocialWall\SocialWallController@index'
   ]);
 
-
   Route::post('/newpost',  [
     'as' => 'new.post',
   'uses' => '\App\Models\SocialWall\SocialWallController@addPost'
@@ -111,5 +110,9 @@ Route::get('/settings',  [
     // 'uses' => '\App\Models\Mail\MailController@index'
     // ]);
 
+	 Route::get('/createprofile',  [
+    'as' => 'create.profile',
+   'uses' => '\App\Models\CreateProfile\CreateProfileController@index'
+   ]);
 
 });
