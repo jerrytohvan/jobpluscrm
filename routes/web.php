@@ -49,6 +49,10 @@ Route::post('/companies-new',  [
 'uses' => '\App\Models\Clients\ClientController@add_new_company'
 ]);
 
+Route::get('/telegram',  [
+  'as' => 'telegram',
+'uses' => '\App\Models\SocialWall\SocialWallController@index'
+]);
 
 Route::get('/data-presentation',  [
   'as' => 'data.presentation',
@@ -133,6 +137,10 @@ Route::get('/companies','CompaniesController@index');
 Route::get('/companies/{id}','CompaniesController@show');
 Route::post('/companies/create','CompaniesController@store');
 Route::delete('/companies/{id}','CompaniesController@destroy');
+Route::get('/companies/{id}',  [
+  'as' => 'delete.company',
+  'uses' => '\App\Http\Controllers\CompaniesController@destroy'
+]);
 Route::put('/companies/{id}','CompaniesController@update');
 
 
