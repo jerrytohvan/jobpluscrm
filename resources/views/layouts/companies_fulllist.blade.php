@@ -70,7 +70,12 @@
                           <td>{{ $company->industry}}</td>
                           <td>{{ $company->website}}</td>
                           <td>{{ $company->transaction ? "Yes" : "No"}}</td>
-                          <td>  <a href="{{ route('delete.company', ['company_id' => $company->id]) }}">Delete</a><td>
+                          <td>
+                                <div class="btn-group">
+                                  <button class="btn btn-default" type="button">Update</button>
+                                  <button class="btn btn-default" action="{{ route('delete.company', ['company_id' => $company->id]) }}" type="button">Delete</button>
+                                </div>
+                          <td>
                         </tr>
                         @endforeach
                       </tbody>

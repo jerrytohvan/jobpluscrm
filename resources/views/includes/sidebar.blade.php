@@ -55,7 +55,11 @@
             </li>
             <li><a href="{{ route('index.event') }}"><i class="fa fa-clock-o"></i>Tasks</a>
             </li>
-              <li><a href="{{ route('data.presentation') }}"><i class="fa fa-table"></i> Data Presentation <span class="fa fa-chevron-down"></span></a>
+              <li><a><i class="fa fa-desktop"></i> Candidates <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li><a href="{{ route('accounts.fulllist') }}">Full list</a></li>
+                  <li><a href="{{ route('accounts.new') }}">New</a></li>
+                </ul>
               </li>
               <li><a href="{{ route('settings') }}"><i class="fa fa-bar-chart-o"></i> Telegram</a></li>
               <li><a href="{{ route('settings') }}"><i class="fa fa-bar-chart-o"></i> Settings</a>
