@@ -100,6 +100,10 @@ class ComposerStaticInit53533173798f927dd7e00a7e0258c5ee
             'Symfony\\Component\\Console\\' => 26,
             'Spatie\\Permission\\' => 18,
         ),
+        'R' => 
+        array (
+            'Ramsey\\Uuid\\' => 12,
+        ),
         'P' => 
         array (
             'Psr\\SimpleCache\\' => 16,
@@ -221,8 +225,7 @@ class ComposerStaticInit53533173798f927dd7e00a7e0258c5ee
         ),
         'Symfony\\Component\\Finder\\' => 
         array (
-            0 => __DIR__ . '/..' . '/ramsey/uuid',
-            1 => __DIR__ . '/..' . '/symfony/finder',
+            0 => __DIR__ . '/..' . '/symfony/finder',
         ),
         'Symfony\\Component\\EventDispatcher\\' => 
         array (
@@ -247,6 +250,10 @@ class ComposerStaticInit53533173798f927dd7e00a7e0258c5ee
         'Spatie\\Permission\\' => 
         array (
             0 => __DIR__ . '/..' . '/spatie/laravel-permission/src',
+        ),
+        'Ramsey\\Uuid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ramsey/uuid/src',
         ),
         'Psr\\SimpleCache\\' => 
         array (
