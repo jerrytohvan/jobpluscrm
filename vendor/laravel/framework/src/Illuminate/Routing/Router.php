@@ -224,9 +224,7 @@ class Router implements RegistrarContract, BindingRegistrar
         $placeholder = 'fallbackPlaceholder';
 
         return $this->addRoute(
-            'GET',
-            "{{$placeholder}}",
-            $action
+            'GET', "{{$placeholder}}", $action
         )->where($placeholder, '.*')->fallback();
     }
 
@@ -303,10 +301,7 @@ class Router implements RegistrarContract, BindingRegistrar
         }
 
         return new PendingResourceRegistration(
-            $registrar,
-            $name,
-            $controller,
-            $options
+            $registrar, $name, $controller, $options
         );
     }
 
@@ -453,9 +448,7 @@ class Router implements RegistrarContract, BindingRegistrar
         }
 
         $route = $this->newRoute(
-            $methods,
-            $this->prefix($uri),
-            $action
+            $methods, $this->prefix($uri), $action
         );
 
         // If we have groups that need to be merged, we will merge them now after this
@@ -561,8 +554,7 @@ class Router implements RegistrarContract, BindingRegistrar
     protected function addWhereClausesToRoute($route)
     {
         $route->where(array_merge(
-            $this->patterns,
-            $route->getAction()['where'] ?? []
+            $this->patterns, $route->getAction()['where'] ?? []
         ));
 
         return $route;
@@ -646,8 +638,7 @@ class Router implements RegistrarContract, BindingRegistrar
 
         $this->events->dispatch(new Events\RouteMatched($route, $request));
 
-        return $this->prepareResponse(
-            $request,
+        return $this->prepareResponse($request,
             $this->runRouteWithinStack($route, $request)
         );
     }
@@ -671,8 +662,7 @@ class Router implements RegistrarContract, BindingRegistrar
                         ->through($middleware)
                         ->then(function ($request) use ($route) {
                             return $this->prepareResponse(
-                                $request,
-                                $route->run()
+                                $request, $route->run()
                             );
                         });
     }
@@ -911,8 +901,7 @@ class Router implements RegistrarContract, BindingRegistrar
     public function bind($key, $binder)
     {
         $this->binders[str_replace('-', '_', $key)] = RouteBinding::forCallback(
-            $this->container,
-            $binder
+            $this->container, $binder
         );
     }
 
@@ -1145,7 +1134,7 @@ class Router implements RegistrarContract, BindingRegistrar
         $this->post('logout', 'Auth\LoginController@logout')->name('logout');
 
         // Registration Routes...
-        $this->get('register', 'Auth\RegisterController@index')->name('register');
+        $this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
         $this->post('register', 'Auth\RegisterController@register');
 
         // Password Reset Routes...

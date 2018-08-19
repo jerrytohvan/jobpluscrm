@@ -15,11 +15,11 @@
 Route::group(['middleware' => ['web']], function () {
     Route::get('/login', [
     'as' => 'login',
-    'uses' => '\App\Http\Controllers\AuthLoginController@showLoginForm'
+    'uses' => '\App\Http\Controllers\Auth\LoginController@showLoginForm'
   ]);
 
     Route::post('/login', [
-      'uses' => '\App\Http\Controllers\AuthLoginController@login'
+      'uses' => '\App\Http\Controllers\Auth\LoginController@login'
   ]);
 
     Route::get('/logout', [
@@ -27,8 +27,8 @@ Route::group(['middleware' => ['web']], function () {
     'uses' => '\App\Http\Controllers\Auth\LoginController@logout'
   ]);
 
-    Route::get('/register', [
-      'as' => 'register',
+    Route::get('/add-admin', [
+      'as' => 'index.register',
       'uses' => '\App\Http\Controllers\Auth\RegisterController@index'
     ]);
 

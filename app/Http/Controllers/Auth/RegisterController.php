@@ -29,8 +29,6 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    // protected $redirectTo = '/register';
-    // protected $registerView = 'layouts.register';
 
     /**
      * Create a new controller instance.

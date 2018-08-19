@@ -46,7 +46,7 @@
               </li>
             </li>
             @if(Auth::user()->admin == 1)
-            <li><a href="{{ route('register') }}"><i class="fa fa-users"></i>Manage Admin</a>
+            <li><a href="{{ route('index.register') }}"><i class="fa fa-users"></i>Manage Admin</a>
             </li>
             @endif
             <li><a href="{{ route('index.mail') }}"><i class="fa fa-envelope-o"></i>Mail</a>
