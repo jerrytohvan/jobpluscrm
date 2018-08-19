@@ -55,7 +55,9 @@
             </li>
             <li><a href="{{ route('index.event') }}"><i class="fa fa-clock-o"></i>My Events</a>
             </li>
-              <li><a href="{{ route('data.presentation') }}"><i class="fa fa-table"></i> Data Presentation <span class="fa fa-chevron-down"></span></a>
+              <li><a href="{{ route('data.presentation') }}"><i class="fa fa-table"></i> Data Presentation</a>
+              </li>
+              <li><a href="{{ route('index.smart.match') }}"><i class="fa fa-magic"></i> Smart Match </a>
               </li>
               <li><a href="{{ route('settings') }}"><i class="fa fa-bar-chart-o"></i> Settings</a>
 

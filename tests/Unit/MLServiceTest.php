@@ -13,7 +13,8 @@ use Phpml\Association\Apriori;
 
 class MLServiceTest extends TestCase
 {
-    public function setUp(){
+    public function setUp()
+    {
         parent::setUp();
         $this->svc = app(MLService::class);
 
@@ -22,45 +23,24 @@ class MLServiceTest extends TestCase
 
         $this->associator = new Apriori($support = 0.5, $confidence = 0.5);
         $this->associator->train($samples, $labels);
-
-      }
-      /** @test */
-     public function test_predict_apriori_algorithm()
-     {
-       $predict = $this->associator->predict(['alpha','theta']);
-       $this->assertCount(1, $predict);
-       $this->assertEquals([['beta']], $predict);
-
-       $predict = $this->associator->predict([['alpha','epsilon'],['beta','theta']]);
-       $this->assertCount(2, $predict);
-       $this->assertEquals([[['beta']],[['alpha']]], $predict);
-     }
-
-     /** @test */
-    // public function store_sample_data_to_database()
-    // {
-    //   $sampleData = $this->svc->setDataIntoDB('http://127.0.0.1:8000/data_samples.csv');
-    //   dd($sampleData);
-    // }
-
-     /** @test */
-    // public function can_train_with_sample_data()
-    // {
-    //   $data = $this->svc->constructData();
-    //   dd($data);
-    // }
+    }
     /** @test */
-    // public function can_train_with_sample_data()
-    // {
-    //   $data = $this->svc->retrieveKeywordsByRake("");
-    //   dd($data);
-    // }
+    public function test_predict_apriori_algorithm()
+    {
+        $predict = $this->associator->predict(['alpha','theta']);
+        $this->assertCount(1, $predict);
+        $this->assertEquals([['beta']], $predict);
+
+        $predict = $this->associator->predict([['alpha','epsilon'],['beta','theta']]);
+        $this->assertCount(2, $predict);
+        $this->assertEquals([[['beta']],[['alpha']]], $predict);
+    }
+
     /** @test */
     public function can_parse_files_to_text()
     {
-      //localfiles only
-      $data = $this->svc->convertFileIntoText('testpdf.pdf');
-      dd($data);
+        //localfiles only
+        $data = $this->svc->matchResumeWithSampleData('resume.docx');
+        $this->assertCount(3, $data);
     }
-
 }
