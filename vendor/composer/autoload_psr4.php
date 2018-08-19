@@ -35,6 +35,7 @@ return array(
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
     'Phpml\\' => array($vendorDir . '/php-ai/php-ml/src'),
+    'PhpScience\\TextRank\\' => array($vendorDir . '/php-science/textrank/src', $vendorDir . '/php-science/textrank/tests'),
     'PhpOffice\\PhpSpreadsheet\\' => array($vendorDir . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Maatwebsite\\Excel\\' => array($vendorDir . '/maatwebsite/excel/src'),

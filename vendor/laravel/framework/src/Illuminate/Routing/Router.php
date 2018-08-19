@@ -224,13 +224,9 @@ class Router implements RegistrarContract, BindingRegistrar
         $placeholder = 'fallbackPlaceholder';
 
         return $this->addRoute(
-<<<<<<< HEAD
-            'GET', "{{$placeholder}}", $action
-=======
             'GET',
             "{{$placeholder}}",
             $action
->>>>>>> 4a1c68990a9613f40c5c80bb1247a6851fcf4af6
         )->where($placeholder, '.*')->fallback();
     }
 
@@ -307,14 +303,10 @@ class Router implements RegistrarContract, BindingRegistrar
         }
 
         return new PendingResourceRegistration(
-<<<<<<< HEAD
-            $registrar, $name, $controller, $options
-=======
             $registrar,
             $name,
             $controller,
             $options
->>>>>>> 4a1c68990a9613f40c5c80bb1247a6851fcf4af6
         );
     }
 
@@ -569,12 +561,8 @@ class Router implements RegistrarContract, BindingRegistrar
     protected function addWhereClausesToRoute($route)
     {
         $route->where(array_merge(
-<<<<<<< HEAD
-            $this->patterns, $route->getAction()['where'] ?? []
-=======
             $this->patterns,
             $route->getAction()['where'] ?? []
->>>>>>> 4a1c68990a9613f40c5c80bb1247a6851fcf4af6
         ));
 
         return $route;
@@ -658,12 +646,8 @@ class Router implements RegistrarContract, BindingRegistrar
 
         $this->events->dispatch(new Events\RouteMatched($route, $request));
 
-<<<<<<< HEAD
-        return $this->prepareResponse($request,
-=======
         return $this->prepareResponse(
             $request,
->>>>>>> 4a1c68990a9613f40c5c80bb1247a6851fcf4af6
             $this->runRouteWithinStack($route, $request)
         );
     }
@@ -1161,11 +1145,7 @@ class Router implements RegistrarContract, BindingRegistrar
         $this->post('logout', 'Auth\LoginController@logout')->name('logout');
 
         // Registration Routes...
-<<<<<<< HEAD
-        $this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-=======
         $this->get('register', 'Auth\RegisterController@index')->name('register');
->>>>>>> 4a1c68990a9613f40c5c80bb1247a6851fcf4af6
         $this->post('register', 'Auth\RegisterController@register');
 
         // Password Reset Routes...
