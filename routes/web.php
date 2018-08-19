@@ -13,39 +13,31 @@
 
 
 Route::group(['middleware' => ['web']], function () {
-    // Auth::routes();
     Route::get('/login', [
     'as' => 'login',
     'uses' => '\App\Http\Controllers\AuthLoginController@showLoginForm'
   ]);
-    Route::post(
-      '/login',
-    ['uses' => '\App\Http\Controllers\AuthLoginController@login'
-]
-);
-    Route::get(
-        '/logout',
-  ['as' => 'logout','uses' => '\App\Http\Controllers\Auth\LoginController@logout'
-]
-);
-    Route::get(
-'/register',
-['as' => 'register',
-'uses' => '\App\Http\Controllers\Auth\RegisterController@index'
-]
-);
 
+    Route::post('/login', [
+      'uses' => '\App\Http\Controllers\AuthLoginController@login'
+  ]);
 
-    Route::post(
-        '/new-admin',
-['as'=>'new.admin',
+    Route::get('/logout', [
+    'as' => 'logout',
+    'uses' => '\App\Http\Controllers\Auth\LoginController@logout'
+  ]);
+
+    Route::get('/register', [
+      'as' => 'register',
+      'uses' => '\App\Http\Controllers\Auth\RegisterController@index'
+    ]);
+
+    Route::post('/new-admin', [
+      'as'=>'new.admin',
   'uses' => '\App\Http\Controllers\Auth\RegisterController@register'
-]
-);
+  ]);
 
     Route::get('/', 'AccountController@index')->name('dashboard');
-
-
 
     Route::get(
       '/accounts-full-list',
@@ -142,15 +134,6 @@ Route::group(['middleware' => ['web']], function () {
       'as' => 'search.job',
     'uses' => '\App\Models\MachineLearning\SmartMatchController@matchDescriptionWithPotentialJobs'
     ]);
-
-    // Route::get('/register', [
-    //   'as' => 'register',
-    //   'uses' => 'AccountController@register',
-    // ]);
-    // Route::get('/register-account',  [
-    //   'as' => 'register.account',
-    // 'uses' => '\App\Models\Mail\MailController@index'
-    // ]);
 });
 
 
