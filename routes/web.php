@@ -46,7 +46,6 @@ Route::group(['middleware' => ['web']], function () {
  ]
   );
 
-
     Route::get('/accounts-new', [
     'as' => 'accounts.new',
   'uses' => '\App\Models\Clients\ClientController@index_account_new'
@@ -72,7 +71,7 @@ Route::group(['middleware' => ['web']], function () {
 'uses' => '\App\Models\Clients\ClientController@add_new_company'
 ]);
 
-Route::get('/telegram',  [
+    Route::get('/telegram', [
   'as' => 'telegram',
 'uses' => '\App\Models\SocialWall\SocialWallController@index'
 ]);
@@ -141,68 +140,66 @@ Route::get('/telegram',  [
 });
 
 
-<<<<<<< HEAD
-Route::get('/employees','employeeController@index');
-Route::get('/employees/{id}','employeeController@show');
-Route::post('/employees/create','employeeController@store');
-Route::delete('/employees/{id}','employeeController@destroy');
-Route::put('/employees/{id}','employeeController@update');
+Route::get('/employees', 'employeeController@index');
+Route::get('/employees/{id}', 'employeeController@show');
+Route::post('/employees/create', 'employeeController@store');
+Route::delete('/employees/{id}', 'employeeController@destroy');
+Route::put('/employees/{id}', 'employeeController@update');
 
 
-Route::get('/projectGroups','ProjectGroupsController@index');
-Route::get('/projectGroups/{id}','ProjectGroupsController@show');
-Route::post('/projectGroups/create','ProjectGroupsController@store');
-Route::delete('/projectGroups/{id}','ProjectGroupsController@destroy');
-Route::put('/projectGroups/{id}','ProjectGroupsController@update');
+Route::get('/projectGroups', 'ProjectGroupsController@index');
+Route::get('/projectGroups/{id}', 'ProjectGroupsController@show');
+Route::post('/projectGroups/create', 'ProjectGroupsController@store');
+Route::delete('/projectGroups/{id}', 'ProjectGroupsController@destroy');
+Route::put('/projectGroups/{id}', 'ProjectGroupsController@update');
 
 
-Route::get('/companies','CompaniesController@index');
-Route::get('/companies/{id}','CompaniesController@show');
-Route::post('/companies/create','CompaniesController@store');
-Route::delete('/companies/{id}','CompaniesController@destroy');
-Route::get('/companies/{id}',  [
+Route::get('/companies', 'CompaniesController@index');
+Route::get('/companies/{id}', 'CompaniesController@show');
+Route::post('/companies/create', 'CompaniesController@store');
+Route::delete('/companies/{id}', 'CompaniesController@destroy');
+Route::get('/companies/{id}', [
   'as' => 'delete.company',
   'uses' => '\App\Http\Controllers\CompaniesController@destroy'
 ]);
-Route::put('/companies/{id}','CompaniesController@update');
+Route::put('/companies/{id}', 'CompaniesController@update');
 
 
-Route::get('/candidates','CandidatesController@index');
-Route::get('/candidates/{id}','CandidatesController@show');
-Route::post('/candidates/create','CandidatesController@store');
-Route::delete('/candidates/{id}','CandidatesController@destroy');
-Route::put('candidates/{id}','CandidatesController@update');
+Route::get('/candidates', 'CandidatesController@index');
+Route::get('/candidates/{id}', 'CandidatesController@show');
+Route::post('/candidates/create', 'CandidatesController@store');
+Route::delete('/candidates/{id}', 'CandidatesController@destroy');
+Route::put('candidates/{id}', 'CandidatesController@update');
 
-Route::get('/results','ResultsController@index');
-Route::get('/results/{id}','ResultsController@show');
-Route::post('/results/create','ResultsController@store');
-Route::delete('/results/{id}','ResultsController@destroy');
-Route::put('results/{id}','ResultsController@update');
+Route::get('/results', 'ResultsController@index');
+Route::get('/results/{id}', 'ResultsController@show');
+Route::post('/results/create', 'ResultsController@store');
+Route::delete('/results/{id}', 'ResultsController@destroy');
+Route::put('results/{id}', 'ResultsController@update');
 
-Route::get('/interests','InterestsController@index');
-Route::get('/interests/{id}','InterestsController@show');
-Route::post('/interests/create','InterestsController@store');
-Route::delete('/interests/{id}','InterestsController@destroy');
-Route::put('/interests/{id}','InterestsController@update');
+Route::get('/interests', 'InterestsController@index');
+Route::get('/interests/{id}', 'InterestsController@show');
+Route::post('/interests/create', 'InterestsController@store');
+Route::delete('/interests/{id}', 'InterestsController@destroy');
+Route::put('/interests/{id}', 'InterestsController@update');
 
-Route::get('/fields','FieldsController@index');
-Route::get('/fields/{id}','FieldsController@show');
-Route::post('/fields/create','FieldsController@store');
-Route::delete('/fields/{id}','FieldsController@destroy');
-Route::put('/fields/{id}','FieldsController@update');
+Route::get('/fields', 'FieldsController@index');
+Route::get('/fields/{id}', 'FieldsController@show');
+Route::post('/fields/create', 'FieldsController@store');
+Route::delete('/fields/{id}', 'FieldsController@destroy');
+Route::put('/fields/{id}', 'FieldsController@update');
 
-Route::get('/messages','MessagesController@index');
-Route::get('/messages/{id}','MessagesController@show');
-Route::post('/messages/create','MessagesController@store');
-Route::delete('/messages/{id}','MessagesController@destroy');
-Route::put('/messages/{id}','MessagesController@update');
+Route::get('/messages', 'MessagesController@index');
+Route::get('/messages/{id}', 'MessagesController@show');
+Route::post('/messages/create', 'MessagesController@store');
+Route::delete('/messages/{id}', 'MessagesController@destroy');
+Route::put('/messages/{id}', 'MessagesController@update');
 
-Route::get('/likes','LikesController@index');
-Route::get('/likes/{like}','LikesController@show');
-Route::post('/likes/create','LikesController@store');
-Route::delete('/likes/{like}','LikesController@destroy');
-Route::put('/likes/{like}','LikesController@update');
-=======
+Route::get('/likes', 'LikesController@index');
+Route::get('/likes/{like}', 'LikesController@show');
+Route::post('/likes/create', 'LikesController@store');
+Route::delete('/likes/{like}', 'LikesController@destroy');
+Route::put('/likes/{like}', 'LikesController@update');
 //API
 
 Route::get('/employees', 'employeeController@index');
@@ -272,19 +269,18 @@ Route::get('/tasks/{id}', 'TasksController@show');
 Route::post('/tasks/create', 'TasksController@store');
 Route::delete('/tasks/{id}', 'TasksController@destroy');
 Route::put('/tasks/{id}', 'TasksController@update');
->>>>>>> 4a1c68990a9613f40c5c80bb1247a6851fcf4af6
 
-Route::get('/resumes','ResumesController@index');
-Route::get('/resumes/{id}','ResumesController@show');
-Route::post('/resumes/create','ResumesController@store');
-Route::delete('/resumes/{id}','ResumesController@destroy');
-Route::put('/resumes/{id}','ResumesController@update');
+Route::get('/resumes', 'ResumesController@index');
+Route::get('/resumes/{id}', 'ResumesController@show');
+Route::post('/resumes/create', 'ResumesController@store');
+Route::delete('/resumes/{id}', 'ResumesController@destroy');
+Route::put('/resumes/{id}', 'ResumesController@update');
 
-Route::get('/tasks','TasksController@index');
-Route::get('/tasks/{id}','TasksController@show');
-Route::post('/tasks/create','TasksController@store');
-Route::delete('/tasks/{id}','TasksController@destroy');
-Route::put('/tasks/{id}','TasksController@update');
+Route::get('/tasks', 'TasksController@index');
+Route::get('/tasks/{id}', 'TasksController@show');
+Route::post('/tasks/create', 'TasksController@store');
+Route::delete('/tasks/{id}', 'TasksController@destroy');
+Route::put('/tasks/{id}', 'TasksController@update');
 
 Auth::routes();
 Route::resource('/gcalendar', 'gCalendarController');
