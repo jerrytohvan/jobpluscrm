@@ -13,8 +13,8 @@ function getClient()
 {
     $client = new Google_Client();
     $client->setApplicationName('Google Calendar API PHP Quickstart');
-    $client->setScopes(Google_Service_Calendar::CALENDAR_READONLY);
-    $client->setAuthConfig('client_secret.json');
+    $client->setScopes(Google_Service_Calendar::CALENDAR);
+    $client->setAuthConfig('FYPCALAPI-36e1f070d86b.json');
     $client->setAccessType('offline');
 
     // Load previously authorized credentials from a file.
@@ -42,6 +42,7 @@ function getClient()
 
     // Refresh the token if it's expired.
     if ($client->isAccessTokenExpired()) {
+        echo "token has expiredddddd";
         $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
         file_put_contents($credentialsPath, json_encode($client->getAccessToken()));
     }
@@ -53,6 +54,37 @@ function getClient()
 $client = getClient();
 $service = new Google_Service_Calendar($client);
 
+$event = new Google_Service_Calendar_Event(array(
+    'summary' => 'Google I/O 2015',
+    'location' => '800 Howard St., San Francisco, CA 94103',
+    'description' => 'A chance to hear more about Google\'s developer products.',
+    'start' => array(
+      'dateTime' => '1532529178132',
+      'timeZone' => 'America/Los_Angeles',
+    ),
+    'end' => array(
+      'dateTime' => '1532629178132',
+      'timeZone' => 'America/Los_Angeles',
+    ),
+    'recurrence' => array(
+      'RRULE:FREQ=DAILY;COUNT=2'
+    ),
+    'attendees' => array(
+      array('email' => 'lpage@example.com'),
+      array('email' => 'sbrin@example.com'),
+    ),
+    'reminders' => array(
+      'useDefault' => FALSE,
+      'overrides' => array(
+        array('method' => 'email', 'minutes' => 24 * 60),
+        array('method' => 'popup', 'minutes' => 10),
+      ),
+    ),
+  ));
+  
+  $calendarId = 'primary';
+  $event = $service->events->insert($calendarId, $event);
+  printf('Event created: %s\n', $event->htmlLink);
 // Print the next 10 events on the user's calendar.
 $calendarId = 'primary';
 $optParams = array(

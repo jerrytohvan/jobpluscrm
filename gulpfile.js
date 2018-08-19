@@ -26,7 +26,7 @@ elixir(function(mix) {
     mix.copy('bower_components/gentelella/vendors/font-awesome/css/font-awesome.min.css', 'public/css/font-awesome.min.css');
 
     // Gentelella
-    mix.copy('bower_components/gentelella/build/css/custom.min.css', 'public/css/gentelella.min.css');
+    mix.sass('../../../bower_components/gentelella/src/scss/custom.scss','public/css/custom.css');
 
     // bootstrap-daterangepicker
     mix.copy('bower_components/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.css', 'public/css/daterangepicker.css');
@@ -157,7 +157,7 @@ elixir(function(mix) {
     mix.copy('bower_components/gentelella/vendors/flot.curvedlines/curvedLines.js', 'public/js/curvedLines.js');
 
     //datejs
-    mix.copy('bower_components/gentelella/vendors/DateJS/build/date.js', 'public/js/date.js');
+    mix.copy('bower_components/gentelella/bower_components/DateJS/build/date.js', 'public/js/date.js');
 
     //bootstrap-daterangepicker
     mix.copy('bower_components/gentelella/vendors/moment/min/moment.min.js', 'public/js/moment.min.js');
@@ -241,8 +241,11 @@ elixir(function(mix) {
         mix.copy('bower_components/gentelella/bower_components/pdfmake/build/pdfmake.min.js', 'public/js/pdfmake.min.js');
         mix.copy('bower_components/gentelella/bower_components/pdfmake/build/vfs_fonts.js', 'public/js/vfs_fonts.js');
 
+        // smart wizard
+        mix.copy('bower_components/gentelella/bower_components/jQuery-Smart-Wizard/js/jquery.smartWizard.js', 'public/js/jquery.smartWizard.js');
+
         // Gentelella
-        mix.copy('bower_components/gentelella/build/js/custom.min.js', 'public/js/gentelella.min.js');
+        mix.copy('bower_components/gentelella/src/js/custom.js', 'public/js/gentelella.js');
 
     /**************/
     /* Copy Fonts */

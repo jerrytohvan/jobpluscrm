@@ -6,28 +6,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class Result extends Model
 {
-  public function candidates()
-  {
-     return $this->hasMany('App\Models\Clients\Candidate');
-  }
+    public $timestamps = false;
+    
+    public function candidates()
+    {
+        return $this->hasMany('App\Models\Clients\Candidate');
+    }
 
-  public function fields()
-  {
-      return $this->hasMany('App\Models\Fields\Field');
-  }
+    public function fields()
+    {
+        return $this->hasMany('App\Models\Fields\Field');
+    }
 
-  public function interests()
-  {
-      return $this->hasMany('App\Models\Interests\Interest');
-  }
+    public function interests()
+    {
+        return $this->hasMany('App\Models\Interests\Interest');
+    }
 
-  public function users()
-  {
-      return $this->hasMany('App\Models\Users\User');
-  }
+    public function users()
+    {
+        return $this->hasMany('App\Models\Users\User');
+    }
 
-  public function projectGroups()
-  {
-      return $this->hasMany('App\Models\ProjectGroups\ProjectGroup');
-  }
+    public function projectGroups()
+    {
+        return $this->hasMany('App\Models\ProjectGroups\ProjectGroup');
+    }
 }

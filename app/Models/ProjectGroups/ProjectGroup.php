@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProjectGroup extends Model
 {
+   
   public function users()
   {
       return $this->hasMany('App\Models\Users\User');
