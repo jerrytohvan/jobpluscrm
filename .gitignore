@@ -9,7 +9,6 @@
 .idea
 .DS_Store
 .sass-cache
-database.php
 *.csv
 node_modules/
 vendor/
