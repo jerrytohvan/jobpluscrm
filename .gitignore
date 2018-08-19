@@ -10,7 +10,6 @@
 .DS_Store
 .sass-cache
 database.php
-.env
 *.csv
 node_modules/
 vendor/
