@@ -20,8 +20,6 @@
   <!-- Custom Theme Style -->
   <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 
-  <!--  dropzone  -->
-   <link href="{{ asset('css/dropzone.min.css') }}" rel="stylesheet">
 
    <!-- NProgress -->
    <link href="{{ asset('css/nprogress.css') }}" rel="stylesheet">
@@ -127,8 +125,6 @@
         <!-- bootstrap-wysihtml5  -->
         <script src="{{ asset('js/bootstrap-wysiwyg.min.js') }}"></script>
 
-        <!-- Dropzone -->
-        <script src="{{ asset('js/dropzone.min.js') }}"></script>
 
         <!-- Custom Theme Scripts -->
         <script src="{{ asset('js/gentelella.min.js') }}"></script>

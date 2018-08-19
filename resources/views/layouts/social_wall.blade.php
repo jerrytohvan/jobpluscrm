@@ -11,7 +11,16 @@
   </div>
 
   <section class="row new-post">
-      <div class="col-md-6 col-md-offset-3">
+    <!--Add profile img-->
+    <div class="col-md-2 col-md-offset-1">
+        <div class="x_panel">
+            <img class="center-block" src="https://secure.gravatar.com/avatar/ef76f4019c437fa1ea0b8345486ba571?s=80&r=g&d=identicon" style="width:129px; height:129px;"/>
+        </div>
+    </div>
+    <!-- /Add profile img -->
+
+      <div class="col-md-6">
+         <div class="x_panel"> <!-- panel --> 
           <header><h3>What do you have to say?</h3></header>
             {{  Form::open(['route' => 'new.post','method'=>'post']) }}
               <div class="form-group">
@@ -19,29 +28,39 @@
               </div>
               {{ Form::submit('Create Post', ['class'=>'btn btn-primary']) }}
           {!! Form::close() !!}
-         </div>
+         </div> <!-- /panel --> 
+      </div>
   </section>
+
   <section class="row posts">
       <div class="col-md-6 col-md-offset-3">
           <header><h3>Past Announcements</h3></header>
           @foreach($posts as $post)
+           <div class="x_panel">  <!-- panel for post -->
               <article class="post" data-postid="{{ $post->id }}">
                   <p>{{ $post->content }}</p>
                   <div class="info">
                       Posted by {{ $post->user->name }} on {{ $post->created_at }}
                   </div>
-                  <div class="interaction">
-                    <!-- Should use icon when liked, light up icon and grey icon -->
-                      <a href="#" class="like">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like'  }}</a> |
-                      @if(Auth::user() == $post->user)
 
-                          <a data-id="{{ $post->id }}" data-content="{{ $post->content }}" class="edit" id="Edit-modal"
-                                 href="#edit-modal">Edit</a>
-                          |
-                          <a href="{{ route('delete.post', ['post_id' => $post->id]) }}">Delete</a>
+                  <!-- Adding button  -->
+                  <div class="interaction">
+                    
+                    <!-- Should use icon when liked, light up icon and grey icon -->
+                      <button type="button" class="btn btn-default btn-xs fa fa-heart-o"><a href="#" class="like">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like'  }}</a></button> 
+                      @if(Auth::user() == $post->user) 
+
+                      <button type="button" class="btn btn-default btn-xs fa fa-edit"><a data-id="{{ $post->id }}" data-content="{{ $post->content }}" class="edit" id="Edit-modal"
+                                 href="#edit-modal">Edit</a></button>
+                          
+                      <button type="button" class="btn btn-default btn-xs fa fa-trash"><a href="{{ route('delete.post', ['post_id' => $post->id]) }}">Delete</a></button>
+                        
                       @endif
                   </div>
+                  <!-- /Adding button  -->
+                  
               </article>
+            </div>  <!-- /panel for post -->
           @endforeach
       </div>
   </section>
