@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'pgsql'),
+    'default' => env('DB_CONNECTION', 'pgsql_production'),
 
     /*
     |--------------------------------------------------------------------------
@@ -49,17 +49,27 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' =>'127.0.0.1',
-            'port' =>  '5432',
-            'database' =>  'jobplus',
-            'username' => 'postgres',
-            'password' => 'gabriel357',
+            'host' => env('DB_HOST', 'localhost'),
+            'port' =>   env('DB_PORT', '5432'),
+            'database' =>   env('DB_HOST', 'jobplus'),
+            'username' =>  env('DB_USERNAME', 'postgres'),
+            'password' =>  env('DB_PASSWORD', 'root'),
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
-            'sslmode' => 'prefer',
+            'sslmode' => 'require',
         ],
-
+        'pgsql_production' => [
+            'driver' => 'pgsql',
+            'host' => env('DB_HOST'),
+            'port' =>   env('DB_PORT'),
+            'database' =>   env('DB_DATABASE'),
+            'username' =>  env('DB_USERNAME'),
+            'password' =>  env('DB_PASSWORD'),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'schema' => 'public',
+        ],
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'host' => env('DB_HOST', 'localhost'),

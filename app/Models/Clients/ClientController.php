@@ -18,8 +18,6 @@ class ClientController extends Controller
   public function index_account_full_list()
   {
     $accounts = $this->svc->getAllAccount();
-    //print(sizeof($accounts));
-     print(gettype($accounts));
       return view('layouts.accounts_fulllist',compact('accounts'));
   }
   public function index_account_new()

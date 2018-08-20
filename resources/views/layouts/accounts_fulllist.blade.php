@@ -56,10 +56,8 @@
                         </tr>
                       </thead>
                       <tbody>
-                        {{gettype($accounts)}}
                         @foreach ($accounts as $account)
                         <tr>
-                          <!-- echo gettype($account) -->
                           <td>{{ $account->name }}</td>
                           <td>{{ $account->title }}</td>
                           <td>{{ $account->email }}</td>

@@ -61,7 +61,6 @@
 
 
                       <tbody>
-                        {{sizeof($companies)}}
                         @foreach ($companies as $company)
                         <tr>
                           <td>{{ $company->name}}</td>

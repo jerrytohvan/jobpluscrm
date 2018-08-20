@@ -64,18 +64,11 @@
               </li>
               <li><a href="{{ route('index.smart.match') }}"><i class="fa fa-magic"></i> Smart Match </a>
               </li>
-              <li><a href="{{ route('settings') }}"><i class="fa fa-bar-chart-o"></i> Telegram</a></li>
-              <li><a href="{{ route('settings') }}"><i class="fa fa-bar-chart-o"></i> Settings</a>
+              <!-- <li><a href="{{ route('settings') }}"><i class="fa fa-bar-chart-o"></i> Telegram</a></li> -->
 
             </ul>
           </div>
-          <div class="menu_section">
-            <h3>Samples</h3>
-            <ul class="nav side-menu">
-              <li><a><i class="fa fa-bug"></i> Sample Page </span></a>
-              </li>
-            </ul>
-          </div>
+
 
         </div>
         <!-- /sidebar menu -->
@@ -83,13 +76,13 @@
         <!-- /menu footer buttons -->
         <div class="sidebar-footer hidden-small">
           <a data-toggle="tooltip" data-placement="top" title="Settings">
-            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            <!-- <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> -->
           </a>
           <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+            <!-- <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span> -->
           </a>
           <a data-toggle="tooltip" data-placement="top" title="Lock">
-            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+            <!-- <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> -->
           </a>
           <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{ route('logout') }}">
             <span class="glyphicon glyphicon-off" aria-hidden="true"></span>

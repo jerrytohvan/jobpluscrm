@@ -23,7 +23,9 @@ class MLService
         $stopWords = new English();
         $this->api->setStopWords($stopWords);
 
-        $this->stopwords =  file(storage_path('app/stop_words.txt'));
+        // $this->stopwords =  file(storage_path('app/stop_words.txt'));
+        $this->stopwords =  file(public_path('/stop_words.txt'));
+
         // Remove line breaks and spaces from stopwords
         $this->stopwords = array_map(function ($x) {
             return trim(strtolower($x));

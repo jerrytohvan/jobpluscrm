@@ -54,10 +54,6 @@ class ClientService
 
   public function getAllAccount(){
     $employee = Employee::all();
-
-
-// print(sizeof($employee));
-// print($employee);
     return $employee;
   }
 
