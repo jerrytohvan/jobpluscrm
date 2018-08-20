@@ -21,7 +21,7 @@ class SmartMatchController extends Controller
     public function matchDescriptionWithPotentialJobs()
     {
         $file = request()->file('resume');
-        $path = base_path()."/public/storage/";
+        $path = public_path()."/storage/";
         $file->move($path, $file->getClientOriginalName());
         $original_name = $file->getClientOriginalName();
         $interest = explode(',', request()->get('interest'));
