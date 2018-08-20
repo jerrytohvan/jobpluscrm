@@ -78,6 +78,7 @@ class CompaniesController extends Controller
     {
         //
         return $this->svc->destroyCompany($id);
+        return redirect()->route('companies.fulllist')->with(['message' => 'Successfully deleted!']);
     }
 
 }

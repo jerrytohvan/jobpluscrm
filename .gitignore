@@ -9,7 +9,10 @@
 .idea
 .DS_Store
 .sass-cache
-database.php
+*.csv
+node_modules/
+vendor/
+
 Thumbs.db     # [1]
 ehthumbs.db   # [1]
 Desktop.ini   # [2]
@@ -22,12 +25,10 @@ $RECYCLE.BIN  # [3]
 logs
 *.log
 npm-debug.log*
-node_modules
-yarn.lock
-package-lock.json
 
 # ----------------------------
 # Project Folders
 # ----------------------------
 
 build/
+vendor/

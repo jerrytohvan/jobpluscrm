@@ -24,7 +24,7 @@ class Employee extends Model
 
   public function company()
   {
-      return $this->belongsTo('App\Models\Clients\Company');
+      return $this->belongsTo('App\Models\Clients\Company','id');
   }
 
   public function events()

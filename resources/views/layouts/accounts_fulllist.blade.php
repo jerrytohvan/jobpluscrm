@@ -12,7 +12,6 @@
 
 
 @section('content')
-
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
@@ -56,17 +55,15 @@
                           <th>Company</th>
                         </tr>
                       </thead>
-
-
                       <tbody>
                         @foreach ($accounts as $account)
                         <tr>
-                          <td>{{ $account->name}}</td>
-                          <td>{{ $account->title}}</td>
-                          <td>{{ $account->email}}</td>
-                          <td>{{ $account->handphone}}</td>
+                          <td>{{ $account->name }}</td>
+                          <td>{{ $account->title }}</td>
+                          <td>{{ $account->email }}</td>
+                          <td>{{ $account->handphone }}</td>
                           <td>{{ $account->telephone == null ? "-" : $account->telephone }}</td>
-                          <td>{{ $account->company->name}}</td>
+                          <td>{{ $account->company->name }}</td>
                         </tr>
                         @endforeach
                       </tbody>

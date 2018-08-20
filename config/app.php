@@ -40,7 +40,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://localhost:8000'),
 
     /*
     |--------------------------------------------------------------------------
@@ -149,6 +149,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Illuminate\Notifications\NotificationServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -159,11 +160,11 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
 
-		Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider::class,
-		Conner\Tagging\Providers\TaggingServiceProvider::class,
-		Collective\Html\HtmlServiceProvider::class,
-		Watson\BootstrapForm\BootstrapFormServiceProvider::class,
-		Spatie\Permission\PermissionServiceProvider::class,
+        Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider::class,
+        Conner\Tagging\Providers\TaggingServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
+        Watson\BootstrapForm\BootstrapFormServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
     ],
 
     /*
@@ -209,11 +210,13 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-    		'Notification' => Illuminate\Support\Facades\Notification::class,
-    		'Gravatar' => Thomaswelton\LaravelGravatar\Facades\Gravatar::class,
-    		'Form' => Collective\Html\FormFacade::class,
-    		'Html' => Collective\Html\HtmlFacade::class,
-    		'BootForm' => Watson\BootstrapForm\Facades\BootstrapForm::class,
+            'Notification' => Illuminate\Support\Facades\Notification::class,
+            'Gravatar' => Thomaswelton\LaravelGravatar\Facades\Gravatar::class,
+            'Form' => Collective\Html\FormFacade::class,
+            'Html' => Collective\Html\HtmlFacade::class,
+            'BootForm' => Watson\BootstrapForm\Facades\BootstrapForm::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+
     ],
 
 ];
