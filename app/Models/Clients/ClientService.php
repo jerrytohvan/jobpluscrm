@@ -53,6 +53,12 @@ class ClientService
   }
 
   public function getAllAccount(){
-    return Employee::with('company')->get()->sortBy('employee.name');
+    $employee = Employee::all();
+
+
+// print(sizeof($employee));
+// print($employee);
+    return $employee;
   }
+
 }
