@@ -64,18 +64,11 @@
               </li>
               <li><a href="{{ route('index.smart.match') }}"><i class="fa fa-magic"></i> Smart Match </a>
               </li>
-              <li><a href="{{ route('settings') }}"><i class="fa fa-bar-chart-o"></i> Telegram</a></li>
-              <li><a href="{{ route('settings') }}"><i class="fa fa-bar-chart-o"></i> Settings</a>
+              <!-- <li><a href="{{ route('settings') }}"><i class="fa fa-bar-chart-o"></i> Telegram</a></li> -->
 
             </ul>
           </div>
-          <div class="menu_section">
-            <h3>Samples</h3>
-            <ul class="nav side-menu">
-              <li><a><i class="fa fa-bug"></i> Sample Page </span></a>
-              </li>
-            </ul>
-          </div>
+
 
         </div>
         <!-- /sidebar menu -->
