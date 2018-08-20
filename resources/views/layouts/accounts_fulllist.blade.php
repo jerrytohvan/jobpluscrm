@@ -63,7 +63,7 @@
                           <td>{{ $account->email }}</td>
                           <td>{{ $account->handphone }}</td>
                           <td>{{ $account->telephone == null ? "-" : $account->telephone }}</td>
-                          <td>{{ $account->company->name }}</td>
+                          <td>{{ $account == null ? "-" : $account->company == null ? "-":$account->company->name }}</td>
                         </tr>
                         @endforeach
                       </tbody>
