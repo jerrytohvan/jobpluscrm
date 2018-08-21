@@ -7,11 +7,11 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Events\Event;
-// use App\Models\Events\EventServices;
+// use App\Models\Events\EventService;
 
 class CalendarController extends Controller
 {
-  public function __construct(EventServices $eventSvc)
+  public function __construct(EventService $eventSvc)
   {
       $this->svc =$eventSvc;
   }

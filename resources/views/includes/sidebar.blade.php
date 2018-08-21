@@ -51,7 +51,7 @@
             @endif
             <li><a href="{{ route('index.mail') }}"><i class="fa fa-envelope-o"></i>Mail</a>
             </li>
-            <li><a href="{{ route('index.calendar') }}"><i class="fa fa-calendar"></i>Calendar</a>
+            <!-- <li><a href="{{ route('index.calendar') }}"><i class="fa fa-calendar"></i>Calendar</a> -->
             </li>
             <li><a href="{{ route('index.event') }}"><i class="fa fa-clock-o"></i>Tasks</a>
             </li>
