@@ -37,11 +37,11 @@ class MLServiceTest extends TestCase
     }
 
     /** @test */
-    public function can_add_sample_data_to_db()
-    {
-        //localfiles only
-        $data = $this->svc->setDataIntoDB(public_path()  . '/data_samples.csv');
-    }
+    // public function can_add_sample_data_to_db()
+    // {
+    //     //localfiles only
+    //     $data = $this->svc->setDataIntoDB(public_path()  . '/data_samples.csv');
+    // }
 
     // /** @test */
     // public function can_parse_files_to_text()

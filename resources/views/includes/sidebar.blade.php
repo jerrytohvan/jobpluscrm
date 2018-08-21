@@ -60,7 +60,7 @@
                   <li><a href="{{ route('accounts.fulllist') }}">Full list</a></li>
                   <li><a href="{{ route('accounts.new') }}">New</a></li>
                 </ul>
-              <li><a href="{{ route('data.presentation') }}"><i class="fa fa-table"></i> Data Presentation</a>
+              <!-- <li><a href="{{ route('data.presentation') }}"><i class="fa fa-table"></i> Data Presentation</a> -->
               </li>
               <li><a href="{{ route('index.smart.match') }}"><i class="fa fa-magic"></i> Smart Match </a>
               </li>
