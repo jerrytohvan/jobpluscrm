@@ -7,29 +7,31 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Events\Event;
-// use App\Models\Events\EventService;
+use App\Models\Events\EventService;
 
 class CalendarController extends Controller
 {
-  public function __construct(EventService $eventSvc)
-  {
-      $this->svc =$eventSvc;
-  }
-  public function index(){
-    return view('layouts.index_calendar');
-  }
-
-  public function add_new_event(Request $request){
-    $event = $this->svc->addEvent($request);
-    if($event == null){
-      $message = "Failed to add company!";
-      $status = 0;
+    public function __construct(EventService $eventSvc)
+    {
+        $this->svc =$eventSvc;
     }
-    return view('layouts.index_calendar',compact('status', 'message'));
-  }
+    public function index()
+    {
+        return view('layouts.index_calendar');
+    }
 
-  public function update_event(Request $request){
-    $event = $this->svc->updateEvent($id,$request);
-  }
+    public function add_new_event(Request $request)
+    {
+        $event = $this->svc->addEvent($request);
+        if ($event == null) {
+            $message = "Failed to add company!";
+            $status = 0;
+        }
+        return view('layouts.index_calendar', compact('status', 'message'));
+    }
 
+    public function update_event(Request $request)
+    {
+        $event = $this->svc->updateEvent($id, $request);
+    }
 }
