@@ -9,27 +9,26 @@
 .idea
 .DS_Store
 .sass-cache
-database.php
-.env
-*.csv
+data_samples.csv
+data_job_posts.csv
+job_skills.csv
+naukri_com-job_sample.csv
+reed_uk.csv
 node_modules/
 vendor/
-composer.lock
 
 Thumbs.db     # [1]
 ehthumbs.db   # [1]
 Desktop.ini   # [2]
 $RECYCLE.BIN  # [3]
 
-# ----------------------------
+# -----------------------s-----
 # Packaging
 # ----------------------------
 
 logs
 *.log
 npm-debug.log*
-yarn.lock
-package-lock.json
 
 # ----------------------------
 # Project Folders

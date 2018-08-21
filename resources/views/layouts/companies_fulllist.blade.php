@@ -55,6 +55,7 @@
                           <th>Industry</th>
                           <th>Website</th>
                           <th>Made Transaction?</th>
+                          <th>id</th>
                         </tr>
                       </thead>
 
@@ -69,6 +70,9 @@
                           <td>{{ $company->industry}}</td>
                           <td>{{ $company->website}}</td>
                           <td>{{ $company->transaction ? "Yes" : "No"}}</td>
+                          <td>
+                                <button type="button" class="btn btn-default btn-xs fa fa-trash"><a href="{{ route('delete.company', ['company_id' => $company->id]) }}">Delete</a></button>
+                          <td>
                         </tr>
                         @endforeach
                       </tbody>

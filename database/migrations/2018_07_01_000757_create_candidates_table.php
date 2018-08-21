@@ -18,6 +18,8 @@ class CreateCandidatesTable extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('handphone');
+            $table->integer('working_experience');
+            $table->integer('graduation_year');
             $table->integer('interest_id')->nullable();
             $table->boolean('type')->default(false); //1=candidate, 2=application
             $table->integer('field_id');

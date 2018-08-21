@@ -35,9 +35,9 @@ $factory->define(User::class, function (Faker\Generator $faker) {
 
 $factory->defineAs(User::class, 'admin', function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
-        'email' => 'admin@jobpluscrm.com',
-        'password' => bcrypt("admin"),
+        'name' => 'admin',
+        'email' =>'admin@jobpluscrm.com',
+        'password' => bcrypt('admin'),
         'admin' => true,
         'remember_token' => str_random(10),
     ];
@@ -69,7 +69,7 @@ $factory->define(Employee::class, function (Faker\Generator $faker) {
         'handphone' => $faker->phoneNumber,
         'email' => $faker->companyEmail,
         'telephone' => $faker->phoneNumber,
-        'company_id' => array_rand($companies,1)
+        'company_id' => array_rand($companies, 1)
     ];
 });
 
@@ -87,6 +87,8 @@ $factory->define(Candidate::class, function (Faker\Generator $faker) {
         'name' => $faker->unique()->name,
         'email' => $faker->companyEmail,
         'handphone' => $faker->phoneNumber,
+        'working_experience' => $faker->randomDigit,
+        'graduation_year' => $faker->randomDigit,
         'interest_id' => $faker->randomDigit,
         'type' => false,
         'field_id' =>$faker ->randomDigit

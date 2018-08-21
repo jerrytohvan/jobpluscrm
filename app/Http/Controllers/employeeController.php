@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employees\Employee;
+use App\Models\Employees\EmployeeService;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
 
-    // public function __construct(EmployeeService $employeeSvc)
-    // {
-    //     $this->employeeSvc = $employeeSvc;
-    // }
+    public function __construct(EmployeeService $employeeSvc)
+    {
+        $this->svc = $employeeSvc;
+        // $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -34,19 +36,10 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Employee $employee)
     {
         //
-        $employee = new Employee;
-        $employee->id = $request->id;
-        $employee->name = $request->name;
-        $employee->title = $request->title;
-        $employee->handphone = $request->handphone;
-        $employee->email = $request->email;
-        $employee->telephone = $request->telephone;
-        $employee->company_id = $request->company_id;
-        $employee->save();
-        return $employee;
+        return $this->svc->storeEmployee(request()->all());
     }
 
     /**
@@ -70,18 +63,10 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
-        $employee = Employee::find($id);
-        $employee->name = $request->name;
-        $employee->title = $request->title;
-        $employee->handphone = $request->handphone;
-        $employee->email = $request->email;
-        $employee->telephone = $request->telephone;
-        $employee->company_id = $request->company_id;
-        $employee->update();
-        return $employee;
+        return $this->svc->updateEmployee($id, request()->all());
     }
 
     /**

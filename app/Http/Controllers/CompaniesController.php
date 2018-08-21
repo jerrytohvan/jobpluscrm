@@ -4,11 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Clients\Company;
+use App\Models\Clients\CompanyService;
 use Illuminate\Http\Request;
 
 class CompaniesController extends Controller
 {
     //
+    public function __construct(CompanyService $companySvc)
+    {
+        $this->svc = $companySvc;
+        // $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -29,24 +35,10 @@ class CompaniesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Company $company)
     {
         //
-        $company = new Company;
-        $company->id = $request->id;
-        $company->name = $request->name;
-        $company->address = $request->address;
-        $company->email = $request->email;
-        $company->telephone_no = $request->telephone_no;
-        $company->fax_no = $request->fax_no;
-        $company->website = $request->website;
-        $company->no_employees = $request->no_employees;
-        $company->industry = $request->industry;
-        $company->lead_source = $request->lead_source;
-        $company->transaction = $request->transaction;
-        $company->description = $request->description;
-        $company->save();
-        return $company;
+        return $this->svc->storeCompany(request()->all());
     }
 
     /**
@@ -70,23 +62,10 @@ class CompaniesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
-        $company = Company::find($id);
-        $company->name = $request->name;
-        $company->address = $request->address;
-        $company->email = $request->email;
-        $company->telephone_no = $request->telephone_no;
-        $company->fax_no = $request->fax_no;
-        $company->website = $request->website;
-        $company->no_employees = $request->no_employees;
-        $company->industry = $request->industry;
-        $company->lead_source = $request->lead_source;
-        $company->transaction = $request->transaction;
-        $company->description = $request->description;
-        $company->update();
-        return $company;
+        return $this->svc->updateCompany($id, request()->all());
     }
 
     /**
@@ -98,8 +77,8 @@ class CompaniesController extends Controller
     public function destroy($id)
     {
         //
-        Company::findOrFail($id)->delete();
-        return 204;
+        return $this->svc->destroyCompany($id);
+        return redirect()->route('companies.fulllist')->with(['message' => 'Successfully deleted!']);
     }
 
 }

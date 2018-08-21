@@ -5,10 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Results\Result;
+use App\Models\Results\ResultService;
 
 class ResultsController extends Controller
 {
     //
+    public function __construct(ResultService $resultSvc)
+    {
+        $this->svc = $resultSvc;
+        // $this->middleware('auth');
+    }
 
      /**
      * Display a listing of the resource.
@@ -30,18 +36,10 @@ class ResultsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Result $result)
     {
         //
-        $result = new Result;
-        $result->id = $request->id;
-        $result->interest_id = $request->interest_id;
-        $result->field_id = $request->field_id;
-        $result->candidate_id = $request->candidate_id;
-        $result->user_id = $request->user_id;
-        $result->project_group_id = $request->project_group_id;
-        $result->save();
-        return $result;
+        return $this->svc->storeResult(request()->all());
     }
 
     /**
@@ -65,17 +63,10 @@ class ResultsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
-        $result = Result::find($id);
-        $result->interest_id = $request->interest_id;
-        $result->field_id = $request->field_id;
-        $result->candidate_id = $request->candidate_id;
-        $result->user_id = $request->user_id;
-        $result->project_group_id = $request->project_group_id;
-        $result->update();
-        return $result;
+        return $this->svc->updateResult($id, request()->all());
     }
 
     /**
@@ -87,7 +78,6 @@ class ResultsController extends Controller
     public function destroy($id)
     {
         //
-        Result::findOrFail($id)->delete();
-        return 204;
+        return $this->svc->destroyResult($id);
     }
 }

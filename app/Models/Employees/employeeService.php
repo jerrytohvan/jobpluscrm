@@ -3,17 +3,54 @@
 namespace App\Models\Employees;
 
 use Illuminate\Http\Request;
+use App\Models\Employees\Employee;
 
 class EmployeeService
 {
-    public function addEmployee($request)
-    {
-        $employee = new Employee();
-        $employee->id = $request.id;
-        $employee->name = $request.name;
-        $employee->title = $request.handphone;
-        $employee->email = $request.email;
-        $employee->telephone = $request.telephone;
-        $employee->company_id = $request.company_id;
+     /**
+   * Store a newly created resource in storage.
+   *
+   * @param  Array $array
+   * @return \Illuminate\Http\Response
+   */
+  public function storeEmployee($array)
+  {
+      return Employee::Create([
+        'name' => $array['name'],
+        'title' => $array['title'],
+        'handphone' => $array['handphone'],
+        'email' => $array['email'],
+        'telephone' => $array['telephone'],
+        'company_id' => $array['company_id']
+      ]);
+  }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  Like $like
+   * @param  Array  $array
+   * @return \Illuminate\Http\Response
+   */
+  public function updateEmployee($id, $array)
+  {
+    $employee = Employee::find($id);
+    foreach($array as $key => $value){
+      $employee->$key = $value;
     }
+      $employee->save();
+      return $employee;
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  Like  $like
+   * @return \Illuminate\Http\Response
+   */
+  public function destroyEmployee($id)
+  {
+    Employee::findOrFail($id)->delete();
+    return 204;
+  }
 }
