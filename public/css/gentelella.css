@@ -21,6 +21,12 @@
   overflow: visible;
 }
 
+.nav-sm .container.body .col-md-3.left_col .parent.navbar.nav_title {
+  padding-top: 25%;
+  height: 100%;
+  width: 100%;
+}
+
 .nav-sm .hidden-small {
   visibility: hidden;
 }
@@ -258,6 +264,11 @@ body .container.body .right_col {
   background: #401f3e;
   border-radius: 0;
   height: 57px;
+}
+
+.parent img {
+  height: 100%;
+  width: 100%;
 }
 
 @media (max-width: 991px) {
