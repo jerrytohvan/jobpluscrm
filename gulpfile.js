@@ -26,9 +26,9 @@ elixir(function(mix) {
     mix.copy('bower_components/gentelella/vendors/font-awesome/css/font-awesome.min.css', 'public/css/font-awesome.min.css');
 
     // Gentelella
-    mix.copy('bower_components/gentelella/build/css/custom.min.css', 'public/css/gentelella.min.css');
+    // mix.copy('bower_components/gentelella/build/css/custom.min.css', 'public/css/gentelella.min.css');
 
-    // bootstrap-daterangepicker
+    // bootstrap-
     mix.copy('bower_components/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.css', 'public/css/daterangepicker.css');
 
     // dropzone
@@ -89,6 +89,7 @@ elixir(function(mix) {
     mix.copy('bower_components/gentelella/bower_components/pnotify/dist/pnotify.nonblock.css', 'public/css/pnotify.nonblock.css');
 
     mix.sass('../../../bower_components/gentelella/src/scss/custom.scss','public/css/custom.css');
+
     // mix.minify('public/css/custom.css');
 
     /****************/
@@ -157,7 +158,7 @@ elixir(function(mix) {
     mix.copy('bower_components/gentelella/vendors/flot.curvedlines/curvedLines.js', 'public/js/curvedLines.js');
 
     //datejs
-    mix.copy('bower_components/gentelella/vendors/DateJS/build/date.js', 'public/js/date.js');
+    mix.copy('bower_components/gentelella/bower_components/DateJS/build/date.js', 'public/js/date.js');
 
     //bootstrap-daterangepicker
     mix.copy('bower_components/gentelella/vendors/moment/min/moment.min.js', 'public/js/moment.min.js');
@@ -245,8 +246,15 @@ elixir(function(mix) {
         mix.copy('bower_components/gentelella/bower_components/jQuery-Smart-Wizard/js/jquery.smartWizard.js', 'public/js/jquery.smartWizard.js');
 
 
+        //morris js
+        mix.copy('bower_components/gentelella/bower_components/raphael/raphael.min.js', 'public/js/raphael.min.js');
+        mix.copy('bower_components/gentelella/bower_components/morris.js/morris.min.js', 'public/js/morris.min.js');
+
+
         // Gentelella
-        mix.copy('bower_components/gentelella/build/js/custom.min.js', 'public/js/gentelella.min.js');
+        mix.copy('bower_components/gentelella/src/js/helpers/smartresize.js', 'public/js/smartresize.js');
+        // Gentelella
+        mix.copy('bower_components/gentelella/src/js/custom.js', 'public/js/gentelella.js');
 
     /**************/
     /* Copy Fonts */
