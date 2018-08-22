@@ -11,10 +11,11 @@ if (php_sapi_name() != 'cli') {
  */
 function getClient()
 {
+   $http = new GuzzleHttp\Client(['verify' => '/path/to/cacert.pem']);
     $client = new Google_Client();
-    $client->setApplicationName('Google Calendar API PHP Quickstart');
-    $client->setScopes(Google_Service_Calendar::CALENDAR);
-    $client->setAuthConfig('FYPCALAPI-36e1f070d86b.json');
+    $client->setApplicationName('Gmail API PHP Quickstart');
+    $client->setScopes(Google_Service_Gmail::GMAIL_READONLY);
+    $client->setAuthConfig('credentials.json');
     $client->setAccessType('offline');
 
     // Load previously authorized credentials from a file.
@@ -31,6 +32,11 @@ function getClient()
         // Exchange authorization code for an access token.
         $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
 
+        // Check to see if there was an error.
+        if (array_key_exists('error', $accessToken)) {
+            throw new Exception(join(', ', $accessToken));
+        }
+
         // Store the credentials to disk.
         if (!file_exists(dirname($credentialsPath))) {
             mkdir(dirname($credentialsPath), 0700, true);
@@ -42,7 +48,6 @@ function getClient()
 
     // Refresh the token if it's expired.
     if ($client->isAccessTokenExpired()) {
-        echo "token has expiredddddd";
         $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
         file_put_contents($credentialsPath, json_encode($client->getAccessToken()));
     }
@@ -52,58 +57,17 @@ function getClient()
 
 // Get the API client and construct the service object.
 $client = getClient();
-$service = new Google_Service_Calendar($client);
+$service = new Google_Service_Gmail($client);
 
-$event = new Google_Service_Calendar_Event(array(
-    'summary' => 'Google I/O 2015',
-    'location' => '800 Howard St., San Francisco, CA 94103',
-    'description' => 'A chance to hear more about Google\'s developer products.',
-    'start' => array(
-      'dateTime' => '1532529178132',
-      'timeZone' => 'America/Los_Angeles',
-    ),
-    'end' => array(
-      'dateTime' => '1532629178132',
-      'timeZone' => 'America/Los_Angeles',
-    ),
-    'recurrence' => array(
-      'RRULE:FREQ=DAILY;COUNT=2'
-    ),
-    'attendees' => array(
-      array('email' => 'lpage@example.com'),
-      array('email' => 'sbrin@example.com'),
-    ),
-    'reminders' => array(
-      'useDefault' => FALSE,
-      'overrides' => array(
-        array('method' => 'email', 'minutes' => 24 * 60),
-        array('method' => 'popup', 'minutes' => 10),
-      ),
-    ),
-  ));
-  
-  $calendarId = 'primary';
-  $event = $service->events->insert($calendarId, $event);
-  printf('Event created: %s\n', $event->htmlLink);
-// Print the next 10 events on the user's calendar.
-$calendarId = 'primary';
-$optParams = array(
-  'maxResults' => 10,
-  'orderBy' => 'startTime',
-  'singleEvents' => true,
-  'timeMin' => date('c'),
-);
-$results = $service->events->listEvents($calendarId, $optParams);
+// Print the labels in the user's account.
+$user = 'me';
+$results = $service->users_labels->listUsersLabels($user);
 
-if (empty($results->getItems())) {
-    print "No upcoming events found.\n";
+if (count($results->getLabels()) == 0) {
+  print "No labels found.\n";
 } else {
-    print "Upcoming events:\n";
-    foreach ($results->getItems() as $event) {
-        $start = $event->start->dateTime;
-        if (empty($start)) {
-            $start = $event->start->date;
-        }
-        printf("%s (%s)\n", $event->getSummary(), $start);
-    }
+  print "Labels:\n";
+  foreach ($results->getLabels() as $label) {
+    printf("- %s\n", $label->getName());
+  }
 }
