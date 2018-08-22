@@ -18,7 +18,7 @@
   <!-- Font Awesome -->
   <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
   <!-- Custom Theme Style -->
-  <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+  <link href="{{ asset('css/gentelella.css') }}" rel="stylesheet">
 
 
    <!-- NProgress -->

@@ -487,16 +487,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.65",
+            "version": "v0.66",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/google-api-php-client-services.git",
-                "reference": "cc7299c4a12a09b379a2d952d2a28ad32396275d"
+                "reference": "357a13e6f59e5590071b1d455c0ead482fac65db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/cc7299c4a12a09b379a2d952d2a28ad32396275d",
-                "reference": "cc7299c4a12a09b379a2d952d2a28ad32396275d",
+                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/357a13e6f59e5590071b1d455c0ead482fac65db",
+                "reference": "357a13e6f59e5590071b1d455c0ead482fac65db",
                 "shasum": ""
             },
             "require": {
@@ -520,7 +520,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2018-07-12T00:23:02+00:00"
+            "time": "2018-08-21T20:23:38+00:00"
         },
         {
             "name": "google/auth",
@@ -743,16 +743,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.6.33",
+            "version": "v5.6.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "8a708b989adc320c451ee639d812af81f884666b"
+                "reference": "66c9cf8119b422b71273271db1f12e20d74ad49b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/8a708b989adc320c451ee639d812af81f884666b",
-                "reference": "8a708b989adc320c451ee639d812af81f884666b",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/66c9cf8119b422b71273271db1f12e20d74ad49b",
+                "reference": "66c9cf8119b422b71273271db1f12e20d74ad49b",
                 "shasum": ""
             },
             "require": {
@@ -878,7 +878,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-08-09T20:36:39+00:00"
+            "time": "2018-08-21T13:44:37+00:00"
         },
         {
             "name": "laravelcollective/html",
@@ -1573,19 +1573,21 @@
         },
         {
             "name": "php-science/textrank",
-            "version": "1.0.4",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/DavidBelicza/PHP-Science-TextRank.git",
-                "reference": "88c83817acd61289ec18c6fc3d0013bb156a5c30"
+                "reference": "756da9c34ff113ac7aca1be69f2b920b4371ef8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DavidBelicza/PHP-Science-TextRank/zipball/88c83817acd61289ec18c6fc3d0013bb156a5c30",
-                "reference": "88c83817acd61289ec18c6fc3d0013bb156a5c30",
+                "url": "https://api.github.com/repos/DavidBelicza/PHP-Science-TextRank/zipball/756da9c34ff113ac7aca1be69f2b920b4371ef8e",
+                "reference": "756da9c34ff113ac7aca1be69f2b920b4371ef8e",
                 "shasum": ""
             },
             "require": {
+                "ext-ctype": "*",
+                "ext-mbstring": "*",
                 "php": "7.*"
             },
             "require-dev": {
@@ -1620,7 +1622,7 @@
                 "summarization",
                 "textrank"
             ],
-            "time": "2018-04-18T17:50:44+00:00"
+            "time": "2018-08-21T11:27:07+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
