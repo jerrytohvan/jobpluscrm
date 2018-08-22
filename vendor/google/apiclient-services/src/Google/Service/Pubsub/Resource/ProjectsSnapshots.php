@@ -116,8 +116,8 @@ class Google_Service_Pubsub_Resource_ProjectsSnapshots extends Google_Service_Re
    * recommended for production use. It is not subject to any SLA or deprecation
    * policy. (snapshots.listProjectsSnapshots)
    *
-   * @param string $project The name of the cloud project that snapshots belong
-   * to. Format is `projects/{project}`.
+   * @param string $project The name of the project in which to list snapshots.
+   * Format is `projects/{project-id}`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize Maximum number of snapshots to return.

@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-permission` will be documented in this file
 
+## 2.16.0 - 2018-08-20
+- Replace static Permission::class and Role::class with dynamic value (allows custom models more easily)
+- Added type checking in hasPermissionTo and hasDirectPermission
+
+## 2.15.0 - 2018-08-15
+- Make assigning the same role or permission twice not throw an exception
+
 ## 2.14.0 - 2018-08-13
 - Allow using another key name than `model_id` by defining new `columns` array with `model_morph_key` key in config file. This improves UUID compatibility as discussed in #777.
 
