@@ -125,6 +125,8 @@
         <!-- bootstrap-wysihtml5  -->
         <script src="{{ asset('js/bootstrap-wysiwyg.min.js') }}"></script>
 
+        <!-- smartresize -->
+        <script src="{{ asset('js/smartresize.js') }}"></script>
 
         <!-- Custom Theme Scripts -->
         <script src="{{ asset('js/gentelella.min.js') }}"></script>

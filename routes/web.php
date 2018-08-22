@@ -21,6 +21,14 @@ Route::group(['middleware' => ['web']], function () {
     'as' => 'logout',
     'uses' => '\App\Http\Controllers\Auth\LoginController@logout'
   ]);
+    Route::get('/profile', [
+  'as' => 'show.profile',
+  'uses' => '\App\Models\Users\UserController@index'
+]);
+    Route::post('/edit-profile', [
+'as' => 'edit.profile',
+'uses' => '\App\Models\Users\UserController@updateProfile'
+]);
     Route::get('/add-admin', [
       'as' => 'index.register',
       'uses' => '\App\Http\Controllers\Auth\RegisterController@index'
@@ -48,7 +56,7 @@ Route::group(['middleware' => ['web']], function () {
     'as' => 'companies.fulllist',
   'uses' => '\App\Models\Clients\ClientController@index_companies_full_list'
 ]);
-Route::get('/deletecompany/{company_id}', [
+    Route::get('/deletecompany/{company_id}', [
 'as' => 'delete.company',
 'uses' => '\App\Models\Clients\ClientController@removeCompany'
 ]);
@@ -126,9 +134,11 @@ Route::put('/projectGroups/{id}', 'ProjectGroupsController@update');
 Route::get('/companies', 'CompaniesController@index');
 Route::get('/companies/{id}', 'CompaniesController@show');
 Route::post('/companies/create', 'CompaniesController@store');
-Route::delete('/companies/{id}',
+Route::delete(
+    '/companies/{id}',
   // 'as' => 'delete.company',
-  'CompaniesController@destroy');
+  'CompaniesController@destroy'
+);
 // Route::get('/companies/{id}', [
 // 'CompaniesController@destroy'
 // );

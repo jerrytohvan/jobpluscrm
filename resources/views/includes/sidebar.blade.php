@@ -9,7 +9,6 @@
         <!-- menu profile quick info -->
         <div class="profile">
             <div class="profile_pic">
-
                 <img src="{{ Gravatar::src(Auth::user()->email) }}" alt="Avatar of {{ Auth::user()->name }}" class="img-circle profile_img">
             </div>
 
@@ -27,12 +26,12 @@
           <div class="menu_section">
             <h3>General</h3>
             <ul class="nav side-menu">
-              <li><a href="{{ route('dashboard') }}"><i class="fa fa-home"></i> Home </span></a></li>
-            </li>
+              <li><a href="{{ route('dashboard') }}"><i class="fa fa-home"></i> Home </a></li>
 
-            <li><a href="{{ route('social.wall') }}"><i class="fa fa-comments-o"></i>Announcements</a>
+            <li><a href="{{ route('social.wall') }}"><i class="fa fa-comments-o"></i>Announcements </a>
             </li>
-              <li><a><i class="fa fa-edit"></i> Companies <span class="fa fa-chevron-down"></span></a>
+              <li>
+                <a><i class="fa fa-edit"></i> Companies <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                   <li><a href="{{ route('companies.fulllist') }}">Full List</a></li>
                   <li><a href="{{ route('companies.new') }}">New</a></li>
