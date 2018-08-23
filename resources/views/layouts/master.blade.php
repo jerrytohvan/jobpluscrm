@@ -18,7 +18,7 @@
   <!-- Font Awesome -->
   <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
   <!-- Custom Theme Style -->
-  <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+  <link href="{{ asset('css/gentelella.css') }}" rel="stylesheet">
 
 
    <!-- NProgress -->
@@ -125,6 +125,8 @@
         <!-- bootstrap-wysihtml5  -->
         <script src="{{ asset('js/bootstrap-wysiwyg.min.js') }}"></script>
 
+        <!-- smartresize -->
+        <script src="{{ asset('js/smartresize.js') }}"></script>
 
         <!-- Custom Theme Scripts -->
         <script src="{{ asset('js/gentelella.js') }}"></script>

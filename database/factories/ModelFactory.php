@@ -28,6 +28,8 @@ $factory->define(User::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => bcrypt(str_random(10)),
+        'birth_date' => $faker->dateTimeThisCentury->format('Y-m-d'),
+        'profile_pic' => Gravatar::src($faker->safeEmail, 200),
         'admin' => false,
         'remember_token' => str_random(10),
     ];
@@ -35,9 +37,11 @@ $factory->define(User::class, function (Faker\Generator $faker) {
 
 $factory->defineAs(User::class, 'admin', function (Faker\Generator $faker) {
     return [
-        'name' => 'admin',
+        'name' => 'Administrator',
         'email' =>'admin@jobpluscrm.com',
         'password' => bcrypt('admin'),
+        'birth_date' => $faker->dateTimeThisCentury->format('Y-m-d'),
+        'profile_pic' => Gravatar::src('admin@jobpluscrm.com', 200),
         'admin' => true,
         'remember_token' => str_random(10),
     ];
