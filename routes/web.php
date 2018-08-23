@@ -67,12 +67,7 @@ Route::group(['middleware' => ['web']], function () {
   'uses' => '\App\Models\SocialWall\SocialWallController@index'
   ]);
 
-<<<<<<< HEAD
   Route::post('/newpost',  [
-=======
-
-    Route::post('/newpost', [
->>>>>>> ccd5b0002e8c0557f93cb445496b2140b6168e85
     'as' => 'new.post',
   'uses' => '\App\Models\SocialWall\SocialWallController@addPost'
   ]);
