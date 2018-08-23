@@ -56,6 +56,10 @@ Route::group(['middleware' => ['web']], function () {
     'as' => 'companies.fulllist',
   'uses' => '\App\Models\Clients\ClientController@index_companies_full_list'
 ]);
+    Route::get('/view/{company}', [
+      'as' => 'view.company',
+      'uses' => '\App\Models\Clients\ClientController@showCompany'
+      ]);
     Route::get('/deletecompany/{company_id}', [
 'as' => 'delete.company',
 'uses' => '\App\Models\Clients\ClientController@removeCompany'

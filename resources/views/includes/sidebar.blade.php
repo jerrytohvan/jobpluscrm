@@ -61,11 +61,9 @@
                   <li><a href="{{ route('accounts.fulllist') }}">Full list</a></li>
                   <li><a href="{{ route('accounts.new') }}">New</a></li>
                 </ul>
-              <!-- <li><a href="{{ route('data.presentation') }}"><i class="fa fa-table"></i> Data Presentation</a> -->
               </li>
               <li><a href="{{ route('index.smart.match') }}"><i class="fa fa-magic"></i> Smart Match </a>
               </li>
-              <!-- <li><a href="{{ route('settings') }}"><i class="fa fa-bar-chart-o"></i> Telegram</a></li> -->
 
             </ul>
           </div>
@@ -76,11 +74,11 @@
 
         <!-- /menu footer buttons -->
         <div class="sidebar-footer hidden-small">
-          <a data-toggle="tooltip" data-placement="top" title="Settings">
-            <!-- <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> -->
+  <a data-toggle="tooltip" data-placement="top" title="Lock">
+            <!-- <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> -->
           </a>
-          <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-            <!-- <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span> -->
+          <a data-toggle="tooltip" data-placement="top" title="Lock">
+            <!-- <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> -->
           </a>
           <a data-toggle="tooltip" data-placement="top" title="Lock">
             <!-- <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> -->
