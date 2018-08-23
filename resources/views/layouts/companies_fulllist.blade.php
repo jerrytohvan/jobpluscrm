@@ -12,78 +12,65 @@
 
 
 @section('content')
+<div class="right_col" role="main" >
+   <div class="">
 
-        <!-- page content -->
-        <div class="right_col" role="main">
-          <div class="">
-            <div class="page-title">
-              <!-- <div class="title_left">
-              </div> -->
-              <div class="title_right">
-                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                </div>
-              </div>
+      <div class="clearfix"></div>
+      <div class="row">
+         <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+               <div class="x_title">
+                  <h2>Company Full-List</h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                     </li>
+
+                     <li><a class="close-link"><i class="fa fa-close"></i></a>
+                     </li>
+                  </ul>
+                  <div class="clearfix"></div>
+               </div>
+               <div class="x_content">
+                        <div class="table-responsive">
+                           <table id="datatable" class="table table-striped table-bordered dataTables"  >
+                             <thead>
+                                  <tr>
+                                      <th style="width: 10%">Name</th>
+                                      <th style="width: 20%">Address</th>
+                                      <th style="width: 5%">Tel. No</th>
+                                      <th>Industry</th>
+                                      <th>Website</th>
+                                      <th style="width: 5%">Made Transaction?</th>
+                                      <th style="width: 15%">Action</th>
+
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                @foreach($array as $data)
+                                <tr role="row" class="{{ (($data->id % 2) == 1) ? 'odd':'even'}}">
+                                  <td>{{ $data->name }}</td>
+                                  <td>{{ $data->address }}</td>
+                                  <td>{{ $data->telephone_no }}</td>
+                                  <td>{{ $data->industry == '' ? '-': $data->industry}}</td>
+                                  <td>{{ $data->website == '' ? '-': $data->website }}</td>
+                                  <td>{{ $data->transaction == false ? 'No' :'Yes' }}</td>
+                                  <td>
+                                      <a href="{{ route('view.company', ['company' => $data->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                                      <a href="{{ route('delete.company', ['company_id' => $data->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                              </tbody>
+                           </table>
+                         </div>
+               </div>
             </div>
+         </div>
 
-            <div class="clearfix"></div>
+      </div>
+   </div>
+</div>
 
-            <div class="row">
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Company Full-List </h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
-                    <!-- <p class="text-muted font-13 m-b-30">
-                      DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>
-                    </p> -->
-                    <table id="datatable" class="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>Company Name</th>
-                          <th>Address</th>
-                          <th>Email</th>
-                          <th>Telephone No.</th>
-                          <th>Industry</th>
-                          <th>Website</th>
-                          <th>Made Transaction?</th>
-                          <th>id</th>
-                        </tr>
-                      </thead>
-
-
-                      <tbody>
-                        @foreach ($companies as $company)
-                        <tr>
-                          <td>{{ $company->name}}</td>
-                          <td>{{ $company->address}}</td>
-                          <td>{{ $company->email}}</td>
-                          <td>{{ $company->telephone_no}}</td>
-                          <td>{{ $company->industry}}</td>
-                          <td>{{ $company->website}}</td>
-                          <td>{{ $company->transaction ? "Yes" : "No"}}</td>
-                          <td>
-                                <button type="button" class="btn btn-default btn-xs fa fa-trash"><a href="{{ route('delete.company', ['company_id' => $company->id]) }}">Delete</a></button>
-                          <td>
-                        </tr>
-                        @endforeach
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- /page content -->
 @endsection
 
 
@@ -93,6 +80,11 @@
 @endsection
 
 @push('scripts')
+<script>
+$(document).ready(function() {
+    $('#datatable').DataTable();
+} );
+</script>
 <!-- Datatables -->
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
