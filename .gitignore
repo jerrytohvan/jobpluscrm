@@ -9,16 +9,19 @@
 .idea
 .DS_Store
 .sass-cache
-*.csv
+data_samples.csv
+data_job_posts.csv
+job_skills.csv
+naukri_com-job_sample.csv
+reed_uk.csv
 node_modules/
-vendor/
 
 Thumbs.db     # [1]
 ehthumbs.db   # [1]
 Desktop.ini   # [2]
 $RECYCLE.BIN  # [3]
 
-# ----------------------------
+# -----------------------s-----
 # Packaging
 # ----------------------------
 

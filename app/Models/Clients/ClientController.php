@@ -6,6 +6,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Clients\Company;
+use App\Models\Employees\Employee;
 
 class ClientController extends Controller
 {
@@ -75,6 +76,15 @@ class ClientController extends Controller
         $status = 0;
       }
       return view('layouts.accounts_new',compact('status', 'message','companies'));
+  }
+
+  public function removeCompany($company_id)
+  {
+      $company = Company::where('id', $company_id)->first();
+      $employee = Employee::where('company_id',$company_id);
+      $employee ->delete();
+      $company->delete();
+      return redirect()->route('companies.fulllist')->with(['message']);
   }
 
 

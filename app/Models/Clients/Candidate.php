@@ -4,7 +4,6 @@ namespace App\Models\Clients;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
-require_once '..\vendor\autoload.php';
 
 class Candidate extends Model
 {

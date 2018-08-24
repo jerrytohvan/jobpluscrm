@@ -21,6 +21,7 @@ class CreateEmployeesTable extends Migration
             $table->string('email');
             $table->string('telephone')->nullable();
             $table->integer('company_id');
+            $table->string('type');// only 2 types either existing or lead
             $table->timestamps();
         });
     }

@@ -18,12 +18,9 @@ class CreateTasksTable extends Migration
             $table->text('title');
             $table->text('description');
             $table->dateTime('date_reminder');
-            $table->string('reminder_type');
-            $table->boolean('open_task')->default(true); //1: open task, 0:closed task
-            $table->dateTime('date_completed');
-            $table->integer('company_id');
-            $table->integer('employee_id');
-            $table->integer('assigned_to_id');
+            $table->integer('user_id');
+            $table->integer('assigned_to_id')->nullable();
+            $table->string('type');//event or company tasks
             $table->timestamps();
         });
     }

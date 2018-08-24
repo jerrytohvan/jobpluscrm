@@ -55,7 +55,7 @@
                           <th>Industry</th>
                           <th>Website</th>
                           <th>Made Transaction?</th>
-                          <th>options</th>
+                          <th>id</th>
                         </tr>
                       </thead>
 
@@ -71,10 +71,7 @@
                           <td>{{ $company->website}}</td>
                           <td>{{ $company->transaction ? "Yes" : "No"}}</td>
                           <td>
-                                <div class="btn-group">
-                                  <button class="btn btn-default" type="button">Update</button>
-                                  <button class="btn btn-default" action="{{ route('delete.company', ['company_id' => $company->id]) }}" type="button">Delete</button>
-                                </div>
+                                <button type="button" class="btn btn-default btn-xs fa fa-trash"><a href="{{ route('delete.company', ['company_id' => $company->id]) }}">Delete</a></button>
                           <td>
                         </tr>
                         @endforeach

@@ -25,4 +25,5 @@ class Event extends Model
   {
       return $this->belongToMany('App\Models\Employees\Employee');
   }
+
 }
