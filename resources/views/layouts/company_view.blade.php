@@ -11,6 +11,11 @@
 <link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
 <link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
 <link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
+<link href="{{ asset('css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('css/buttons.bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('css/responsive.bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('css/scroller.bootstrap.min.css') }}" rel="stylesheet">
 <style>
 /* #upload_link{
     text-decoration:none;
@@ -73,15 +78,128 @@
                         </li>
                      </ul>
                      <br>
-                     <div id="mainb" style="height: 350px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative; background-color: transparent;" _echarts_instance_="ec_1535004744643">
+                   <!-- <div id="mainb" style="height: 350px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative; background-color: transparent;" _echarts_instance_="ec_1535004744643">
                         <div style="position: relative; overflow: hidden; width: 325px; height: 350px; cursor: pointer;">
                            <canvas width="1137" height="1225" data-zr-dom-id="zr_0" style="position: absolute; left: 0px; top: 0px; width: 325px; height: 350px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas>
                         </div>
                         <div style="position: absolute; display: block; border-style: solid; white-space: nowrap; z-index: 9999999; transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgba(0, 0, 0, 0.5);
                         border-width: 0px; border-color: rgb(51, 51, 51); border-radius: 4px; color: rgb(255, 255, 255); font: 14px/21px Arial, Verdana, sans-serif; padding: 5px; left: 226.884px; top: 70.9115px;">
-                          purchases<br>sales : 182.2</div>
+                          purchases<br>sales : 182.2
+                        </div>
                      </div>
-                     <div class="col-md-6">
+
+                     <div class="col-md-6 col-sm-6 col-xs-12">
+                                     <div class="x_panel">
+                                       <div class="x_title">
+                                         <h2><i class="fa fa-bars"></i> Tabs <small>Float left</small></h2>
+                                         <ul class="nav navbar-right panel_toolbox">
+                                           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                           </li>
+                                           <li class="dropdown">
+                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                             <ul class="dropdown-menu" role="menu">
+                                               <li><a href="#">Settings 1</a>
+                                               </li>
+                                               <li><a href="#">Settings 2</a>
+                                               </li>
+                                             </ul>
+                                           </li>
+                                           <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                           </li>
+                                         </ul>
+                                         <div class="clearfix"></div>
+                                       </div>
+                                       <div class="x_content">
+
+
+                                         <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                           <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                             <li role="presentation" class="active"><a href="#tab_account" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Home</a>
+                                             </li>
+                                             <li role="presentation" class=""><a href="#tab_lead" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Profile</a>
+                                             </li>
+                                             <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Profile</a>
+                                             </li>
+                                           </ul>
+                                           <div id="myTabContent" class="tab-content">
+                                             <div role="tabpanel" class="tab-pane fade active in" id="tab_account" aria-labelledby="home-tab">
+                                               <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher
+                                                 synth. Cosby sweater eu banh mi, qui irure terr.</p>
+                                             </div>
+                                             <div role="tabpanel" class="tab-pane fade" id="tab_lead" aria-labelledby="profile-tab">
+                                               <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo
+                                                 booth letterpress, commodo enim craft beer mlkshk aliquip</p>
+                                             </div>
+                                             <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                                               <p>xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo
+                                                 booth letterpress, commodo enim craft beer mlkshk </p>
+                                             </div>
+                                           </div>
+                                         </div>
+
+                                       </div>
+                                     </div>
+                                   </div> -->
+
+
+                   <div class="col-md-6 col-sm-6 col-xs-12">
+                                       <h2> Accounts & Leads</h2>
+                                       <ul class="nav navbar-right panel_toolbox">
+
+                                       </ul>
+                                       <div class="clearfix"></div>
+                                     </div>
+                                     <div class="x_content">
+
+
+                                       <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                         <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                           <li role="presentation" class="active"><a href="#tab_account" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Acconts</a>
+                                           </li>
+                                           <li role="presentation" class=""><a href="#tab_lead" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Leads</a>
+                                           </li>
+                                         </ul>
+                                         <div id="myTabContent" class="tab-content">
+                                           <div role="tabpanel" class="tab-pane fade active in" id="tab_account" aria-labelledby="home-tab">
+                                             <!-- accounts tab -->
+                                             <table id="datatable" class="table table-striped table-bordered">
+                                               <thead>
+                                                 <tr>
+                                                   <th>Account Name</th>
+                                                   <th>Title</th>
+                                                   <th>Email</th>
+                                                   <th>Handphone No.</th>
+                                                   <th>Telephone No.</th>
+                                                   <th>Company</th>
+                                                 </tr>
+                                               </thead>
+                                               <tbody>
+                                                 @foreach ($accounts as $account)
+                                                 <tr>
+                                                   <td>{{ $account->name }}</td>
+                                                   <td>{{ $account->title }}</td>
+                                                   <td>{{ $account->email }}</td>
+                                                   <td>{{ $account->handphone }}</td>
+                                                   <td>{{ $account->telephone == null ? "-" : $account->telephone }}</td>
+                                                   <td>{{ $account == null ? "-" : $account->company == null ? "-":$account->company->name }}</td>
+                                                 </tr>
+                                                 @endforeach
+                                               </tbody>
+                                             </table>
+
+
+
+                                           </div>
+                                           <div role="tabpanel" class="tab-pane fade" id="tab_lead" aria-labelledby="profile-tab">
+                                             <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo
+                                               booth letterpress, commodo enim craft beer mlkshk aliquip</p>
+                                           </div>
+                                         </div>
+                                       </div>
+
+                                 </div>
+
+           <div class="col-md-6">
               <div class="x_panel">
                 <div class="x_title">
                   <h2>Recent Activity<small>Projects, Tasks, Events</small></h2>
@@ -205,7 +323,7 @@
                               @foreach($companyFiles as $file)
                               <!-- FOR SECURITY:
                               https://stackoverflow.com/questions/43676109/return-file-download-from-storage-in-laravel -->
-<div id="hover_button">
+                              <div id="hover_button">
                               <li >
                                 <a href="{{ route('get.file', ['file'=> $file->id])}}"><i class="
                                 @php
@@ -250,7 +368,7 @@
                            <br>
                            <div class="text-center mtop20">
                            {{  Form::open(['route' => 'update.company.file','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'file_uploader', 'enctype'=>'multipart/form-data']) }}
-                             <input id="file_upload" name="file_upload" type="file"  data-parsley-filemaxmegabytes="2" data-parsley-trigger="change" data-parsley-filemimetypes="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf,image/jpeg, image/pipeg, image/png, image/bmp, image/webp" />
+                             <input id="file_upload" name="file_upload" type="file"  data-parsley-filemaxmegabytes="2" data-parsley-trigger="change" data-parsley-filemimetypes="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf,image/jpeg, image/pipeg, image/png, image/bmp, image/webp, application/x-7z-compressed, image/gif,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.presentationml.slide,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain,application/zip,application/x-rar-compressed, application/vnd.ms-excel,application/vnd.ms-powerpoint	" />
                              <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
                               <a href="" id="upload_link" class="btn btn-sm btn-primary">Add file</a>
                             </form>
@@ -580,8 +698,8 @@ $(document).ready(function () {
 
 
   function loadNotification(){
-    var message = "{{ $message }}";
-    var status = "{{ $status }}";
+    var message = "@php if(session()->has('message')){ echo session()->get('message'); }else { echo $message; } @endphp";
+    var status = "@php if(session()->has('status')){ echo  session()->get('status'); }else { echo $status; } @endphp";
 
     if(message != "" && status != ""){
       new PNotify({
@@ -592,7 +710,8 @@ $(document).ready(function () {
       });
     }
 
-}
+
+  }
 </script>
 
 
@@ -603,5 +722,22 @@ $(document).ready(function () {
 
 <script src="{{ asset('js/echarts.min.js') }}"></script>
 
+<script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('js/buttons.bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/buttons.flash.min.js') }}"></script>
+<script src="{{ asset('js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('js/dataTables.fixedHeader.min.js') }}"></script>
+<script src="{{ asset('js/dataTables.keyTable.min.js') }}"></script>
+<script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('js/responsive.bootstrap.js') }}"></script>
+<script src="{{ asset('js/dataTables.scroller.min.js') }}"></script>
+<!-- jszip -->
+<script src="{{ asset('js/jszip.min.js') }}"></script>
+<!-- pdfmake -->
+<script src="{{ asset('js/pdfmake.min.js') }}"></script>
+<script src="{{ asset('js/vfs_fonts.js') }}"></script>
 
 @endpush

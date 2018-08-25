@@ -34,6 +34,16 @@ class ClientService
     {
         return Company::all()->sortBy('name');
     }
+    public function getAllClients()
+    {
+        return Company::whereClient(1)->orderBy('name', 'asc')->get();
+    }
+
+    public function getAllLeads()
+    {
+        return Company::whereClient(0)->orderBy('name', 'asc')->get();
+    }
+
 
 
     /**

@@ -36,14 +36,22 @@ class ClientController extends Controller
     public function index_companies_full_list()
     {
         $array = $this->svc->getAllCompany();
-        // $companies = $this->svc->getAllCompany()->map(function ($row) {
-        //     return [$row->name, $row->address, $row->email, $row->telephone_no, $row->industry, $row->website, $row->transaction];
-        // });
-        // $array = json_encode([
-        //   "data" => array_values($companies->toArray())
-        // ]);
         return view('layouts.companies_fulllist', compact('array'));
     }
+
+    public function index_companies_clients()
+    {
+        $array = $this->svc->getAllClients();
+        return view('layouts.companies_clients', compact('array'));
+    }
+
+    public function index_companies_leads()
+    {
+        $array = $this->svc->getAllLeads();
+        return view('layouts.companies_leads', compact('array'));
+    }
+
+
     public function index_companies_new()
     {
         $message = "";
@@ -88,19 +96,30 @@ class ClientController extends Controller
         }
         return view('layouts.accounts_new', compact('status', 'message', 'companies'));
     }
-    public function showCompany(Company $company, $message = null, $status = null)
+    public function showCompany(Company $company)
     {
-        // dd($message);
+        // if ($status!=null) {
+        //     return redirect()->route('view.company', compact('company'));
+        // }
+        $message = request()->input('message');
+        $status = request()->input('status');
+
         $accounts = $company->employees;
         $companyFiles = $company->files;
 
-        //Tasks
-        //Attachment
-        //Notes
-        //add new accounts (only admin can remove info)
-        //edit company
         return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles'));
     }
+    public function showCompanyPost(Company $company, $message=null, $status=null)
+    {
+        // if ($status!=null) {
+        //     return redirect()->route('view.company', compact('company'));
+        // }
+
+        $accounts = $company->employees;
+        $companyFiles = $company->files;
+        return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles'));
+    }
+
 
     public function updateCompany()
     {
@@ -117,10 +136,7 @@ class ClientController extends Controller
             $message = "Failed to add updated!";
             $status = 0;
         }
-        $accounts = $company->employees;
-        $companyFiles = $company->files;
-
-        return view('layouts.company_view', compact('status', 'message', 'company', 'accounts', 'companyFiles'));
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
     public function addFileToCompany()
@@ -140,13 +156,12 @@ class ClientController extends Controller
                 $message = "File is successfully added!";
                 $accounts = $company->employees;
                 $companyFiles = $company->files;
-                return view('layouts.company_view', compact('status', 'message', 'company', 'accounts', 'companyFiles'));
+                return redirect()->back()->with(['message' => $message, 'status' => $status]);
             }
         }
         $status = 0;
         $message = "Failed to add file";
-        $accounts = $company->employees;
-        return view('layouts.company_view', compact('status', 'message', 'company', 'accounts'));
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
     public function getFile(Attachment $file)
@@ -165,11 +180,8 @@ class ClientController extends Controller
         } else {
             $message = "Opps! File can't be removed!";
         }
-        $accounts = $company->employees;
-        $companyFiles = $company->files;
         //try using ajax and auto refresh page
-        return Self::showCompany($company, $message, $status);
-        // return view('layouts.company_view', compact('status', 'message', 'company', 'accounts', 'companyFiles'));
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
     public function removeCompany($company_id)

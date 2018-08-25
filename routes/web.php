@@ -56,9 +56,28 @@ Route::group(['middleware' => ['web']], function () {
     'as' => 'companies.fulllist',
   'uses' => '\App\Models\Clients\ClientController@index_companies_full_list'
 ]);
+
+    Route::get('/companies/clients', [
+'as' => 'companies.clients',
+'uses' => '\App\Models\Clients\ClientController@index_companies_clients'
+]);
+    Route::get('/companies/leads', [
+'as' => 'companies.leads',
+'uses' => '\App\Models\Clients\ClientController@index_companies_leads'
+]);
+
     Route::get('/view/{company}', [
+'as' => 'view.company',
+'uses' => '\App\Models\Clients\ClientController@showCompany'
+]);
+
+    Route::post('/view/{company}', [
+  'as' => 'view.company',
+  'uses' => '\App\Models\Clients\ClientController@showCompany'
+  ]);
+    Route::post('/view/{company}', [
       'as' => 'view.company',
-      'uses' => '\App\Models\Clients\ClientController@showCompany'
+      'uses' => '\App\Models\Clients\ClientController@showCompanyPost'
       ]);
 
     Route::get('/file/{file}', [

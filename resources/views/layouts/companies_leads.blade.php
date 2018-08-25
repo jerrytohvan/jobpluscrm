@@ -20,7 +20,7 @@
          <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                <div class="x_title">
-                  <h2>Company Full-List</h2>
+                  <h2>Company Leads</h2>
                   <ul class="nav navbar-right panel_toolbox">
                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                      </li>
@@ -40,12 +40,12 @@
                                       <th style="width: 5%">Tel. No</th>
                                       <th>Industry</th>
                                       <th>Website</th>
-                                      <th style="width: 5%">Type</th>
                                       <th style="width: 15%">Action</th>
 
                                   </tr>
                               </thead>
                               <tbody>
+                                <!--  add convert to client-->
                                 @foreach($array as $data)
                                 <tr role="row" class="{{ (($data->id % 2) == 1) ? 'odd':'even'}}">
                                   <td>{{ $data->name }}</td>
@@ -53,7 +53,6 @@
                                   <td>{{ $data->telephone_no }}</td>
                                   <td>{{ $data->industry == '' ? '-': $data->industry}}</td>
                                   <td>{{ $data->website == '' ? '-': $data->website }}</td>
-                                  <td>{{ $data->client == false ? 'Lead' :'Client' }}</td>
                                   <td>
                                       <a href="{{ route('view.company', ['company' => $data->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
                                       <a href="{{ route('delete.company', ['company_id' => $data->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>

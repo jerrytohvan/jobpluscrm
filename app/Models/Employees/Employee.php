@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
+    /*
+      Company name - Company
+      Name
+      Email
+      Contact
+    */
     protected $guarded = [];
     public function customer()
     {
@@ -24,7 +30,7 @@ class Employee extends Model
 
     public function company()
     {
-        return $this->belongsTo('App\Models\Clients\Company', 'id');
+        return $this->belongsTo('App\Models\Clients\Company');
     }
 
     public function events()
