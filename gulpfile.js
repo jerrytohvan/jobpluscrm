@@ -250,6 +250,8 @@ elixir(function(mix) {
         mix.copy('vendor/bower_components/gentelella/vendors/raphael/raphael.min.js', 'public/js/raphael.min.js');
         mix.copy('vendor/bower_components/gentelella/vendors/morris.js/morris.min.js', 'public/js/morris.min.js');
 
+        // echarts
+        mix.copy('vendor/bower_components/gentelella/vendors/echarts/dist/echarts.min.js', 'public/js/echarts.min.js');
 
         // Gentelella
         mix.copy('vendor/bower_components/gentelella/src/js/helpers/smartresize.js', 'public/js/smartresize.js');

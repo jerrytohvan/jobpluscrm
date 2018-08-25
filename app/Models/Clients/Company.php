@@ -6,10 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
-
-
-  protected $guarded =  [];
-
+    protected $guarded = [];
 
     public function employees()
     {
@@ -18,5 +15,10 @@ class Company extends Model
     public function events()
     {
         return $this->belongsToMany('App\Models\Events\Event');
+    }
+
+    public function files()
+    {
+        return $this->morphMany('App\Models\Attachments\Attachment', 'attachable');
     }
 }

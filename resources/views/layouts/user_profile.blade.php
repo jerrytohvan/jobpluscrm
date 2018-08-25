@@ -275,9 +275,6 @@
 <script src="{{ asset('js/parsley.min.js') }}"></script>
 
 <script>
-function submitform()
-{
-  $('#modal_form_id').submit();
 }
 
 
@@ -286,7 +283,12 @@ function submitform()
     var urlEdit = '{{ route('edit.profile') }}';
     var postData = new FormData($("#modal_form_id")[0]);
     var postId = 0;
-    console.log(postData);
+
+    function submitform()
+    {
+      $('#modal_form_id').submit();
+    }
+
     $(document).ready(function () {
       $(".edit").click(function () {
           id = $(this).data('id');

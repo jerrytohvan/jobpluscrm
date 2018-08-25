@@ -60,6 +60,26 @@ Route::group(['middleware' => ['web']], function () {
       'as' => 'view.company',
       'uses' => '\App\Models\Clients\ClientController@showCompany'
       ]);
+
+    Route::get('/file/{file}', [
+        'as' => 'get.file',
+        'uses' => '\App\Models\Clients\ClientController@getFile'
+        ]);
+
+    Route::post('/update/company', [
+        'as' => 'update.company',
+        'uses' => '\App\Models\Clients\ClientController@updateCompany'
+        ]);
+
+    Route::post('/upload/company-file', [
+        'as' => 'update.company.file',
+        'uses' => '\App\Models\Clients\ClientController@addFileToCompany'
+        ]);
+    Route::get('/remove/company-file/{file}', [
+            'as' => 'remove.company.file',
+            'uses' => '\App\Models\Clients\ClientController@removeFileFromCompany'
+            ]);
+
     Route::get('/deletecompany/{company_id}', [
 'as' => 'delete.company',
 'uses' => '\App\Models\Clients\ClientController@removeCompany'
