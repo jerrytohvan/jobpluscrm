@@ -40,7 +40,7 @@
                                       <th style="width: 5%">Tel. No</th>
                                       <th>Industry</th>
                                       <th>Website</th>
-                                      <th style="width: 15%">Action</th>
+                                      <th style="width: 20%">Action</th>
 
                                   </tr>
                               </thead>
@@ -55,6 +55,7 @@
                                   <td>{{ $data->website == '' ? '-': $data->website }}</td>
                                   <td>
                                       <a href="{{ route('view.company', ['company' => $data->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                                      <a href="{{ route('convert.lead', ['company' => $data->id]) }}" class="btn btn-info btn-xs"><i class="fa fa-random"></i> Convert </a>
                                       <a href="{{ route('delete.company', ['company_id' => $data->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
                                     </td>
                                 </tr>

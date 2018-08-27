@@ -10,6 +10,7 @@ use App\Models\Employees\Employee;
 use App\Models\Clients\CompanyService;
 use App\Models\Attachments\Attachment;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Clients\ClientService;
 
 class ClientController extends Controller
 {
@@ -33,11 +34,11 @@ class ClientController extends Controller
         return view('layouts.accounts_new', compact('message', 'status', 'companies'));
     }
 
-    public function index_companies_full_list()
-    {
-        $array = $this->svc->getAllCompany();
-        return view('layouts.companies_fulllist', compact('array'));
-    }
+    // public function index_companies_full_list()
+    // {
+    //     $array = $this->svc->getAllCompany();
+    //     return view('layouts.companies_fulllist', compact('array'));
+    // }
 
     public function index_companies_clients()
     {
@@ -94,13 +95,41 @@ class ClientController extends Controller
             $message = "Failed to add account!";
             $status = 0;
         }
-        return view('layouts.accounts_new', compact('status', 'message', 'companies'));
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
+
+    public function updateAccount()
+    {
+        $requestArray =  request()->all();
+        $employeeId = $requestArray['employee_id'];
+        unset($requestArray['employee_id']);
+        unset($requestArray['_token']);
+        $employee =  $this->svc->updateAccountProfile(Employee::find($employeeId), $requestArray);
+        if ($employee == null) {
+            $message = "Failed to update account!";
+            $status = 0;
+        } else {
+            $message = "Account successfully updated!";
+            $status = 1;
+        }
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
+
+    public function removeAccount($employee_id)
+    {
+        $employee = Employee::find($employee_id);
+        if ($employee ->delete()) {
+            $message = "Employee successfully removed!";
+            $status = 1;
+        } else {
+            $message = "Failed to remove account!";
+            $status = 0;
+        }
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
+
     public function showCompany(Company $company)
     {
-        // if ($status!=null) {
-        //     return redirect()->route('view.company', compact('company'));
-        // }
         $message = request()->input('message');
         $status = request()->input('status');
 
@@ -135,6 +164,18 @@ class ClientController extends Controller
         if ($company == null) {
             $message = "Failed to add updated!";
             $status = 0;
+        }
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
+
+
+    public function convertToClient(Company $company)
+    {
+        $message = "Failed to add updated!";
+        $status = 0;
+        if ($this->svc->leadToClient($company)) {
+            $message = "Company successfully converted as a client!";
+            $status = 1;
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }

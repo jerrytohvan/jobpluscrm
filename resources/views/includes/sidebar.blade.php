@@ -35,7 +35,7 @@
               <li>
                 <a><i class="fa fa-edit"></i> Companies <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                  <li><a href="{{ route('companies.fulllist') }}">Full List</a></li>
+                  <!-- <li><a href="">Full List</a></li> -->
                   <li><a href="{{ route('companies.clients') }}">Clients</a></li>
                   <li><a href="{{ route('companies.leads') }}">Leads</a></li>
                   <li><a href="{{ route('companies.new') }}">New</a></li>

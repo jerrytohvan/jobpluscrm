@@ -72,24 +72,29 @@ class ClientService
 
     public function updateCompanyProfile(Company $company, $array)
     {
-        // return  $company->update([
-        //   'name' => $array->name,
-        //   'email' => $array->email,
-        //   'website' => $array->website,
-        //   'industry' => $array->industry,
-        //   'telephone_no' => $array->telephone_no,
-        //   'fax_no' => $array->fax_no,
-        //   'description' => $array->description,
-        //   'no_employees' => $array->no_employees,
-        //   'lead_source' => $array->lead_source,
-        //
-        //   ]);
         foreach ($array as $key => $value) {
             $company->$key = $value;
         }
-        //THIS IS THE PROBLEM
         $company->save();
 
+        return $company;
+    }
+
+    public function updateAccountProfile(Employee $employee, $array)
+    {
+        foreach ($array as $key => $value) {
+            $employee->$key = $value;
+        }
+        $employee->save();
+        return $employee;
+    }
+
+    public function leadToClient(Company $company)
+    {
+        $company->update([
+      'client' => 1,
+      ]);
+        $company->save();
         return $company;
     }
 }

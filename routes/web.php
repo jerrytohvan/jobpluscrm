@@ -49,13 +49,19 @@ Route::group(['middleware' => ['web']], function () {
   'uses' => '\App\Models\Clients\ClientController@index_account_new'
 ]);
     Route::post('/accounts-new', [
-  'as' => 'add.new.account',
-'uses' => '\App\Models\Clients\ClientController@add_new_account'
-]);
-    Route::get('/companies-full-list', [
-    'as' => 'companies.fulllist',
-  'uses' => '\App\Models\Clients\ClientController@index_companies_full_list'
-]);
+      'as' => 'add.new.account',
+    'uses' => '\App\Models\Clients\ClientController@add_new_account'
+    ]);
+
+    Route::post('/update/account', [
+        'as' => 'update.account',
+        'uses' => '\App\Models\Clients\ClientController@updateAccount'
+        ]);
+
+    Route::get('/delete/{employee_id}', [
+        'as' => 'delete.account',
+        'uses' => '\App\Models\Clients\ClientController@removeAccount'
+        ]);
 
     Route::get('/companies/clients', [
 'as' => 'companies.clients',
@@ -65,6 +71,10 @@ Route::group(['middleware' => ['web']], function () {
 'as' => 'companies.leads',
 'uses' => '\App\Models\Clients\ClientController@index_companies_leads'
 ]);
+    Route::get('/convert/{company}', [
+    'as' => 'convert.lead',
+    'uses' => '\App\Models\Clients\ClientController@convertToClient'
+    ]);
 
     Route::get('/view/{company}', [
 'as' => 'view.company',
