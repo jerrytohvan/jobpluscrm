@@ -11,15 +11,17 @@ use App\Models\Clients\CompanyService;
 use App\Models\Attachments\Attachment;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Clients\ClientService;
+use  App\Models\ActivityLog\ActivityLogService;
 
 class ClientController extends Controller
 {
-    public function __construct(ClientService $clientSvc, CompanyService $compService)
+    public function __construct(ClientService $clientSvc, CompanyService $compService, ActivityLogService $actService)
     {
         $this->middleware('auth');
 
         $this->svc = $clientSvc;
         $this->compSvc = $compService;
+        $this->actSvc = $actService;
     }
     public function index_account_full_list()
     {
@@ -33,12 +35,6 @@ class ClientController extends Controller
         $status = "";
         return view('layouts.accounts_new', compact('message', 'status', 'companies'));
     }
-
-    // public function index_companies_full_list()
-    // {
-    //     $array = $this->svc->getAllCompany();
-    //     return view('layouts.companies_fulllist', compact('array'));
-    // }
 
     public function index_companies_clients()
     {
@@ -135,8 +131,9 @@ class ClientController extends Controller
 
         $accounts = $company->employees;
         $companyFiles = $company->files;
+        $activities =   $this->actSvc->getActivitiesByCompany($company);
 
-        return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles'));
+        return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles', 'activities'));
     }
     public function showCompanyPost(Company $company, $message=null, $status=null)
     {
@@ -229,8 +226,14 @@ class ClientController extends Controller
     {
         $company = Company::where('id', $company_id)->first();
         $employee = Employee::where('company_id', $company_id);
-        $employee ->delete();
-        $company->delete();
-        return redirect()->route('companies.fulllist')->with(['message']);
+        // $employee ->delete();
+        // $company->delete();
+        $message = "Opps! File can't be removed!";
+        $status = 0;
+        if ($employee ->delete() && $company->delete()) {
+            $message = "File successfully removed!";
+            $status = 1;
+        }
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 }

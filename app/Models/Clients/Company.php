@@ -3,10 +3,15 @@
 namespace App\Models\Clients;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Company extends Model
 {
+    use LogsActivity;
+
     protected $guarded = [];
+    protected static $logAttributes = ["*"];
+
 
     public function employees()
     {

@@ -17,9 +17,7 @@
 <link href="{{ asset('css/responsive.bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('css/scroller.bootstrap.min.css') }}" rel="stylesheet">
 <style>
-/* #upload_link{
-    text-decoration:none;
-} */
+
 #file_upload{
     display:none;
 }
@@ -30,6 +28,12 @@
 #delete_button {
   display: none;
 
+}
+/* scrollable */
+.content
+{
+  height: 40vh;
+    overflow:auto;
 }
 
 
@@ -184,12 +188,103 @@
                               </div>
                             </div>
 
-                            <br/>
-                            <br/>
 
-                            <div>
 
-                              <h4>Recent Activity</h4>
+                            <div class="row">
+                              <div class="col-md-6 col-xs-12">
+                                          <div class="x_panel">
+                                            <div class="x_title">
+                                              <h2>Recent Activities on Company</h2>
+                                              <div class="clearfix"></div>
+                                            </div>
+                                            <div class="content x_content">
+                                              <ul class="list-unstyled msg_list">
+                                                @foreach ($activities as $activity)
+                                                <li>
+                                                  <a>
+                                                    <span class="image">
+                                                      <img src="{{ $activity[0]->profile_pic == null ?  Gravatar::src(Auth::user()->email) : $activity[0]->profile_pic }}" alt="img">
+                                                    </span>
+                                                    <span>
+                                                      <span>{{ $activity[0]->name }}</span>
+                                                      <span class="time">{{ $activity[2] }}</span>
+                                                    </span>
+                                                    <span class="message">
+                                                      {{ $activity[3] }}
+                                                    </span>
+                                                  </a>
+                                                </li>
+                                                @endforeach
+
+                                              </ul>
+                                            </div>
+                                          </div>
+                                        </div>
+                              <div class="col-md-6 col-xs-12">
+                                <div class="x_panel">
+                                  <div class="x_title">
+                                    <h2>To Do List <small>Sample tasks</small></h2>
+
+                                    <div class="clearfix"></div>
+                                  </div>
+                                  <div class="content x_content">
+                                    <div class="">
+                                      <ul class="to_do">
+                                        <li>
+                                          <p>
+                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Schedule meeting with new client </p>
+                                        </li>
+                                        <li>
+                                          <p>
+                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Create email address for new intern</p>
+                                        </li>
+                                        <li>
+                                          <p>
+                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Have IT fix the network printer</p>
+                                        </li>
+                                        <li>
+                                          <p>
+                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Copy backups to offsite location</p>
+                                        </li>
+                                        <li>
+                                          <p>
+                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Food truck fixie locavors mcsweeney</p>
+                                        </li>
+                                        <li>
+                                          <p>
+                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Food truck fixie locavors mcsweeney</p>
+                                        </li>
+                                        <li>
+                                          <p>
+                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Create email address for new intern</p>
+                                        </li>
+                                        <li>
+                                          <p>
+                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Have IT fix the network printer</p>
+                                        </li>
+                                        <li>
+                                          <p>
+                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Copy backups to offsite location</p>
+                                        </li>
+                                        <li>
+                                          <p>
+                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Copy backups to offsite location</p>
+                                        </li>
+                                        <li>
+                                          <p>
+                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Copy backups to offsite location</p>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- recent activities -> notes -->
+                            <div class="row">
+
+                              <h4>Company Notes</h4>
 
                               <!-- end of user messages -->
                               <ul class="messages">
@@ -246,12 +341,12 @@
 
 
                             </div>
-
+                            <!-- recent activities -> notes -->
 
                           </div>
 
                           <!-- start project-detail sidebar -->
-                          <div class="col-md-3 col-sm-3 col-xs-12">
+                          <div class="col-md-3 col-sm-3 col-xs-9">
                              <section class="panel">
                                 <div class="x_title">
                                    <h2>Company Description</h2>
@@ -352,7 +447,6 @@
                                 </div>
                              </section>
                           </div>
-
                               <!-- end project-detail sidebar -->
 
                         </div>

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Thomaswelton\LaravelGravatar\Facades\Gravatar;
 
 class RegisterController extends Controller
 {
@@ -73,7 +74,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'admin' => $data['admin']
+            'admin' => $data['admin'],
+            'profile_pic' => Gravatar::src($data['email'])
         ]);
         return view('layouts.register');
     }

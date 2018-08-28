@@ -3,25 +3,27 @@
 namespace App\Models\Posts;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Post extends Model
 {
-  protected $fillable = ['content'];
+    use LogsActivity;
 
-  public function comment()
- {
+    protected $fillable = ['content'];
+    protected static $logAttributes = ["*"];
 
-     return $this->morphMany('App\Models\Comments\Comment', 'commentable');
- }
+    public function comment()
+    {
+        return $this->morphMany('App\Models\Comments\Comment', 'commentable');
+    }
 
-   public function user()
-   {
-       return $this->belongsTo('App\Models\Users\User');
-   }
+    public function user()
+    {
+        return $this->belongsTo('App\Models\Users\User');
+    }
 
-   public function likes()
-   {
-       return $this->hasMany('App\Models\Likes\Like');
-   }
-
+    public function likes()
+    {
+        return $this->hasMany('App\Models\Likes\Like');
+    }
 }

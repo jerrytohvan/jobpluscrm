@@ -3,10 +3,17 @@
 namespace App\Models\Clients;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Candidate extends Model
 {
+    use LogsActivity;
+
     protected $guarded = [];
+
+    protected static $logAttributes = ["*"];
+
+
     public function employees()
     {
         return $this->hasMany('App\Models\Employees\Employee');

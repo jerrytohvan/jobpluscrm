@@ -3,16 +3,16 @@
 namespace App\Models\Employees;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Employee extends Model
 {
-    /*
-      Company name - Company
-      Name
-      Email
-      Contact
-    */
+    use LogsActivity;
+
     protected $guarded = [];
+    protected static $logAttributes = ["*"];
+
+
     public function customer()
     {
         return $this->belongsTo('App\Models\Clients\Customer');

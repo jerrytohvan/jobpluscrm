@@ -3,10 +3,16 @@
 namespace App\Models\Attachments;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Attachment extends Model
 {
+    use LogsActivity;
+
     protected $guarded = [];
+
+    protected static $logAttributes = ["*"];
+
     public function message()
     {
         return $this->belongsTo('App\Models\Messages\Message');

@@ -36,7 +36,8 @@
         "maatwebsite/excel": "^3.0",
         "php-science/textrank": "^1.0",
         "smalot/pdfparser": "^0.13.2",
-        "phpunit/phpunit": "^7.3"
+        "phpunit/phpunit": "^7.3",
+        "spatie/laravel-activitylog": "^2.8"
           },
     "require-dev": {
         "mockery/mockery": "0.9.*",
