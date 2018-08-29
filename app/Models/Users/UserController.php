@@ -75,7 +75,7 @@ class UserController extends Controller
             $ext = $photo->getClientOriginalExtension();
             $memberPic = "member_". $id . "." . $ext;
             $url = "images/" . $memberPic;
-            $user -> profilepic = $url;
+            $user -> profile_pic = $url;
     
             $path = public_path()."\\images\\";
             $photo->move($path, $memberPic);

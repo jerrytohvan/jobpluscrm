@@ -42,7 +42,7 @@
                           <div id="crop-avatar">
                             <!-- Current avatar -->
                             <!-- <img class="img-responsive avatar-view" src="{{ ($user->profile_pic != null ? $user->profile_pic : Gravatar::src(Auth::user()->email)) }}" alt="Avatar" title="Change the avatar"> -->
-                            <img class="img-responsive avatar-view" src="{{ ($user->profilepic) }}" alt="Avatar" title="Change the avatar">
+                            <img class="img-responsive avatar-view" src="{{ ($user->profile_pic) }}" alt="Avatar" title="Change the avatar">
                           </div>
                         </div>
                         <h3>{{ $user->name }}</h3>
