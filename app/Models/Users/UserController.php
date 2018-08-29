@@ -48,9 +48,39 @@ class UserController extends Controller
             return redirect()->back();
         }
     }
-    public function updateProfile()
+    public function updateProfile(Request $request)
     {
-        dd(request()->all());
+        $user = Auth::user();
+        $id = Auth::user()->id;
+        $this->validate($request, [
+          'name' => 'required|max:50',
+          'email' => 'email|required',
+        //   'password' => 'required|min:4',
+          'handphone' => 'required|min:8,max:8',
+          'birthday' => 'required'
+        ]);
+
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $handphone = $request->input('handphone');
+        $birthday = $request->input('birthday');
+                
+        $user -> name = $request->input('name');
+        $user -> email = $request->input('email');
+        $user -> handphone = $request->input('handphone');
+        $user -> birth_date = $request->input('birthday');
+
+        $photo = $request->file('photo');
+        $ext = $photo->getClientOriginalExtension();
+        $memberPic = "member_". $id . "." . $ext;
+        $url = "images/" . $memberPic;
+        $user -> profilepic = $url;
+
+        $path = public_path()."\\images\\";
+        $photo->move($path, $memberPic);
+       
+        $user -> save();
+        return redirect()->route('show.profile');
     }
 
     public function logout()
