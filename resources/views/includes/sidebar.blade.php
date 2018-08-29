@@ -11,7 +11,8 @@
         <!-- menu profile quick info -->
         <div class="profile">
             <div class="profile_pic">
-                <img src="{{ Gravatar::src(Auth::user()->email) }}" alt="Avatar of {{ Auth::user()->name }}" class="img-circle profile_img">
+                <!-- <img src="{{ Gravatar::src(Auth::user()->email) }}" alt="Avatar of {{ Auth::user()->name }}" class="img-circle profile_img"> -->
+                <img src="{{ (Auth::user()->profilepic) }}" alt="Avatar" class="img-circle profile_img">
             </div>
 
             <div class="profile_info">
