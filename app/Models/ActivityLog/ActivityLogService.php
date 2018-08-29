@@ -10,6 +10,7 @@ use App\Models\Employees\Employee;
 use App\Models\Users\User;
 use App\Models\Comments\Comment;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Posts\Post;
 
 class ActivityLogService
 {
@@ -73,9 +74,10 @@ class ActivityLogService
                 $dateDiff = date_diff($dateBefore, $dateNow);
                 $dateString = Self::constructStringFromDateTime($dateDiff);
 
-                $sentence = "You " . Self::constructSentenceForUser($activity->description, $activity);
-
-                $construct[] = [$dateString, $sentence];
+                $sentence =  Self::constructSentenceForUser($activity->description, $activity);
+                if ($sentence!=null) {
+                    $construct[] = [$dateString, $sentence];
+                }
             }
         }
         return $construct;
@@ -90,27 +92,28 @@ class ActivityLogService
         if (Company::class == $activity->subject_type) {
             $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
             if (isset($activity->changes()->all()['attributes']) && ($activity->changes()->all()['attributes']['client'] == true) && (isset($activity->changes()->all()['old']) && $activity->changes()->all()['old']['client'] == false)) {
-                return " converted company " . $objectName . " as a client.";
+                return "You converted company " . $objectName . " as a client.";
             }
-            return $action . " " . $objectName . "'s data.";
+            return "You " .$action . " " . $objectName . "'s data.";
         } elseif (Attachment::class == $activity->subject_type) {
             $objectName = isset($object->filename) ? $object->filename : $activity->changes()->all()['attributes']['file_name'];
             $company = Company::find($activity->changes()->all()['attributes']['attachable_id']);
 
-            return $action . " " . $objectName . " for company " . $company->name . ".";
+            return "You " .$action . " " . $objectName . " for company " . $company->name . ".";
         } elseif (User::class == $activity->subject_type) {
             if ($activity->subject_id != $activity->causer_id) {
                 $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
-                return $action . " " . $objectName . "'s account as an admin.";
+                return "You " . $action . " " . $objectName . "'s account as an admin.";
             }
             return $action . " your profile.";
         } elseif (Employee::class == $activity->subject_type) {
             $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
             $company = Company::find($activity->changes()->all()['attributes']['company_id']);
-            return $action . " " . $objectName . "'s account for company " . $company->name . ".";
-        } elseif (Comment::class == $activity->subject_type) {
-            return $action . " a post on announcement board.";
+            return "You " .$action . " " . $objectName . "'s account for company " . $company->name . ".";
+        } elseif (Post::class == $activity->subject_type) {
+            return "You " .$action . " a post on announcement board.";
         }
+        return null;
     }
 
     public function constructSentenceFromAction($action, $activity)
