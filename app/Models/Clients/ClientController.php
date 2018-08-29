@@ -11,7 +11,7 @@ use App\Models\Clients\CompanyService;
 use App\Models\Attachments\Attachment;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Clients\ClientService;
-use  App\Models\ActivityLog\ActivityLogService;
+use App\Models\ActivityLog\ActivityLogService;
 
 class ClientController extends Controller
 {
@@ -228,10 +228,10 @@ class ClientController extends Controller
         $employee = Employee::where('company_id', $company_id);
         // $employee ->delete();
         // $company->delete();
-        $message = "Opps! File can't be removed!";
+        $message = "Opps! Company can't be deleted!";
         $status = 0;
         if ($employee ->delete() && $company->delete()) {
-            $message = "File successfully removed!";
+            $message = "Company's profile successfully removed!";
             $status = 1;
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
