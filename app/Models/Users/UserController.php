@@ -70,14 +70,16 @@ class UserController extends Controller
         $user -> handphone = $request->input('handphone');
         $user -> birth_date = $request->input('birthday');
 
-        $photo = $request->file('photo');
-        $ext = $photo->getClientOriginalExtension();
-        $memberPic = "member_". $id . "." . $ext;
-        $url = "images/" . $memberPic;
-        $user -> profilepic = $url;
-
-        $path = public_path()."\\images\\";
-        $photo->move($path, $memberPic);
+        if ($request->hasFile('photo')) {
+            $photo = $request->file('photo');
+            $ext = $photo->getClientOriginalExtension();
+            $memberPic = "member_". $id . "." . $ext;
+            $url = "images/" . $memberPic;
+            $user -> profilepic = $url;
+    
+            $path = public_path()."\\images\\";
+            $photo->move($path, $memberPic);
+        }
        
         $user -> save();
         return redirect()->route('show.profile');

@@ -254,7 +254,7 @@
 
                                 <div class="form-group">
                                   <label for="photo">Display Picture</label>
-                                  <input type="file" name="photo" id="photo" required="required" data-parsley-filemaxmegabytes="1" data-parsley-trigger="change" data-parsley-filemimetypes="image/jpeg, image/pipeg, image/png, image/bmp, image/webp">
+                                  <input type="file" name="photo" id="photo" data-parsley-filemaxmegabytes="1" data-parsley-trigger="change" data-parsley-filemimetypes="image/jpeg, image/pipeg, image/png, image/bmp, image/webp">
                                </div> 
 
                             </form>
@@ -300,7 +300,10 @@ function submitform()
 
     var name = $("input[name=name]").val();
     var email = $("input[name=email]").val();
- 
+    // var password = $("input[name=password]").val();
+    // var handphone = $("input[name=handphone]").val();
+    // var birth_date = $("input[name=birth_date]").val();
+    console.log(postData);
     $(document).ready(function () {
       $(".edit").click(function () {
           id = $(this).data('id');
@@ -314,8 +317,8 @@ function submitform()
           url: urlEdit,
           // processData: false,
           // contentType: false,
-          data : postData,
-          // data:{name:name,email:email},
+          // data : postData,
+          data:{name:name,email:email},
           success: function(resultData) {
               window.location.reload();
                }
@@ -331,6 +334,8 @@ function submitform()
           maxYear: parseInt(moment().format('YYYY'),10)
         })
       });
+
+
 
       var app = app || {};
 
