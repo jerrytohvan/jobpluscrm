@@ -121,6 +121,16 @@ Route::group(['middleware' => ['web']], function () {
   'as' => 'add.new.company',
 'uses' => '\App\Models\Clients\ClientController@add_new_company'
 ]);
+    Route::post('/attach/company', [
+'as' => 'attach.user',
+'uses' => '\App\Models\Clients\ClientController@attachToCompany'
+]);
+    Route::get('/detach/{company}/{user}', [
+'as' => 'detach.user',
+'uses' => '\App\Models\Clients\ClientController@detachFromCompany'
+]);
+
+
     Route::get('/telegram', [
   'as' => 'telegram',
 'uses' => '\App\Models\SocialWall\SocialWallController@index'

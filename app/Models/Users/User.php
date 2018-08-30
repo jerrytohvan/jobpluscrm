@@ -67,4 +67,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Likes\Like');
     }
+    public function companies()
+    {
+        return $this->belongsToMany('App\Models\Clients\Company', 'user_company')->using('App\Models\Users\UserCompany');
+    }
 }

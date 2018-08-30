@@ -30,4 +30,9 @@ class Company extends Model
     {
         return $this->morphMany('App\Models\Attachments\Attachment', 'attachable');
     }
+
+    public function collaborators()
+    {
+        return $this->belongsToMany('App\Models\Users\User', 'user_company')->using('App\Models\Users\UserCompany');
+    }
 }

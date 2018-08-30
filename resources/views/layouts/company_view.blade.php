@@ -29,14 +29,67 @@
   display: none;
 
 }
+
 /* scrollable */
 .content
 {
   height: 40vh;
     overflow:auto;
 }
+.gi-1x{
+  top: -5px;
+  font-size: 1.5em;
+}
 
+/* quick reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
 
+html {
+  font-family: helvetica, arial, sans-serif;
+}
+
+/* relevant styles */
+.img__wrap {
+  position: relative;
+  height: auto;
+  width: auto;
+}
+
+.img__description_layer {
+  position: absolute;
+  top: 2em;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(36, 62, 206, 0.6);
+  color: black;
+  visibility: hidden;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* transition effect. not necessary */
+  transition: opacity .2s, visibility .2s;
+}
+
+.img__wrap:hover .img__description_layer {
+  visibility: visible;
+  opacity: 1;
+}
+
+.img__description {
+  transition: .2s;
+  transform: translateY(3em);
+}
+
+.img__wrap:hover .img__description {
+  transform: translateY(20);
+}
 </style>
 @endpush
 
@@ -78,6 +131,36 @@
                                </li>
                             </ul>
 
+                            <div class="row" style="padding-bottom: 2em;">
+                              <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div>
+                                      <div class="x_title">
+                                        <h2>Collaborators</h2>
+                                      <div class="clearfix"></div>
+                                      </div>
+                                      <ul class="list-inline">
+                                        @if(!empty($collaborators))
+                                          @foreach($collaborators as $profile)
+                                        <li>
+                                          <div class="img__wrap">
+                                            <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
+                                              <div class="img__description_layer">
+                                                <p class="img__description">{{ $profile->name }}</p>
+                                              </div>
+                                            </div>
+                                        </li>
+                                          @endforeach
+                                        @endif
+                                          <a id="collaborators_button" >
+                                            <span class="glyphicon glyphicon-plus-sign gi-1x"></span>
+                                           </a>
+                                        </li>
+                                      </ul>
+
+                                    </div>
+                                  </div>
+                            </div>
+
                             <br>
 
                             <div>
@@ -91,7 +174,7 @@
                               <div class="x_content">
                                  <div class="" role="tabpanel" data-example-id="togglable-tabs">
                                     <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                       <li role="presentation" class="active"><a href="#tab_account" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Acconts</a>
+                                       <li role="presentation" class="active"><a href="#tab_account" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Accounts</a>
                                        </li>
                                        <li role="presentation" class=""><a href="#new_account" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">New Account</a>
                                        </li>
@@ -669,6 +752,65 @@
       <!-- /.modal-dialog -->
    </div>
 
+
+   <div class="modal fade" tabindex="-1" role="dialog" id="edit-collaborators">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title">Edit Collaborators</h4>
+            </div>
+            <div class="modal-body">
+              <div class="table-responsive">
+               <table id="datatable" class="account_table table table-striped table-bordered">
+                  <thead>
+                     <tr>
+                        <th>Name</th>
+                        <th  style="width: 5%">Actions</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($collaborators as $profile)
+                    <tr>
+                    <td>{{ $profile->name }}</td>
+                    <td><a href="{{ route('detach.user',['company'=> $company->id, 'user'=> $profile->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Remove</a></td>
+                  </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
+              <div>
+                {{  Form::open(['route' => 'attach.user','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'attach_user']) }}
+                <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Select User</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                          <select class="select2_single form-control" name="user_id" required="required" tabindex="-1">
+                                            <option value="">Select a User</option>
+
+                                            @foreach($users as $user)
+                                              @if(!in_array($user->id, $collaboratorsId))
+                                              <option value="{{ $user-> id}}">{{$user->name}}</option>
+                                              @endif
+                                            @endforeach
+                                          </select>
+                                        </div>
+                                      </div>
+                <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
+                <div class="modal-footer">
+                <button type="submit" class="btn btn-sm btn-primary">Save</a>
+              </div>
+                </form>
+              </div>
+            </div>
+            <!-- <div class="modal-footer">
+               <button  type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-primary"  onclick="" >Save</button>
+            </div> -->
+         </div>
+         <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+   </div>
 </div>
 @endsection
 
@@ -847,7 +989,14 @@ $(document).ready(function () {
 
            $('#edit-account').modal('show');
       });
+
+
+      $("#collaborators_button").click(function () {
+          $('#edit-collaborators').modal('show');
+        });
   });
+
+
 
   $(document).ready(function () {
     $('.ui-pnotify').remove();

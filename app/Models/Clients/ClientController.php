@@ -5,23 +5,26 @@ namespace App\Models\Clients;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Users\User;
 use App\Models\Clients\Company;
 use App\Models\Employees\Employee;
 use App\Models\Clients\CompanyService;
 use App\Models\Attachments\Attachment;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Clients\ClientService;
+use App\Models\Users\UserService;
 use App\Models\ActivityLog\ActivityLogService;
 
 class ClientController extends Controller
 {
-    public function __construct(ClientService $clientSvc, CompanyService $compService, ActivityLogService $actService)
+    public function __construct(UserService $userSvc, ClientService $clientSvc, CompanyService $compService, ActivityLogService $actService)
     {
         $this->middleware('auth');
 
         $this->svc = $clientSvc;
         $this->compSvc = $compService;
         $this->actSvc = $actService;
+        $this->userSvc = $userSvc;
     }
     public function index_account_full_list()
     {
@@ -132,15 +135,13 @@ class ClientController extends Controller
         $accounts = $company->employees;
         $companyFiles = $company->files;
         $activities =   $this->actSvc->getActivitiesByCompany($company);
-
-        return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles', 'activities'));
+        $collaborators = $company->collaborators;
+        $collaboratorsId = $collaborators->pluck('id')->toArray();
+        $users = User::all();
+        return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId'));
     }
     public function showCompanyPost(Company $company, $message=null, $status=null)
     {
-        // if ($status!=null) {
-        //     return redirect()->route('view.company', compact('company'));
-        // }
-
         $accounts = $company->employees;
         $companyFiles = $company->files;
         return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles'));
@@ -230,8 +231,32 @@ class ClientController extends Controller
         // $company->delete();
         $message = "Opps! Company can't be deleted!";
         $status = 0;
-        if ($employee ->delete() && $company->delete()) {
+        if ($employee->delete() && $company->delete()) {
             $message = "Company's profile successfully removed!";
+            $status = 1;
+        }
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
+
+    public function attachToCompany()
+    {
+        $company = Company::find(request()->input('company_id'));
+        $user = User::find(request()->input('user_id'));
+        $message = "Opps! User can't be added. ";
+        $status = 0;
+        if ($this->userSvc->attachUserWithCompany($user, $company)==1) {
+            $message = "User successfully tagged.";
+            $status = 1;
+        }
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
+
+    public function detachFromCompany(Company $company, User $user)
+    {
+        $message = "Opps! User can't be removed. ";
+        $status = 0;
+        if ($this->userSvc->detachUserFromCompany($user, $company) ==1) {
+            $message = "User successfully removed.";
             $status = 1;
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);

@@ -2,7 +2,9 @@
 
 namespace App\Models\Users;
 
-use App\Users\User;
+use App\Models\Users\User;
+use App\Models\Clients\Company;
+use App\Models\Users\UserCompany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,6 +33,21 @@ class UserService
         }
         $user->save();
         return $user;
+    }
+    public function attachUserWithCompany(User $user, Company $company)
+    {
+        $user->companies()->attach($company->id);
+        if (UserCompany::whereUserId($user->id)->whereCompanyId($company->id)->first()) {
+            return 1;
+        }
+        return 0;
+    }
+    public function detachUserFromCompany(User $user, Company $company)
+    {
+        if ($user->companies()->detach($company->id)) {
+            return 1;
+        };
+        return 0;
     }
     public function updateProfilePicture()
     {
