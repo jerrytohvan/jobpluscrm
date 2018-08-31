@@ -49,17 +49,66 @@ Route::group(['middleware' => ['web']], function () {
   'uses' => '\App\Models\Clients\ClientController@index_account_new'
 ]);
     Route::post('/accounts-new', [
-  'as' => 'add.new.account',
-'uses' => '\App\Models\Clients\ClientController@add_new_account'
+      'as' => 'add.new.account',
+    'uses' => '\App\Models\Clients\ClientController@add_new_account'
+    ]);
+
+    Route::post('/update/account', [
+        'as' => 'update.account',
+        'uses' => '\App\Models\Clients\ClientController@updateAccount'
+        ]);
+
+    Route::get('/delete/{employee_id}', [
+        'as' => 'delete.account',
+        'uses' => '\App\Models\Clients\ClientController@removeAccount'
+        ]);
+
+    Route::get('/companies/clients', [
+'as' => 'companies.clients',
+'uses' => '\App\Models\Clients\ClientController@index_companies_clients'
 ]);
-    Route::get('/companies-full-list', [
-    'as' => 'companies.fulllist',
-  'uses' => '\App\Models\Clients\ClientController@index_companies_full_list'
+    Route::get('/companies/leads', [
+'as' => 'companies.leads',
+'uses' => '\App\Models\Clients\ClientController@index_companies_leads'
 ]);
+    Route::get('/convert/{company}', [
+    'as' => 'convert.lead',
+    'uses' => '\App\Models\Clients\ClientController@convertToClient'
+    ]);
+
     Route::get('/view/{company}', [
+'as' => 'view.company',
+'uses' => '\App\Models\Clients\ClientController@showCompany'
+]);
+
+    Route::post('/view/{company}', [
+  'as' => 'view.company',
+  'uses' => '\App\Models\Clients\ClientController@showCompany'
+  ]);
+    Route::post('/view/{company}', [
       'as' => 'view.company',
-      'uses' => '\App\Models\Clients\ClientController@showCompany'
+      'uses' => '\App\Models\Clients\ClientController@showCompanyPost'
       ]);
+
+    Route::get('/file/{file}', [
+        'as' => 'get.file',
+        'uses' => '\App\Models\Clients\ClientController@getFile'
+        ]);
+
+    Route::post('/update/company', [
+        'as' => 'update.company',
+        'uses' => '\App\Models\Clients\ClientController@updateCompany'
+        ]);
+
+    Route::post('/upload/company-file', [
+        'as' => 'update.company.file',
+        'uses' => '\App\Models\Clients\ClientController@addFileToCompany'
+        ]);
+    Route::get('/remove/company-file/{file}', [
+            'as' => 'remove.company.file',
+            'uses' => '\App\Models\Clients\ClientController@removeFileFromCompany'
+            ]);
+
     Route::get('/deletecompany/{company_id}', [
 'as' => 'delete.company',
 'uses' => '\App\Models\Clients\ClientController@removeCompany'
@@ -72,6 +121,16 @@ Route::group(['middleware' => ['web']], function () {
   'as' => 'add.new.company',
 'uses' => '\App\Models\Clients\ClientController@add_new_company'
 ]);
+    Route::post('/attach/company', [
+'as' => 'attach.user',
+'uses' => '\App\Models\Clients\ClientController@attachToCompany'
+]);
+    Route::get('/detach/{company}/{user}', [
+'as' => 'detach.user',
+'uses' => '\App\Models\Clients\ClientController@detachFromCompany'
+]);
+
+
     Route::get('/telegram', [
   'as' => 'telegram',
 'uses' => '\App\Models\SocialWall\SocialWallController@index'

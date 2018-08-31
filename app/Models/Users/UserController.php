@@ -6,19 +6,22 @@ use App\Users\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog\ActivityLogService;
 
 class UserController extends Controller
 {
-    public function __construct(UserService $userSvc)
+    public function __construct(UserService $userSvc, ActivityLogService $actService)
     {
         $this->middleware('auth');
         $this->svc = $userSvc;
+        $this->actSvc = $actService;
     }
 
     public function index()
     {
         $user = Auth::user();
-        return view('layouts.user_profile', compact('user'));
+        $activities = $this->actSvc->getActivitiesByUser($user);
+        return view('layouts.user_profile', compact('user', 'activities'));
     }
     public function signUp(Request $request)
     {
