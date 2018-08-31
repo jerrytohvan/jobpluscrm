@@ -124,6 +124,10 @@ Route::group(['middleware' => ['web']], function () {
       'as' => 'search.job',
     'uses' => '\App\Models\MachineLearning\SmartMatchController@matchDescriptionWithPotentialJobs'
     ]);
+    Route::post('/mail', [
+      'as' => 'craft.email',
+    'uses' => '\App\Models\Mail\MailController@test'
+    ]);
 });
 Route::get('/employees', 'employeeController@index');
 Route::get('/employees/{id}', 'employeeController@show');
@@ -208,36 +212,43 @@ Route::get('/interests/{id}', 'InterestsController@show');
 Route::post('/interests/create', 'InterestsController@store');
 Route::delete('/interests/{id}', 'InterestsController@destroy');
 Route::put('/interests/{id}', 'InterestsController@update');
+// fields controllers
 Route::get('/fields', 'FieldsController@index');
 Route::get('/fields/{id}', 'FieldsController@show');
 Route::post('/fields/create', 'FieldsController@store');
 Route::delete('/fields/{id}', 'FieldsController@destroy');
 Route::put('/fields/{id}', 'FieldsController@update');
+//message controllers
 Route::get('/messages', 'MessagesController@index');
 Route::get('/messages/{id}', 'MessagesController@show');
 Route::post('/messages/create', 'MessagesController@store');
 Route::delete('/messages/{id}', 'MessagesController@destroy');
 Route::put('/messages/{id}', 'MessagesController@update');
+// likes controllers
 Route::get('/likes', 'LikesController@index');
 Route::get('/likes/{like}', 'LikesController@show');
 Route::post('/likes/create', 'LikesController@store');
 Route::delete('/likes/{like}', 'LikesController@destroy');
 Route::put('/likes/{like}', 'LikesController@update');
+// resume controllers
 Route::get('/resumes', 'ResumesController@index');
 Route::get('/resumes/{id}', 'ResumesController@show');
 Route::post('/resumes/create', 'ResumesController@store');
 Route::delete('/resumes/{id}', 'ResumesController@destroy');
 Route::put('/resumes/{id}', 'ResumesController@update');
+// Tasks controllers
 Route::get('/tasks', 'TasksController@index');
 Route::get('/tasks/{id}', 'TasksController@show');
 Route::post('/tasks/create', 'TasksController@store');
 Route::delete('/tasks/{id}', 'TasksController@destroy');
 Route::put('/tasks/{id}', 'TasksController@update');
+// resume controllers
 Route::get('/resumes', 'ResumesController@index');
 Route::get('/resumes/{id}', 'ResumesController@show');
 Route::post('/resumes/create', 'ResumesController@store');
 Route::delete('/resumes/{id}', 'ResumesController@destroy');
 Route::put('/resumes/{id}', 'ResumesController@update');
+//tasks controllers
 Route::get('/tasks', 'TasksController@index');
 Route::get('/tasks/{id}', 'TasksController@show');
 Route::post('/tasks/create', 'TasksController@store');
@@ -252,3 +263,8 @@ Route:: get('/callback', [
 Route::get('oauth', [
   'as' => 'oauthCallback',
   'uses' => 'gCalendarController@oauth']);
+
+  // email Routes
+  // Route::post('sendemail', 'MailController@sendemail');
+  Route::post('displayemail','MailController@getMail');
+    Route::post('attachmentemail', 'MailController@attachment_email');

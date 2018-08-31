@@ -265,6 +265,7 @@
 
 @section('bottom_content')
 <!-- compose -->
+< >
 <div class="compose col-md-6 col-xs-12">
   <div class="compose-header">
     New Message
@@ -334,6 +335,7 @@
         <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
       </div>
 
+
       <div class="btn-group">
         <a class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn"><i class="fa fa-picture-o"></i></a>
         <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
@@ -345,13 +347,22 @@
       </div>
     </div>
 
-    <div id="editor" class="editor-wrapper"></div>
-  </div>
-
-  <div class="compose-footer">
-    <button id="send" class="btn btn-sm btn-success" type="button">Send</button>
-  </div>
+  <div class="form-group">
+    <div id="editor"  class="editor-wrapper"></div>
 </div>
+   <div class="compose-footer">
+    <button  class="btn btn-sm btn-success" type="button">Send</button>
+  </div>
+  {{  Form::open(['route' =>'craft.email', 'method'=>'post']) }}
+  $message_content = $('editor_wrapper').text();
+    {{ Form::submit('Submit', ['class'=>'btn btn-success']) }}
+                {!! Form::close() !!}
+
+
+
+</div>
+
+
 <!-- /compose -->
 @endsection
 

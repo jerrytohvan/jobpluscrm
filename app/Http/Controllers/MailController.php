@@ -1,17 +1,12 @@
 <?php
-namespace App\Models\Mail;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests;
-
 use Mail;
 
 class MailController extends Controller
 {
-  public function index(){
-     return view('/layouts/index_mail');
-  }
+
 
   // basic test mail method  - This method works
   public function sendemail(){
@@ -41,12 +36,7 @@ class MailController extends Controller
 
 
 
-     public function test(){
 
-      $message = request()->input('message_content');
-      dd($message);
-      return redirect()->route('layouts.index_mail')->with(['message']);
-}
 
 
   public function getMail()
