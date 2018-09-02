@@ -50,7 +50,6 @@ class CompanyService
 
     public function addCompanyFiles($hashedName, $fileName, Company $company)
     {
-        // Controller(move file to ):
         $fileDir = storage_path() ."/app/attachments/".$hashedName;
         $filenameArray = explode('.', $hashedName);
         if (file_exists($fileDir)) {

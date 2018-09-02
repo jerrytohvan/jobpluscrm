@@ -36,4 +36,8 @@ class Candidate extends Model
     {
         return $this->hasMany('App\Models\Fields\Field');
     }
+    public function files()
+    {
+        return $this->morphMany('App\Models\Attachments\Attachment', 'attachable');
+    }
 }

@@ -39,19 +39,34 @@ Route::group(['middleware' => ['web']], function () {
   ]);
     Route::get('/', 'AccountController@index')->name('dashboard');
     Route::get(
-      '/accounts-full-list',
-  ['as' => 'accounts.fulllist',
-   'uses' => '\App\Models\Clients\ClientController@index_account_full_list'
+      '/candidates-full-list',
+  ['as' => 'candidates.fulllist',
+   'uses' => '\App\Models\Clients\ClientController@index_candidates_full_list'
  ]
   );
-    Route::get('/accounts-new', [
-    'as' => 'accounts.new',
-  'uses' => '\App\Models\Clients\ClientController@index_account_new'
+    Route::get('/candidates-new', [
+    'as' => 'candidates.new',
+  'uses' => '\App\Models\Clients\ClientController@index_candidates_new'
 ]);
-    Route::post('/accounts-new', [
+
+    Route::get('/candidate/remove/{candidate}', [
+    'as' => 'delete.candidate',
+    'uses' => '\App\Models\Clients\ClientController@removeCandidate'
+    ]);
+
+    Route::post('/candidates-new', [
+      'as' => 'add.new.candidate',
+    'uses' => '\App\Models\Clients\ClientController@add_new_candidate'
+    ]);
+
+    Route::post('/account-new', [
       'as' => 'add.new.account',
     'uses' => '\App\Models\Clients\ClientController@add_new_account'
     ]);
+    Route::get('candidate/resume/{file}', [
+        'as' => 'get.resume',
+        'uses' => '\App\Models\Clients\ClientController@getResume'
+        ]);
 
     Route::post('/update/account', [
         'as' => 'update.account',

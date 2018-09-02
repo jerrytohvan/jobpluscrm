@@ -55,13 +55,13 @@ class ClientService
     public function addAccount($array)
     {
         return Employee::create([
-      'name' => $array->name,
-      'email' => $array->email,
-      'title' => $array->title,
-      'handphone' => $array->handphone,
-      'telephone' => $array->telephone,
-      'company_id' => $array->company_id
-      ]);
+        'name' => $array['name'],
+        'email' => $array['email'],
+        'title' => $array['title'],
+        'handphone' => $array['handphone'],
+        'telephone' => $array['telephone'],
+        'company_id' => $array['company_id']
+        ]);
     }
 
     public function getAllAccount()
