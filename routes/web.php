@@ -104,6 +104,12 @@ Route::group(['middleware' => ['web']], function () {
       'as' => 'index.calendar',
     'uses' => '\App\Models\Calendar\CalendarController@index'
     ]);
+
+    Route::post('/calendar/create', [
+      'as' => 'add.calendar',
+    'uses' => '\App\Models\Calendar\CalendarController@add_new_event'
+    ]);
+
     Route::get('/mail', [
       'as' => 'index.mail',
     'uses' => '\App\Models\Mail\MailController@index'
@@ -120,6 +126,7 @@ Route::group(['middleware' => ['web']], function () {
       'as' => 'search.job',
     'uses' => '\App\Models\MachineLearning\SmartMatchController@matchDescriptionWithPotentialJobs'
     ]);
+
 });
 Route::get('/employees', 'employeeController@index');
 Route::get('/employees/{id}', 'employeeController@show');
@@ -240,7 +247,8 @@ Route::post('/tasks/create', 'TasksController@store');
 Route::delete('/tasks/{id}', 'TasksController@destroy');
 Route::put('/tasks/{id}', 'TasksController@update');
 Auth::routes();
-Route::resource('/gcalendar', 'gCalendarController');
+Route::get('/gcalendar', 'gCalendarController@index');
+Route::post('/gcalendar/create','gCalendarController@store');
 Route:: get('/callback', [
   'as' => 'cal.index',
   'uses' => 'gCalendarController@callback'

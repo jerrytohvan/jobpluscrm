@@ -49,15 +49,15 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => env('DB_HOST', 'localhost'),
-            'port' =>   env('DB_PORT', '5432'),
-            'database' =>   env('DB_HOST', 'jobplus'),
-            'username' =>  env('DB_USERNAME', 'postgres'),
-            'password' =>  env('DB_PASSWORD', 'yiyao'),
+            'host' => 'localhost',
+            'port' =>   '5432',
+            'database' =>   'jobplus',
+            'username' =>  'postgres',
+            'password' =>  'yiyao',
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
-            'sslmode' => 'require',
+            'sslmode' => 'allow',
         ],
         'pgsql_production' => [
             'driver' => 'pgsql',

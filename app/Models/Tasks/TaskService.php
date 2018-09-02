@@ -2,8 +2,11 @@
 
 namespace App\Models\Tasks;
 
+use Auth;
+use App\Models\Users\User;
 use Illuminate\Http\Request;
 use App\Models\Tasks\Task;
+
 
 class TaskService
 {
@@ -16,16 +19,15 @@ class TaskService
    */
   public function storeTask($array)
   {
-      return Task::Create([
-        'title' => $array['title'],
-        'description' => $array['description'],
-        'date_reminder' => $array['date_reminder'],
-        'reminder_type' => $array['reminder_type'],
-        'date_completed' => $array['date_completed'],
-        'company_id' => $array['company_id'],
-        'employee_id' => $array['employee_id'],
-        'assigned_to_id' => $array['assigned_to_id']
-      ]);
+    print(Auth::user()->id);
+        return Task::Create([
+          'title' => $array['title'],
+          'description' => $array['description'],
+          'date_reminder' => $array['date_reminder'],
+          'user_id' => Auth::user()->id,
+          'assigned_to_id' => User::where('email',$array['assigned_to_id'])->first() == "" ? null :User::where('email',$array['assigned_to_id'])->first()->id,
+          'type' => $array['type']
+        ]);
   }
 
   /**

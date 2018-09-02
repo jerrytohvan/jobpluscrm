@@ -18,9 +18,9 @@ class CreateTasksTable extends Migration
             $table->text('title');
             $table->text('description');
             $table->dateTime('date_reminder');
-            $table->integer('user_id');
+            $table->integer('user_id')->nullable();
             $table->integer('assigned_to_id')->nullable();
-            $table->string('type');//event or company tasks
+            $table->string('type')->nullable();//event or company tasks
             $table->timestamps();
         });
     }
