@@ -165,6 +165,9 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Watson\BootstrapForm\BootstrapFormServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+		
+		Barryvdh\Debugbar\ServiceProvider::class,
+
     ],
 
     /*
@@ -216,6 +219,8 @@ return [
             'Html' => Collective\Html\HtmlFacade::class,
             'BootForm' => Watson\BootstrapForm\Facades\BootstrapForm::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+		
+		'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 
