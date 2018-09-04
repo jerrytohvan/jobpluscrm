@@ -248,6 +248,11 @@
                                 </div>    
 
                                 <div class="form-group">
+                                    <label for="tele_id">Telegram Chat ID</label>
+                                    <input id="tele_id" class="form-control col-md-7 col-xs-12" required="required" type="text" name="tele_id" value="{{ $user->tele_id }}">
+                                </div>    
+
+                                <div class="form-group">
                                      <label for="birthday">Birth Date</label>
                                      <input type="text" class="form-control col-md-7 col-xs-12"  data-date-format="MM/DD/YYYY" required="required" id="birthday" name="birthday" value='{{ date("mm/dd/YYYY", strtotime($user->birth_date)) }}' />
                                 </div> 
