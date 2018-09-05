@@ -127,6 +127,15 @@ Route::group(['middleware' => ['web']], function () {
     'uses' => '\App\Models\MachineLearning\SmartMatchController@matchDescriptionWithPotentialJobs'
     ]);
 
+     //Task
+  Route::post('/tasks/task','\App\Models\Tasks\TaskController@createTask');
+  Route::post('/tasks/reminder','\App\Models\Tasks\TaskController@createReminder');
+ //Route::post('/tasks/tasklist','\App\Models\Tasks\TaskController@createTaskList');
+  Route::get('/tasks/{id}','\App\Models\Tasks\TaskController@showToDoList');
+  Route::get('/tasks/{id}/{cid}','\App\Models\Tasks\TaskController@showTaskList');
+  Route::get('/events/{id}','\App\Models\Tasks\TaskController@showEvent');
+  Route::put('/tasks/{id}','\App\Models\Tasks\TaskController@updateToDoList');
+  Route::delete('/tasks/{id}','\App\Models\Tasks\TaskController@deleteToDoList');
 });
 Route::get('/employees', 'employeeController@index');
 Route::get('/employees/{id}', 'employeeController@show');
@@ -231,21 +240,21 @@ Route::get('/resumes/{id}', 'ResumesController@show');
 Route::post('/resumes/create', 'ResumesController@store');
 Route::delete('/resumes/{id}', 'ResumesController@destroy');
 Route::put('/resumes/{id}', 'ResumesController@update');
-Route::get('/tasks', 'TasksController@index');
-Route::get('/tasks/{id}', 'TasksController@show');
-Route::post('/tasks/create', 'TasksController@store');
-Route::delete('/tasks/{id}', 'TasksController@destroy');
-Route::put('/tasks/{id}', 'TasksController@update');
+// Route::get('/tasks', 'TasksController@index');
+// Route::get('/tasks/{id}', 'TasksController@show');
+// Route::post('/tasks/create', 'TasksController@store');
+// Route::delete('/tasks/{id}', 'TasksController@destroy');
+// Route::put('/tasks/{id}', 'TasksController@update');
 Route::get('/resumes', 'ResumesController@index');
 Route::get('/resumes/{id}', 'ResumesController@show');
 Route::post('/resumes/create', 'ResumesController@store');
 Route::delete('/resumes/{id}', 'ResumesController@destroy');
 Route::put('/resumes/{id}', 'ResumesController@update');
-Route::get('/tasks', 'TasksController@index');
-Route::get('/tasks/{id}', 'TasksController@show');
-Route::post('/tasks/create', 'TasksController@store');
-Route::delete('/tasks/{id}', 'TasksController@destroy');
-Route::put('/tasks/{id}', 'TasksController@update');
+//Route::get('/tasks', 'TasksController@index');
+// Route::get('/tasks/{id}', 'TasksController@show');
+// Route::post('/tasks/create', 'TasksController@store');
+// Route::delete('/tasks/{id}', 'TasksController@destroy');
+// Route::put('/tasks/{id}', 'TasksController@update');
 Auth::routes();
 Route::get('/gcalendar', 'gCalendarController@index');
 Route::post('/gcalendar/create','gCalendarController@store');
@@ -256,3 +265,5 @@ Route:: get('/callback', [
 Route::get('oauth', [
   'as' => 'oauthCallback',
   'uses' => 'gCalendarController@oauth']);
+
+ 

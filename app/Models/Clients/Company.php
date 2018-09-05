@@ -15,8 +15,8 @@ class Company extends Model
     {
         return $this->hasMany('App\Models\Employees\Employee');
     }
-    public function events()
+    public function tasks()
     {
-        return $this->belongsToMany('App\Models\Events\Event');
+        return $this->hasMany('App\Models\Tasks\Task');
     }
 }

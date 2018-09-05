@@ -27,9 +27,9 @@ class Employee extends Model
       return $this->belongsTo('App\Models\Clients\Company','id');
   }
 
-  public function events()
+  public function tasks()
   {
-      return $this->hasMany('App\Models\Events\Event');
+      return $this->hasMany('App\Models\Tasks\Task');
   }
 
 }
