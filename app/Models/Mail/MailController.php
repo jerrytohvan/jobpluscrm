@@ -15,11 +15,15 @@ class MailController extends Controller
 
   // basic test mail method  - This method works
   public function sendemail(){
-    $data = array(
-        'name' => "Learning Laravel",  );
-    Mail::send('/layouts/mail', $data, function ($message) {
+
+    Mail::send([], [], function ($message) {
         $message->from('gabrielongxe@gmail.com', 'Gabriel');
-        $message->to('gabriel.ong.2016@sis.smu.edu.sg')->subject('my test email works');
+        $message->to(request()->input('toEmail'))->subject('my test email works');
+        if(request()->input('ccEmail') != null){
+            $message->cc(request()->input('ccEmail'));
+        }
+        $message->attach(request()->file('emailAttachment'));
+        $message->setBody(request()->input('emailMessage')); // assuming text/plain
 
     });
     return "Your email has been sent successfully";
@@ -43,7 +47,7 @@ class MailController extends Controller
 
      public function test(){
 
-      $message = request()->input('message_content');
+      $message = request()->input('Content');
       dd($message);
       return redirect()->route('layouts.index_mail')->with(['message']);
 }
