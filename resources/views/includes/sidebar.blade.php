@@ -1,8 +1,10 @@
 
 <div class="col-md-3 left_col">
     <div class="left_col scroll-view">
-        <div class="navbar nav_title" style="border: 0;">
-            <a href="{{ url('/') }}" class="site_title"><i class="fa fa-odnoklassniki"></i> <span>JobPlusCRM</span></a>
+        <div class="parent navbar nav_title" style="border: 0;">
+            <a href="{{ url('/') }}" >
+              <img  src="{{  asset('/images/jobplus.png') }}"/>
+            </a>
         </div>
         <div class="clearfix"></div>
 
@@ -33,16 +35,13 @@
               <li>
                 <a><i class="fa fa-edit"></i> Companies <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                  <li><a href="{{ route('companies.fulllist') }}">Full List</a></li>
+                  <!-- <li><a href="">Full List</a></li> -->
+                  <li><a href="{{ route('companies.clients') }}">Clients</a></li>
+                  <li><a href="{{ route('companies.leads') }}">Leads</a></li>
                   <li><a href="{{ route('companies.new') }}">New</a></li>
                     </ul>
               </li>
-              <li><a><i class="fa fa-desktop"></i> Accounts <span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu">
-                  <li><a href="{{ route('accounts.fulllist') }}">Full List</a></li>
-                  <li><a href="{{ route('accounts.new') }}">New</a></li>
-                </ul>
-              </li>
+            
             </li>
             @if(Auth::user()->admin == 1)
             <li><a href="{{ route('index.register') }}"><i class="fa fa-users"></i>Manage Admin</a>
@@ -56,14 +55,12 @@
             </li>
               <li><a><i class="fa fa-desktop"></i> Candidates <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                  <li><a href="{{ route('accounts.fulllist') }}">Full list</a></li>
-                  <li><a href="{{ route('accounts.new') }}">New</a></li>
+                  <li><a href="{{ route('candidates.fulllist') }}">Full list</a></li>
+                  <li><a href="{{ route('candidates.new') }}">New</a></li>
                 </ul>
-              <!-- <li><a href="{{ route('data.presentation') }}"><i class="fa fa-table"></i> Data Presentation</a> -->
               </li>
               <li><a href="{{ route('index.smart.match') }}"><i class="fa fa-magic"></i> Smart Match </a>
               </li>
-              <!-- <li><a href="{{ route('settings') }}"><i class="fa fa-bar-chart-o"></i> Telegram</a></li> -->
 
             </ul>
           </div>
@@ -74,11 +71,11 @@
 
         <!-- /menu footer buttons -->
         <div class="sidebar-footer hidden-small">
-          <a data-toggle="tooltip" data-placement="top" title="Settings">
-            <!-- <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> -->
+  <a data-toggle="tooltip" data-placement="top" title="Lock">
+            <!-- <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> -->
           </a>
-          <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-            <!-- <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span> -->
+          <a data-toggle="tooltip" data-placement="top" title="Lock">
+            <!-- <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> -->
           </a>
           <a data-toggle="tooltip" data-placement="top" title="Lock">
             <!-- <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> -->

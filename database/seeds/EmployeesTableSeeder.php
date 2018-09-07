@@ -11,7 +11,7 @@ class EmployeesTableSeeder extends Seeder
      */
     public function run()
     {
-        //
-        factory(App\Models\Employees\Employee :: class, 20) -> create();
+        //client
+        factory(App\Models\Employees\Employee :: class, 40) -> create();
     }
 }

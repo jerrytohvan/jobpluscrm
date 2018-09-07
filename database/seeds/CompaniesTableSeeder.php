@@ -24,7 +24,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => '66862906',
                 'website' => 'www.adcpowerconcept.com',
-                'transaction' => true
+                'client' => true
 
             ],
 
@@ -34,7 +34,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => '+86 20-62878005',
                 'website' => 'www.grgbanking.com',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -43,7 +43,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -52,7 +52,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -61,7 +61,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -70,7 +70,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -79,7 +79,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -88,7 +88,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -97,7 +97,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -106,7 +106,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -115,7 +115,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'www.maximum.com',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -124,7 +124,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -133,7 +133,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -142,7 +142,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -151,7 +151,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -160,7 +160,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -169,7 +169,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -178,7 +178,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -187,7 +187,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => '67107829',
                 'website' => 'www.hydropro.com.sg',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -196,7 +196,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -205,7 +205,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -214,7 +214,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -223,7 +223,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -232,7 +232,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -241,7 +241,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -250,7 +250,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -259,7 +259,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -268,7 +268,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -277,7 +277,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -286,7 +286,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -295,7 +295,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -304,7 +304,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -313,7 +313,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
             
             [
@@ -322,7 +322,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -331,7 +331,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -340,7 +340,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -349,7 +349,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -358,7 +358,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -367,7 +367,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -376,7 +376,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'www.braindge.com',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -385,7 +385,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => '625258731',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -394,7 +394,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => '625258731',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -403,7 +403,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -412,7 +412,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => '98515901',
                 'website' => 'www.callcitygadget.com',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -421,7 +421,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => '98515901',
                 'website' => 'www.callcitygadget.com',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -430,7 +430,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -439,7 +439,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'www.call-levels.com',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -448,7 +448,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -457,7 +457,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -466,7 +466,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -475,7 +475,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => 'nil',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -484,7 +484,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => '67426531',
                 'website' => 'http://www.brb-international.com/',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -493,7 +493,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => '81002388',
                 'website' => 'nil',
-                'transaction' => true
+                'client' => true
             ],
 
             [
@@ -502,7 +502,7 @@ class CompaniesTableSeeder extends Seeder
                 'email' => 'nil',
                 'telephone_no' => '+66 (0) 2 024 9944',
                 'website' => 'www.ekornes.com',
-                'transaction' => true
+                'client' => true
             ]
         ];
 

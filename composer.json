@@ -39,7 +39,8 @@
         "phpunit/phpunit": "^7.3",
         "fideloper/proxy": "^4.0",
         "laravel/tinker": "^1.0",
-        "nunomaduro/collision": "^2.0"
+        "nunomaduro/collision": "^2.0",
+        "spatie/laravel-activitylog": "^2.8"
           },
     "require-dev": {
         "mockery/mockery": "0.9.*",

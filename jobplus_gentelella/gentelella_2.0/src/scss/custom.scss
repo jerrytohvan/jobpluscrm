@@ -16,6 +16,12 @@
 .nav-sm .container.body .col-md-3.left_col .mCustomScrollBox {
   overflow: visible;
 }
+.nav-sm .container.body .col-md-3.left_col .parent.navbar.nav_title {
+  padding-top: 25%;
+  height: 100%;
+  width: 100%;
+}
+
 .nav-sm .hidden-small {
   visibility: hidden;
 }
@@ -26,6 +32,7 @@
 }
 .nav-sm .navbar.nav_title {
   width: 70px;
+
 }
 .nav-sm .navbar.nav_title a span {
   display: none;
@@ -200,6 +207,10 @@
   height: 100%;
   position: fixed;
 }
+.nav-md .container.body .col-md-3.left_col .parent.navbar.nav_title {
+  width: auto;
+  height: auto;
+}
 body .container.body .right_col {
   background: #F7F7F7;
 }
@@ -214,6 +225,12 @@ body .container.body .right_col {
   border-radius: 0;
   height: 57px;
 }
+
+.parent img {
+   height: 100%;
+   width: 100%;
+}
+
 @media (max-width: 991px) {
   .nav-md .container.body .right_col, .nav-md .container.body .top_nav {
     width: 100%;
@@ -697,6 +714,7 @@ footer {
 .nav-sm footer {
   margin-left: 70px ;
 }
+
 .footer_fixed footer {
   position: fixed;
   left: 0px;

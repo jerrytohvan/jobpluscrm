@@ -4,29 +4,15 @@ namespace App\Models\Clients;
 
 use Illuminate\Http\Request;
 use App\Models\Clients\Candidate;
+use App\Models\Attachments\Attachment;
 
 class CandidateService
 {
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  Array $array
-     * @return \Illuminate\Http\Response
-     */
-    public function storeCandidate($array)
+    public function getAllCandidates()
     {
-        return Candidate::Create([
-            'name' => $array['name'],
-            'email' => $array['email'],
-            'handphone' => $array['handphone'],
-            'working_experience' => $array['working_experience'],
-            'graduation_year'=>$array['graduation_year'],
-            'interest_id' => $array['interest_id'],
-            'type' => $array['type'],
-            'field_id' => $array['field_id']
-        ]);
+        return Candidate::all()->sortBy('name');
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -45,16 +31,57 @@ class CandidateService
         return $candidate;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Like  $like
-     * @return \Illuminate\Http\Response
-     */
-    public function destroyCandidate($id)
+
+    public function addCandidateFile($array)
     {
-        Candidate::findOrFail($id)->delete();
-        return 204;
+        $file = $array['resume'];
+        if ($file != null) {
+            $original_name = $file->getClientOriginalName();
+            $ext = pathinfo($original_name, PATHINFO_EXTENSION);
+            $hashed_name = md5($original_name. time()) . "." . $ext;
+            $filenameArray = explode('.', $hashed_name);
+            $path =  storage_path() ."/app/resumes";
+            if ($file->move($path, $hashed_name)) {
+                $candidate = Candidate::Create([
+                  'name' => $array['name'],
+                  'email' => $array['email'],
+                  'title' => $array['title'],
+                  'gender' => $array['gender'],
+                  'handphone' => $array['handphone'],
+                  'telephone' => $array['telephone'],
+                  'birthdate' => $array['birthdate']
+              ]);
+                $file = new Attachment([
+                'file_name' => $original_name,
+                'hashed_name' => $hashed_name,
+                'file_type' => end($filenameArray)
+              ]);
+
+                $candidate->files()->save($file);
+                $file->attachable()->associate($candidate)->save();
+                return $candidate;
+            }
+        }
+        return null;
     }
 
+    public function removeFile(Attachment $file)
+    {
+        $path = storage_path()."/app/resumes/";
+        $fileDir = $path . $file->hashed_name;
+        unlink($fileDir);
+        if (!file_exists($fileDir)) {
+            $file->delete();
+            return 1;
+        }
+        return  0;
+    }
+
+    public function destroyCandidate(Candidate $candidate)
+    {
+        $file = Self::removeFile($candidate->files->first());
+        if ($file == 1) {
+            $candidate->delete();
+        }
+    }
 }

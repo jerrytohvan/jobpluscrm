@@ -35,7 +35,7 @@
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
           <div class="x_title">
-            <h2>Add an Account<small>Fill in the particulars below & attach to a company</small></h2>
+            <h2>Add a Candidate<small>Fill in the particulars below</small></h2>
             <ul class="nav navbar-right panel_toolbox">
               <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
               </li>
@@ -45,17 +45,32 @@
             </ul>
             <div class="clearfix"></div>
           </div>
+
           <div class="x_content">
             <br />
-            {{  Form::open(['route' => 'add.new.account','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
+            {{  Form::open(['route' => 'add.new.candidate','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'job_search', 'enctype'=>'multipart/form-data']) }}
               <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Account Name <span class="required">*</span>
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span class="required">*</span>
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                   <input type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12">
                 </div>
             </div>
-<!-- http://www.hr.virginia.edu/uploads/documents/media/wwengineeringdesigndrafting.pdf -->
+
+            <div class="form-group">
+              <label for="gender" class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <div id="gender" class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                    <input type="radio" name="gender" checked value="M"> &nbsp; Male &nbsp;
+                  </label>
+                  <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                    <input type="radio" name="gender" value="F"> Female
+                  </label>
+                </div>
+              </div>
+            </div>
+
               <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
                         <div class="col-md-6 col-sm-9 col-xs-12">
@@ -68,6 +83,7 @@
                           </select>
                         </div>
                     </div>
+
               <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
                 </label>
@@ -91,14 +107,16 @@
               </div>
 
               <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company_id">Company<span class="required">*</span></label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="birthdate">Birth Date</label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="date" class="form-control col-md-7 col-xs-12"  data-date-format="MM/DD/YYYY" required="required" id="birthdate" name="birthdate" value='' />
+                </div>
+              </div>
+
+              <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="resume">Upload your resume (doc/docx/pdf format)<span class="required">*</span></label>
                         <div class="col-md-6 col-sm-9 col-xs-12">
-                          <select class="select2_single form-control" name="company_id" id="company_id" required="required" data-parsley-required-message="Please select a company" tabindex="-1">
-                            <option value=''>Select a Company</option>
-                            @foreach($companies as $company)
-                            <option value='{{ $company->id }}'>{{ $company->name }}</option>
-                            @endforeach
-                          </select>
+                            <input type="file" name="resume" id="resume js-file-validation-example"  data-parsley-filemaxmegabytes="2" data-parsley-trigger="change" data-parsley-filemimetypes="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"  />
                         </div>
                       </div>
               <div class="ln_solid"></div>
@@ -159,8 +177,8 @@
         loadNotification();
     });
     function loadNotification(){
-      var message = "{{ $message }}";
-      var status = "{{ $status }}";
+      var message = "@php if(session()->has('message')){ echo session()->get('message'); }else { echo $message; } @endphp";
+      var status = "@php if(session()->has('status')){ echo  session()->get('status'); }else { echo $status; } @endphp";
 
       if(message != "" && status != ""){
         new PNotify({
@@ -172,5 +190,82 @@
       }
 
   }
+
+
+
+  var app = app || {};
+
+  // Utils
+  (function ($, app) {
+      'use strict';
+
+      app.utils = {};
+
+      app.utils.formDataSuppoerted = (function () {
+          return !!('FormData' in window);
+      }());
+
+  }(jQuery, app));
+
+  // Parsley validators
+  (function ($, app) {
+      'use strict';
+
+      window.Parsley
+          .addValidator('filemaxmegabytes', {
+              requirementType: 'string',
+              validateString: function (value, requirement, parsleyInstance) {
+
+                  if (!app.utils.formDataSuppoerted) {
+                      return true;
+                  }
+
+                  var file = parsleyInstance.$element[0].files;
+                  var maxBytes = requirement * 1048576;
+
+                  if (file.length == 0) {
+                      return true;
+                  }
+
+                  return file.length === 1 && file[0].size <= maxBytes;
+
+              },
+              messages: {
+                  en: 'File is to big'
+              }
+          })
+          .addValidator('filemimetypes', {
+              requirementType: 'string',
+              validateString: function (value, requirement, parsleyInstance) {
+
+                  if (!app.utils.formDataSuppoerted) {
+                      return true;
+                  }
+
+                  var file = parsleyInstance.$element[0].files;
+
+                  if (file.length == 0) {
+                      return true;
+                  }
+
+                  var allowedMimeTypes = requirement.replace(/\s/g, "").split(',');
+                  return allowedMimeTypes.indexOf(file[0].type) !== -1;
+
+              },
+              messages: {
+                  en: 'File mime type not allowed'
+              }
+          });
+
+  }(jQuery, app));
+
+
+  // Parsley Init
+  (function ($, app) {
+      'use strict';
+
+      $('#js-file-validation-example').parsley();
+
+  }(jQuery, app));
 </script>
 @endpush
