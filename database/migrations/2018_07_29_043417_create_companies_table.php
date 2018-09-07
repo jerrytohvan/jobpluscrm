@@ -24,7 +24,7 @@ class CreateCompaniesTable extends Migration
           $table->integer('no_employees')->nullable();
           $table->string('industry')->nullable();
           $table->string('lead_source')->nullable();
-          $table->string('transaction');//existing or lead
+          $table->boolean('transaction');//existing or lead
           $table->text('description')->nullable();
           $table->timestamps();
       });

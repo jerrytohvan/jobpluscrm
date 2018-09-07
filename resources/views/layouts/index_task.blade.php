@@ -53,23 +53,24 @@
                    </div>
                    <div class="x_content">
                      <br />
-                     <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-
+                     <!-- <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left"> -->
+                     
+                     {{  Form::open(['route' => 'add.tasks','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
                        <div class="form-group">
-                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="event-name">Task Name <span class="required">*</span>
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Task Name <span class="required">*</span>
                          </label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
-                           <input type="text" id="event-name" required="required" class="form-control col-md-7 col-xs-12">
+                           <input type="text" id="title" name = "title" required="required" class="form-control col-md-7 col-xs-12">
                          </div>
                        </div>
-
+                      
                        <div class="form-group">
-                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
+                         <label for="description" class="control-label col-md-3 col-sm-3 col-xs-12">Description <span class="required">*</span></label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
-                           <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="middle-name">
+                           <input id="description" class="form-control col-md-7 col-xs-12" type="text" name="description" required="required">
                          </div>
                        </div>
-                       <div class="form-group">
+                       <!-- <div class="form-group">
                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Telegram Reminder? </label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
                            <div id="wa_reminder" class="btn-group" data-toggle="buttons">
@@ -81,9 +82,53 @@
                              </label>
                            </div>
                          </div>
+                       </div> -->
+                      
+                       <div class="form-group">
+                         <label for="type" class="control-label col-md-3 col-sm-3 col-xs-12">Type </label>
+                         <div class="col-md-6 col-sm-6 col-xs-12">
+                           <div id="type" class="btn-group" data-toggle="buttons">
+                             <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                               <input type="radio" name="type" value="1"> &nbsp; Task &nbsp;
+                             </label>
+                             <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                               <input type="radio" name="type" value="0"> Event
+                             </label>
+                           </div>
+                         </div>
                        </div>
-
-
+                      
+                       <!-- <div class="form-group">
+                         <label for="assigned_id" class="control-label col-md-3 col-sm-3 col-xs-12">Email </label>
+                         <div class="col-md-6 col-sm-6 col-xs-12">
+                           <input id="assigned_id" class="form-control col-md-7 col-xs-12" type="text" name="assigned_id">
+                         </div>
+                       </div> -->
+                      
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="assigned_id">Assign Personel</label>
+                        <div class="col-md-6 col-sm-9 col-xs-12">
+                          <select class="select2_single form-control" name="assigned_id" id="assigned_id" tabindex="-1">
+                          <option value=''>Select a Personel</option>
+                            @foreach($users as $user)
+                            <option value='{{ $user->id }}'>{{ $user->name }}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company_id">Company</label>
+                        <div class="col-md-6 col-sm-9 col-xs-12">
+                          <select class="select2_single form-control" name="company_id" id="company_id" tabindex="-1">
+                           <option value=''>Select a Company</option>
+                            @foreach($companies as $company)
+                            <option value='{{ $company->id }}'>{{ $company->name }}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                      </div>
+                      
+                   
                        <div class="form-group">
                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Date and Time <span class="required">*</span>
                          </label>
@@ -92,7 +137,7 @@
                                  <div class="controls">
                                    <div class="input-prepend input-group" >
                                      <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                     <input type="text" name="reservation-time" id="reservation-time" class="form-control" value="01/01/2016 - 01/25/2016" />
+                                     <input type="text" name="date_reminder" id="date_reminder" class="form-control" value="01/01/2016 - 01/25/2016" />
                                    </div>
                                  </div>
                                </div>
@@ -101,13 +146,12 @@
                        <div class="ln_solid"></div>
                        <div class="form-group">
                          <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                           <button class="btn btn-primary" type="button">Cancel</button>
-               <button class="btn btn-primary" type="reset">Reset</button>
-                           <button type="submit" class="btn btn-success">Submit</button>
+               {{ Form::submit('Submit', ['class'=>'btn btn-success']) }}
                          </div>
                        </div>
-
-                     </form>
+                       {!! Form::close() !!}
+                      
+                     <!-- </form> -->
                    </div>
                  </div>
                </div>

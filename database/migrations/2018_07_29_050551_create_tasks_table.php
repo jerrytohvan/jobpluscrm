@@ -23,7 +23,7 @@ class CreateTasksTable extends Migration
             $table->boolean('type')->default(true);//tasks = true, event = false
             $table->integer('company_id')->nullable();
             $table->integer('contact_id')->nullable();
-            $table->boolean('status')->nullable();
+            $table->integer('status')->nullable();
             $table->timestamps();
         });
     }

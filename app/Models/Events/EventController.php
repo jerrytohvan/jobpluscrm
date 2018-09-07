@@ -14,9 +14,9 @@ class EventController extends Controller
       $this->svc = $eventSvc;
       // $this->middleware('auth');
   }
-  public function index(){
-    return view('layouts.index_event');
-  }
+  // public function index(){
+  //   return view('layouts.index_event');
+  // }
 
   public function update($id){
     return $this->svc->updateEvent($id, request()->all());

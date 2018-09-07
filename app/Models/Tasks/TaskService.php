@@ -18,18 +18,45 @@ class TaskService
     //default task/event for todolist
     public function storeTask($array)
     {
-        return Task::Create([
-            'title' => $array['title'],
-            'description' => $array['description'],
-            'date_reminder' => $array['date_reminder'],
-            'user_id' => $array['user_id'],
-            'company_id' => $array['company_id'],
-            'status' => $array['status'],
-            //'user_id' => Auth::user()->id,
-            'assigned_id' => $array['assigned_id'],
-            //'assigned_to_id' => User::where('email',$array['assigned_to_id'])->first() == "" ? null :User::where('email',$array['assigned_to_id'])->first()->id,
-            'type' => $array['type'],
-        ]);
+
+      
+        $userId = Auth::user()->id;
+        if ($userId != 1) {
+            return Task::Create([
+                'title' => $array['title'],
+                'description' => $array['description'],
+                'date_reminder' => $array['date_reminder'],
+                'company_id' =>  $array['company_id'],
+                'status' => 2,
+                'user_id' => Auth::user()->id,
+                'type' => $array['type'],
+            ]);
+        } else if ($userId == 1) {
+            if (empty($array['assigned_id'])) {
+                return Task::Create([
+                    'title' => $array['title'],
+                    'description' => $array['description'],
+                    'date_reminder' => $array['date_reminder'],
+                    'company_id' =>  $array['company_id'],
+                    'status' => 2,
+                    'user_id' => Auth::user()->id,
+                    'type' => $array['type'],
+                ]);
+            } else {
+                return Task::Create([
+                    'title' => $array['title'],
+                    'description' => $array['description'],
+                    'date_reminder' => $array['date_reminder'],
+                    'company_id' => $array['company_id'],
+                    'status' => 1,
+                    'user_id' => Auth::user()->id,
+                    'assigned_id' => $array['assigned_id'],
+                    'type' => $array['type'],
+                ]);
+            }
+        }
+      
+
     }
 
     // create a reminder
@@ -47,6 +74,8 @@ class TaskService
             'type' => $array['type'],
         ]);
     }
+
+   
 
     //create a tasklist for company page
     // public function storeTaskList($array)
@@ -99,10 +128,12 @@ class TaskService
     {
 
         //if (Task::whereUserId(Auth::user()->id != 21)) {
-            Task::findOrFail($id)->delete();
-            return 204;
+        Task::findOrFail($id)->delete();
+        return 204;
         //}
 
     }
+
+
 
 }

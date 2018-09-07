@@ -114,9 +114,9 @@ Route::group(['middleware' => ['web']], function () {
       'as' => 'index.mail',
     'uses' => '\App\Models\Mail\MailController@index'
     ]);
-    Route::get('/event', [
-      'as' => 'index.event',
-    'uses' => '\App\Models\Events\EventController@index'
+    Route::get('/task', [
+      'as' => 'index.tasks',
+    'uses' => '\App\Models\Tasks\TaskController@index'
     ]);
     Route::get('/smart-match', [
       'as' => 'index.smart.match',
@@ -128,7 +128,12 @@ Route::group(['middleware' => ['web']], function () {
     ]);
 
      //Task
-  Route::post('/tasks/task','\App\Models\Tasks\TaskController@createTask');
+  Route::post('/task',[
+    'as' => 'add.tasks',
+    'uses' => '\App\Models\Tasks\TaskController@createTask'
+    ]);
+
+   
   Route::post('/tasks/reminder','\App\Models\Tasks\TaskController@createReminder');
  //Route::post('/tasks/tasklist','\App\Models\Tasks\TaskController@createTaskList');
   Route::get('/tasks/{id}','\App\Models\Tasks\TaskController@showToDoList');
@@ -136,6 +141,7 @@ Route::group(['middleware' => ['web']], function () {
   Route::get('/events/{id}','\App\Models\Tasks\TaskController@showEvent');
   Route::put('/tasks/{id}','\App\Models\Tasks\TaskController@updateToDoList');
   Route::delete('/tasks/{id}','\App\Models\Tasks\TaskController@deleteToDoList');
+  Route::get('/tasks','\App\Models\Tasks\TaskController@showAllTask');
 });
 Route::get('/employees', 'employeeController@index');
 Route::get('/employees/{id}', 'employeeController@show');

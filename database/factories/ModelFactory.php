@@ -57,13 +57,13 @@ $factory->define(Company::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(Post::class, function (Faker\Generator $faker) {
-    $user = factory(User::class)->create();
-    return [
-        'content' => $faker->sentence,
-        'user_id' => $user->id,
-    ];
-});
+// $factory->define(Post::class, function (Faker\Generator $faker) {
+//     $user = factory(User::class)->create();
+//     return [
+//         'content' => $faker->sentence,
+//         'user_id' => $user->id,
+//     ];
+// });
 
 $factory->define(Employee::class, function (Faker\Generator $faker) {
     $companies = Company::all()->pluck('id')->toArray();
@@ -77,14 +77,14 @@ $factory->define(Employee::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(ProjectGroup::class, function (Faker\Generator $faker) {
-    $user = factory(User::class)->create();
-    return [
-        'group_name' => $faker->unique()->name,
-        'admin_id' => $faker->randomDigit,
-        'user_id' => $user->id,
-    ];
-});
+// $factory->define(ProjectGroup::class, function (Faker\Generator $faker) {
+//     $user = factory(User::class)->create();
+//     return [
+//         'group_name' => $faker->unique()->name,
+//         'admin_id' => $faker->randomDigit,
+//         'user_id' => $user->id,
+//     ];
+// });
 
 $factory->define(Candidate::class, function (Faker\Generator $faker) {
     return [
