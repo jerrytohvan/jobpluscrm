@@ -8,6 +8,10 @@
 <link href="{{ asset('css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('css/responsive.bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('css/scroller.bootstrap.min.css') }}" rel="stylesheet">
+<!-- pnotify -->
+<link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
 @endpush
 
 
@@ -30,7 +34,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Accounts Full-List </h2>
+                    <h2>Candidates Full-List </h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -47,23 +51,30 @@
                     <table id="datatable" class="table table-striped table-bordered">
                       <thead>
                         <tr>
-                          <th>Account Name</th>
+                          <th>Name</th>
                           <th>Title</th>
                           <th>Email</th>
                           <th>Handphone No.</th>
                           <th>Telephone No.</th>
-                          <th>Company</th>
+                          <th>Birthdate</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach ($accounts as $account)
+                        @foreach ($candidates as $candidate)
                         <tr>
-                          <td>{{ $account->name }}</td>
-                          <td>{{ $account->title }}</td>
-                          <td>{{ $account->email }}</td>
-                          <td>{{ $account->handphone }}</td>
-                          <td>{{ $account->telephone == null ? "-" : $account->telephone }}</td>
-                          <td>{{ $account == null ? "-" : $account->company == null ? "-":$account->company->name }}</td>
+                          <td>{{ $candidate->name }}</td>
+                          <td>{{ $candidate->title }}</td>
+                          <td>{{ $candidate->email }}</td>
+                          <td>{{ $candidate->handphone }}</td>
+                          <td>{{ $candidate->telephone == null ? "-" : $candidate->telephone }}</td>
+                          <td>{{
+                            date("F d, Y", strtotime($candidate->birthdate))}}</td>
+                          <td>
+                               <a href="{{ route('get.resume', ['file'=> $candidate->files->first()->attachable_id])}}"  class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Resume</a>
+                               <a href="{{ route('delete.candidate', ['candidate' => $candidate->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                               <a href="" class="">Smart Match</a>
+                          </td>
                         </tr>
                         @endforeach
                       </tbody>
@@ -88,20 +99,43 @@
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('js/buttons.bootstrap.min.js') }}"></script>
-<script src="{{ asset('js/buttons.flash.min.js') }}"></script>
-<script src="{{ asset('js/buttons.html5.min.js') }}"></script>
-<script src="{{ asset('js/buttons.print.min.js') }}"></script>
+
 <script src="{{ asset('js/dataTables.fixedHeader.min.js') }}"></script>
 <script src="{{ asset('js/dataTables.keyTable.min.js') }}"></script>
 <script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('js/responsive.bootstrap.js') }}"></script>
 <script src="{{ asset('js/dataTables.scroller.min.js') }}"></script>
-<!-- jszip -->
-<script src="{{ asset('js/jszip.min.js') }}"></script>
-<!-- pdfmake -->
-<script src="{{ asset('js/pdfmake.min.js') }}"></script>
-<script src="{{ asset('js/vfs_fonts.js') }}"></script>
+
+
+
+<script src="{{ asset('js/pnotify.js') }}"></script>
+<script src="{{ asset('js/pnotify.buttons.js') }}"></script>
+<script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+      $('.ui-pnotify').remove();
+        loadNotification();
+    });
+
+    function loadNotification(){
+      var message = "@php if(session()->has('message')){ echo session()->get('message'); }else { echo $message; } @endphp";
+      var status = "@php if(session()->has('status')){ echo  session()->get('status'); }else { echo $status; } @endphp";
+
+      if(message != "" && status != ""){
+        new PNotify({
+            title: (status == 1 ? "Success!" : "Failed!"),
+            text: message,
+            type: (status == 1 ? "success" : "error"),
+            styling: 'bootstrap3'
+        });
+      }
+
+  }
+</script>
+
+
 
 
 @endpush

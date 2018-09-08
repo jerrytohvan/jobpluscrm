@@ -305,28 +305,4 @@ class MLService
         $results = Self::calculateTotalScore($jobTitleSkillsSimilarityCount, $jobDescSimilarityCount, $expSimilarityCount);
         return $results;
     }
-
-
-
-    public function trainML()
-    {
-    }
-
-    public function generateEmployeeKeywords()
-    {
-    }
-    public function generateJobKeywords()
-    {
-    }
-
-    public function matchJobWithEmployeeResume($query)
-    {
-        #match keywords from employee resume
-    }
-
-    public function crawlJobStreet($query)
-    {
-        //use keywords from ML based on user input
-    //to find available jobs based on employees
-    }
 }

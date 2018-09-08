@@ -14,10 +14,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Clients\ClientService;
 use App\Models\Users\UserService;
 use App\Models\ActivityLog\ActivityLogService;
+use App\Models\Clients\CandidateService;
 
 class ClientController extends Controller
 {
-    public function __construct(UserService $userSvc, ClientService $clientSvc, CompanyService $compService, ActivityLogService $actService)
+    public function __construct(UserService $userSvc, ClientService $clientSvc, CompanyService $compService, ActivityLogService $actService, CandidateService $canSvc)
     {
         $this->middleware('auth');
 
@@ -25,18 +26,21 @@ class ClientController extends Controller
         $this->compSvc = $compService;
         $this->actSvc = $actService;
         $this->userSvc = $userSvc;
+        $this->canSvc = $canSvc;
     }
-    public function index_account_full_list()
+    public function index_candidates_full_list()
     {
-        $accounts = $this->svc->getAllAccount();
-        return view('layouts.accounts_fulllist', compact('accounts'));
+        $message = "";
+        $status = "";
+        $candidates = $this->canSvc->getAllCandidates();
+        return view('layouts.candidates_fulllist', compact('message', 'status', 'candidates'));
     }
-    public function index_account_new()
+    public function index_candidates_new()
     {
         $companies = $this->svc->getAllCompany();
         $message = "";
         $status = "";
-        return view('layouts.accounts_new', compact('message', 'status', 'companies'));
+        return view('layouts.candidates_new', compact('message', 'status', 'companies'));
     }
 
     public function index_companies_clients()
@@ -77,22 +81,56 @@ class ClientController extends Controller
         return view('layouts.companies_new', compact('status', 'message'));
     }
 
-    public function add_new_account(Request $request)
+    public function add_new_candidate()
     {
-        $companies = $this->svc->getAllCompany();
-        $message = "Account successfully added!";
-        $status = 1;
-        $this->validate($request, [
+        $message = "Failed to add candidate!";
+        $status = 0;
+        $this->validate(request(), [
         'name' => 'required',
+        'title' => 'required',
         'email' => 'required',
+        'gender' => 'required',
         'handphone' => 'required',
-        'company_id' => 'required'
-
+        'resume' => 'required',
+        'birthdate' => 'required',
       ]);
-        $account = $this->svc->addAccount($request);
-        if ($account == null) {
-            $message = "Failed to add account!";
-            $status = 0;
+
+        $resume = request()->file('resume');
+        if ($resume!=null) {
+            $candidate = $this->canSvc->addCandidateFile(request()->all());
+            if ($candidate != null) {
+                $message = "Candidate successfully added!";
+                $status = 1;
+            }
+        }
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
+
+    public function add_new_account()
+    {
+        $message = "Failed to add candidate!";
+        $status = 0;
+        $this->validate(request(), [
+        'name' => 'required',
+        'title' => 'required',
+        'email' => 'required'
+      ]);
+
+        if ($this->svc->addAccount(request()->all())) {
+            $message = "Account successfully added!";
+            $status = 1;
+        }
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
+    public function removeCandidate(Candidate $candidate)
+    {
+        $id = $candidate->id;
+        $message = "Failed to remove candidate!";
+        $status = 0;
+        $this->canSvc->destroyCandidate($candidate);
+        if (Candidate::find($id)==null) {
+            $message = "Candidate successfully removed!";
+            $status = 1;
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
@@ -207,6 +245,13 @@ class ClientController extends Controller
     {
         if (Auth::user()) {
             return response()->download(storage_path() . "/app/attachments/" . $file->hashed_name, $file->file_name);
+        }
+    }
+
+    public function getResume(Attachment $file)
+    {
+        if (Auth::user()) {
+            return response()->download(storage_path() . "/app/resumes/" . $file->hashed_name, $file->file_name);
         }
     }
 
