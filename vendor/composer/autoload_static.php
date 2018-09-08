@@ -12,10 +12,12 @@ class ComposerStaticInitdf3840315bca8b3c452ec727623e9404
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
+        '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         'abede361264e2ae69ec1eee813a101af' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/abs.php',
         '21a5860fbef5be28db5ddfbc3cca67c4' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/acos.php',
         '1546e3f9d127f2a9bb2d1b6c31c26ef1' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/acosh.php',
@@ -58,12 +60,12 @@ class ComposerStaticInitdf3840315bca8b3c452ec727623e9404
         '883af48563631547925fa4c3b48ead07' => __DIR__ . '/..' . '/markbaker/complex/classes/src/operations/multiply.php',
         'f190e3308e6ca23234a2875edc985c03' => __DIR__ . '/..' . '/markbaker/complex/classes/src/operations/divideby.php',
         'ac9e33ce6841aa5bf5d16d465a2f03a7' => __DIR__ . '/..' . '/markbaker/complex/classes/src/operations/divideinto.php',
-        'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
-        '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         'f18cc91337d49233e5754e93f3ed9ec3' => __DIR__ . '/..' . '/laravelcollective/html/src/helpers.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
+        'e91d0dc994644828154ae2387ede1ca8' => __DIR__ . '/..' . '/spatie/string/src/string_functions.php',
+        '72b1e3f4a2af9b30b3f137b3ec2057fc' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/helpers.php',
         '377b22b161c09ed6e5152de788ca020a' => __DIR__ . '/..' . '/spatie/laravel-permission/src/helpers.php',
     );
 
@@ -82,6 +84,10 @@ class ComposerStaticInitdf3840315bca8b3c452ec727623e9404
             'Whoops\\' => 7,
             'Webmozart\\Assert\\' => 17,
             'Watson\\BootstrapForm\\' => 21,
+        ),
+        'U' => 
+        array (
+            'Underscore\\' => 11,
         ),
         'T' => 
         array (
@@ -107,7 +113,9 @@ class ComposerStaticInitdf3840315bca8b3c452ec727623e9404
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
+            'Spatie\\String\\' => 14,
             'Spatie\\Permission\\' => 18,
+            'Spatie\\Activitylog\\' => 19,
         ),
         'R' => 
         array (
@@ -125,6 +133,7 @@ class ComposerStaticInitdf3840315bca8b3c452ec727623e9404
             'PhpScience\\TextRank\\' => 20,
             'PhpParser\\' => 10,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
+            'Patchwork\\' => 10,
         ),
         'N' => 
         array (
@@ -209,6 +218,11 @@ class ComposerStaticInitdf3840315bca8b3c452ec727623e9404
         array (
             0 => __DIR__ . '/..' . '/watson/bootstrap-form/src',
         ),
+        'Underscore\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/anahkiasen/underscore-php/src',
+            1 => __DIR__ . '/..' . '/anahkiasen/underscore-php/tests',
+        ),
         'TijsVerkoyen\\CssToInlineStyles\\' => 
         array (
             0 => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src',
@@ -285,9 +299,17 @@ class ComposerStaticInitdf3840315bca8b3c452ec727623e9404
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
+        'Spatie\\String\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/string/src',
+        ),
         'Spatie\\Permission\\' => 
         array (
             0 => __DIR__ . '/..' . '/spatie/laravel-permission/src',
+        ),
+        'Spatie\\Activitylog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/laravel-activitylog/src',
         ),
         'Ramsey\\Uuid\\' => 
         array (
@@ -333,6 +355,10 @@ class ComposerStaticInitdf3840315bca8b3c452ec727623e9404
         'PhpOffice\\PhpSpreadsheet\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
+        ),
+        'Patchwork\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/patchwork/utf8/src/Patchwork',
         ),
         'NunoMaduro\\Collision\\' => 
         array (
@@ -499,6 +525,7 @@ class ComposerStaticInitdf3840315bca8b3c452ec727623e9404
     public static $classMap = array (
         'CandidatessTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CandidatessTableSeeder.php',
         'CompaniesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CompaniesTableSeeder.php',
+        'CreateActivityLogTable' => __DIR__ . '/../..' . '/database/migrations/2018_08_27_150225_create_activity_log_table.php',
         'CreateAttachmentsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_155650_create_attachments_table.php',
         'CreateCandidatesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000757_create_candidates_table.php',
         'CreateCommentsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_164127_create_comments_table.php',
@@ -519,6 +546,7 @@ class ComposerStaticInitdf3840315bca8b3c452ec727623e9404
         'CreateTaggedTable' => __DIR__ . '/../..' . '/database/migrations/2014_01_07_073615_create_tagged_table.php',
         'CreateTagsTable' => __DIR__ . '/../..' . '/database/migrations/2014_01_07_073615_create_tags_table.php',
         'CreateTasksTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_29_050551_create_tasks_table.php',
+        'CreateUserCompanyTable' => __DIR__ . '/../..' . '/database/migrations/2018_08_29_155321_create_user_company_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'Datamatrix' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/datamatrix.php',
@@ -617,6 +645,7 @@ class ComposerStaticInitdf3840315bca8b3c452ec727623e9404
         'InterestsTableSeeder' => __DIR__ . '/../..' . '/database/seeds/InterestsTableSeeder.php',
         'LikesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/LikesTableSeeder.php',
         'MessagesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/MessagesTableSeeder.php',
+        'Normalizer' => __DIR__ . '/..' . '/patchwork/utf8/src/Normalizer.php',
         'PDF417' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/pdf417.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',

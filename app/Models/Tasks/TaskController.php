@@ -54,13 +54,16 @@ class TaskController extends Controller
         if (sizeof($task) > 0) {
             $assigned = Task::whereAssignedId($id)->whereType(true)->orderBy('date_reminder', 'asc')->get();
             if (sizeof($assigned) > 0) {
-                foreach ($task as &$a1) {
-                    array_push($total, $a1);
-                }
-                foreach ($assigned as &$a2) {
-                    array_push($total, $a2);
-                }
-                return $total;
+                // foreach ($task as &$a1) {
+                //     array_push($total, $a1);
+                // }
+                // foreach ($assigned as &$a2) {
+                //     array_push($total, $a2);
+                // }
+                $a = array($task);
+                $b = array($assigned);
+                array_push($a,$b);
+                return $a;
             }
         }
     }

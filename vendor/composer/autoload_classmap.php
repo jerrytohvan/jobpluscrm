@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'CandidatessTableSeeder' => $baseDir . '/database/seeds/CandidatessTableSeeder.php',
     'CompaniesTableSeeder' => $baseDir . '/database/seeds/CompaniesTableSeeder.php',
+    'CreateActivityLogTable' => $baseDir . '/database/migrations/2018_08_27_150225_create_activity_log_table.php',
     'CreateAttachmentsTable' => $baseDir . '/database/migrations/2018_07_01_155650_create_attachments_table.php',
     'CreateCandidatesTable' => $baseDir . '/database/migrations/2018_07_01_000757_create_candidates_table.php',
     'CreateCommentsTable' => $baseDir . '/database/migrations/2018_07_01_164127_create_comments_table.php',
@@ -28,6 +29,7 @@ return array(
     'CreateTaggedTable' => $baseDir . '/database/migrations/2014_01_07_073615_create_tagged_table.php',
     'CreateTagsTable' => $baseDir . '/database/migrations/2014_01_07_073615_create_tags_table.php',
     'CreateTasksTable' => $baseDir . '/database/migrations/2018_07_29_050551_create_tasks_table.php',
+    'CreateUserCompanyTable' => $baseDir . '/database/migrations/2018_08_29_155321_create_user_company_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'Datamatrix' => $vendorDir . '/tecnickcom/tcpdf/include/barcodes/datamatrix.php',
@@ -126,6 +128,7 @@ return array(
     'InterestsTableSeeder' => $baseDir . '/database/seeds/InterestsTableSeeder.php',
     'LikesTableSeeder' => $baseDir . '/database/seeds/LikesTableSeeder.php',
     'MessagesTableSeeder' => $baseDir . '/database/seeds/MessagesTableSeeder.php',
+    'Normalizer' => $vendorDir . '/patchwork/utf8/src/Normalizer.php',
     'PDF417' => $vendorDir . '/tecnickcom/tcpdf/include/barcodes/pdf417.php',
     'PHPUnit\\Exception' => $vendorDir . '/phpunit/phpunit/src/Exception.php',
     'PHPUnit\\Framework\\Assert' => $vendorDir . '/phpunit/phpunit/src/Framework/Assert.php',
