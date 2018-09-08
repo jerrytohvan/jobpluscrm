@@ -27,7 +27,7 @@
         "laravel/framework": "5.6.*",
         "thomaswelton/laravel-gravatar": "~1.0",
         "rtconner/laravel-tagging": "~2.2",
-        "laravelcollective/html": "^5.3.0",
+        "laravelcollective/html": "^5.6",
 	  	"watson/bootstrap-form": "1.1.*",
         "spatie/laravel-permission": "^2.3",
         "google/apiclient": "2.0",

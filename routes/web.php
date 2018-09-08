@@ -124,10 +124,6 @@ Route::group(['middleware' => ['web']], function () {
       'as' => 'search.job',
     'uses' => '\App\Models\MachineLearning\SmartMatchController@matchDescriptionWithPotentialJobs'
     ]);
-    Route::post('/mail', [
-      'as' => 'craft.email',
-    'uses' => '\App\Models\Mail\MailController@test'
-    ]);
 });
 Route::get('/employees', 'employeeController@index');
 Route::get('/employees/{id}', 'employeeController@show');
@@ -266,5 +262,12 @@ Route::get('oauth', [
 
   // email Routes
   // Route::post('sendemail', 'MailController@sendemail');
-  Route::post('displayemail','MailController@getMail');
-    Route::post('attachmentemail', 'MailController@attachment_email');
+  Route::post('displayemail', 'MailController@displayemail');
+  Route::post('sendEmail', 'MailController@sendEmail');
+
+
+
+  Route::post('/mail', [
+      'as' => 'sendemail',
+    'uses' => '\App\Models\Mail\MailController@sendemail'
+    ]);

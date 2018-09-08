@@ -266,6 +266,7 @@
 @section('bottom_content')
 <!-- compose -->
 < >
+
 <div class="compose col-md-6 col-xs-12">
   <div class="compose-header">
     New Message
@@ -353,6 +354,8 @@
               <h2 label for="emailAttachment">Upload your files</h2>
           <input type="file" id="emailAttachment" name="emailAttachment"  data-parsley-filemaxmegabytes="50" data-parsley-trigger="change" >
       </div>
+
+
 
 
 
