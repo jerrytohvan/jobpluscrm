@@ -91,6 +91,11 @@ Route::group(['middleware' => ['web']], function () {
     'uses' => '\App\Models\Clients\ClientController@convertToClient'
     ]);
 
+    Route::get('/candidate/match/{candidate}', [
+    'as' => 'candidate.match',
+    'uses' => '\App\Models\MachineLearning\SmartMatchController@matchCandidatesWithJobs'
+    ]);
+
     Route::get('/view/{company}', [
 'as' => 'view.company',
 'uses' => '\App\Models\Clients\ClientController@showCompany'
@@ -166,6 +171,10 @@ Route::group(['middleware' => ['web']], function () {
     'as' => 'new.post',
   'uses' => '\App\Models\SocialWall\SocialWallController@addPost'
   ]);
+    Route::post('/newcompanypost/{company}', [
+  'as' => 'new.company.post',
+'uses' => '\App\Models\Clients\ClientController@addNote'
+]);
     Route::get('/deletepost/{post_id}', [
     'as' => 'delete.post',
     'uses' => '\App\Models\SocialWall\SocialWallController@removePost'

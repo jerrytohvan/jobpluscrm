@@ -368,58 +368,36 @@ html {
                             <!-- recent activities -> notes -->
                             <div class="row">
 
-                              <h4>Company Notes</h4>
-
+                              <h3>Add Company Notes</h3>
+                                 <div class="x_panel"> <!-- panel -->
+                                    {{  Form::open(['route' => ['new.company.post', $company->id],'method'=>'post']) }}
+                                      <div class="form-group">
+                                        {!! Form::text('body', null, ['class' => 'form-control', 'id' => 'new-post', 'rows' => '5', 'placeholder' => 'Your Notes']) !!}
+                                      </div>
+                                      {{ Form::submit('Add Note', ['class'=>'btn btn-primary']) }}
+                                  {!! Form::close() !!}
+                                 </div> <!-- /panel -->
                               <!-- end of user messages -->
                               <ul class="messages">
+
+                                @foreach($notes as $note)
                                 <li>
-                                  <img src="images/img.jpg" class="avatar" alt="Avatar">
                                   <div class="message_date">
-                                    <h3 class="date text-info">24</h3>
-                                    <p class="month">May</p>
+                                    <h3 class="date text-info">{{ date("d", strtotime($note->created_at)) }}</h3>
+                                    <p class="month">{{ date("M", strtotime($note->created_at)) }}</p>
+                                    <p class="month">{{ date("Y", strtotime($note->created_at)) }}</p>
                                   </div>
                                   <div class="message_wrapper">
-                                    <h4 class="heading">Desmond Davison</h4>
-                                    <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
+                                    <h4 class="heading">{{ $note->user->name }}</h4>
+                                      <blockquote class="message">{{ $note->content }}</blockquote>
                                     <br>
                                     <p class="url">
                                       <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
-                                      <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
+                                      <!-- <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a> -->
                                     </p>
                                   </div>
                                 </li>
-                                <li>
-                                  <img src="images/img.jpg" class="avatar" alt="Avatar">
-                                  <div class="message_date">
-                                    <h3 class="date text-error">21</h3>
-                                    <p class="month">May</p>
-                                  </div>
-                                  <div class="message_wrapper">
-                                    <h4 class="heading">Brian Michaels</h4>
-                                    <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
-                                    <br>
-                                    <p class="url">
-                                      <span class="fs1" aria-hidden="true" data-icon=""></span>
-                                      <a href="#" data-original-title="">Download</a>
-                                    </p>
-                                  </div>
-                                </li>
-                                <li>
-                                  <img src="images/img.jpg" class="avatar" alt="Avatar">
-                                  <div class="message_date">
-                                    <h3 class="date text-info">24</h3>
-                                    <p class="month">May</p>
-                                  </div>
-                                  <div class="message_wrapper">
-                                    <h4 class="heading">Desmond Davison</h4>
-                                    <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
-                                    <br>
-                                    <p class="url">
-                                      <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
-                                      <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
-                                    </p>
-                                  </div>
-                                </li>
+                                @endforeach
                               </ul>
                               <!-- end of user messages -->
 

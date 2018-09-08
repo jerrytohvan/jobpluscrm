@@ -25,6 +25,14 @@ class Company extends Model
     {
         return $this->belongsToMany('App\Models\Events\Event');
     }
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comments\Comment');
+    }
+    public function posts()
+    {
+        return $this->hasMany('App\Models\Posts\Post');
+    }
 
     public function files()
     {
