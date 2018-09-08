@@ -12,12 +12,12 @@ class Company extends Model
     protected $guarded = [];
     protected static $logAttributes = ["*"];
 
-
     public function employees()
     {
         return $this->hasMany('App\Models\Employees\Employee');
     }
-    public function tasks(){
+    public function tasks()
+    {
         return $this->hasMany('App\Models\Tasks\Task');
     }
     public function candidates()

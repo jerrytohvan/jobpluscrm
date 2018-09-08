@@ -127,10 +127,10 @@ class TaskService
     public function destroyTask($id)
     {
 
-        //if (Task::whereUserId(Auth::user()->id != 21)) {
+        if (Task::whereUserId(Auth::user()->id == 1)) {
         Task::findOrFail($id)->delete();
         return 204;
-        //}
+        }
 
     }
 
