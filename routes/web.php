@@ -211,6 +211,8 @@ Route::group(['middleware' => ['web']], function () {
     'uses' => '\App\Models\Tasks\TaskController@createTask'
     ]);
 
+    Route::get('/tasks/status','\App\Models\Tasks\TaskController@showStatus');
+
    
   Route::post('/tasks/reminder','\App\Models\Tasks\TaskController@createReminder');
  //Route::post('/tasks/tasklist','\App\Models\Tasks\TaskController@createTaskList');
@@ -219,7 +221,7 @@ Route::group(['middleware' => ['web']], function () {
   Route::get('/events/{id}','\App\Models\Tasks\TaskController@showEvent');
   Route::put('/tasks/{id}','\App\Models\Tasks\TaskController@updateToDoList');
   Route::delete('/tasks/{id}','\App\Models\Tasks\TaskController@deleteToDoList');
-  Route::get('/tasks','\App\Models\Tasks\TaskController@showAllTask');
+  Route::get('/tasks/show/tasks/all','\App\Models\Tasks\TaskController@showAllTask');
 });
 Route::get('/employees', 'employeeController@index');
 Route::get('/employees/{id}', 'employeeController@show');

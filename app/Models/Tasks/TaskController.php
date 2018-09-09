@@ -8,6 +8,7 @@ use App\Models\Tasks\Task;
 use App\Models\Tasks\TaskService;
 use App\Models\Users\User;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -47,25 +48,26 @@ class TaskController extends Controller
     //     return $tasklist;
     // }
 
-    public function showToDoList($id)
+    public function showToDoList()
     {
+        $now = Carbon::now()->format('Y-m-d 00:00:00');
+        $task = Task::whereUserId(Auth::user()->id)->whereType(true)->whereStatus(2)->where('date_reminder', '>', $now)->orderBy('date_reminder', 'asc')->get();
+        $assigned = Task::whereAssignedId(Auth::user()->id)->whereType(true)->whereStatus(2)->where('date_reminder', '>', $now)->orderBy('date_reminder', 'asc')->get();
 
-        $task = Task::whereUserId($id)->whereType(true)->orderBy('date_reminder', 'asc')->get();
-        if (sizeof($task) > 0) {
-            $assigned = Task::whereAssignedId($id)->whereType(true)->orderBy('date_reminder', 'asc')->get();
-            if (sizeof($assigned) > 0) {
-                // foreach ($task as &$a1) {
-                //     array_push($total, $a1);
-                // }
-                // foreach ($assigned as &$a2) {
-                //     array_push($total, $a2);
-                // }
-                $a = array($task);
-                $b = array($assigned);
-                array_push($a,$b);
-                return $a;
-            }
-        }
+        // foreach ($task as &$a1) {
+        //     array_push($total, $a1);
+        // }
+        // foreach ($assigned as &$a2) {
+        //     array_push($total, $a2);
+        // }
+
+        // $creator = array($task);
+        // $assignedTo = array($assigned);
+        // array_push($creator, $assignedTo);
+        //return $creator;
+
+        //return('to view',compact('task','assigned'))
+
     }
 
     public function showTaskList($company_id)
@@ -86,9 +88,42 @@ class TaskController extends Controller
 
     public function showAllTask()
     {
-        $task = Task::whereType(true)->orderBy('date_reminder', 'asc')->get();
-        error_log(print_r(sizeof($task), true));
-        return $task;
+        //if (Auth::user()->id == 1) {
+        //$task = Task::whereType(true)->orderBy('date_reminder', 'asc')->get();
+        //$openedTask = Task::whereType(true)->whereStatus(1)->where()
+        //return $task;
+        //}
+        $now = Carbon::now()->format('Y-m-d 00:00:00');
+        $condition = request()->get('date');
+        $task = Task::whereType(true)->where('date_reminder', '>', $now)->get();
+        $expiredTask = Task::whereType(true)->where('date_reminder', '<', $now)->where('status', '<', 3)->orderBy('date_reminder', 'asc')->get();
+        if (Auth::user()->id == 1) {
+            if ($condition == 'monthly') {
+                $monthly = Date((Carbon::now()->format('Y-m-d 00:00:00')), strtotime("+1 month"));
+                $openTask = $task->whereStatus(1)->where('date_reminder', '<', $default)->orderBy('date_reminder', 'asc')->get();
+                $onGoinTask = $task->whereStatus(2)->where('date_reminder', '<', $default)->orderBy('date_reminder', 'asc')->get();
+                $closedTask = $task->whereStatus(3)->where('date_reminder', '<', $default)->orderBy('date_reminder', 'asc')->get();
+                //return view('ur view',compact('openTask','onGoinTask','closedTask','expiredTask'));
+            } else if ($condition == 'yearly') {
+                $yearly = Date((Carbon::now()->format('Y-m-d 00:00:00')), strtotime("+1 year"));
+                $openTask = $task->whereStatus(1)->where('date_reminder', '<', $default)->orderBy('date_reminder', 'asc')->get();
+                $onGoinTask = $task->whereStatus(2)->where('date_reminder', '<', $default)->orderBy('date_reminder', 'asc')->get();
+                $closedTask = $task->whereStatus(3)->where('date_reminder', '<', $default)->orderBy('date_reminder', 'asc')->get();
+                //return view('ur view',compact('openTask','onGoinTask','closedTask','expiredTask'));
+            } else {
+                $default = Date((Carbon::now()->format('Y-m-d 00:00:00')), strtotime("+14 days"));
+                $openTask = $task->whereStatus(1)->where('date_reminder', '<', $default)->orderBy('date_reminder', 'asc')->get();
+                $onGoinTask = $task->whereStatus(2)->where('date_reminder', '<', $default)->orderBy('date_reminder', 'asc')->get();
+                $closedTask = $task->whereStatus(3)->where('date_reminder', '<', $default)->orderBy('date_reminder', 'asc')->get();
+                //return view('ur view',compact('openTask','onGoinTask','closedTask','expiredTask'));
+            }
+        }
+
+        //$qd = string($mnth) +" 00:00:00";
+        //error_log(print_r( typeof($mnth),true));
+        //return $qd;
+        // $task = Task::where('date_reminder', '<',$now)->get();
+        // return $task;
     }
 
     public function closeTask($id)
@@ -110,4 +145,5 @@ class TaskController extends Controller
     {
         return $this->svc->destroyTask($id);
     }
+
 }

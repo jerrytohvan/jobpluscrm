@@ -66,7 +66,7 @@ class TaskService
             'title' => $array['title'],
             'description' => $array['description'],
             'date_reminder' => $array['date_reminder'],
-            'user_id' => $array['user_id'],
+            'user_id' => Auth::user()->id,
             'company_id' => $array['company_id'],
             //'user_id' => Auth::user()->id,
             //'assigned_to_id' => $array['assigned_to_id'],
