@@ -100,15 +100,15 @@ class TaskController extends Controller
         if (Auth::user()->id == 1) {
             if ($condition == 'monthly') {
                 $monthly = Date((Carbon::now()->format('Y-m-d 00:00:00')), strtotime("+1 month"));
-                $openTask = $task->whereStatus(1)->where('date_reminder', '<', $default)->orderBy('date_reminder', 'asc')->get();
-                $onGoinTask = $task->whereStatus(2)->where('date_reminder', '<', $default)->orderBy('date_reminder', 'asc')->get();
-                $closedTask = $task->whereStatus(3)->where('date_reminder', '<', $default)->orderBy('date_reminder', 'asc')->get();
+                $openTask = $task->whereStatus(1)->where('date_reminder', '<', $monthly)->orderBy('date_reminder', 'asc')->get();
+                $onGoinTask = $task->whereStatus(2)->where('date_reminder', '<', $monthly)->orderBy('date_reminder', 'asc')->get();
+                $closedTask = $task->whereStatus(3)->where('date_reminder', '<', $monthly)->orderBy('date_reminder', 'asc')->get();
                 //return view('ur view',compact('openTask','onGoinTask','closedTask','expiredTask'));
             } else if ($condition == 'yearly') {
                 $yearly = Date((Carbon::now()->format('Y-m-d 00:00:00')), strtotime("+1 year"));
-                $openTask = $task->whereStatus(1)->where('date_reminder', '<', $default)->orderBy('date_reminder', 'asc')->get();
-                $onGoinTask = $task->whereStatus(2)->where('date_reminder', '<', $default)->orderBy('date_reminder', 'asc')->get();
-                $closedTask = $task->whereStatus(3)->where('date_reminder', '<', $default)->orderBy('date_reminder', 'asc')->get();
+                $openTask = $task->whereStatus(1)->where('date_reminder', '<', $yearly)->orderBy('date_reminder', 'asc')->get();
+                $onGoinTask = $task->whereStatus(2)->where('date_reminder', '<', $yearly)->orderBy('date_reminder', 'asc')->get();
+                $closedTask = $task->whereStatus(3)->where('date_reminder', '<', $yearly)->orderBy('date_reminder', 'asc')->get();
                 //return view('ur view',compact('openTask','onGoinTask','closedTask','expiredTask'));
             } else {
                 $default = Date((Carbon::now()->format('Y-m-d 00:00:00')), strtotime("+14 days"));
