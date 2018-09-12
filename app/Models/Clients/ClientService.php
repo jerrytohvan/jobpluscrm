@@ -4,6 +4,10 @@ namespace App\Models\Clients;
 
 use App\Models\Clients\Company;
 use App\Models\Employees\Employee;
+use App\Models\Comments\Comment;
+use App\Models\Posts\Post;
+
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
@@ -96,5 +100,18 @@ class ClientService
       ]);
         $company->save();
         return $company;
+    }
+
+    public function addPost($company, $content)
+    {
+        $post = new Post([
+          'content' => $content
+        ]);
+        if (Auth::user()->comments()->save($post)) {
+            $company->posts()->save($post);
+            $comment = new Comment();
+            $post->comment()->save($comment);
+        }
+        return $comment;
     }
 }

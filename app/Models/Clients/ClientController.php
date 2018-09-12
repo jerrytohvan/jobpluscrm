@@ -176,7 +176,8 @@ class ClientController extends Controller
         $collaborators = $company->collaborators;
         $collaboratorsId = $collaborators->pluck('id')->toArray();
         $users = User::all();
-        return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId'));
+        $notes = $company->posts;
+        return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes'));
     }
     public function showCompanyPost(Company $company, $message=null, $status=null)
     {
@@ -184,7 +185,13 @@ class ClientController extends Controller
         $companyFiles = $company->files;
         return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles'));
     }
-
+    public function addNote(Company $company)
+    {
+        $post = $this->svc->addPost($company, request()->input('body'));
+        $message = $post != null ? 'Note successfully added!': 'There was an error';
+        $status = $post != null ? 1 : 0;
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
 
     public function updateCompany()
     {

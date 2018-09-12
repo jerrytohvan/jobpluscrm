@@ -21,4 +21,12 @@ class Comment extends Model
     {
         return $this->belongsTo('App\Models\Users\User');
     }
+    public function company()
+    {
+        return $this->belongsTo('App\Models\Clients\Company');
+    }
+    public function post()
+    {
+        return $this->belongsTo('App\Models\Posts\Post', 'id');
+    }
 }

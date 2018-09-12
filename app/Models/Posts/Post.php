@@ -22,6 +22,11 @@ class Post extends Model
         return $this->belongsTo('App\Models\Users\User');
     }
 
+    public function company()
+    {
+        return $this->belongsTo('App\Models\Clients\Company');
+    }
+
     public function likes()
     {
         return $this->hasMany('App\Models\Likes\Like');
