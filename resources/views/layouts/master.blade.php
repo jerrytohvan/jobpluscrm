@@ -38,7 +38,7 @@
 
 </head>
 
-@if (Auth::check())  <!-- Navigation-->
+@if (Auth::check() && Route::current()->getName() != 'apply.jobs')
   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
@@ -115,13 +115,6 @@
         <!-- PrettyPrint -->
         <script src="{{ asset('js/prettyPrint.js') }}"></script>
 
-        <!-- jQuery Tags Input
-        <script src="{{asset("js/jquery.tagsinput.min.js")}}"></script>
--->
-
-        <!-- bootstrap-fileupload !!!!  http://blueimp.github.io/jQuery-File-Upload/
-        <script src="{{asset("js/.js")}}"></script>-->
-
         <!-- bootstrap-wysihtml5  -->
         <script src="{{ asset('js/bootstrap-wysiwyg.min.js') }}"></script>
 
@@ -137,5 +130,38 @@
   <!-- ELSE YIELD LOGIN-->
   @else
     @yield('content')
+
+
+    <!-- Bootstrap -->
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
+
+    <!-- gauge.js -->
+    <script src="{{ asset('js/gauge.min.js') }}"></script>
+
+    <!-- Bootstrap Progressbar -->
+    <script src="{{ asset('js/bootstrap-progressbar.min.js') }}"></script>
+
+    
+    <!-- Skycons -->
+    <script src="{{ asset('js/skycons.js') }}"></script>
+
+    <!-- Flot - , pice, time, stack, resize -->
+    <script src="{{ asset('js/jquery.flot.js') }}"></script>
+    <script src="{{ asset('js/jquery.flot.pie.js') }}"></script>
+    <script src="{{ asset('js/jquery.flot.time.js') }}"></script>
+    <script src="{{ asset('js/jquery.flot.stack.js') }}"></script>
+    <script src="{{ asset('js/jquery.flot.resize.js') }}"></script>
+
+
+
+    <script src="{{ asset('js/date.js') }}"></script>
+
+    <script src="{{ asset('js/moment.min.js') }}"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="{{ asset('js/gentelella.min.js') }}"></script>
+    @stack('scripts')
+
   @endif
 </html>

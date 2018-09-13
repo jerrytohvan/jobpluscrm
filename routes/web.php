@@ -9,7 +9,13 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::get('/apply-jobs', [
+'as' => 'apply.jobs',
+'uses' => '\App\Models\Clients\ClientController@public_add_candidate'
+]);
+
 Route::group(['middleware' => ['web']], function () {
+    Route::get('/', 'AccountController@index')->name('dashboard');
     Route::get('/login', [
     'as' => 'login',
     'uses' => '\App\Http\Controllers\Auth\LoginController@showLoginForm'
@@ -37,7 +43,6 @@ Route::group(['middleware' => ['web']], function () {
       'as'=>'new.admin',
   'uses' => '\App\Http\Controllers\Auth\RegisterController@register'
   ]);
-    Route::get('/', 'AccountController@index')->name('dashboard');
     Route::get(
       '/candidates-full-list',
   ['as' => 'candidates.fulllist',
@@ -206,6 +211,20 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/match-employee-job', [
       'as' => 'search.job',
     'uses' => '\App\Models\MachineLearning\SmartMatchController@matchDescriptionWithPotentialJobs'
+    ]);
+    Route::get('/jobs/list', [
+      'as' => 'jobs.list',
+    'uses' => '\App\Models\Jobs\JobController@index'
+    ]);
+
+    Route::get('/jobs/new', [
+      'as' => 'jobs.new',
+    'uses' => '\App\Models\Jobs\JobController@index_job_new'
+    ]);
+
+    Route::post('/jobs/add', [
+      'as' => 'add.job',
+    'uses' => '\App\Models\Jobs\JobController@add_jobs'
     ]);
 });
 Route::get('/employees', 'employeeController@index');
