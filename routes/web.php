@@ -39,27 +39,96 @@ Route::group(['middleware' => ['web']], function () {
   ]);
     Route::get('/', 'AccountController@index')->name('dashboard');
     Route::get(
-      '/accounts-full-list',
-  ['as' => 'accounts.fulllist',
-   'uses' => '\App\Models\Clients\ClientController@index_account_full_list'
+      '/candidates-full-list',
+  ['as' => 'candidates.fulllist',
+   'uses' => '\App\Models\Clients\ClientController@index_candidates_full_list'
  ]
   );
-    Route::get('/accounts-new', [
-    'as' => 'accounts.new',
-  'uses' => '\App\Models\Clients\ClientController@index_account_new'
+    Route::get('/candidates-new', [
+    'as' => 'candidates.new',
+  'uses' => '\App\Models\Clients\ClientController@index_candidates_new'
 ]);
-    Route::post('/accounts-new', [
-  'as' => 'add.new.account',
-'uses' => '\App\Models\Clients\ClientController@add_new_account'
+
+    Route::get('/candidate/remove/{candidate}', [
+    'as' => 'delete.candidate',
+    'uses' => '\App\Models\Clients\ClientController@removeCandidate'
+    ]);
+
+    Route::post('/candidates-new', [
+      'as' => 'add.new.candidate',
+    'uses' => '\App\Models\Clients\ClientController@add_new_candidate'
+    ]);
+
+    Route::post('/account-new', [
+      'as' => 'add.new.account',
+    'uses' => '\App\Models\Clients\ClientController@add_new_account'
+    ]);
+    Route::get('candidate/resume/{file}', [
+        'as' => 'get.resume',
+        'uses' => '\App\Models\Clients\ClientController@getResume'
+        ]);
+
+    Route::post('/update/account', [
+        'as' => 'update.account',
+        'uses' => '\App\Models\Clients\ClientController@updateAccount'
+        ]);
+
+    Route::get('/delete/{employee_id}', [
+        'as' => 'delete.account',
+        'uses' => '\App\Models\Clients\ClientController@removeAccount'
+        ]);
+
+    Route::get('/companies/clients', [
+'as' => 'companies.clients',
+'uses' => '\App\Models\Clients\ClientController@index_companies_clients'
 ]);
-    Route::get('/companies-full-list', [
-    'as' => 'companies.fulllist',
-  'uses' => '\App\Models\Clients\ClientController@index_companies_full_list'
+    Route::get('/companies/leads', [
+'as' => 'companies.leads',
+'uses' => '\App\Models\Clients\ClientController@index_companies_leads'
 ]);
+    Route::get('/convert/{company}', [
+    'as' => 'convert.lead',
+    'uses' => '\App\Models\Clients\ClientController@convertToClient'
+    ]);
+
+    Route::get('/candidate/match/{candidate}', [
+    'as' => 'candidate.match',
+    'uses' => '\App\Models\MachineLearning\SmartMatchController@matchCandidatesWithJobs'
+    ]);
+
     Route::get('/view/{company}', [
+'as' => 'view.company',
+'uses' => '\App\Models\Clients\ClientController@showCompany'
+]);
+
+    Route::post('/view/{company}', [
+  'as' => 'view.company',
+  'uses' => '\App\Models\Clients\ClientController@showCompany'
+  ]);
+    Route::post('/view/{company}', [
       'as' => 'view.company',
-      'uses' => '\App\Models\Clients\ClientController@showCompany'
+      'uses' => '\App\Models\Clients\ClientController@showCompanyPost'
       ]);
+
+    Route::get('/file/{file}', [
+        'as' => 'get.file',
+        'uses' => '\App\Models\Clients\ClientController@getFile'
+        ]);
+
+    Route::post('/update/company', [
+        'as' => 'update.company',
+        'uses' => '\App\Models\Clients\ClientController@updateCompany'
+        ]);
+
+    Route::post('/upload/company-file', [
+        'as' => 'update.company.file',
+        'uses' => '\App\Models\Clients\ClientController@addFileToCompany'
+        ]);
+    Route::get('/remove/company-file/{file}', [
+            'as' => 'remove.company.file',
+            'uses' => '\App\Models\Clients\ClientController@removeFileFromCompany'
+            ]);
+
     Route::get('/deletecompany/{company_id}', [
 'as' => 'delete.company',
 'uses' => '\App\Models\Clients\ClientController@removeCompany'
@@ -72,6 +141,16 @@ Route::group(['middleware' => ['web']], function () {
   'as' => 'add.new.company',
 'uses' => '\App\Models\Clients\ClientController@add_new_company'
 ]);
+    Route::post('/attach/company', [
+'as' => 'attach.user',
+'uses' => '\App\Models\Clients\ClientController@attachToCompany'
+]);
+    Route::get('/detach/{company}/{user}', [
+'as' => 'detach.user',
+'uses' => '\App\Models\Clients\ClientController@detachFromCompany'
+]);
+
+
     Route::get('/telegram', [
   'as' => 'telegram',
 'uses' => '\App\Models\SocialWall\SocialWallController@index'
@@ -92,6 +171,10 @@ Route::group(['middleware' => ['web']], function () {
     'as' => 'new.post',
   'uses' => '\App\Models\SocialWall\SocialWallController@addPost'
   ]);
+    Route::post('/newcompanypost/{company}', [
+  'as' => 'new.company.post',
+'uses' => '\App\Models\Clients\ClientController@addNote'
+]);
     Route::get('/deletepost/{post_id}', [
     'as' => 'delete.post',
     'uses' => '\App\Models\SocialWall\SocialWallController@removePost'

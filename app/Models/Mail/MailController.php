@@ -38,16 +38,16 @@ class MailController extends Controller
     }
     // method to send to add attachment succesfully
 
-    // public function attachment_email(){
-    //    $data = array('name'=>"trying attachment");
-    //    Mail::send('/layouts/mail', $data, function($message) {
-    //       $message->to('gabriel.ong.2016@sis.smu.edu.sg', 'gab')->subject
-    //          ('Laravel Testing Mail with Attachment');
-    //       $message->attach('C:\Users\gabri\Documents\gab\gif\200.webp');
-    //       $message->from('gabrielongxe@gmail.com','Gabriel');
-    //    });
-    //    return "Email Sent with attachment. Check your inbox.";
-    // }
+    public function attachment_email(){
+       $data = array('name'=>"trying attachment");
+       Mail::send('/layouts/mail', $data, function($message) {
+          $message->to('gabriel.ong.2016@sis.smu.edu.sg', 'gab')->subject
+             ('Laravel Testing Mail with Attachment');
+          $message->attach('C:\Users\gabri\Documents\gab\gif\200.webp');
+          $message->from('gabrielongxe@gmail.com','Gabriel');
+       });
+       return "Email Sent with attachment. Check your inbox.";
+    }
 
 
 

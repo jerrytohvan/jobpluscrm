@@ -7,23 +7,23 @@ use Phpml\Association\Apriori;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use App\Models\MachineLearning\StoreSampleData;
 use PhpScience\TextRank\Tool\StopWords\English;
 use PhpScience\TextRank\TextRankFacade;
 use App\Models\DocxConversion;
+use App\Models\MachineLearning\StoreSampleData;
+use App\Models\Jobs\Job;
+
 use Smalot\PdfParser\Parser;
 
 class MLService
 {
     public function __construct()
     {
-        $this->associator = new Apriori($support = 0.08, $confidence = 0.08);
         $this->api = new TextRankFacade();
 
         $stopWords = new English();
         $this->api->setStopWords($stopWords);
 
-        // $this->stopwords =  file(storage_path('app/stop_words.txt'));
         $this->stopwords =  file(public_path('/stop_words.txt'));
 
         // Remove line breaks and spaces from stopwords
@@ -40,33 +40,21 @@ class MLService
         if (($handle = fopen($fileDir, 'r')) !== false) {
             $header = fgetcsv($handle);
             while (($data = fgetcsv($handle)) !== false) {
-                StoreSampleData::create([
-                'job_title' => !empty($data[0]) ? $data[0]:'-',
-                'job_description' => !empty($data[1]) ? $data[1] :'-',
-                'category' => !empty($data[2]) ? $data[2]:'-',
-                'skills' => !empty($data[3]) ? $data[3]:'-',
-                'industry' => !empty($data[4]) ? $data[4]:'-',
-                'prefered_years_experience' => !empty($data[5]) ? $data[5]:'-',
-              ]);
+                Job::create([
+              'job_title' =>  $data[0],
+              'job_description' => $data[1] ,
+              'category' =>$data[2],
+              'skills' => $data[3] ,
+              'industry' => $data[4],
+              'years_experience' => !empty($data[5])|| $data[5] == -1 ? $data[5]:0,
+            ]);
                 unset($data);
             }
             fclose($handle);
         }
-        $allData =StoreSampleData::all();
-        StoreSampleData::chunk(100, function ($allData) {
-            foreach ($allData as $data) {
-                $data->update([
-                    'job_description' => serialize(Self::extract_keywords(implode(",", $this->api->summarizeTextBasic($data->job_description)))),
-                    'job_title' => serialize(explode(',', preg_replace('/[0-9\W]/', ',', $data->job_title))),
-                    'skills' => serialize(Self::extract_keywords($data->skills)),
-                  ]);
-                unset($data);
-            }
-        });
-        unset($allData);
         echo 'Total memory usage : '. (memory_get_usage() - $begin);
 
-        return StoreSampleData::all();
+        // return Job::all();
     }
 
     public function extract_keywords($text)
@@ -85,53 +73,12 @@ class MLService
         return array_values(array_filter($data));
     }
 
-    public function constructData()
-    {
-        # format: job_title, job_description, category, skills/requirement, industry, prefered_years_experience,
-        $begin = memory_get_usage();
-        $allData = StoreSampleData::all()->chunk(100);
-        foreach ($allData as $data) {
-            $contain = [];
-            foreach ($data as $row) {
-                $contain = [unserialize($row->job_description)];
-                unset($row);
-            }
-            $this->associator->train($contain, []);
-            unset($contain);
-        }
-        unset($allData);
-        dd($this->associator->getRules());
-
-        //  $allData = StoreSampleData::all()->pluck('job_description')->toArray();
-        // //write to file?
-        //
-        //  foreach($allData as $data){
-        //    $contain[] = unserialize($data);
-        //    unset($data);
-        //  }
-        //  $this->associator->train($contain,[]);
-        //https://phpdoc.hotexamples.com/class/phpml.association/Apriori & RAKE
-        dd($this->associator->getRules());
-        echo 'Total memory usage : '. (memory_get_usage() - $begin);
-        return $jobDescriptionKeywords->all();
-    }
-
-    public function retrieveKeywordsByRake($text)
-    {
-        $result = $this->api->summarizeTextBasic($text);
-        dd($this->api->getOnlyKeyWords(array_values($result)[0]));
-    }
-
-
-    public function findEmployeesByJobDesc()
-    {
-        //Revese function for partners to try out and apply for request
-    }
-
     public function convertFileIntoText($fileName, $type=0)
     {
-        if ($type = 1) {
+        if ($type == 1) {
             $fileDir = realpath($_SERVER["DOCUMENT_ROOT"])."/storage/".$fileName;
+        } elseif ($type == 2) {
+            $fileDir = storage_path() ."/app/resumes/".$fileName;
         } else {
             $fileDir = realpath($_SERVER["DOCUMENT_ROOT"])."/public/".$fileName;
         }
@@ -152,22 +99,6 @@ class MLService
         }
     }
 
-    public function parseFile($fileDir, File $file = null)
-    {
-        // $docObj = new DocxConversion($fileDir);
-        //
-        // if (!$file) {
-        // } else {
-        //     $docText = $docObj->convertToText();
-        //     if (!$docText && $type == "pdf") {
-        //         $parser = new Parser();
-        //         $pdf = $parser->parseFile($fileDir);
-        //         $text = $pdf->getText();
-        //         return $text;
-        //     }
-        // }
-        // return $docText;
-    }
 
     public function retrieveYearsOfExperience($desc)
     {
@@ -176,12 +107,6 @@ class MLService
         return $output;
     }
 
-    public function readEmployeeEmail()
-    {
-        #generate keywords from employee's email
-    }
-
-    //test this
     public function readEmployeeResume($fileName, $type = 0)
     {
         $content = Self::convertFileIntoText($fileName, $type);
@@ -191,142 +116,52 @@ class MLService
         return $keywords;
     }
 
-    //check against 2 array
-    //add type to consider rules for every kind of matching
-    public function similarityRate($subjectArray, $objectArray, $type = 0)
+    public function returnWithMaxPoints($array, $object)
     {
-        $container = [];
-        if ($type == 0) {
-            foreach ($objectArray as $row) {
-                $score = 0 ;
-                foreach ($subjectArray as $subject) {
-                    if (in_array($subject, $row)) {
-                        $score++;
-                    }
-                }
-                $container[] = $score;
-            }
-        } else {
-            foreach ($objectArray as $object) {
-                if ($subjectArray != -1 && strcmp($subjectArray, $object) == 0) {
-                    $container[] = 1;
-                } else {
-                    $container[] = 0;
-                }
+        $array[] = $object;
+        usort($array, array(Self::class,'cmp'));
+        return  array_slice($array, 0, 10);
+    }
+
+    public function cmp($a, $b)
+    {
+        if (array_sum($a[1]) == array_sum($b[1])) {
+            return 0;
+        }
+        return (array_sum($a[1]) > array_sum($b[1])) ? -1 : 1;
+    }
+
+
+    public function matchPersonWithJobs($keywords)
+    {
+        $chunks = Job::all()->sortBy('id')->take(20000)->chunk(100);
+        $index = 0;
+        //collect top 10 job points
+        $points = [];
+
+        foreach ($chunks as $jobs) {
+            foreach ($jobs as $job) {
+                $job_title =  Self::extract_keywords($job->job_title);
+                $job_description = Self::extract_keywords($job->job_description);
+                $skills = Self::extract_keywords(preg_replace('/[0-9\W]/', ',', $job->skills));
+                $years_of_exp = $job->years_experience;
+                $titlePoint = count(array_intersect($job_title, $keywords));
+                $descPoint = count(array_intersect($job_description, $keywords));
+                $skillsPoint = count(array_intersect($skills, $keywords));
+                $expPoint = $years_of_exp <=  (int)end($keywords) ? 1 : 0;
+                $points = Self::returnWithMaxPoints($points, array($index,[$titlePoint,$descPoint, $skillsPoint,$expPoint]));
+                $index++;
             }
         }
-        return $container;
-    }
 
-    public function calculateTotalScore($jobTitleSkillsSimilarityCount, $jobDescSimilarityCount, $expSimilarityCount)
-    {
-        $containTotalScore = [];
-        for ($x = 0; $x < count($jobTitleSkillsSimilarityCount); $x++) {
-            $contain = [];
-            for ($y = 0; $y < count($jobTitleSkillsSimilarityCount[$x]); $y++) {
-                $contain[] = 0.5 * $jobTitleSkillsSimilarityCount[$x][$y] + 0.2  * $jobDescSimilarityCount[$x][$y] + 0.3 * $expSimilarityCount[$x][$y];
-            }
-            $containTotalScore[] = $contain;
-            unset($contain);
-        }
-        unset($jobTitleSkillsSimilarityCount);
-        unset($jobDescSimilarityCount);
-        unset($expSimilarityCount);
+        $retrieveIndex = array_map(function ($row) {
+            return $row[0];
+        }, $points);
 
-        //loop & array merge
-        foreach ($containTotalScore as $rowArray) {
-            $containTotalScore = array_merge($rowArray, $containTotalScore);
-        }
-        //count index
-        $topIndexes = [];
+        $points = array_map(function ($row) {
+            return $row[1];
+        }, $points);
 
-        $minDBIndex = StoreSampleData::min('id');
-        $totalSortedDesc = array_merge([], $containTotalScore);
-        rsort($totalSortedDesc);
-        $topIndexes[] = $minDBIndex + array_search(max($containTotalScore), $containTotalScore);
-        $topIndexes[] = $minDBIndex + array_search($totalSortedDesc[1], $containTotalScore);
-        $topIndexes[] = $minDBIndex + array_search($totalSortedDesc[2], $containTotalScore);
-        unset($totalSortedDesc);
-
-        $results = [
-        preg_replace('/\s+/', ' ', implode(" ", unserialize(StoreSampleData::find($topIndexes[0])->job_title))),
-        preg_replace('/\s+/', ' ', implode(" ", unserialize(StoreSampleData::find($topIndexes[1])->job_title))),
-        preg_replace('/\s+/', ' ', implode(" ", unserialize(StoreSampleData::find($topIndexes[2])->job_title))),
-      ];
-        return $results;
-    }
-
-    public function matchResumeWithSampleData($fileName, $additionalQuery=[], $type = 0)
-    {
-        $jobSampleData = StoreSampleData::all()->sortBy('id');
-        //size of array
-        $jobDesc = $jobSampleData->pluck('job_description')->chunk(100);
-
-        $skillsTitle = $jobSampleData->map(function ($data) {
-            $jobTitles = unserialize($data->job_title);
-            $skills = unserialize($data->skills);
-            return array_merge($jobTitles, $skills);
-        })->chunk(100);
-
-        $exp = $jobSampleData->pluck('prefered_years_experience')->chunk(100);
-        unset($jobSampleData);
-
-        $jobTitleSkillsSimilarityCount= [];//A
-        $jobDescSimilarityCount = [];//B
-        $expSimilarityCount = [];//C
-
-        $resumeKeywords = array_merge($additionalQuery, Self::readEmployeeResume($fileName, $type));
-        for ($x = 0; $x < count($skillsTitle); $x++) {
-            //A
-            $jobTitleSkillsSimilarityCount[] = Self::similarityRate($resumeKeywords, $skillsTitle[$x]);
-
-            //B
-            $containDescArray = [];
-            foreach ($jobDesc[$x] as $data) {
-                $containDescArray[] = unserialize($data);
-                unset($data);
-            }
-            $jobDescSimilarityCount[] = Self::similarityRate($resumeKeywords, $containDescArray);
-            unset($containDescArray);
-
-            //C
-            $expSimilarityCount[] = Self::similarityRate(end($resumeKeywords), $exp[$x], 1);
-
-            unset($jobDesc[$x]);
-            unset($skillsTitle[$x]);
-            unset($exp[$x]);
-        }
-
-        unset($resumeKeywords);
-        unset($skillsTitle);
-        unset($jobDesc);
-        unset($exp);
-
-        $results = Self::calculateTotalScore($jobTitleSkillsSimilarityCount, $jobDescSimilarityCount, $expSimilarityCount);
-        return $results;
-    }
-
-
-
-    public function trainML()
-    {
-    }
-
-    public function generateEmployeeKeywords()
-    {
-    }
-    public function generateJobKeywords()
-    {
-    }
-
-    public function matchJobWithEmployeeResume($query)
-    {
-        #match keywords from employee resume
-    }
-
-    public function crawlJobStreet($query)
-    {
-        //use keywords from ML based on user input
-    //to find available jobs based on employees
+        return [Job::whereIn('id', $retrieveIndex)->get(),$points];
     }
 }

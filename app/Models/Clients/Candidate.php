@@ -3,18 +3,29 @@
 namespace App\Models\Clients;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Candidate extends Model
 {
+    use LogsActivity;
+
     protected $guarded = [];
-  public function employees()
-  {
-      return $this->hasMany('App\Models\Employees\Employee');
-  }
-  public function events()
-  {
-      return $this->belongsToMany('App\Models\Events\Event');
-  }
+
+    protected static $logAttributes = ["*"];
+
+
+    public function employees()
+    {
+        return $this->hasMany('App\Models\Employees\Employee');
+    }
+    public function events()
+    {
+        return $this->belongsToMany('App\Models\Events\Event');
+    }
+    public function company()
+    {
+        return $this->belongsToMany('App\Models\Clients\Company');
+    }
 
     public function interests()
     {
@@ -24,5 +35,9 @@ class Candidate extends Model
     public function fields()
     {
         return $this->hasMany('App\Models\Fields\Field');
+    }
+    public function files()
+    {
+        return $this->morphMany('App\Models\Attachments\Attachment', 'attachable');
     }
 }

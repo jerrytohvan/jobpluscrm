@@ -38,9 +38,7 @@
                                       <th style="width: 10%">Name</th>
                                       <th style="width: 20%">Address</th>
                                       <th style="width: 5%">Tel. No</th>
-                                      <th>Industry</th>
-                                      <th>Website</th>
-                                      <th style="width: 5%">Made Transaction?</th>
+                                      <th style="width: 5%">Type</th>
                                       <th style="width: 15%">Action</th>
 
                                   </tr>
@@ -51,9 +49,7 @@
                                   <td>{{ $data->name }}</td>
                                   <td>{{ $data->address }}</td>
                                   <td>{{ $data->telephone_no }}</td>
-                                  <td>{{ $data->industry == '' ? '-': $data->industry}}</td>
-                                  <td>{{ $data->website == '' ? '-': $data->website }}</td>
-                                  <td>{{ $data->transaction == false ? 'No' :'Yes' }}</td>
+                                  <td>{{ $data->client == false ? 'Lead' :'Client' }}</td>
                                   <td>
                                       <a href="{{ route('view.company', ['company' => $data->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
                                       <a href="{{ route('delete.company', ['company_id' => $data->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>

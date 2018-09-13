@@ -36,9 +36,20 @@
 
 
                     <div class="col-md-12 col-lg-12 col-sm-12">
-                      <h2>3 Suitable Job Positions that you can consider! </h2>
-                      @foreach($results as $result)
-                      <h4>- {{ $result }}</h4>
+                      <h2>10 Suitable Job Positions that you can consider! </h2>
+                      @php
+                        $index = 0;
+                      @endphp
+                      @foreach($results[0] as $result)
+                      <h4>{{ $result->job_title }}</h4>
+                        <ul>
+                          <li>{{ $result->job_description }}</li>
+                          <li>{{ $result->skills }}</li>
+                          <li>Keyword(s) Match: {{ array_sum($results[1][$index]) }}</li>
+                          @php
+                            $index++;
+                          @endphp
+                        </ul>
                       @endforeach
                     </div>
 

@@ -35,14 +35,16 @@
               <li>
                 <a><i class="fa fa-edit"></i> Companies <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                  <li><a href="{{ route('companies.fulllist') }}">Full List</a></li>
+                  <!-- <li><a href="">Full List</a></li> -->
+                  <li><a href="{{ route('companies.clients') }}">Clients</a></li>
+                  <li><a href="{{ route('companies.leads') }}">Leads</a></li>
                   <li><a href="{{ route('companies.new') }}">New</a></li>
                     </ul>
               </li>
-              <li><a><i class="fa fa-desktop"></i> Accounts <span class="fa fa-chevron-down"></span></a>
+              <li><a><i class="fa fa-desktop"></i> Candidates <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                  <li><a href="{{ route('accounts.fulllist') }}">Full List</a></li>
-                  <li><a href="{{ route('accounts.new') }}">New</a></li>
+                  <li><a href="{{ route('candidates.fulllist') }}">Full list</a></li>
+                  <li><a href="{{ route('candidates.new') }}">New</a></li>
                 </ul>
               </li>
             </li>
@@ -56,12 +58,7 @@
             </li>
             <li><a href="{{ route('index.event') }}"><i class="fa fa-clock-o"></i>Tasks</a>
             </li>
-              <li><a><i class="fa fa-desktop"></i> Candidates <span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu">
-                  <li><a href="{{ route('accounts.fulllist') }}">Full list</a></li>
-                  <li><a href="{{ route('accounts.new') }}">New</a></li>
-                </ul>
-              </li>
+
               <li><a href="{{ route('index.smart.match') }}"><i class="fa fa-magic"></i> Smart Match </a>
               </li>
 

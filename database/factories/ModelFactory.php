@@ -46,7 +46,7 @@ $factory->defineAs(User::class, 'admin', function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
-
+//lead
 $factory->define(Company::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->company,
@@ -57,6 +57,7 @@ $factory->define(Company::class, function (Faker\Generator $faker) {
     ];
 });
 
+
 $factory->define(Post::class, function (Faker\Generator $faker) {
     $user = factory(User::class)->create();
     return [
@@ -65,6 +66,7 @@ $factory->define(Post::class, function (Faker\Generator $faker) {
     ];
 });
 
+//clients
 $factory->define(Employee::class, function (Faker\Generator $faker) {
     $companies = Company::all()->pluck('id')->toArray();
     return [
@@ -86,18 +88,17 @@ $factory->define(ProjectGroup::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(Candidate::class, function (Faker\Generator $faker) {
-    return [
-        'name' => $faker->unique()->name,
-        'email' => $faker->companyEmail,
-        'handphone' => $faker->phoneNumber,
-        'working_experience' => $faker->randomDigit,
-        'graduation_year' => $faker->randomDigit,
-        'interest_id' => $faker->randomDigit,
-        'type' => false,
-        'field_id' =>$faker ->randomDigit
-    ];
-});
+// $factory->define(Candidate::class, function (Faker\Generator $faker) {
+//     return [
+//         'name' => $faker->unique()->name,
+//         'title' => $faker->title,
+//         'gender' => $faker->randomElements(['M', 'F'])[0],
+//         'email' => $faker->companyEmail,
+//         'telephone' => $faker->phoneNumber,
+//         'handphone' => $faker->phoneNumber,
+//         'birthdate' => $faker->date($format = 'Y-m-d', $max = 'now'),
+//     ];
+// });
 
 $factory->define(Result::class, function (Faker\Generator $faker) {
     return [
