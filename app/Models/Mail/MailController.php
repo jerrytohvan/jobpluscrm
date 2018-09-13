@@ -22,13 +22,14 @@ class MailController extends Controller
     {
         Mail::send('/layouts/index_mail', [], function ($message) {
             $message->from('gabrielongxe@gmail.com', 'Gabriel');
-            $message->to((request()->input('toEmail')))->subject('This is test e-mail');
+            $message->to(request()->input('toEmail'))->subject('This is test e-mail');
             if (request()->input('ccEmail') != null) {
                 $message->cc(request()->input('ccEmail'));
             }
             if (request()->input('emailAttachment') != null) {
                 $message->attach(request()->file('emailAttachment'));
             }
+            $message->subject(request()->input('subject'));
             $message->setBody(request()->input('emailMessage'));
             error_log(print_r("sending", true));
         });

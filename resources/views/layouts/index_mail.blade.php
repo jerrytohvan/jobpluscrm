@@ -375,6 +375,11 @@
     <input type="email" id="ccEmail" class="form-control" name="ccEmail" data-parsley-trigger="change" >
     </div>
 
+    <div class="form-group">
+    <label for="subject">Subject * :</label>
+    <input type="text" id="subject" class="form-control parsley-error" name="subject" data-parsley-trigger="change" required="required">
+    </div>
+
   <div class="form-group">
       <div id="editor"  class="editor-wrapper"></div>
       <input type="hidden" id="emailMessage" value="" name="emailMessage"/>
