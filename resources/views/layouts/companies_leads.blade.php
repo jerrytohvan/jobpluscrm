@@ -65,7 +65,8 @@
                                       @if(!empty($collaborators))
                                         @foreach($collaborators as $profile)
                                       <li>
-                                          <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
+                                           <!-- <b> {{ $profile->name }} </b> -->
+                                          <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}" title="{{ $profile->name }}">
                                       </li>
                                         @endforeach
                                       @endif

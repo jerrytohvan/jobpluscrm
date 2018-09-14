@@ -45,10 +45,22 @@
 
                   <!-- Adding button  -->
                   <div class="interaction">
+                    @php
+                        $count = DB::table('likes')->where('post_id', $post->id)->count();
+                    @endphp
+                    @if ($count != 0)
+                    {{$count}} likes
+                    @endif
+                    <!-- {{DB::table('likes')->where('post_id', $post->id)->count()}} likes -->
 
                     <!-- Should use icon when liked, light up icon and grey icon -->
-                      <button type="button" class="btn btn-default btn-xs fa fa-heart-o"><a href="#" class="like">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like'  }}</a></button>
-                      @if(Auth::user() == $post->user)
+                      <!-- <button type="button" class="btn btn-default btn-xs fa fa-heart-o"><a href="#" class="like"> -->
+                      <!-- {{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like'  }}</a></button> -->
+                      @if(Auth::user() == $post->user) 
+                      <button type="button" class="btn btn-default btn-xs fa fa-heart-o like"><a href="{{ route('like.post', ['post_id' => $post->id, 'isLike' => 'true']) }}">
+                        {{  Auth::user()->likes()->where('post_id', $post->id)->first() ?
+                            Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 
+                            'You like this post' : 'Like' : 'Like'  }}</a></button>
 
                       <button type="button" class="btn btn-default btn-xs fa fa-edit"><a data-id="{{ $post->id }}" data-content="{{ $post->content }}" class="edit" id="Edit-modal"
                                  href="#edit-modal">Edit</a></button>

@@ -183,7 +183,7 @@ Route::group(['middleware' => ['web']], function () {
       'as' => 'edit.post',
     'uses' => '\App\Models\SocialWall\SocialWallController@editPost'
     ]);
-    Route::post('/likepost', [
+    Route::get('/likepost', [
       'as' => 'like.post',
     'uses' => '\App\Models\SocialWall\SocialWallController@postLikePost'
     ]);

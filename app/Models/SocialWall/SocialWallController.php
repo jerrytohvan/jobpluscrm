@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
+use App\Models\Likes\Like;
+
 class SocialWallController extends Controller
 {
     public function __construct(SocialWallService $socialWallSvc)
@@ -61,14 +63,16 @@ class SocialWallController extends Controller
     }
 
     public function postLikePost(Request $request)
-    {
-        $post_id = $request['postId'];
+    { 
+       
+        $post_id = $request['post_id'];
         $is_like = $request['isLike'] === 'true';
         $update = false;
         $post = Post::find($post_id);
         if (!$post) {
-            return null;
-        }
+          return redirect()->back();
+       }
+
         $user = Auth::user();
         $like = $user->likes()->where('post_id', $post_id)->first();
         if ($like) {
@@ -76,7 +80,7 @@ class SocialWallController extends Controller
             $update = true;
             if ($already_like == $is_like) {
                 $like->delete();
-                return null;
+                return redirect()->back();
             }
         } else {
             $like = new Like();
@@ -89,6 +93,6 @@ class SocialWallController extends Controller
         } else {
             $like->save();
         }
-        return null;
+        return redirect()->back();
     }
 }
