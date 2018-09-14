@@ -56,11 +56,14 @@
             </li>
             <li><a href="{{ route('index.event') }}"><i class="fa fa-clock-o"></i>Tasks</a>
             </li>
-
-              <li><a href="{{ route('index.smart.match') }}"><i class="fa fa-magic"></i> Smart Match </a>
-              </li>
-
-            </ul>
+            <li>
+              <a><i class="fa fa-binoculars"></i>Jobs<span class="fa fa-chevron-down"></span></a>
+              <ul class="nav child_menu">
+                <li><a href="{{ route('jobs.list') }}">List</a></li>
+                <li><a href="{{ route('jobs.new') }}">New</a></li>
+                  </ul>
+            </li>
+          </ul>
           </div>
 
 

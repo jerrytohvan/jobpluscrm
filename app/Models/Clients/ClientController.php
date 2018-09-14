@@ -20,8 +20,6 @@ class ClientController extends Controller
 {
     public function __construct(UserService $userSvc, ClientService $clientSvc, CompanyService $compService, ActivityLogService $actService, CandidateService $canSvc)
     {
-        $this->middleware('auth');
-
         $this->svc = $clientSvc;
         $this->compSvc = $compService;
         $this->actSvc = $actService;
@@ -41,6 +39,13 @@ class ClientController extends Controller
         $message = "";
         $status = "";
         return view('layouts.candidates_new', compact('message', 'status', 'companies'));
+    }
+    public function public_add_candidate()
+    {
+        $companies = $this->svc->getAllCompany();
+        $message = "";
+        $status = "";
+        return view('layouts.public_add_candidate', compact('message', 'status', 'companies'));
     }
 
     public function index_companies_clients()
@@ -94,7 +99,6 @@ class ClientController extends Controller
         'resume' => 'required',
         'birthdate' => 'required',
       ]);
-
         $resume = request()->file('resume');
         if ($resume!=null) {
             $candidate = $this->canSvc->addCandidateFile(request()->all());
