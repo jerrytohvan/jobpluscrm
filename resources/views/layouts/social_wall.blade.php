@@ -54,6 +54,22 @@
                     <!-- {{DB::table('likes')->where('post_id', $post->id)->count()}} likes -->
 
                     <!-- Should use icon when liked, light up icon and grey icon -->
+                        
+                        <!-- number of likes -->
+                        @php 
+                            $like_count = DB::table('likes')->where('post_id', $post->id)->count();
+                        @endphp
+
+                        @if ($like_count > 1)
+                            {{$like_count}} Likes
+                        @elseif ($like_count > 0)
+                            {{$like_count}} Like
+                        @endif
+
+                        <!-- {{DB::table('likes')->where('post_id', $post->id)->count() }} Likes -->
+
+                        <button type="button" class="btn btn-default btn-xs fa fa-heart-o like"><a href="{{ route('like.post', ['post_id' => $post->id, 'isLike' => 'true']) }}">
+=======
                       <!-- <button type="button" class="btn btn-default btn-xs fa fa-heart-o"><a href="#" class="like"> -->
                       <!-- {{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like'  }}</a></button> -->
                       @if(Auth::user() == $post->user) 
@@ -62,6 +78,7 @@
                             Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 
                             'You like this post' : 'Like' : 'Like'  }}</a></button>
 
+                      @if(Auth::user() == $post->user)
                       <button type="button" class="btn btn-default btn-xs fa fa-edit"><a data-id="{{ $post->id }}" data-content="{{ $post->content }}" class="edit" id="Edit-modal"
                                  href="#edit-modal">Edit</a></button>
 
@@ -102,31 +119,32 @@
 </div>
 
 <script>
-  //for modal
+    //for modal
     var token = '{{ Session::token() }}';
     var urlEdit = '{{ route('edit.post') }}';
     var urlLike = '{{ route('like.post') }}';
     var postId = 0;
 
     $(document).ready(function () {
-      $(".edit").click(function () {
-          postId = $(this).data('id');
-          $('#post-body').val($(this).data('content'));
-          $('#edit-modal').modal('show');
+        $(".edit").click(function () {
+            postId = $(this).data('id');
+            $('#post-body').val($(this).data('content'));
+            $('#edit-modal').modal('show');
         });
 
         //Pending for a more modern way to solve this
         $("#modal-save").click(function () {
-          var saveData = $.ajax({
-          type: 'POST',
-          url: urlEdit,
-          data:  {id: postId, content: $('#post-body').val(), _token:token},
-          dataType: "text",
-          success: function(resultData) {
-              window.location.reload();
-               }
+            var saveData = $.ajax({
+                type: 'POST',
+                url: urlEdit,
+                data:  {id: postId, content: $('#post-body').val(), _token:token},
+                dataType: "text",
+                success: function(resultData) {
+                    window.location.reload();
+                }
             });
-          });
-      });
+        });
+
+    });
 </script>
 @endsection

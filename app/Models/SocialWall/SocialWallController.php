@@ -61,7 +61,7 @@ class SocialWallController extends Controller
         $post->update();
         return response()->json(['updated_content' => $post->content], 200);
     }
-
+    
     public function postLikePost(Request $request)
     { 
        
