@@ -71,7 +71,7 @@ class TaskService
             //'user_id' => Auth::user()->id,
             //'assigned_to_id' => $array['assigned_to_id'],
             //'assigned_to_id' => User::where('email',$array['assigned_to_id'])->first() == "" ? null :User::where('email',$array['assigned_to_id'])->first()->id,
-            'type' => $array['type'],
+            'type' => true,
         ]);
     }
 
@@ -101,6 +101,7 @@ class TaskService
     //   return Task::whereUserId(Auth::user()->id)->whereType(false)->get()->sort('date_reminder','asc') == "" ? null:Task::whereAssignedToId(Auth::user()->id)->whereType(false)->get()->sort('date_reminder','asc');
     // }
 
+
     /**
      * Update the specified resource in storage.
      *
@@ -117,6 +118,7 @@ class TaskService
         $task->save();
         return $task;
     }
+
 
     /**
      * Remove the specified resource from storage.

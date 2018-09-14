@@ -221,7 +221,8 @@ Route::group(['middleware' => ['web']], function () {
   Route::get('/events/{id}','\App\Models\Tasks\TaskController@showEvent');
   Route::put('/tasks/{id}','\App\Models\Tasks\TaskController@updateToDoList');
   Route::delete('/tasks/{id}','\App\Models\Tasks\TaskController@deleteToDoList');
-  Route::get('/tasks/show/tasks/all','\App\Models\Tasks\TaskController@showAllTask');
+  Route::get('/tasks/show/tasks/all','\App\Models\Tasks\TaskController@showAllTask');\
+  Route::get('/mailData','\App\Models\Mail\MailController@getData');
 });
 Route::get('/employees', 'employeeController@index');
 Route::get('/employees/{id}', 'employeeController@show');

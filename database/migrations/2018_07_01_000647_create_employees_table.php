@@ -20,8 +20,8 @@ class CreateEmployeesTable extends Migration
             $table->string('handphone');
             $table->string('email');
             $table->string('telephone')->nullable();
-            $table->integer('company_id');
-            $table->string('type');// only 2 types either existing or lead
+            $table->integer('company_id')->nullable();
+            $table->string('type')->nullable();// only 2 types either existing or lead
             $table->timestamps();
         });
     }
