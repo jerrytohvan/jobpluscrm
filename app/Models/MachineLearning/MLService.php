@@ -12,6 +12,8 @@ use PhpScience\TextRank\TextRankFacade;
 use App\Models\DocxConversion;
 use App\Models\MachineLearning\StoreSampleData;
 use App\Models\Jobs\Job;
+use App\Models\Clients\Company;
+
 
 use Smalot\PdfParser\Parser;
 
@@ -35,7 +37,8 @@ class MLService
     public function setDataIntoDB($fileDir)
     {
         $begin = memory_get_usage();
-
+        $maxId = Company::max('id');
+        $minId = Company::min('id');
         // $container = new Collection();
         if (($handle = fopen($fileDir, 'r')) !== false) {
             $header = fgetcsv($handle);
@@ -47,6 +50,7 @@ class MLService
               'skills' => $data[3] ,
               'industry' => $data[4],
               'years_experience' => !empty($data[5])|| $data[5] == -1 ? $data[5]:0,
+              'company_id' => rand($minId, $maxId)
             ]);
                 unset($data);
             }
