@@ -7,7 +7,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- <link rel="icon" href="images/favicon.ico" type="image/ico" /> -->
+  <meta name="csrfToken" content="{{ csrf_token() }}">
+
 
   <title>
     @yield('title')
@@ -142,7 +143,7 @@
     <!-- Bootstrap Progressbar -->
     <script src="{{ asset('js/bootstrap-progressbar.min.js') }}"></script>
 
-    
+
     <!-- Skycons -->
     <script src="{{ asset('js/skycons.js') }}"></script>
 
