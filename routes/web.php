@@ -210,6 +210,11 @@ Route::group(['middleware' => ['web']], function () {
       'as' => 'index.tasks',
     'uses' => '\App\Models\Tasks\TaskController@index'
     ]);
+
+    Route::post('/task/add',[
+      'as' =>'add.tasks',
+      'uses' => '\App\Models\Tasks\TaskController@createTask'
+    ]);
     Route::get('/smart-match', [
       'as' => 'index.smart.match',
     'uses' => '\App\Models\MachineLearning\SmartMatchController@index'
@@ -232,6 +237,8 @@ Route::group(['middleware' => ['web']], function () {
       'as' => 'add.job',
     'uses' => '\App\Models\Jobs\JobController@add_jobs'
     ]);
+
+    
 });
 Route::get('/employees', 'employeeController@index');
 Route::get('/employees/{id}', 'employeeController@show');
@@ -254,6 +261,7 @@ Route::delete(
 // Route::get('/companies/{id}', [
 // 'CompaniesController@destroy'
 // );
+Route::get('/tasks','\App\Models\Tasks\TaskController@display');
 Route::put('/companies/{id}', 'CompaniesController@update');
 Route::get('/candidates', 'CandidatesController@index');
 Route::get('/candidates/{id}', 'CandidatesController@show');

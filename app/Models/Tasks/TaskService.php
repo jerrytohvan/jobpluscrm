@@ -27,7 +27,7 @@ class TaskService
                 'description' => $array['description'],
                 'date_reminder' => $array['date_reminder'],
                 'company_id' =>  $array['company_id'],
-                'status' => 2,
+                'status' => 1,
                 'user_id' => Auth::user()->id,
                 'type' => $array['type'],
             ]);
@@ -38,7 +38,7 @@ class TaskService
                     'description' => $array['description'],
                     'date_reminder' => $array['date_reminder'],
                     'company_id' =>  $array['company_id'],
-                    'status' => 2,
+                    'status' => 1,
                     'user_id' => Auth::user()->id,
                     'type' => $array['type'],
                 ]);
@@ -48,7 +48,7 @@ class TaskService
                     'description' => $array['description'],
                     'date_reminder' => $array['date_reminder'],
                     'company_id' => $array['company_id'],
-                    'status' => 1,
+                    'status' => 0,
                     'user_id' => Auth::user()->id,
                     'assigned_id' => $array['assigned_id'],
                     'type' => $array['type'],
