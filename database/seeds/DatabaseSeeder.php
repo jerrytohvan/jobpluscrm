@@ -1,9 +1,14 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\MachineLearning\MLService;
 
 class DatabaseSeeder extends Seeder
 {
+    public function __construct()
+    {
+        $this->svc = app(MLService::class);
+    }
     /**
      * Run the database seeds.
      *
@@ -19,8 +24,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ResultsTableSeeder::class);
         $this->call(InterestsTableSeeder::class);
         $this->call(FieldsTableSeeder::class);
-        //$this->call(MessagesTableSeeder::class);
-        //$this->call(LikesTableSeeder::class);
-
+        $this->call(MessagesTableSeeder::class);
+        $this->call(LikesTableSeeder::class);
+        $this->svc->setDataIntoDB(public_path()  . '/data_samples.csv');
     }
 }

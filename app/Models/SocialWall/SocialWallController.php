@@ -20,7 +20,7 @@ class SocialWallController extends Controller
     public function index()
     {
         //retrieve posts
-        $posts = Post::orderBy('created_at', 'desc')->get();
+        $posts = Post::orderBy('created_at', 'desc')->whereCompanyId(null)->get();
         return view('layouts.social_wall', ['posts' => $posts]);
     }
 
@@ -32,7 +32,7 @@ class SocialWallController extends Controller
       ]);
         $post = $this->socialWallSvc->addPost($user, $request);
         $message = $post != null ? 'Post successfully created!': 'There was an error';
-        return redirect()->route('social.wall', compact('message'));
+        return redirect()->back()->with(['message' => $message]);
     }
 
     public function removePost($post_id)

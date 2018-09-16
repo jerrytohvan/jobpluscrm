@@ -9,7 +9,13 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::get('/apply-jobs', [
+'as' => 'apply.jobs',
+'uses' => '\App\Models\Clients\ClientController@public_add_candidate'
+]);
+
 Route::group(['middleware' => ['web']], function () {
+    Route::get('/', 'AccountController@index')->name('dashboard');
     Route::get('/login', [
     'as' => 'login',
     'uses' => '\App\Http\Controllers\Auth\LoginController@showLoginForm'
@@ -37,7 +43,6 @@ Route::group(['middleware' => ['web']], function () {
       'as'=>'new.admin',
   'uses' => '\App\Http\Controllers\Auth\RegisterController@register'
   ]);
-    Route::get('/', 'AccountController@index')->name('dashboard');
     Route::get(
       '/candidates-full-list',
   ['as' => 'candidates.fulllist',
@@ -89,6 +94,11 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/convert/{company}', [
     'as' => 'convert.lead',
     'uses' => '\App\Models\Clients\ClientController@convertToClient'
+    ]);
+
+    Route::get('/candidate/match/{candidate}', [
+    'as' => 'candidate.match',
+    'uses' => '\App\Models\MachineLearning\SmartMatchController@matchCandidatesWithJobs'
     ]);
 
     Route::get('/view/{company}', [
@@ -166,6 +176,10 @@ Route::group(['middleware' => ['web']], function () {
     'as' => 'new.post',
   'uses' => '\App\Models\SocialWall\SocialWallController@addPost'
   ]);
+    Route::post('/newcompanypost/{company}', [
+  'as' => 'new.company.post',
+'uses' => '\App\Models\Clients\ClientController@addNote'
+]);
     Route::get('/deletepost/{post_id}', [
     'as' => 'delete.post',
     'uses' => '\App\Models\SocialWall\SocialWallController@removePost'
@@ -204,25 +218,20 @@ Route::group(['middleware' => ['web']], function () {
       'as' => 'search.job',
     'uses' => '\App\Models\MachineLearning\SmartMatchController@matchDescriptionWithPotentialJobs'
     ]);
-
-     //Task
-  Route::post('/task',[
-    'as' => 'add.tasks',
-    'uses' => '\App\Models\Tasks\TaskController@createTask'
+    Route::get('/jobs/list', [
+      'as' => 'jobs.list',
+    'uses' => '\App\Models\Jobs\JobController@index'
     ]);
 
-    Route::get('/tasks/status','\App\Models\Tasks\TaskController@showStatus');
+    Route::get('/jobs/new', [
+      'as' => 'jobs.new',
+    'uses' => '\App\Models\Jobs\JobController@index_job_new'
+    ]);
 
-   
-  Route::post('/tasks/reminder','\App\Models\Tasks\TaskController@createReminder');
- //Route::post('/tasks/tasklist','\App\Models\Tasks\TaskController@createTaskList');
-  Route::get('/tasks/{id}','\App\Models\Tasks\TaskController@showToDoList');
-  Route::get('/tasks/{id}/{cid}','\App\Models\Tasks\TaskController@showTaskList');
-  Route::get('/events/{id}','\App\Models\Tasks\TaskController@showEvent');
-  Route::put('/tasks/{id}','\App\Models\Tasks\TaskController@updateToDoList');
-  Route::delete('/tasks/{id}','\App\Models\Tasks\TaskController@deleteToDoList');
-  Route::get('/tasks/show/tasks/all','\App\Models\Tasks\TaskController@showAllTask');\
-  Route::get('/mailData','\App\Models\Mail\MailController@getData');
+    Route::post('/jobs/add', [
+      'as' => 'add.job',
+    'uses' => '\App\Models\Jobs\JobController@add_jobs'
+    ]);
 });
 Route::get('/employees', 'employeeController@index');
 Route::get('/employees/{id}', 'employeeController@show');

@@ -90,6 +90,17 @@ html {
 .img__wrap:hover .img__description {
   transform: translateY(20);
 }
+.ellipsis {
+    max-width: 20vh;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.ellipsis:hover {
+    text-overflow: clip;
+    white-space: normal;
+    word-break: break-all;
+}
 </style>
 @endpush
 
@@ -105,7 +116,7 @@ html {
       <div class="clearfix"></div>
 
           <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="col-md-12 col-sm-12 col-xs-12">
                       <div class="x_panel">
                         <div class="x_title">
                           <h2>{{ $company->name }}</h2>
@@ -165,7 +176,7 @@ html {
 
                             <div>
                               <div class="col-md-6 col-sm-6 col-xs-12">
-                                 <h2> Accounts & Leads</h2>
+                                 <h2> Contacts </h2>
                                  <ul class="nav navbar-right panel_toolbox">
                                  </ul>
                                  <div class="clearfix"></div>
@@ -174,9 +185,9 @@ html {
                               <div class="x_content">
                                  <div class="" role="tabpanel" data-example-id="togglable-tabs">
                                     <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                       <li role="presentation" class="active"><a href="#tab_account" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Accounts</a>
+                                       <li role="presentation" class="active"><a href="#tab_account" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Contacts</a>
                                        </li>
-                                       <li role="presentation" class=""><a href="#new_account" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">New Account</a>
+                                       <li role="presentation" class=""><a href="#new_account" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">New Contact</a>
                                        </li>
                                     </ul>
                                     <div id="myTabContent" class="tab-content">
@@ -185,7 +196,7 @@ html {
                                           <table id="datatable" class="account_table table table-striped table-bordered">
                                              <thead>
                                                 <tr>
-                                                   <th>Account Name</th>
+                                                   <th>Contact Name</th>
                                                    <th>Title</th>
                                                    <th>Email</th>
                                                    <th>Handphone No.</th>
@@ -271,7 +282,48 @@ html {
                               </div>
                             </div>
 
+            <div>
+                    <div class="x_title">
+                       <h2>Job Lists</h2>
+                       <ul class="nav navbar-right panel_toolbox">
+                          <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                          </li>
 
+                          <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                          </li>
+                       </ul>
+                       <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                       <div class="table-responsive">
+                         <table id="datatable_job" class="table table-striped table-bordered dataTables">
+                            <thead>
+                                 <tr>
+                                     <th style="width: 10%">Title</th>
+                                     <th style="width: 20%">Description</th>
+                                     <th style="width: 5%">Skills</th>
+                                     <th style="width: 5%">Industry</th>
+                                     <th style="width: 15%">Action</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                               @foreach($jobs as $job)
+                               <tr role="row" class="{{ (($job->id % 2) == 1) ? 'odd':'even'}}">
+                                 <td>{{ $job->job_title }}</td>
+                                 <td class="ellipsis">{{ $job->job_description }}</td>
+                                 <td class="ellipsis">{{ $job->skills }}</td>
+                                 <td>{{ $job->industry == '' ? '-' : $job->industry }}</td>
+                                 <td>
+                                 </td>
+                               </tr>
+                               @endforeach
+                             </tbody>
+                          </table>
+                        </div>
+                    </div>
+            </div>
 
                             <div class="row">
                               <div class="col-md-6 col-xs-12">
@@ -368,58 +420,36 @@ html {
                             <!-- recent activities -> notes -->
                             <div class="row">
 
-                              <h4>Company Notes</h4>
-
+                              <h3>Add Company Notes</h3>
+                                 <div class="x_panel"> <!-- panel -->
+                                    {{  Form::open(['route' => ['new.company.post', $company->id],'method'=>'post']) }}
+                                      <div class="form-group">
+                                        {!! Form::text('body', null, ['class' => 'form-control', 'id' => 'new-post', 'rows' => '5', 'placeholder' => 'Your Notes']) !!}
+                                      </div>
+                                      {{ Form::submit('Add Note', ['class'=>'btn btn-primary']) }}
+                                  {!! Form::close() !!}
+                                 </div> <!-- /panel -->
                               <!-- end of user messages -->
                               <ul class="messages">
+
+                                @foreach($notes as $note)
                                 <li>
-                                  <img src="images/img.jpg" class="avatar" alt="Avatar">
                                   <div class="message_date">
-                                    <h3 class="date text-info">24</h3>
-                                    <p class="month">May</p>
+                                    <h3 class="date text-info">{{ date("d", strtotime($note->created_at)) }}</h3>
+                                    <p class="month">{{ date("M", strtotime($note->created_at)) }}</p>
+                                    <p class="month">{{ date("Y", strtotime($note->created_at)) }}</p>
                                   </div>
                                   <div class="message_wrapper">
-                                    <h4 class="heading">Desmond Davison</h4>
-                                    <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
+                                    <h4 class="heading">{{ $note->user->name }}</h4>
+                                      <blockquote class="message">{{ $note->content }}</blockquote>
                                     <br>
                                     <p class="url">
                                       <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
-                                      <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
+                                      <!-- <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a> -->
                                     </p>
                                   </div>
                                 </li>
-                                <li>
-                                  <img src="images/img.jpg" class="avatar" alt="Avatar">
-                                  <div class="message_date">
-                                    <h3 class="date text-error">21</h3>
-                                    <p class="month">May</p>
-                                  </div>
-                                  <div class="message_wrapper">
-                                    <h4 class="heading">Brian Michaels</h4>
-                                    <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
-                                    <br>
-                                    <p class="url">
-                                      <span class="fs1" aria-hidden="true" data-icon=""></span>
-                                      <a href="#" data-original-title="">Download</a>
-                                    </p>
-                                  </div>
-                                </li>
-                                <li>
-                                  <img src="images/img.jpg" class="avatar" alt="Avatar">
-                                  <div class="message_date">
-                                    <h3 class="date text-info">24</h3>
-                                    <p class="month">May</p>
-                                  </div>
-                                  <div class="message_wrapper">
-                                    <h4 class="heading">Desmond Davison</h4>
-                                    <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
-                                    <br>
-                                    <p class="url">
-                                      <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
-                                      <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
-                                    </p>
-                                  </div>
-                                </li>
+                                @endforeach
                               </ul>
                               <!-- end of user messages -->
 
@@ -1021,7 +1051,13 @@ $(document).ready(function () {
   }
 </script>
 
+<script>
+$(document).ready(function() {
+    $('#datatable').DataTable();
+    $('#datatable_job').DataTable();
 
+} );
+</script>
 
 <script src="{{ asset('js/pnotify.js') }}"></script>
 <script src="{{ asset('js/pnotify.buttons.js') }}"></script>
@@ -1041,10 +1077,5 @@ $(document).ready(function () {
 <script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('js/responsive.bootstrap.js') }}"></script>
 <script src="{{ asset('js/dataTables.scroller.min.js') }}"></script>
-<!-- jszip -->
-<script src="{{ asset('js/jszip.min.js') }}"></script>
-<!-- pdfmake -->
-<script src="{{ asset('js/pdfmake.min.js') }}"></script>
-<script src="{{ asset('js/vfs_fonts.js') }}"></script>
 
 @endpush

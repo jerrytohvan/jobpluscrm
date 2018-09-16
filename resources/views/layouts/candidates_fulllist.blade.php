@@ -45,9 +45,9 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <!-- <p class="text-muted font-13 m-b-30">
-                      DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>
-                    </p> -->
+
+                    <div class="table-responsive">
+
                     <table id="datatable" class="table table-striped table-bordered">
                       <thead>
                         <tr>
@@ -57,7 +57,7 @@
                           <th>Handphone No.</th>
                           <th>Telephone No.</th>
                           <th>Birthdate</th>
-                          <th>Action</th>
+                          <th style="width: 25%;">Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -73,12 +73,13 @@
                           <td>
                                <a href="{{ route('get.resume', ['file'=> $candidate->files->first()->attachable_id])}}"  class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Resume</a>
                                <a href="{{ route('delete.candidate', ['candidate' => $candidate->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
-                               <a href="" class="">Smart Match</a>
+                               <a href="{{ route('candidate.match', ['candidate' => $candidate->id]) }}" class="btn btn-success btn-xs"><i class="fa fa-trash-o"></i>Smart Match</a>
                           </td>
                         </tr>
                         @endforeach
                       </tbody>
                     </table>
+                  </div>
                   </div>
                 </div>
               </div>

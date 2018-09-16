@@ -25,6 +25,7 @@ class CreateCandidatesTable extends Migration
             $table->boolean('type')->default(false); //1=candidate, 2=application
             $table->integer('field_id');
             $table->string('telephone')->nullable();
+            $table->text('summary_keywords')->nullable();
             $table->date('birthdate')->nullable();
             $table->timestamps();
         });

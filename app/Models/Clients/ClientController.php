@@ -15,13 +15,12 @@ use App\Models\Clients\ClientService;
 use App\Models\Users\UserService;
 use App\Models\ActivityLog\ActivityLogService;
 use App\Models\Clients\CandidateService;
+use App\Models\Jobs\Job;
 
 class ClientController extends Controller
 {
     public function __construct(UserService $userSvc, ClientService $clientSvc, CompanyService $compService, ActivityLogService $actService, CandidateService $canSvc)
     {
-        $this->middleware('auth');
-
         $this->svc = $clientSvc;
         $this->compSvc = $compService;
         $this->actSvc = $actService;
@@ -41,6 +40,13 @@ class ClientController extends Controller
         $message = "";
         $status = "";
         return view('layouts.candidates_new', compact('message', 'status', 'companies'));
+    }
+    public function public_add_candidate()
+    {
+        $companies = $this->svc->getAllCompany();
+        $message = "";
+        $status = "";
+        return view('layouts.public_add_candidate', compact('message', 'status', 'companies'));
     }
 
     public function index_companies_clients()
@@ -94,7 +100,6 @@ class ClientController extends Controller
         'resume' => 'required',
         'birthdate' => 'required',
       ]);
-
         $resume = request()->file('resume');
         if ($resume!=null) {
             $candidate = $this->canSvc->addCandidateFile(request()->all());
@@ -176,7 +181,9 @@ class ClientController extends Controller
         $collaborators = $company->collaborators;
         $collaboratorsId = $collaborators->pluck('id')->toArray();
         $users = User::all();
-        return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId'));
+        $notes = $company->posts;
+        $jobs = Job::whereCompanyId($company->id)->get();
+        return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes', 'jobs'));
     }
     public function showCompanyPost(Company $company, $message=null, $status=null)
     {
@@ -184,7 +191,13 @@ class ClientController extends Controller
         $companyFiles = $company->files;
         return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles'));
     }
-
+    public function addNote(Company $company)
+    {
+        $post = $this->svc->addPost($company, request()->input('body'));
+        $message = $post != null ? 'Note successfully added!': 'There was an error';
+        $status = $post != null ? 1 : 0;
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
 
     public function updateCompany()
     {

@@ -28,6 +28,14 @@ class Company extends Model
     {
         return $this->hasMany('App\Models\Tasks\Task');
     }
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comments\Comment');
+    }
+    public function posts()
+    {
+        return $this->hasMany('App\Models\Posts\Post');
+    }
 
     public function files()
     {
@@ -37,5 +45,10 @@ class Company extends Model
     public function collaborators()
     {
         return $this->belongsToMany('App\Models\Users\User', 'user_company')->using('App\Models\Users\UserCompany');
+    }
+
+    public function jobs()
+    {
+        return $this->hasMany('App\Models\Jobs\Job');
     }
 }
