@@ -7,13 +7,18 @@
 
 
 @section('content')
+
 <!-- page content -->
 <div class="right_col" role="main">
+  @if(LaravelGmail::check())
   <div class="">
 
     <div class="page-title">
       <div class="title_left">
-        <h3>Inbox Design <small>Some examples to get you started</small></h3>
+        <h3> Hi, {{ LaravelGmail::user() }}</h3>
+    
+        <a href="{{ url('oauth/gmail/logout') }}">logout</a>
+   
       </div>
 
       <div class="title_right">
@@ -34,7 +39,7 @@
       <div class="col-md-12">
         <div class="x_panel">
           <div class="x_title">
-            <h2>Inbox Design<small>User Mail</small></h2>
+            <h2>Gmail API Inbox</h2>
             <ul class="nav navbar-right panel_toolbox">
               <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
               </li>
@@ -56,94 +61,21 @@
             <div class="row">
               <div class="col-sm-3 mail_list_column">
                 <button id="compose" class="btn btn-sm btn-success btn-block" type="button">COMPOSE</button>
+                @php $messages = $messages = LaravelGmail::message()->preload()->all();
+                @endphp
+                @foreach ($messages as $message)  
                 <a href="#">
                   <div class="mail_list">
                     <div class="left">
                       <i class="fa fa-circle"></i> <i class="fa fa-edit"></i>
                     </div>
                     <div class="right">
-                      <h3>Dennis Mugo <small>3.00 PM</small></h3>
-                      <p>Ut enim ad minim veniam, quis nostrud exercitation enim ad minim veniam, quis nostrud exercitation...</p>
+                      <h3>{{$message->getFromName()}}<small>{{$message->getDate()}}</small></h3>
+                      <p>{{$message->getSubject()}}</p>
                     </div>
                   </div>
                 </a>
-                <a href="#">
-                  <div class="mail_list">
-                    <div class="left">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="right">
-                      <h3>Jane Nobert <small>4.09 PM</small></h3>
-                      <p><span class="badge">To</span> Ut enim ad minim veniam, quis nostrud exercitation enim ad minim veniam, quis nostrud exercitation...</p>
-                    </div>
-                  </div>
-                </a>
-                <a href="#">
-                  <div class="mail_list">
-                    <div class="left">
-                      <i class="fa fa-circle-o"></i><i class="fa fa-paperclip"></i>
-                    </div>
-                    <div class="right">
-                      <h3>Musimbi Anne <small>4.09 PM</small></h3>
-                      <p><span class="badge">CC</span> Ut enim ad minim veniam, quis nostrud exercitation enim ad minim veniam, quis nostrud exercitation...</p>
-                    </div>
-                  </div>
-                </a>
-                <a href="#">
-                  <div class="mail_list">
-                    <div class="left">
-                      <i class="fa fa-paperclip"></i>
-                    </div>
-                    <div class="right">
-                      <h3>Jon Dibbs <small>4.09 PM</small></h3>
-                      <p>Ut enim ad minim veniam, quis nostrud exercitation enim ad minim veniam, quis nostrud exercitation...</p>
-                    </div>
-                  </div>
-                </a>
-                <a href="#">
-                  <div class="mail_list">
-                    <div class="left">
-                      .
-                    </div>
-                    <div class="right">
-                      <h3>Debbis & Raymond <small>4.09 PM</small></h3>
-                      <p>Ut enim ad minim veniam, quis nostrud exercitation enim ad minim veniam, quis nostrud exercitation...</p>
-                    </div>
-                  </div>
-                </a>
-                <a href="#">
-                  <div class="mail_list">
-                    <div class="left">
-                      .
-                    </div>
-                    <div class="right">
-                      <h3>Debbis & Raymond <small>4.09 PM</small></h3>
-                      <p>Ut enim ad minim veniam, quis nostrud exercitation enim ad minim veniam, quis nostrud exercitation...</p>
-                    </div>
-                  </div>
-                </a>
-                <a href="#">
-                  <div class="mail_list">
-                    <div class="left">
-                      <i class="fa fa-circle"></i> <i class="fa fa-edit"></i>
-                    </div>
-                    <div class="right">
-                      <h3>Dennis Mugo <small>3.00 PM</small></h3>
-                      <p>Ut enim ad minim veniam, quis nostrud exercitation enim ad minim veniam, quis nostrud exercitation...</p>
-                    </div>
-                  </div>
-                </a>
-                <a href="#">
-                  <div class="mail_list">
-                    <div class="left">
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="right">
-                      <h3>Jane Nobert <small>4.09 PM</small></h3>
-                      <p>Ut enim ad minim veniam, quis nostrud exercitation enim ad minim veniam, quis nostrud exercitation...</p>
-                    </div>
-                  </div>
-                </a>
+                @endforeach
               </div>
               <!-- /MAIL LIST -->
 
@@ -160,30 +92,24 @@
                       </div>
                     </div>
                     <div class="col-md-4 text-right">
-                      <p class="date"> 8:02 PM 12 FEB 2014</p>
+                      <p class="date">{{$messages[0]->getDate()}}</p>
                     </div>
                     <div class="col-md-12">
-                      <h4> Donec vitae leo at sem lobortis porttitor eu consequat risus. Mauris sed congue orci. Donec ultrices faucibus rutrum.</h4>
+                      <h4>{{$messages[0]->getSubject()}}</h4>
                     </div>
                   </div>
                   <div class="sender-info">
                     <div class="row">
                       <div class="col-md-12">
-                        <strong>Jon Doe</strong>
-                        <span>(jon.doe@gmail.com)</span> to
-                        <strong>me</strong>
+                        <strong>{{$messages[0]->getFromName()}}</strong>
+                        <span>({{$messages[0]->getFromEmail()}})</span> to
+                        <strong>Company</strong>
                         <a class="sender-dropdown"><i class="fa fa-chevron-down"></i></a>
                       </div>
                     </div>
                   </div>
                   <div class="view-mail">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
-                    <p>Riusmod tempor incididunt ut labor erem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                      mollit anim id est laborum.</p>
-                    <p>Modesed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p>{{$messages[0]->getPlainTextBody()}}</p>
                   </div>
                   <div class="attachment">
                     <p>
@@ -258,8 +184,12 @@
       </div>
     </div>
   </div>
+  @else
+        <a href="{{ url('oauth/gmail') }}">login</a>
+@endif
 </div>
 <!-- /page content -->
+
 @endsection
 
 

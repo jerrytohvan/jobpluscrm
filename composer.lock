@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "562dbfe2a91d4da12bfb334ff4fe4097",
+    "content-hash": "5194b878894c520fbe1a6b59296672c9",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -55,6 +55,75 @@
                 "toolkit"
             ],
             "time": "2015-05-16T19:24:58+00:00"
+        },
+        {
+            "name": "dacastro4/laravel-gmail",
+            "version": "v0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dacastro4/laravel-gmail.git",
+                "reference": "5b533c5c0dd396b9fb724443bf45d00f4fc39782"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dacastro4/laravel-gmail/zipball/5b533c5c0dd396b9fb724443bf45d00f4fc39782",
+                "reference": "5b533c5c0dd396b9fb724443bf45d00f4fc39782",
+                "shasum": ""
+            },
+            "require": {
+                "google/apiclient": "^2.0",
+                "illuminate/auth": "~5.0|~5.1|~5.2|~5.3",
+                "illuminate/config": "~5.0|~5.1|~5.2|~5.3",
+                "illuminate/database": "~5.0|~5.1|~5.2|~5.3",
+                "illuminate/routing": "~5.0|~5.1|~5.2|~5.3",
+                "illuminate/session": "~5.0|~5.1|~5.2|~5.3",
+                "illuminate/support": "~5.0|~5.1|~5.2|~5.3",
+                "php": ">=5.6",
+                "swiftmailer/swiftmailer": "~5.1|~5.4|~6.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "orchestra/testbench": "~3.5",
+                "phpunit/phpunit": "~6.5",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.4-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Dacastro4\\LaravelGmail\\LaravelGmailServiceProvider"
+                    ],
+                    "aliases": {
+                        "LaravelGmail": "Dacastro4\\LaravelGmail\\Facade\\LaravelGmail"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dacastro4\\LaravelGmail\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Castro",
+                    "email": "danielcastro04@gmail.com",
+                    "homepage": "https://danielcastro.me"
+                }
+            ],
+            "description": "Gmail API package for Laravel",
+            "keywords": [
+                "api",
+                "gmail",
+                "laravel"
+            ],
+            "time": "2018-07-22T20:53:43+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -481,12 +550,12 @@
             "version": "v2.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/google/google-api-php-client.git",
+                "url": "https://github.com/googleapis/google-api-php-client.git",
                 "reference": "cd4d61678bc26267f3e5371735ae3f579709ea30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client/zipball/cd4d61678bc26267f3e5371735ae3f579709ea30",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client/zipball/cd4d61678bc26267f3e5371735ae3f579709ea30",
                 "reference": "cd4d61678bc26267f3e5371735ae3f579709ea30",
                 "shasum": ""
             },
@@ -540,12 +609,12 @@
             "version": "v0.66",
             "source": {
                 "type": "git",
-                "url": "https://github.com/google/google-api-php-client-services.git",
+                "url": "https://github.com/googleapis/google-api-php-client-services.git",
                 "reference": "357a13e6f59e5590071b1d455c0ead482fac65db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/357a13e6f59e5590071b1d455c0ead482fac65db",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/357a13e6f59e5590071b1d455c0ead482fac65db",
                 "reference": "357a13e6f59e5590071b1d455c0ead482fac65db",
                 "shasum": ""
             },
@@ -577,12 +646,12 @@
             "version": "v0.8",
             "source": {
                 "type": "git",
-                "url": "https://github.com/google/google-auth-library-php.git",
+                "url": "https://github.com/googleapis/google-auth-library-php.git",
                 "reference": "ec4edcb043e523267973fda308d9412d7db78e17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-auth-library-php/zipball/ec4edcb043e523267973fda308d9412d7db78e17",
+                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/ec4edcb043e523267973fda308d9412d7db78e17",
                 "reference": "ec4edcb043e523267973fda308d9412d7db78e17",
                 "shasum": ""
             },

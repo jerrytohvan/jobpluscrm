@@ -11,6 +11,7 @@ use App\Models\Users\User;
 use App\Models\Comments\Comment;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Posts\Post;
+use App\Models\Clients\Candidate;
 
 class ActivityLogService
 {
@@ -95,11 +96,17 @@ class ActivityLogService
                 return "You converted company " . $objectName . " as a client.";
             }
             return "You " .$action . " " . $objectName . "'s data.";
+        } elseif (Candidate::class == $activity->subject_type) {
+            $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
+            return "You " .$action . " " . $objectName . " in the candidates list.";
         } elseif (Attachment::class == $activity->subject_type) {
-            $objectName = isset($object->filename) ? $object->filename : $activity->changes()->all()['attributes']['file_name'];
-            $company = Company::find($activity->changes()->all()['attributes']['attachable_id']);
-
-            return "You " .$action . " " . $objectName . " for company " . $company->name . ".";
+            //escape resume added for resumes
+            $type = $activity->getExtraProperty('attributes')['attachable_type'];
+            if ($type != Candidate::class) {
+                $objectName = isset($object->filename) ? $object->filename : $activity->changes()->all()['attributes']['file_name'];
+                $company = Company::find($activity->changes()->all()['attributes']['attachable_id']);
+                return "You " .$action . " " . $objectName . " for company " . $company->name . ".";
+            }
         } elseif (User::class == $activity->subject_type) {
             if ($activity->subject_id != $activity->causer_id) {
                 $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];

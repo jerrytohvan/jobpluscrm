@@ -21,6 +21,8 @@ class CreateJobsTable extends Migration
             $table->text('skills')->nullable();
             $table->text('industry')->nullable();
             $table->text('years_experience')->nullable();
+            $table->text('summary_keywords')->nullable();
+            $table->integer('company_id');
             $table->timestamps();
         });
     }
