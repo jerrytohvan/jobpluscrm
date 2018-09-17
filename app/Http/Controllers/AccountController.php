@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use App\Models\Tasks\DemoTask;
 
 class AccountController extends Controller
 {
@@ -14,7 +15,22 @@ class AccountController extends Controller
     }
     public function index()
     {
-        return view('layouts.dashboard');
+        $tasks = DemoTask::orderBy('order')->select('id', 'title', 'order', 'status')->get();
+
+        $tasksOpen = $tasks->filter(function ($task, $key) {
+            return $task->status == 0;
+        })->values();
+
+        $tasksOnGoing = $tasks->filter(function ($task, $key) {
+            return $task->status == 1;
+        })->values();
+
+
+        $tasksClosed = $tasks->filter(function ($task, $key) {
+            return  $task->status == 2;
+        })->values();
+
+        return view('layouts.dashboard', compact('tasksOpen', 'tasksOnGoing', 'tasksClosed'));
     }
 
     public function index_data_presentation()
