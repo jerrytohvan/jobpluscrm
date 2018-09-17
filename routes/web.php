@@ -16,6 +16,9 @@ Route::get('/apply-jobs', [
 
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'AccountController@index')->name('dashboard');
+    Route::get('demos/tasks', 'DemoController@showTasks');
+    Route::patch('demos/tasks/{id}', 'DemoController@updateTasksStatus');
+    Route::put('demos/tasks/updateAll', 'DemoController@updateTasksOrder');
     Route::get('/login', [
     'as' => 'login',
     'uses' => '\App\Http\Controllers\Auth\LoginController@showLoginForm'

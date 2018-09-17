@@ -3,34 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Model\Tasks\DemoTask;
+use App\Models\Tasks\DemoTask;
 
 class DemoController extends Controller
 {
-    public function updateTasksStatus(Request $request, $id)
+    public function updateTasksStatus($id)
     {
-        $this->validate($request, [
-            'status' => 'required|boolean',
-        ]);
-
         $task = DemoTask::find($id);
-        $task->status = $request->status;
+        $task->status = request()->input('status');
         $task->save();
 
         return response('Updated Successfully.', 200);
     }
 
-    public function updateTasksOrder(Request $request)
+    public function updateTasksOrder()
     {
-        $this->validate($request, [
-            'tasks.*.order' => 'required|numeric',
-        ]);
-
         $tasks = DemoTask::all();
 
         foreach ($tasks as $task) {
             $id = $task->id;
-            foreach ($request->tasks as $tasksNew) {
+            foreach (request()->input('tasks') as $tasksNew) {
                 if ($tasksNew['id'] == $id) {
                     $task->update(['order' => $tasksNew['order']]);
                 }

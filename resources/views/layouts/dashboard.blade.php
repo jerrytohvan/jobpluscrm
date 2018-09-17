@@ -46,7 +46,7 @@
     <!-- start vue -->
     <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
-        <h3 class="text-center title-color">Drag and Droppable Cards using Vue.Draggable Demo</h3>
+        <h3 class="text-center title-color">Your Tasks</h3>
          <div class="well" id="app">
            <task-draggable :tasks-open="{{ $tasksOpen }}" :tasks-on-going="{{ $tasksOnGoing }}" :tasks-closed="{{ $tasksClosed }}"></task-draggable>
          </div> <!-- end app -->
@@ -76,13 +76,7 @@
 @endsection
 
 @push('scripts')
-<script>
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrfToken"]').attr('content')
-    }
-});
-</script>
+
 <script src="{{ asset('js/vue-app-compiled.js') }}"></script>
 
 
