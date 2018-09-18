@@ -10,7 +10,6 @@
 <link href="{{ asset('css/scroller.bootstrap.min.css') }}" rel="stylesheet">
 @endpush
 
-
 @section('content')
 <div class="right_col" role="main" >
    <div class="">
@@ -39,7 +38,8 @@
                                       <th style="width: 25%">Accounts</th>
                                       <th>Collaborators</th>
                                       <th style="width: 15%">Action</th>
-
+                                      <th>Remainder Date</th>
+                                      <!-- <th>Date Created</th> -->
                                   </tr>
                               </thead>
                               <tbody>
@@ -73,7 +73,23 @@
                                   <td>
                                       <a href="{{ route('view.company', ['company' => $data->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
                                       <a href="{{ route('delete.company', ['company_id' => $data->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
-                                    </td>
+                                  </td>
+                                  <td>
+                                    @php 
+                                      $date_reminder = DB::table('tasks')->where('company_id', $data->id)->min('date_reminder');
+                                    @endphp
+                                      @if ($date_reminder == null)
+                                        z
+                                      @else
+                                        {{ $date_reminder }}
+                                      @endif
+                                  </td>
+                                  <!-- <td>
+                                    @php 
+                                      $date_created = $data->created_at;
+                                    @endphp
+                                      {{ $date_created }}
+                                  </td> -->
                                 </tr>
                                 @endforeach
                               </tbody>
@@ -89,17 +105,55 @@
 
 @endsection
 
-
-
 @section('bottom_content')
 
 @endsection
 
 @push('scripts')
 <script>
+
 $(document).ready(function() {
-    $('#datatable').DataTable();
+    // $('#datatable').DataTable();
+
+ var table = $('#datatable').DataTable( {
+        dom: 'lBfrtip',
+        select: true,
+        "columnDefs": [
+            {
+              "targets": [4],
+              "visible": false,
+              "searchable": false
+            }
+        ],
+        buttons: [
+            {
+                text: 'Sort by Urgency',
+                action: function () {
+                  table.column( 4 ).order( 'asc' ).draw();
+                }
+            // },
+            // {
+            //     text: 'Sort by Date Created',
+            //     action: function () {
+            //       table.column( 4 ).order( 'asc' ).draw();
+            //     }
+            // },
+            // {
+            //     text: 'Sort by Name',
+            //     action: function () {
+            //       table.column( 4 ).order( 'asc' ).draw();
+            //     }
+            // },
+            // {
+            //     text: 'Sort by When Created',
+            //     action: function () {
+            //       table.column( 4 ).order( 'asc' ).draw();
+            //     }
+            }
+        ]
+    } );
 } );
+
 </script>
 <!-- Datatables -->
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>

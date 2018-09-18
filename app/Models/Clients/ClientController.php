@@ -33,6 +33,7 @@ class ClientController extends Controller
         $candidates = $this->canSvc->getAllCandidates();
         return view('layouts.candidates_fulllist', compact('message', 'status', 'candidates'));
     }
+
     public function index_candidates_new()
     {
         $companies = $this->svc->getAllCompany();

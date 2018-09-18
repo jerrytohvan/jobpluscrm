@@ -49,7 +49,6 @@ class ClientService
     }
 
 
-
     /**
      * Checks user existed and creates a new user
      * @param  Array   $array

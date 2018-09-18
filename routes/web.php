@@ -87,6 +87,7 @@ Route::group(['middleware' => ['web']], function () {
 'as' => 'companies.clients',
 'uses' => '\App\Models\Clients\ClientController@index_companies_clients'
 ]);
+
     Route::get('/companies/leads', [
 'as' => 'companies.leads',
 'uses' => '\App\Models\Clients\ClientController@index_companies_leads'
@@ -155,10 +156,9 @@ Route::group(['middleware' => ['web']], function () {
 'uses' => '\App\Models\Clients\ClientController@detachFromCompany'
 ]);
 
-
     Route::get('/telegram', [
   'as' => 'telegram',
-'uses' => '\App\Models\SocialWall\SocialWallController@index'
+'uses' => '\App\Models\SocialWall\TelegramController@index'
 ]);
     Route::get('/data-presentation', [
   'as' => 'data.presentation',

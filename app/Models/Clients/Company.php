@@ -43,4 +43,9 @@ class Company extends Model
     {
         return $this->belongsToMany('App\Models\Users\User', 'user_company')->using('App\Models\Users\UserCompany');
     }
+
+    public function tasks()
+    {
+        return $this->hasMany('App\Models\Tasks\Task');
+    }
 }
