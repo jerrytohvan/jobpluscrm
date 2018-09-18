@@ -200,6 +200,21 @@ Route::group(['middleware' => ['web']], function () {
       'as' => 'index.mail',
     'uses' => '\App\Models\Mail\MailController@index'
     ]);
+      //Verify user and login
+    //Please change to dynamic if dont want everytime login by yrself
+    Route::get('/oauth/gmail', function (){
+      return LaravelGmail::redirect();
+    });
+    //generate token and login if newly sign-in
+    Route::get('/oauth/gmail/callback', function (){
+        LaravelGmail::makeToken();
+        return redirect()->to('/mail');
+    });
+
+    Route::get('/oauth/gmail/logout', function (){
+        LaravelGmail::logout(); //It returns exception if fails
+        return redirect()->to('/mail');
+    });
     Route::get('/event', [
       'as' => 'index.event',
     'uses' => '\App\Models\Events\EventController@index'
