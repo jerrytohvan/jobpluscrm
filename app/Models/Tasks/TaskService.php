@@ -18,8 +18,6 @@ class TaskService
     //default task/event for todolist
     public function storeTask($array)
     {
-
-      
         $userId = Auth::user()->id;
         if ($userId != 1) {
             return Task::Create([
@@ -31,7 +29,7 @@ class TaskService
                 'user_id' => Auth::user()->id,
                 'type' => $array['type'],
             ]);
-        } else if ($userId == 1) {
+        } elseif ($userId == 1) {
             if (empty($array['assigned_id'])) {
                 return Task::Create([
                     'title' => $array['title'],
@@ -55,8 +53,6 @@ class TaskService
                 ]);
             }
         }
-      
-
     }
 
     // create a reminder
@@ -75,7 +71,7 @@ class TaskService
         ]);
     }
 
-   
+
 
     //create a tasklist for company page
     // public function storeTaskList($array)
@@ -119,6 +115,32 @@ class TaskService
         return $task;
     }
 
+    public function updateTasksStatus($id)
+    {
+        $task = Task::find($id);
+        $task->status = request()->input('status');
+        $task->save();
+
+        return response('Updated Successfully.', 200);
+    }
+
+    public function updateTasksOrder()
+    {
+        $tasks = Task::all();
+
+        foreach ($tasks as $task) {
+            $id = $task->id;
+            foreach (request()->input('tasks') as $tasksNew) {
+                if ($tasksNew['id'] == $id) {
+                    $task->update(['order' => $tasksNew['order']]);
+                }
+            }
+        }
+
+        return response('Updated Successfully.', 200);
+    }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -128,14 +150,9 @@ class TaskService
      */
     public function destroyTask($id)
     {
-
         if (Task::whereUserId(Auth::user()->id == 1)) {
-        Task::findOrFail($id)->delete();
-        return 204;
+            Task::findOrFail($id)->delete();
+            return 204;
         }
-
     }
-
-
-
 }

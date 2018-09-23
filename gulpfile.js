@@ -89,9 +89,7 @@ elixir(function(mix) {
     mix.copy('vendor/bower_components/gentelella/vendors/pnotify/dist/pnotify.buttons.css', 'public/css/pnotify.buttons.css');
     mix.copy('vendor/bower_components/gentelella/vendors/pnotify/dist/pnotify.nonblock.css', 'public/css/pnotify.nonblock.css');
 
-    // mix.sass('../../../bower_components/gentelella/src/scss/custom.scss','public/css/custom.css');
-
-    // mix.minify('public/css/custom.css');
+    mix.copy('vendor/bower_components/fakeLoader/fakeLoader.css', 'public/css/fakeLoader.css');
 
     /****************/
     /* Copy Scripts */
@@ -263,8 +261,8 @@ elixir(function(mix) {
 
         // Gentelella
         mix.copy('vendor/bower_components/gentelella/src/js/helpers/smartresize.js', 'public/js/smartresize.js');
-        // Gentelella
-        // mix.copy('/vendor/bower_components/gentelella/src/js/custom.js', 'public/js/gentelella.js');
+
+        mix.copy('vendor/bower_components/fakeLoader/fakeLoader.min.js', 'public/js/fakeLoader.min.js');
 
       // Gentelella
         mix.copy('vendor/bower_components/gentelella/build/js/custom.min.js', 'public/js/gentelella.min.js');

@@ -58,7 +58,7 @@
       onAdd(event, status) {
         let id = event.item.getAttribute('data-id');
         //change to ajax
-        axios.patch('/demos/tasks/' + id, {
+        axios.patch('/tasks/' + id, {
           status: status
         }).then((response) => {
           console.log(response.data);
@@ -81,7 +81,7 @@
         let tasks = this.tasksClosed.concat(this.tasksOnGoing).concat(this.tasksOpen);
         //change to ajax
 
-        axios.put('/demos/tasks/updateAll', {
+        axios.put('/tasks/', {
           tasks: tasks
         }).then((response) => {
           console.log(response.data);
@@ -96,7 +96,7 @@
 
 <style>
   .list {
-    background-color: #26004d;
+    background-color: #32213A;
     border-radius: 3px;
     margin: 5px 5px;
     padding: 10px;

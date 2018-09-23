@@ -21,13 +21,19 @@ class MLService
 {
     public function __construct()
     {
+        ini_set('max_execution_time', 0);
         $this->api = new TextRankFacade();
 
         $stopWords = new English();
         $this->api->setStopWords($stopWords);
 
+        #standford
+        $this->stanfordStopwords =  file(public_path('/stanford_nl_stopwords.txt'));
+
+        #stop_words
         $this->stopwords =  file(public_path('/stop_words.txt'));
 
+        $this->skillwords =  array_chunk(file(public_path('/skill_words.txt'), FILE_IGNORE_NEW_LINES), 100, true);
         // Remove line breaks and spaces from stopwords
         $this->stopwords = array_map(function ($x) {
             return trim(strtolower($x));
@@ -61,6 +67,39 @@ class MLService
         // return Job::all();
     }
 
+    #stop words
+    // public function extract_keywords($text)
+    // {
+    //     // Replace all non-word chars with comma
+    //     $pattern = '/[0-9\W]/';
+    //     $text = preg_replace($pattern, ',', $text);
+    //     // Create an array from $text
+    //     $text_array = explode(",", $text);
+    //     // remove whitespace and lowercase words in $text
+    //     $text_array = array_map('trim', $text_array);
+    //     $text_array =  array_map('strtolower', $text_array);
+    //
+    //     $data = array_diff($text_array, $this->stopwords);
+    //     unset($text_array);
+    //     return array_values(array_filter($data));
+    // }
+    public function array_flatten($array)
+    {
+        if (!is_array($array)) {
+            return false;
+        }
+        $result = array();
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $result = array_merge($result, array_flatten($value));
+            } else {
+                $result[$key] = $value;
+            }
+        }
+        return $result;
+    }
+
+    #skill words
     public function extract_keywords($text)
     {
         // Replace all non-word chars with comma
@@ -70,11 +109,17 @@ class MLService
         $text_array = explode(",", $text);
         // remove whitespace and lowercase words in $text
         $text_array = array_map('trim', $text_array);
-        $text_array =  array_map('strtolower', $text_array);
-
-        $data = array_diff($text_array, $this->stopwords);
+        $text_array =  array_filter(array_map('strtolower', $text_array));
+        $data = [];
+        foreach ($this->skillwords as $row) {
+            $containList = array_intersect($text_array, $row);
+            $data[] =  array_diff($containList, $this->stanfordStopwords);
+        }
         unset($text_array);
-        return array_values(array_filter($data));
+        $flattenData = array_unique(Self::array_flatten($data));
+        unset($data);
+
+        return array_values(array_filter($flattenData));
     }
 
     public function convertFileIntoText($fileName, $type=0)
@@ -95,6 +140,7 @@ class MLService
                 $parser = new Parser();
                 $pdf = $parser->parseFile($fileDir);
                 $text = $pdf->getText();
+                // dd($text);
                 return $text;
             }
             return $docText;
@@ -111,6 +157,17 @@ class MLService
         return $output;
     }
 
+    //stopwords
+    // public function readEmployeeResume($fileName, $type = 0)
+    // {
+    //     $content = Self::convertFileIntoText($fileName, $type);
+    //     $keywords = Self::extract_keywords($content);
+    //     $minYearsExperience = trim(Self::retrieveYearsOfExperience($content));
+    //     $keywords = array_merge($keywords, [$minYearsExperience]);
+    //     return $keywords;
+    // }
+
+    //skill words
     public function readEmployeeResume($fileName, $type = 0)
     {
         $content = Self::convertFileIntoText($fileName, $type);
@@ -138,10 +195,14 @@ class MLService
 
     public function matchPersonWithJobs($keywords)
     {
-        $chunks = Job::all()->sortBy('id')->take(20000)->chunk(100);
+        // progress bar session implementation
+        $total = 1000;
+
+        $chunks = Job::inRandomOrder()->paginate(1000)->chunk(100);
         $index = 0;
         //collect top 10 job points
         $points = [];
+
 
         foreach ($chunks as $jobs) {
             foreach ($jobs as $job) {
@@ -158,10 +219,10 @@ class MLService
             }
         }
 
+
         $retrieveIndex = array_map(function ($row) {
             return $row[0];
         }, $points);
-
         $points = array_map(function ($row) {
             return $row[1];
         }, $points);
