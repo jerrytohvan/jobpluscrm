@@ -27,7 +27,7 @@ $factory->define(User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password' => bcrypt(str_random(10)),
+        'password' => bcrypt('123'),
         'birth_date' => $faker->dateTimeThisCentury->format('Y-m-d'),
         'profile_pic' => Gravatar::src($faker->safeEmail, 200),
         'admin' => false,
@@ -46,6 +46,7 @@ $factory->defineAs(User::class, 'admin', function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
 //lead
 $factory->define(Company::class, function (Faker\Generator $faker) {
     return [
