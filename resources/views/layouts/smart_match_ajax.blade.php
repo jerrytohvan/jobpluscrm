@@ -27,7 +27,7 @@ $(window).load(function() {
 });
 
 </script>
-<div class="right_col" role="main" style="min-height: 872px;"  >
+<div class="right_col" role="main" style="min-height: 872px;">
           <div class="">
             <div class="page-title">
               <div class="title_left">

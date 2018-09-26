@@ -52,13 +52,15 @@ class ClientController extends Controller
     public function index_companies_clients()
     {
         $array = $this->svc->getAllClients();
-        return view('layouts.companies_clients', compact('array'));
+        return view('layouts.companies_clients', compact('array', 'status', 'companies'));
     }
 
     public function index_companies_leads()
     {
+        $message = "";
+        $status = "";
         $array = $this->svc->getAllLeads();
-        return view('layouts.companies_leads', compact('array'));
+        return view('layouts.companies_leads', compact('array', 'status', 'message'));
     }
 
 
@@ -220,10 +222,10 @@ class ClientController extends Controller
 
     public function convertToClient(Company $company)
     {
-        $message = "Failed to add updated!";
+        $message =  "Failed to update " . $company->name ." as client!";
         $status = 0;
         if ($this->svc->leadToClient($company)) {
-            $message = "Company successfully converted as a client!";
+            $message = $company->name . " company is successfully moved to client!";
             $status = 1;
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);

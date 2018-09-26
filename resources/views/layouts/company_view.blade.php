@@ -420,7 +420,7 @@ html {
                             <!-- recent activities -> notes -->
                             <div class="row">
 
-                              <h3>Add Company Notes</h3>
+                              <h3>Company Notes</h3>
                                  <div class="x_panel"> <!-- panel -->
                                     {{  Form::open(['route' => ['new.company.post', $company->id],'method'=>'post']) }}
                                       <div class="form-group">
