@@ -3,6 +3,10 @@
 @push('stylesheets')
 <script src="https://unpkg.com/vue"></script>
 
+<!-- pnotify -->
+<link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -78,6 +82,14 @@
 @push('scripts')
 
 <script src="{{ asset('js/vue-app-compiled.js') }}"></script>
+<script src="{{ asset('js/pnotify.js') }}"></script>
+<script src="{{ asset('js/pnotify.buttons.js') }}"></script>
+<script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
 
+<script>
+$(document).ready(function() {
+    $('.ui-pnotify').remove();
+} );
 
+</script>
 @endpush

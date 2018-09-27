@@ -5,6 +5,7 @@
                 <header>Open</header>
                 <draggable class="drag-area" :list="tasksOpenNew" :options="{animation:200, group:'status'}" :element="'article'" @add="onAdd($event, 0)"  @change="update">
                     <article class="card" v-for="(task, index) in tasksOpenNew" :key="task.id" :data-id="task.id">
+                      <a class="remove-item" @click="removeItem(task.id,index,0)">x</a>
                         <header>
                             {{ task.title }}
                         </header>
@@ -16,7 +17,8 @@
             <section class="list">
                 <header>On-going</header>
                 <draggable class="drag-area"  :list="tasksOnGoingNew" :options="{animation:200, group:'status'}" :element="'article'" @add="onAdd($event, 1)"  @change="update">
-                    <article class="card" v-for="(task, index) in tasksOnGoingNew" :key="task.id" :data-id="task.id">
+                    <article class="card" v-for="(task, index) in tasksOnGoingNew" :key="task.id" :data-id="task.id" >
+                      <a class="remove-item" @click="removeItem(task.id, index,1)">x</a>
                         <header>
                             {{ task.title }}
                         </header>
@@ -29,6 +31,7 @@
                 <header>Closed</header>
                 <draggable class="drag-area"  :list="tasksClosedNew" :options="{animation:200, group:'status'}" :element="'article'" @add="onAdd($event, 2)"  @change="update">
                     <article class="card" v-for="(task, index) in tasksClosedNew" :key="task.id" :data-id="task.id">
+                      <a class="remove-item" @click="removeItem(task.id, index,2)">x</a>
                         <header>
                             {{ task.title }}
                         </header>
@@ -36,6 +39,7 @@
                 </draggable>
             </section>
         </div>
+
     </div>
 </template>
 
@@ -62,8 +66,20 @@
           status: status
         }).then((response) => {
           console.log(response.data);
+          new PNotify({
+            title: (response.status == 200 ? "Success!" : "Failed!"),
+            text: (response.status == 200 ? "Task successfully moved!" : "Task failed to be moved!"),
+            type: (response.status == 200 ? "success" : "error"),
+            styling: 'bootstrap3'
+          });
         }).catch((error) => {
           console.log(error);
+          // new PNotify({
+          //     title: "Something Happened!",
+          //     text: error,
+          //     type: "error"),
+          //   styling: 'bootstrap3'
+          // });
         })
       },
       update() {
@@ -81,14 +97,45 @@
         let tasks = this.tasksClosed.concat(this.tasksOnGoing).concat(this.tasksOpen);
         //change to ajax
 
-        axios.put('/tasks/', {
+        axios.put('/tasks/updateAll/', {
           tasks: tasks
         }).then((response) => {
           console.log(response.data);
         }).catch((error) => {
           console.log(error);
+
         })
-      }
+      },
+      removeItem(taskid, index, type) {
+        //change to ajax
+        axios.patch('/tasks/remove/' + taskid, {
+          status: status
+        }).then((response) => {
+          console.log(response.status);
+          new PNotify({
+            title: (response.status == 200 ? "Success!" : "Failed!"),
+            text: (response.status == 200 ? "Task successfully removed!" : "Task failed to be removed!"),
+            type: (response.status == 200 ? "success" : "error"),
+            styling: 'bootstrap3'
+          });
+        }).catch((error) => {
+          console.log(error);
+          // new PNotify({
+          //     title: "Something Happened!",
+          //     text: error,
+          //     type: "error"),
+          //   styling: 'bootstrap3'
+          // });
+        });
+        if (type == 0) {
+          this.tasksOpenNew.splice(index, 1);
+        } else if (type == 1) {
+          this.tasksOnGoingNew.splice(index, 1);
+        } else {
+          this.tasksClosedNew.splice(index, 1);
+        }
+        // this.update();
+      },
 
     }
   }
@@ -132,5 +179,11 @@
 
   .drag-area {
     min-height: 10px;
+  }
+
+  .remove-item {
+    float: right;
+    color: #a45;
+    opacity: 0.5;
   }
 </style>

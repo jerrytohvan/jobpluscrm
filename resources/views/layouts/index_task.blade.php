@@ -106,7 +106,7 @@
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company_id">Company</label>
                         <div class="col-md-6 col-sm-9 col-xs-12">
-                          <select class="select2_single form-control"  name="company_id" id="company_id" tabindex="-1">
+                          <select class="select2_single form-control"  required='required' name="company_id" id="company_id" tabindex="-1">
                            <option value=''>Select a Company</option>
                             @foreach($companies as $company)
                             <option value='{{ $company->id }}'>{{ $company->name }}</option>
@@ -123,7 +123,7 @@
                                <div class="control-group">
                                  <div class="controls">
                                    <div class="input-prepend input-group" >
-                                     <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                     <!-- <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span> -->
                                      <input type="datetime-local" name="date_reminder" id="date_reminder" required="required" class="form-control" value="" />
                                    </div>
                                  </div>

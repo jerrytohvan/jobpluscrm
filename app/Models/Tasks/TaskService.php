@@ -136,7 +136,6 @@ class TaskService
                 }
             }
         }
-
         return response('Updated Successfully.', 200);
     }
 
@@ -150,9 +149,10 @@ class TaskService
      */
     public function destroyTask($id)
     {
-        if (Task::whereUserId(Auth::user()->id == 1)) {
-            Task::findOrFail($id)->delete();
-            return 204;
+        $task = Task::find($id);
+        if ($task) {
+            $task->delete();
+            return response('Updated Successfully.', 200);
         }
     }
 }

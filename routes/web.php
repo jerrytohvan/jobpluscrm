@@ -17,7 +17,8 @@ Route::get('/apply-jobs', [
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'AccountController@index')->name('dashboard');
     Route::patch('/tasks/{id}', '\App\Models\Tasks\TaskService@updateTasksStatus');
-    Route::put('/tasks/updateAll', '\App\Models\Tasks\TaskServicer@updateTasksOrder');
+    Route::patch('/tasks/remove/{id}', '\App\Models\Tasks\TaskService@destroyTask');
+    Route::put('/tasks/updateAll', '\App\Models\Tasks\TaskService@updateTasksOrder');
     Route::get('/login', [
     'as' => 'login',
     'uses' => '\App\Http\Controllers\Auth\LoginController@showLoginForm'
