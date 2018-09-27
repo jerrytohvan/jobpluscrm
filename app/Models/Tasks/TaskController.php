@@ -9,6 +9,7 @@ use App\Models\Tasks\TaskService;
 use App\Models\Users\User;
 use Auth;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -41,7 +42,15 @@ class TaskController extends Controller
 
     public function display(){
         $task = Task::all();
-        return $task;
+        $client = new Client();
+
+        // $request = $client->get('http://localhost:8000/tasks', [
+        //     GuzzleHttp\RequestOptions::JSON => ['foo' => 'bar'],
+        // ]);
+
+        $res = $client->request('GET', 'http://localhost:3000/mailData');
+        error_log(print_r($res->getBody()->getContents(), true));
+        //return $task;
     }
 
     public function createReminder(Request $request)

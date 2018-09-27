@@ -238,6 +238,7 @@ Route::group(['middleware' => ['web']], function () {
     'uses' => '\App\Models\Jobs\JobController@add_jobs'
     ]);
 
+    Route::get('/tasks/data','\App\Models\Tasks\TaskController@display');
     
 });
 Route::get('/employees', 'employeeController@index');
@@ -261,7 +262,8 @@ Route::delete(
 // Route::get('/companies/{id}', [
 // 'CompaniesController@destroy'
 // );
-Route::get('/tasks','\App\Models\Tasks\TaskController@display');
+//Route::get('/events','\App\Models\Mail\MailController@getData');
+
 Route::put('/companies/{id}', 'CompaniesController@update');
 Route::get('/candidates', 'CandidatesController@index');
 Route::get('/candidates/{id}', 'CandidatesController@show');
@@ -369,5 +371,13 @@ Route:: get('/callback', [
 Route::get('oauth', [
   'as' => 'oauthCallback',
   'uses' => 'gCalendarController@oauth']);
+
+  // email Routes
+  // Route::post('sendemail', 'MailController@sendemail');
+  Route::post('displayemail', 'MailController@displayemail');
+  Route::post('/mail', [
+      'as' => 'sendemail',
+    'uses' => '\App\Models\Mail\MailController@sendemail'
+    ]);
 
  
