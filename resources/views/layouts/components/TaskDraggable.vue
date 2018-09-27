@@ -4,11 +4,21 @@
             <section class="list">
                 <header>Open</header>
                 <draggable class="drag-area" :list="tasksOpenNew" :options="{animation:200, group:'status'}" :element="'article'" @add="onAdd($event, 0)"  @change="update">
-                    <article class="card" v-for="(task, index) in tasksOpenNew" :key="task.id" :data-id="task.id">
+                    <article class="cardOpen" v-for="(task, index) in tasksOpenNew" :key="task.id" :data-id="task.id">
                       <a class="remove-item" @click="removeItem(task.id,index,0)">x</a>
-                        <header>
+                        <header style="font-size:18px;color:#FFFFFF;">
                             {{ task.title }}
                         </header>
+                        <p style="font-size:8px;color:#FFFFFF;">{{ task.description }}</p>
+                        <p style="font-size:8px;color:#FFFFFF;">{{ task.date_string }}</p>
+                        <ul class="list-inline">
+                          <li v-if="task.assignee != ''">
+                              <p style="font-size:8px;color:#FFFFFF;">Assigned By: {{ task.assignee }}</p>
+                          </li>
+                          <li>
+                              <p style="font-size:8px;color:#FFFFFF;">Company: {{ task.company }}</p>
+                          </li>
+                        </ul>
                     </article>
                 </draggable>
             </section>
@@ -17,11 +27,21 @@
             <section class="list">
                 <header>On-going</header>
                 <draggable class="drag-area"  :list="tasksOnGoingNew" :options="{animation:200, group:'status'}" :element="'article'" @add="onAdd($event, 1)"  @change="update">
-                    <article class="card" v-for="(task, index) in tasksOnGoingNew" :key="task.id" :data-id="task.id" >
+                    <article class="cardInProgress" v-for="(task, index) in tasksOnGoingNew" :key="task.id" :data-id="task.id" >
                       <a class="remove-item" @click="removeItem(task.id, index,1)">x</a>
-                        <header>
+                        <header  style="font-size:18px;color:#FFFFFF;">
                             {{ task.title }}
                         </header>
+                        <p  style="font-size:8px;color:#FFFFFF;">{{ task.description }}</p>
+                        <p  style="font-size:8px;color:#FFFFFF;">{{ task.date_string }}</p>
+                        <ul class="list-inline">
+                          <li v-if="task.assignee != ''">
+                              <p  style="font-size:8px;color:#FFFFFF;">Assigned By: {{ task.assignee }}</p>
+                          </li>
+                          <li>
+                              <p  style="font-size:8px;color:#FFFFFF;">Company: {{ task.company }}</p>
+                          </li>
+                        </ul>
                     </article>
                 </draggable>
             </section>
@@ -30,11 +50,21 @@
             <section class="list">
                 <header>Closed</header>
                 <draggable class="drag-area"  :list="tasksClosedNew" :options="{animation:200, group:'status'}" :element="'article'" @add="onAdd($event, 2)"  @change="update">
-                    <article class="card" v-for="(task, index) in tasksClosedNew" :key="task.id" :data-id="task.id">
+                    <article class="cardClosed" v-for="(task, index) in tasksClosedNew" :key="task.id" :data-id="task.id">
                       <a class="remove-item" @click="removeItem(task.id, index,2)">x</a>
-                        <header>
+                        <header style="font-size:18px;color:#FFFFFF;">
                             {{ task.title }}
                         </header>
+                        <p style="font-size:8px;color:#FFFFFF;">{{ task.description }}</p>
+                        <p style="font-size:8px;color:#FFFFFF;">{{ task.date_string }}</p>
+                        <ul class="list-inline">
+                          <li v-if="task.assignee != ''">
+                              <p  style="font-size:8px;color:#FFFFFF;">Assigned By: {{ task.assignee }}</p>
+                          </li>
+                          <li>
+                              <p  style="font-size:8px;color:#FFFFFF;">Company: {{ task.company }}</p>
+                          </li>
+                        </ul>
                     </article>
                 </draggable>
             </section>
@@ -143,7 +173,7 @@
 
 <style>
   .list {
-    background-color: #32213A;
+    background-color: #354751;
     border-radius: 3px;
     margin: 5px 5px;
     padding: 10px;
@@ -159,19 +189,45 @@
     cursor: grab;
   }
 
+  .list p {
+    color: grey;
+    text-align: left;
+    font-size: 10px;
+  }
+
+
   .list article {
     border-radius: 3px;
     margin-top: 10px;
   }
 
-  .list .card {
-    background-color: #FFF;
+  .list .cardInProgress {
+    background-color: #E6CB92;
     border-bottom: 1px solid #CCC;
     padding: 15px 10px;
     cursor: pointer;
     font-size: 16px;
     font-weight: bolder;
   }
+
+  .list .cardClosed {
+    background-color: #B5C385;
+    border-bottom: 1px solid #CCC;
+    padding: 15px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+  }
+
+  .list .cardOpen {
+    background-color: #87C3B9;
+    border-bottom: 1px solid #CCC;
+    padding: 15px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+  }
+
 
   .list .card:hover {
     background-color: #F0F0F0;
@@ -183,7 +239,14 @@
 
   .remove-item {
     float: right;
-    color: #a45;
+    color: #CA3C25;
     opacity: 0.5;
+    font-size: 1.5em;
+  }
+
+  .remove-item:hover {
+    float: right;
+    color: #CA3C25;
+    opacity: 1;
   }
 </style>
