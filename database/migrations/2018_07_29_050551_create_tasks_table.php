@@ -21,6 +21,7 @@ class CreateTasksTable extends Migration
             $table->integer('user_id')->nullable();
             $table->integer('assigned_id')->nullable();
             $table->boolean('type')->default(true);//tasks = true, event = false
+            $table->integer('order')->unsigned()->default(0);
             $table->integer('company_id')->nullable();
             $table->integer('contact_id')->nullable();
             $table->integer('status')->nullable();

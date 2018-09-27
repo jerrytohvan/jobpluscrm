@@ -2,6 +2,7 @@
 
 
 @push('stylesheets')
+  <link href="{{ asset('css/nprogress.css') }}" rel="stylesheet">
 @endpush
 
 
@@ -33,8 +34,6 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-
-
                     <div class="col-md-12 col-lg-12 col-sm-12">
                       <h2>10 Suitable Job Positions that you can consider! </h2>
                       @php
@@ -77,6 +76,9 @@
 @endsection
 
 @push('scripts')
+<script src="{{ asset('js/nprogress.js') }}"></script>
+<script>
+NProgress.set(0.0);   //0:start 1:stop
 
 </script>
 @endpush

@@ -7,13 +7,15 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- <link rel="icon" href="images/favicon.ico" type="image/ico" /> -->
+  <meta name="csrfToken" content="{{ csrf_token() }}">
+
 
   <title>
     @yield('title')
   </title>
 
   <!-- Bootstrap -->
+
   <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
   <!-- Font Awesome -->
   <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
@@ -25,9 +27,6 @@
    <link href="{{ asset('css/nprogress.css') }}" rel="stylesheet">
    <!-- icheck -->
    <link href="{{ asset('css/green.css') }}" rel="stylesheet">
-
-   <!-- bootstrap progress bar -->
-   <link href="{{ asset('css/bootstrap-progressbar-3.3.4.min.css') }}" rel="stylesheet">
 
    <!--  Boostrap Datepick -->
     <link href="{{ asset('css/daterangepicker.css') }}" rel="stylesheet">
@@ -139,10 +138,8 @@
     <!-- gauge.js -->
     <script src="{{ asset('js/gauge.min.js') }}"></script>
 
-    <!-- Bootstrap Progressbar -->
-    <script src="{{ asset('js/bootstrap-progressbar.min.js') }}"></script>
 
-    
+
     <!-- Skycons -->
     <script src="{{ asset('js/skycons.js') }}"></script>
 

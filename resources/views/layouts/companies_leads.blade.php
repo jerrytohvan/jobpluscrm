@@ -2,6 +2,10 @@
 
 
 @push('stylesheets')
+<!-- pnotify -->
+<link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
 <!-- Datatables -->
 <link href="{{ asset('css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('css/buttons.bootstrap.min.css') }}" rel="stylesheet">
@@ -100,7 +104,27 @@
 <script>
 $(document).ready(function() {
     $('#datatable').DataTable();
+    $('.ui-pnotify').remove();
+      loadNotification();
 } );
+
+function loadNotification(){
+  var message = "@php if(session()->has('message')){ echo session()->get('message'); }else { echo $message; } @endphp";
+  var status = "@php if(session()->has('status')){ echo  session()->get('status'); }else { echo $status; } @endphp";
+
+  if(message != "" && status != ""){
+    new PNotify({
+        title: (status == 1 ? "Success!" : "Failed!"),
+        text: message,
+        type: (status == 1 ? "success" : "error"),
+        styling: 'bootstrap3'
+    });
+  }
+
+
+}
+
+
 </script>
 <!-- Datatables -->
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
@@ -115,6 +139,9 @@ $(document).ready(function() {
 <script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('js/responsive.bootstrap.js') }}"></script>
 <script src="{{ asset('js/dataTables.scroller.min.js') }}"></script>
+<script src="{{ asset('js/pnotify.js') }}"></script>
+<script src="{{ asset('js/pnotify.buttons.js') }}"></script>
+<script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
 
 
 @endpush
