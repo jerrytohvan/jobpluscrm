@@ -3,7 +3,7 @@
 Laravel-gentelella is a Laravel 5.4 application with all Gentelella template components.
 
 ### Initial Theme Demo
-![Gentelella Bootstrap Admin Template](https://cdn.colorlib.com/wp/wp-content/uploads/sites/2/gentelella-admin-template-preview.jpg "Gentelella Theme Browser Preview")
+![Gentelella Bootstrap Admin Template](https://wiki.smu.edu.sg/is480/img_auth.php/thumb/1/14/JPP_MAINWIKI.png/900px-JPP_MAINWIKI.png "IS480 - JOBPLUSLUS")
 
 **[Template Demo](https://colorlib.com/polygon/gentelella/index.html)**
 
