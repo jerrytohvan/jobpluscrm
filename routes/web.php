@@ -241,7 +241,7 @@ Route::group(['middleware' => ['web']], function () {
     'uses' => '\App\Models\Jobs\JobController@add_jobs'
     ]);
 
-    
+
 });
 Route::get('/employees', 'employeeController@index');
 Route::get('/employees/{id}', 'employeeController@show');
@@ -373,4 +373,10 @@ Route::get('oauth', [
   'as' => 'oauthCallback',
   'uses' => 'gCalendarController@oauth']);
 
- 
+  // email Routes
+    // Route::post('sendemail', 'MailController@sendemail');
+    Route::post('displayemail', 'MailController@displayemail');
+    Route::post('/mail', [
+        'as' => 'sendemail',
+      'uses' => '\App\Models\Mail\MailController@sendemail'
+      ]);

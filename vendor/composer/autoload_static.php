@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitdf3840315bca8b3c452ec727623e9404
+class ComposerStaticInit2d4423a8238b2db0918b831a3711841d
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -530,9 +530,11 @@ class ComposerStaticInitdf3840315bca8b3c452ec727623e9404
         'CreateCandidatesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000757_create_candidates_table.php',
         'CreateCommentsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_164127_create_comments_table.php',
         'CreateCompaniesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_29_043417_create_companies_table.php',
+        'CreateDemoTasksTable' => __DIR__ . '/../..' . '/database/migrations/2018_09_16_120601_create_demo_tasks_table.php',
         'CreateEmployeesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000647_create_employees_table.php',
         'CreateFieldsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_14_092824_create_fields_table.php',
         'CreateInterestsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_14_092938_create_interests_table.php',
+        'CreateJobsTable' => __DIR__ . '/../..' . '/database/migrations/2018_09_03_121152_create_jobs_table.php',
         'CreateLikesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_14_162904_create_likes_table.php',
         'CreateMemoTable' => __DIR__ . '/../..' . '/database/migrations/2018_08_29_111857_create_memo_table.php',
         'CreateMessagesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000818_create_messages_table.php',
@@ -1209,10 +1211,10 @@ class ComposerStaticInitdf3840315bca8b3c452ec727623e9404
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitdf3840315bca8b3c452ec727623e9404::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitdf3840315bca8b3c452ec727623e9404::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitdf3840315bca8b3c452ec727623e9404::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitdf3840315bca8b3c452ec727623e9404::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2d4423a8238b2db0918b831a3711841d::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2d4423a8238b2db0918b831a3711841d::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit2d4423a8238b2db0918b831a3711841d::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit2d4423a8238b2db0918b831a3711841d::$classMap;
 
         }, null, ClassLoader::class);
     }
