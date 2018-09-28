@@ -143,6 +143,12 @@ Route::group(['middleware' => ['web']], function () {
   'as' => 'companies.new',
 'uses' => '\App\Models\Clients\ClientController@index_companies_new'
 ]);
+
+Route::post('/companies-industry', [
+  'as' => 'companies.industry',
+'uses' => '\App\Models\Clients\ClientController@filterByIndustry'
+]);
+
     Route::post('/companies-new', [
   'as' => 'add.new.company',
 'uses' => '\App\Models\Clients\ClientController@add_new_company'
@@ -156,10 +162,6 @@ Route::group(['middleware' => ['web']], function () {
 'uses' => '\App\Models\Clients\ClientController@detachFromCompany'
 ]);
 
-    Route::get('/telegram', [
-  'as' => 'telegram',
-'uses' => '\App\Models\SocialWall\TelegramController@index'
-]);
     Route::get('/data-presentation', [
   'as' => 'data.presentation',
 'uses' => 'AccountController@index_data_presentation'
@@ -225,6 +227,23 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/jobs/add', [
       'as' => 'add.job',
     'uses' => '\App\Models\Jobs\JobController@add_jobs'
+    ]);
+
+
+    // Route::get('/telegram', [
+    //   'as' => 'telegram',
+    // 'uses' => '\App\Models\Chats\TelegramController@index'
+    // ]);
+    
+    // Route::post('/telegram-message', [
+    //   'as' => 'send.message',
+    // 'uses' => '\App\Models\Chats\TelegramController@sendMessageTest'
+    // ]);
+    
+    //For testing telegram message
+    Route::get('/telegram-send', [
+      'as' => 'telegram.send',
+    'uses' => '\App\Models\Chats\TelegramController@send'
     ]);
 });
 Route::get('/employees', 'employeeController@index');

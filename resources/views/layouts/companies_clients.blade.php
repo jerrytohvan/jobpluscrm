@@ -157,24 +157,6 @@ $(document).ready(function() {
                 action: function () {
                   table.column( 4 ).order( 'desc' ).draw();
                 }
-            // },
-            // {
-            //     text: 'Sort by Latest Update',
-            //     action: function () {
-            //       table.column( 5 ).order( 'desc' ).draw();
-            //     }
-            // },
-            // {
-            //     text: 'Sort by Name',
-            //     action: function () {
-            //       table.column( 4 ).order( 'asc' ).draw();
-            //     }
-            // },
-            // {
-            //     text: 'Sort by When Created',
-            //     action: function () {
-            //       table.column( 4 ).order( 'asc' ).draw();
-            //     }
             }
         ]
     } );
