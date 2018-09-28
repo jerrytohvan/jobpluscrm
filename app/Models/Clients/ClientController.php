@@ -327,6 +327,7 @@ class ClientController extends Controller
         } else {
             $array = Company::where('industry', $industry)->get();
         }
-        return view('layouts.companies_clients', compact('array'));
+        $score = $this->svc->getUrgencyScore($array);
+        return view('layouts.companies_clients', compact('array', 'score'));
     }
 }

@@ -50,8 +50,4 @@ class Company extends Model
     {
         return $this->hasMany('App\Models\Jobs\Job');
     }
-
-	public function tasks()
-	{
-		return $this->hasMany('App\Models\Tasks\Task');
-	}}
+}
