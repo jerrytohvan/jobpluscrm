@@ -202,7 +202,7 @@ function sortData(tasks){
     let idTaskMap = new Map();
     let arrayMap = [];
     for(let task of tasks){
-        if(task.user_id != null || task.assigned_id != null){
+        if(task.user_id != 0 || task.assigned_id != 0){
             if(idTaskMap.has(task.user_id) || idTaskMap.has(task.assigned_id)){
                 tIds = idTaskMap.get(task.user_id);
                 tIds.push(task.id);
@@ -213,7 +213,7 @@ function sortData(tasks){
                 idTaskMap.set(task.user_id,tIds);
                 tIds = [];
             }
-         }if(task.assigned_id != null){
+         }if(task.assigned_id != 0){
             if(idTaskMap.has(task.assigned_id)){
                 tIds = idTaskMap.get(task.assigned_id);
                 tIds.push(task.id);
