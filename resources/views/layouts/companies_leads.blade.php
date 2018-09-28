@@ -73,6 +73,7 @@
                                       </li>
                                         @endforeach
                                       @endif
+                                    </ul>
                                   </td>
                                   <td>
                                       <a href="{{ route('view.company', ['company' => $data->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>

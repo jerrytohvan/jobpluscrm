@@ -5,6 +5,7 @@
 <link href="{{ asset('css/normalize.css') }}" rel="stylesheet">
 
 <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
+<script src="https://unpkg.com/vue"></script>
 
 
 <!-- pnotify -->
@@ -282,7 +283,20 @@ html {
                               </div>
                             </div>
 
-            <div>
+                    <div>
+                      <!-- start vue -->
+                      <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <h3 class="text-center title-color">Company's Tasks</h3>
+                           <div class="well" id="app">
+                             <task-draggable :tasks-open="{{ $tasksOpen }}" :tasks-on-going="{{ $tasksOnGoing }}" :tasks-closed="{{ $tasksClosed }}"></task-draggable>
+                           </div> <!-- end app -->
+                       </div>
+                      </div>
+                      <!-- end vue -->
+                    </div>
+
+                  <div>
                     <div class="x_title">
                        <h2>Job Lists</h2>
                        <ul class="nav navbar-right panel_toolbox">
@@ -325,96 +339,36 @@ html {
                     </div>
             </div>
 
-                            <div class="row">
-                              <div class="col-md-6 col-xs-12">
-                                          <div class="x_panel">
-                                            <div class="x_title">
-                                              <h2>Recent Activities on Company</h2>
-                                              <div class="clearfix"></div>
-                                            </div>
-                                            <div class="content x_content">
-                                              <ul class="list-unstyled msg_list">
-                                                @foreach ($activities as $activity)
-                                                <li>
-                                                  <a>
-                                                    <span class="image">
-                                                      <img src="{{ $activity[0]->profile_pic == null ?  Gravatar::src(Auth::user()->email) : $activity[0]->profile_pic }}" alt="img">
-                                                    </span>
-                                                    <span>
-                                                      <span>{{ $activity[0]->name }}</span>
-                                                      <span class="time">{{ $activity[2] }}</span>
-                                                    </span>
-                                                    <span class="message">
-                                                      {{ $activity[3] }}
-                                                    </span>
-                                                  </a>
-                                                </li>
-                                                @endforeach
-
-                                              </ul>
-                                            </div>
-                                          </div>
-                                      </div>
-
-                              <div class="col-md-6 col-xs-12">
-                                <div class="x_panel">
-                                  <div class="x_title">
-                                    <h2>To Do List <small>Sample tasks</small></h2>
-
-                                    <div class="clearfix"></div>
-                                  </div>
-                                  <div class="content x_content">
-                                    <div class="">
-                                      <ul class="to_do">
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Schedule meeting with new client </p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Create email address for new intern</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Have IT fix the network printer</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Copy backups to offsite location</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Food truck fixie locavors mcsweeney</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Food truck fixie locavors mcsweeney</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Create email address for new intern</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Have IT fix the network printer</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Copy backups to offsite location</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Copy backups to offsite location</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Copy backups to offsite location</p>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </div>
+              <div class="row">
+                <div class="col-md-12 col-xs-12">
+                            <div class="x_panel">
+                              <div class="x_title">
+                                <h2>Recent Activities on Company</h2>
+                                <div class="clearfix"></div>
                               </div>
+                              <div class="content x_content">
+                                <ul class="list-unstyled msg_list">
+                                  @foreach ($activities as $activity)
+                                  <li>
+                                    <a>
+                                      <span class="image">
+                                        <img src="{{ $activity[0]->profile_pic == null ?  Gravatar::src(Auth::user()->email) : $activity[0]->profile_pic }}" alt="img">
+                                      </span>
+                                      <span>
+                                        <span>{{ $activity[0]->name }}</span>
+                                        <span class="time">{{ $activity[2] }}</span>
+                                      </span>
+                                      <span class="message">
+                                        {{ $activity[3] }}
+                                      </span>
+                                    </a>
+                                  </li>
+                                  @endforeach
+
+                                </ul>
+                              </div>
+                            </div>
+                        </div>
                             </div>
 
                             <!-- recent activities -> notes -->
@@ -1058,7 +1012,7 @@ $(document).ready(function() {
 
 } );
 </script>
-
+<script src="{{ asset('js/vue-app-compiled.js') }}"></script>
 <script src="{{ asset('js/pnotify.js') }}"></script>
 <script src="{{ asset('js/pnotify.buttons.js') }}"></script>
 <script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
