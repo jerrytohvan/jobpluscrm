@@ -181,6 +181,7 @@ class ClientController extends Controller
         $accounts = $company->employees;
         $companyFiles = $company->files;
         $activities =   $this->actSvc->getActivitiesByCompany($company);
+        // dd($activities);
         $collaborators = $company->collaborators;
         $collaboratorsId = $collaborators->pluck('id')->toArray();
         $users = User::all();

@@ -252,8 +252,7 @@ Route::group(['middleware' => ['web']], function () {
     'uses' => '\App\Models\Jobs\JobController@add_jobs'
     ]);
 
-    Route::get('/tasks/data','\App\Models\Tasks\TaskController@display');
-    
+    Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
 });
 Route::get('/employees', 'employeeController@index');
 Route::get('/employees/{id}', 'employeeController@show');
@@ -392,5 +391,3 @@ Route::get('oauth', [
       'as' => 'sendemail',
     'uses' => '\App\Models\Mail\MailController@sendemail'
     ]);
-
- 

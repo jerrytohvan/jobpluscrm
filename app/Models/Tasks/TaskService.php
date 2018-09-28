@@ -30,13 +30,14 @@ class TaskService
                 'type' => $array['type'],
             ]);
         } elseif ($userId == 1) {
-            if (empty($array['assigned_id'])) {
+            if ((int)$array['assigned_id'] == 0) {
                 return Task::Create([
                     'title' => $array['title'],
                     'description' => $array['description'],
                     'date_reminder' => $array['date_reminder'],
                     'company_id' =>  $array['company_id'],
-                    'status' => 1,
+                    'assigned_id' =>  0,
+                    'status' => 0,
                     'user_id' => Auth::user()->id,
                     'type' => $array['type'],
                 ]);
@@ -46,9 +47,9 @@ class TaskService
                     'description' => $array['description'],
                     'date_reminder' => $array['date_reminder'],
                     'company_id' => $array['company_id'],
-                    'status' => 0,
+                    'status' => 1,
                     'user_id' => Auth::user()->id,
-                    'assigned_id' => $array['assigned_id'],
+                    'assigned_id' => (int)$array['assigned_id'],
                     'type' => $array['type'],
                 ]);
             }
@@ -70,33 +71,6 @@ class TaskService
             'type' => true,
         ]);
     }
-
-
-
-    //create a tasklist for company page
-    // public function storeTaskList($array)
-    // {
-
-    //   return Task::Create([
-    //     'title' => $array['title'],
-    //     'description' => $array['title'],
-    //     'status' => $array['status'],
-    //     'type' => $array['type'],
-    //     'assigned_id' => $array['assigned_id'],
-    //     'company_id' => $array['company_id']
-    //   ]);
-    // }
-
-    //retrieve all task for todolist
-    // public function getToDoList(){
-    //  return Task::whereUserId(21)->whereType(true)->get() == "" ? null:Task::whereAssignedToId(Auth::user()->id)->whereType(true)->get()->sort('date_reminder','asc');
-    // }
-
-    //retrieve all event for calendarview
-    // public function getEventList(){
-    //   return Task::whereUserId(Auth::user()->id)->whereType(false)->get()->sort('date_reminder','asc') == "" ? null:Task::whereAssignedToId(Auth::user()->id)->whereType(false)->get()->sort('date_reminder','asc');
-    // }
-
 
     /**
      * Update the specified resource in storage.
@@ -138,8 +112,6 @@ class TaskService
         }
         return response('Updated Successfully.', 200);
     }
-
-
 
     /**
      * Remove the specified resource from storage.

@@ -6,7 +6,7 @@ container = []
 
 
 #Sample Data similar-skills-28935-unique-skills-QueryResult
-with open('./Data/similar-skills-28935-unique-skills-QueryResult.csv', 'rb') as f:
+with open('./Data/similar-skills-28935-unique-skills-QueryResult.csv', 'rt') as f:
     next(f)
     reader = csv.reader(f, delimiter=',')
     for row in reader:

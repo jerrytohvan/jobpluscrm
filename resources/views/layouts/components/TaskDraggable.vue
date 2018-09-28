@@ -13,7 +13,7 @@
                         <p style="font-size:8px;color:#FFFFFF;">{{ task.date_string }}</p>
                         <ul class="list-inline">
                           <li v-if="task.assignee != ''">
-                              <p style="font-size:8px;color:#FFFFFF;">Assigned By: {{ task.assignee }}</p>
+                              <p style="font-size:8px;color:#FFFFFF;">Assigned To: {{ task.assignee }}</p>
                           </li>
                           <li>
                               <p style="font-size:8px;color:#FFFFFF;">Company: {{ task.company }}</p>
