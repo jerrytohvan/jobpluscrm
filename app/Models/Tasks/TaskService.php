@@ -2,59 +2,140 @@
 
 namespace App\Models\Tasks;
 
-use Illuminate\Http\Request;
 use App\Models\Tasks\Task;
+use App\Models\Users\User;
+use Auth;
 
 class TaskService
 {
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  Array $array
-   * @return \Illuminate\Http\Response
-   */
-  public function storeTask($array)
-  {
-      return Task::Create([
-        'title' => $array['title'],
-        'description' => $array['description'],
-        'date_reminder' => $array['date_reminder'],
-        'reminder_type' => $array['reminder_type'],
-        'date_completed' => $array['date_completed'],
-        'company_id' => $array['company_id'],
-        'employee_id' => $array['employee_id'],
-        'assigned_to_id' => $array['assigned_to_id']
-      ]);
-  }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  Array $array
+     * @return \Illuminate\Http\Response
+     */
+    //default task/event for todolist
+    public function storeTask($array)
+    {
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  Like $like
-   * @param  Array  $array
-   * @return \Illuminate\Http\Response
-   */
-  public function updateTask($id, $array)
-  {
-    $task = Task::find($id);
-    foreach($array as $key => $value){
-      $task->$key = $value;
+      
+        $userId = Auth::user()->id;
+        if ($userId != 1) {
+            return Task::Create([
+                'title' => $array['title'],
+                'description' => $array['description'],
+                'date_reminder' => $array['date_reminder'],
+                'company_id' =>  $array['company_id'],
+                'status' => 1,
+                'user_id' => Auth::user()->id,
+                'type' => $array['type'],
+            ]);
+        } else if ($userId == 1) {
+            if (empty($array['assigned_id'])) {
+                return Task::Create([
+                    'title' => $array['title'],
+                    'description' => $array['description'],
+                    'date_reminder' => $array['date_reminder'],
+                    'company_id' =>  $array['company_id'],
+                    'status' => 1,
+                    'user_id' => Auth::user()->id,
+                    'type' => $array['type'],
+                ]);
+            } else {
+                return Task::Create([
+                    'title' => $array['title'],
+                    'description' => $array['description'],
+                    'date_reminder' => $array['date_reminder'],
+                    'company_id' => $array['company_id'],
+                    'status' => 0,
+                    'user_id' => Auth::user()->id,
+                    'assigned_id' => $array['assigned_id'],
+                    'type' => $array['type'],
+                ]);
+            }
+        }
+      
+
     }
-      $task->save();
-      return $task;
-  }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  Like  $like
-   * @return \Illuminate\Http\Response
-   */
-  public function destroyTask($id)
-  {
-    Task::findOrFail($id)->delete();
-    return 204;
-  }
+    // create a reminder
+    public function storeReminder($array)
+    {
+        return Task::Create([
+            'title' => $array['title'],
+            'description' => $array['description'],
+            'date_reminder' => $array['date_reminder'],
+            'user_id' => Auth::user()->id,
+            'company_id' => $array['company_id'],
+            //'user_id' => Auth::user()->id,
+            //'assigned_to_id' => $array['assigned_to_id'],
+            //'assigned_to_id' => User::where('email',$array['assigned_to_id'])->first() == "" ? null :User::where('email',$array['assigned_to_id'])->first()->id,
+            'type' => true,
+        ]);
+    }
+
+   
+
+    //create a tasklist for company page
+    // public function storeTaskList($array)
+    // {
+
+    //   return Task::Create([
+    //     'title' => $array['title'],
+    //     'description' => $array['title'],
+    //     'status' => $array['status'],
+    //     'type' => $array['type'],
+    //     'assigned_id' => $array['assigned_id'],
+    //     'company_id' => $array['company_id']
+    //   ]);
+    // }
+
+    //retrieve all task for todolist
+    // public function getToDoList(){
+    //  return Task::whereUserId(21)->whereType(true)->get() == "" ? null:Task::whereAssignedToId(Auth::user()->id)->whereType(true)->get()->sort('date_reminder','asc');
+    // }
+
+    //retrieve all event for calendarview
+    // public function getEventList(){
+    //   return Task::whereUserId(Auth::user()->id)->whereType(false)->get()->sort('date_reminder','asc') == "" ? null:Task::whereAssignedToId(Auth::user()->id)->whereType(false)->get()->sort('date_reminder','asc');
+    // }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  Like $like
+     * @param  Array  $array
+     * @return \Illuminate\Http\Response
+     */
+    public function updateTask($id, $array)
+    {
+        $task = Task::find($id);
+        foreach ($array as $key => $value) {
+            $task->$key = $value;
+        }
+        $task->save();
+        return $task;
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  Like  $like
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyTask($id)
+    {
+
+        if (Task::whereUserId(Auth::user()->id == 1)) {
+        Task::findOrFail($id)->delete();
+        return 204;
+        }
+
+    }
+
+
 
 }

@@ -8,9 +8,19 @@ class Task extends Model
 {
     //
     protected $guarded = [];
-    
-    public function company()
+
+    public function users()
     {
-        return $this->belongsTo('App\Models\Clients\Company');
+        return $this->belongsToMany('App\Models\Users\User');
+    }
+    
+    public function companies()
+    {
+        return $this->belongsToMany('App\Models\Clients\Company');
+    }
+
+    public function employees()
+    {
+        return $this->belongsToMany('App\Models\Employees\Employee');
     }
 }

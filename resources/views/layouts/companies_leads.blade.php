@@ -116,11 +116,6 @@ $(document).ready(function() {
 <script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('js/responsive.bootstrap.js') }}"></script>
 <script src="{{ asset('js/dataTables.scroller.min.js') }}"></script>
-<!-- jszip -->
-<script src="{{ asset('js/jszip.min.js') }}"></script>
-<!-- pdfmake -->
-<script src="{{ asset('js/pdfmake.min.js') }}"></script>
-<script src="{{ asset('js/vfs_fonts.js') }}"></script>
 
 
 @endpush

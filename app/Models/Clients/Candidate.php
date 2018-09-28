@@ -2,6 +2,7 @@
 
 namespace App\Models\Clients;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 

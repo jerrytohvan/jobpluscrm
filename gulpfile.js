@@ -1,4 +1,5 @@
 var elixir = require('laravel-elixir');
+require('laravel-elixir-vue-2')
 
 /*
  |--------------------------------------------------------------------------
@@ -96,6 +97,8 @@ elixir(function(mix) {
     /* Copy Scripts */
     /****************/
 
+    mix.webpack('./public/js/vue-app.js','public/js/vue-app-compiled.js');
+
     // Bootstrap
     mix.copy('vendor/bower_components/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js', 'public/js/bootstrap.min.js');
 
@@ -104,6 +107,10 @@ elixir(function(mix) {
 
     // iCheck
     mix.copy('vendor/bower_components/gentelella/vendors/iCheck/icheck.min.js', 'public/js/icheck.min.js');
+
+    // Vue
+    mix.copy('vendor/bower_components/vue/dist/vue.min.js', 'public/js/vue.min.js');
+    mix.copy('vendor/bower_components/vue/dist/vue.common.js', 'public/js/vue.common.js');
 
     // jQuery
     mix.copy('vendor/bower_components/gentelella/vendors/jquery/dist/jquery.min.js', 'public/js/jquery.min.js');
@@ -252,6 +259,7 @@ elixir(function(mix) {
 
         // echarts
         mix.copy('vendor/bower_components/gentelella/vendors/echarts/dist/echarts.min.js', 'public/js/echarts.min.js');
+
 
         // Gentelella
         mix.copy('vendor/bower_components/gentelella/src/js/helpers/smartresize.js', 'public/js/smartresize.js');

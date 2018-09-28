@@ -15,6 +15,7 @@ use App\Models\Clients\ClientService;
 use App\Models\Users\UserService;
 use App\Models\ActivityLog\ActivityLogService;
 use App\Models\Clients\CandidateService;
+use App\Models\Jobs\Job;
 
 class ClientController extends Controller
 {
@@ -182,7 +183,8 @@ class ClientController extends Controller
         $collaboratorsId = $collaborators->pluck('id')->toArray();
         $users = User::all();
         $notes = $company->posts;
-        return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes'));
+        $jobs = Job::whereCompanyId($company->id)->get();
+        return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes', 'jobs'));
     }
     public function showCompanyPost(Company $company, $message=null, $status=null)
     {

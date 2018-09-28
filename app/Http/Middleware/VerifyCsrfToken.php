@@ -23,6 +23,7 @@ class VerifyCsrfToken extends BaseVerifier
         'messages/*',
         'likes/*',
         'resumes/*',
-        'tasks/*'
+        'tasks/*',
+        'events/*'
     ];
 }

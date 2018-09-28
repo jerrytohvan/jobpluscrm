@@ -16,6 +16,9 @@ Route::get('/apply-jobs', [
 
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'AccountController@index')->name('dashboard');
+    Route::get('demos/tasks', 'DemoController@showTasks');
+    Route::patch('demos/tasks/{id}', 'DemoController@updateTasksStatus');
+    Route::put('demos/tasks/updateAll', 'DemoController@updateTasksOrder');
     Route::get('/login', [
     'as' => 'login',
     'uses' => '\App\Http\Controllers\Auth\LoginController@showLoginForm'
@@ -198,13 +201,24 @@ Route::post('/companies-industry', [
       'as' => 'index.calendar',
     'uses' => '\App\Models\Calendar\CalendarController@index'
     ]);
+
+    Route::post('/calendar/create', [
+      'as' => 'add.calendar',
+    'uses' => '\App\Models\Calendar\CalendarController@add_new_event'
+    ]);
+
     Route::get('/mail', [
       'as' => 'index.mail',
     'uses' => '\App\Models\Mail\MailController@index'
     ]);
-    Route::get('/event', [
-      'as' => 'index.event',
-    'uses' => '\App\Models\Events\EventController@index'
+    Route::get('/task', [
+      'as' => 'index.tasks',
+    'uses' => '\App\Models\Tasks\TaskController@index'
+    ]);
+
+    Route::post('/task/add',[
+      'as' =>'add.tasks',
+      'uses' => '\App\Models\Tasks\TaskController@createTask'
     ]);
     Route::get('/smart-match', [
       'as' => 'index.smart.match',
@@ -228,9 +242,7 @@ Route::post('/companies-industry', [
       'as' => 'add.job',
     'uses' => '\App\Models\Jobs\JobController@add_jobs'
     ]);
-
-
-    // Route::get('/telegram', [
+ // Route::get('/telegram', [
     //   'as' => 'telegram',
     // 'uses' => '\App\Models\Chats\TelegramController@index'
     // ]);
@@ -244,8 +256,7 @@ Route::post('/companies-industry', [
     Route::get('/telegram-send', [
       'as' => 'telegram.send',
     'uses' => '\App\Models\Chats\TelegramController@send'
-    ]);
-});
+    ]);});
 Route::get('/employees', 'employeeController@index');
 Route::get('/employees/{id}', 'employeeController@show');
 Route::post('/employees/create', 'employeeController@store');
@@ -267,6 +278,7 @@ Route::delete(
 // Route::get('/companies/{id}', [
 // 'CompaniesController@destroy'
 // );
+Route::get('/tasks','\App\Models\Tasks\TaskController@display');
 Route::put('/companies/{id}', 'CompaniesController@update');
 Route::get('/candidates', 'CandidatesController@index');
 Route::get('/candidates/{id}', 'CandidatesController@show');
@@ -349,23 +361,16 @@ Route::get('/resumes/{id}', 'ResumesController@show');
 Route::post('/resumes/create', 'ResumesController@store');
 Route::delete('/resumes/{id}', 'ResumesController@destroy');
 Route::put('/resumes/{id}', 'ResumesController@update');
-Route::get('/tasks', 'TasksController@index');
-Route::get('/tasks/{id}', 'TasksController@show');
-Route::post('/tasks/create', 'TasksController@store');
-Route::delete('/tasks/{id}', 'TasksController@destroy');
 Route::put('/tasks/{id}', 'TasksController@update');
 Route::get('/resumes', 'ResumesController@index');
 Route::get('/resumes/{id}', 'ResumesController@show');
 Route::post('/resumes/create', 'ResumesController@store');
 Route::delete('/resumes/{id}', 'ResumesController@destroy');
 Route::put('/resumes/{id}', 'ResumesController@update');
-Route::get('/tasks', 'TasksController@index');
-Route::get('/tasks/{id}', 'TasksController@show');
-Route::post('/tasks/create', 'TasksController@store');
-Route::delete('/tasks/{id}', 'TasksController@destroy');
 Route::put('/tasks/{id}', 'TasksController@update');
 Auth::routes();
-Route::resource('/gcalendar', 'gCalendarController');
+Route::get('/gcalendar', 'gCalendarController@index');
+Route::post('/gcalendar/create','gCalendarController@store');
 Route:: get('/callback', [
   'as' => 'cal.index',
   'uses' => 'gCalendarController@callback'
@@ -373,3 +378,5 @@ Route:: get('/callback', [
 Route::get('oauth', [
   'as' => 'oauthCallback',
   'uses' => 'gCalendarController@oauth']);
+
+ 

@@ -8,9 +8,17 @@ use Google_Client;
 use Google_Service_Calendar;
 use Google_Service_Calendar_Event;
 use Google_Service_Calendar_EventDateTime;
+// use App\Models\Tasks\Task;
+// use App\Models\Tasks\TaskService;
+// use App\Http\Controllers\TasksController;
 class gCalendarController extends Controller
 {
     protected $client;
+    // public function __constructSVC(TaskService $taskSvc)
+    // {
+    //     $this->svc = $taskSvc;
+    //     // $this->middleware('auth');
+    // }
     public function __construct()
     {
         echo 'initialiszing ==============';
@@ -34,13 +42,14 @@ class gCalendarController extends Controller
     {
         error_log(print_r( 'gcal index ============',true));
         session_start();
+        // error_log(print_r( $_SESSION['access_token'],true));
         if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
             error_log(print_r( 'gcal index2toke ============',true));
             $this->client->setAccessToken($_SESSION['access_token']);
             $service = new Google_Service_Calendar($this->client);
             $calendarId = 'primary';
             $results = $service->events->listEvents($calendarId);
-            return $results->getItems();
+            return $results;
         } else {
             error_log(print_r( 'gcal index2oath ============',true));
             return redirect()->route('oauthCallback');
@@ -51,7 +60,7 @@ class gCalendarController extends Controller
         error_log(print_r( 'gcal oauth ============',true));
         session_start();
         // $rurl = action('gCalendarController@listAll');
-        $rurl = 'http://127.0.0.1:8000/calendar';
+        $rurl = 'http://localhost:8000/calendar';
         $this->client->setRedirectUri($rurl);
         if (!isset($_GET['code'])) {
             error_log(print_r( 'if yes ============',true));
@@ -78,7 +87,7 @@ class gCalendarController extends Controller
         $client = new Google_Client();
         $client->setAuthConfigFile('client_secret.json');
         $client->setRedirectUri('http://' . $_SERVER['HTTP_HOST'] . '/oauth2callback.php');
-        $client->addScope(Google_Service_Drive::DRIVE_METADATA_READONLY);
+        $client->addScope(Google_Service_Drive::DRIVE_METADATA);
         
         if (! isset($_GET['code'])) {
         $auth_url = $client->createAuthUrl();
@@ -93,7 +102,7 @@ class gCalendarController extends Controller
         $client = new Google_Client();
         $client->setAuthConfigFile('client_secret.json');
         $client->setRedirectUri('http://' . $_SERVER['HTTP_HOST'] . '/oauth2callback.php');
-        $client->addScope(Google_Service_Drive::DRIVE_METADATA_READONLY);
+        $client->addScope(Google_Service_Drive::DRIVE_METADATA);
         
         if (! isset($_GET['code'])) {
         $auth_url = $client->createAuthUrl();
@@ -121,7 +130,7 @@ class gCalendarController extends Controller
     public function create()
     {
         error_log(print_r( 'gcal creating ===============',true));
-        return view('calendar.createEvent');
+        // return view('calendar.createEvent');
     }
     /**
      * Store a newly created resource in storage.
@@ -129,12 +138,12 @@ class gCalendarController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Task $task)
     {
         error_log(print_r( 'gcal store ===============',true));
         session_start();
-        $startDateTime = $request->start_date;
-        $endDateTime = $request->end_date;
+        // $startDateTime = $request->start_date;
+        // $endDateTime = $request->end_date;
         if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
             $this->client->setAccessToken($_SESSION['access_token']);
             $service = new Google_Service_Calendar($this->client);
@@ -142,16 +151,22 @@ class gCalendarController extends Controller
             $event = new Google_Service_Calendar_Event([
                 'summary' => $request->title,
                 'description' => $request->description,
-                'start' => ['dateTime' => $startDateTime],
-                'end' => ['dateTime' => $endDateTime],
+                // 'start' => ['dateTime' => $startDateTime],
+                // 'end' => ['dateTime' => $endDateTime],
                 'reminders' => ['useDefault' => true],
             ]);
-            $results = $service->events->insert($calendarId, $event);
+            //return $this->svc->storeTask(request()->all());
+
+            // return $event;
+            error_log(print_r( 'gcal store success ===============',true));
+            $results =  $service->events->insert($calendarId, $event);
+             //$this->svc->storeTask(request()->all());
             if (!$results) {
                 return response()->json(['status' => 'error', 'message' => 'Something went wrong']);
             }
             return response()->json(['status' => 'success', 'message' => 'Event Created']);
         } else {
+            error_log(print_r( 'y return ===============',true));
             return redirect()->route('oauthCallback');
         }
     }
