@@ -31,6 +31,11 @@
             <ul class="nav side-menu">
               <li><a href="{{ route('dashboard') }}"><i class="fa fa-home"></i> Home </a></li>
 
+               @if(Auth::user()->admin == 1)
+              <li><a href="{{ route('index.register') }}"><i class="fa fa-users"></i>Manage Admin</a>
+              </li>
+              @endif
+
             <li><a href="{{ route('social.wall') }}"><i class="fa fa-comments-o"></i>Announcements </a>
             </li>
               <li>
