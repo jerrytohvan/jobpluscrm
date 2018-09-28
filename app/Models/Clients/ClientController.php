@@ -52,7 +52,8 @@ class ClientController extends Controller
     public function index_companies_clients()
     {
         $array = $this->svc->getAllClients();
-        return view('layouts.companies_clients', compact('array'));
+        $score = $this->svc->getUrgencyScore($array);
+        return view('layouts.companies_clients', compact('array', 'score'));
     }
 
     public function index_companies_leads()
@@ -60,7 +61,6 @@ class ClientController extends Controller
         $array = $this->svc->getAllLeads();
         return view('layouts.companies_leads', compact('array'));
     }
-
 
     public function index_companies_new()
     {
@@ -216,7 +216,6 @@ class ClientController extends Controller
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
-
     public function convertToClient(Company $company)
     {
         $message = "Failed to add updated!";
@@ -317,5 +316,15 @@ class ClientController extends Controller
             $status = 1;
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
+
+    public function filterByIndustry(Request $request) {
+        $industry = $request->input('industry');
+        if ($industry == "All") {
+            $array = Company::whereClient(1)->orderBy('name', 'asc')->get();
+        } else {
+            $array = Company::where('industry', $industry)->get();
+        }
+        return view('layouts.companies_clients', compact('array'));
     }
 }
