@@ -74,7 +74,7 @@
                                <a href="{{ route('get.resume', ['file'=> $candidate->files->first()->attachable_id])}}"  class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Resume</a>
                                <a href="{{ route('delete.candidate', ['candidate' => $candidate->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
                                <!-- <a href="{{ route('candidate.match', ['candidate' => $candidate->id]) }}" class="btn btn-success btn-xs"><i class="fa fa-trash-o"></i>Smart Match</a> -->
-                               <a href="{{ route('smart.match.candidate', ['candidate' => $candidate->id]) }}" class="btn btn-success btn-xs"><i class="fa fa-trash-o"></i>Smart Match</a>
+                               <a href="{{ route('smart.match.candidate', ['candidate' => $candidate->id]) }}" class="btn btn-success btn-xs confirmation"><i class="fa fa-trash-o"></i>Smart Match</a>
 
                           </td>
                         </tr>
@@ -135,6 +135,16 @@
         });
       }
 
+  }
+
+
+
+  var elems = document.getElementsByClassName('confirmation');
+  var confirmIt = function (e) {
+      if (!confirm('Are you sure?')) e.preventDefault();
+  };
+  for (var i = 0, l = elems.length; i < l; i++) {
+      elems[i].addEventListener('click', confirmIt, false);
   }
 </script>
 

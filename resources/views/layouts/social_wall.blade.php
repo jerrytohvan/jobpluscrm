@@ -53,7 +53,7 @@
                       <button type="button" class="btn btn-default btn-xs fa fa-edit"><a data-id="{{ $post->id }}" data-content="{{ $post->content }}" class="edit" id="Edit-modal"
                                  href="#edit-modal">Edit</a></button>
 
-                      <button type="button" class="btn btn-default btn-xs fa fa-trash"><a href="{{ route('delete.post', ['post_id' => $post->id]) }}">Delete</a></button>
+                      <button type="button" class="btn btn-default btn-xs fa fa-trash"><a href="{{ route('delete.post', ['post_id' => $post->id]) }}" class="confirmation">Delete</a></button>
 
                       @endif
                   </div>
@@ -116,5 +116,14 @@
             });
           });
       });
+
+
+      var elems = document.getElementsByClassName('confirmation');
+      var confirmIt = function (e) {
+          if (!confirm('Are you sure?')) e.preventDefault();
+      };
+      for (var i = 0, l = elems.length; i < l; i++) {
+          elems[i].addEventListener('click', confirmIt, false);
+      }
 </script>
 @endsection

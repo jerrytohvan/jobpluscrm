@@ -71,7 +71,7 @@
                                   </td>
                                   <td>
                                       <a href="{{ route('view.company', ['company' => $data->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
-                                      <a href="{{ route('delete.company', ['company_id' => $data->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                                      <a href="{{ route('delete.company', ['company_id' => $data->id]) }}" class="btn btn-danger btn-xs confirmation"><i class="fa fa-trash-o"></i> Delete </a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -99,6 +99,16 @@
 $(document).ready(function() {
     $('#datatable').DataTable();
 } );
+
+
+var elems = document.getElementsByClassName('confirmation');
+var confirmIt = function (e) {
+    if (!confirm('Are you sure?')) e.preventDefault();
+};
+for (var i = 0, l = elems.length; i < l; i++) {
+    elems[i].addEventListener('click', confirmIt, false);
+}
+
 </script>
 <!-- Datatables -->
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>

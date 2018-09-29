@@ -124,9 +124,19 @@ Route::group(['middleware' => ['web']], function () {
   'as' => 'view.company',
   'uses' => '\App\Models\Clients\ClientController@showCompany'
   ]);
+
     Route::post('/view/{company}', [
       'as' => 'view.company',
       'uses' => '\App\Models\Clients\ClientController@showCompanyPost'
+      ]);
+
+    Route::get('/note/delete/{post}', [
+      'as' => 'delete.note',
+      'uses' => '\App\Models\Clients\ClientController@removeNote'
+    ]);
+    Route::post('/editnote', [
+        'as' => 'edit.note',
+      'uses' => '\App\Models\Clients\ClientController@editNote'
       ]);
 
     Route::get('/file/{file}', [
