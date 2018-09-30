@@ -11,35 +11,40 @@ class MailController extends Controller
     {
         return view('/layouts/index_mail');
     }
-    public function sendemail()
-    {
-        Mail::send('/layouts/index_mail', [], function ($message) {
-            $message->from('gabrielongxe@gmail.com', 'Gabriel');
-            $message->to(request()->input('toEmail'))->subject('This is test e-mail');
-            if (request()->input('ccEmail') != null) {
-                $message->cc(request()->input('ccEmail'));
-            }
-            if (request()->input('emailAttachment') != null) {
-                $message->attach(request()->file('emailAttachment'));
-            }
-            $message->subject(request()->input('subject'));
-            $message->setBody(request()->input('emailMessage'));
-            error_log(print_r("sending", true));
-        });
+
+      public function sendemail(Request $request)
+      {
+          $data = array(
+            'toEmail' =>$request->toEmail,
+            'subject'=>$request->subject,
+            'emailMessage' =>$request->emailMessage,
+            'emailAttachment'=>$request->emailAttachment,
+            'ccEmail'=>$request->ccEmail
+
+          );
+            Mail::send([], $data, function ($message) use ($data) {
+                $message->from('gabrielongxe@gmail.com','Gabriel');
+                $message->to($data['toEmail']);
+                if ($data['ccEmail'] != null) {
+                    $message->cc($data['ccEmail']);
+                }
+                $message->subject($data['subject']);
+                if (request()->file('emailAttachment') != null) {
+                      $message->attach($data['emailAttachment']->getRealPath(),
+                      array(
+                          'as'=>'emailAttachment.'. $data['emailAttachment']->getClientOriginalExtension(),
+                          'mime'=>$data['emailAttachment']->getMimeType())
+                      );
+                 }
+
+                $message->setBody($data['emailMessage']);
+                error_log(print_r("sending", true));
+            });
+
         error_log(print_r("sent", true));
         return view('layouts.index_mail', compact('message'));
     }
-    // method to send to add attachment succesfully
-    public function attachment_email(){
-       $data = array('name'=>"trying attachment");
-       Mail::send('/layouts/mail', $data, function($message) {
-          $message->to('gabriel.ong.2016@sis.smu.edu.sg', 'gab')->subject
-             ('Laravel Testing Mail with Attachment');
-          $message->attach('C:\Users\gabri\Documents\gab\gif\200.webp');
-          $message->from('gabrielongxe@gmail.com','Gabriel');
-       });
-       return "Email Sent with attachment. Check your inbox.";
-    }
+
     // public function sendemailtoMany()
     // {
     //     $emails=[''];
@@ -96,5 +101,48 @@ class MailController extends Controller
         $m = $message->body;
         // show the view and pass the nerd to it
         return view('emails.showmail', compact('m'));
+    }
+    Public function processYYdata(Array $array){
+        $keys = $array[0];
+        $values =$array[1];
+        for($i = 0 ; $i<=sizeof($keys); $i++){
+            $emailTo = User::whereId($keys[i])->email;
+            for($j=0; $j<=sizeOf($value[i]); $j++){
+                $message = $value[$j];
+                $formattedMessage = str_replace(',','/n',$message);
+
+                $data = array(
+                  'toEmail' =>$emailTo,
+                  'subject'=>$taskSubject,
+                  'emailMessage' =>$taskText,               
+                  'tasks'=>$tasks['tasklist'];
+
+                );
+                sendTasksEmail($data);
+            }
+        }
+      }
+
+      public function sendTasksEmail($data)
+      {
+
+            Mail::send([], $data, function ($message) use ($data) {
+                $message->from('gabrielongxe@gmail.com','Gabriel');
+                $message->to($data['toEmail']);
+                $message->subject($data['subject']);
+                if (request()->file('emailAttachment') != null) {
+                      $message->attach($data['emailAttachment']->getRealPath(),
+                      array(
+                          'as'=>'emailAttachment.'. $data['emailAttachment']->getClientOriginalExtension(),
+                          'mime'=>$data['emailAttachment']->getMimeType())
+                      );
+                 }
+
+                $message->setBody($data['emailMessage']);
+                error_log(print_r("sending", true));
+            });
+
+        error_log(print_r("sent", true));
+        return view('layouts.index_mail', compact('message'));
     }
 }

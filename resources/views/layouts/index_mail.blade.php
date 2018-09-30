@@ -8,6 +8,7 @@
 
 @section('content')
 <!-- page content -->
+
 <div class="right_col" role="main">
   <div class="">
 
@@ -147,7 +148,7 @@
               </div>
               <!-- /MAIL LIST -->
 
-              <!-- CONTENT MAIL -->
+              <!-- CONTENT MAIL
               <div class="col-sm-9 mail_view">
                 <div class="inbox-body">
                   <div class="mail_heading row">
@@ -251,7 +252,8 @@
                 </div>
 
               </div>
-              <!-- /CONTENT MAIL -->
+               /CONTENT MAIL -->
+
             </div>
           </div>
         </div>
@@ -261,7 +263,6 @@
 </div>
 <!-- /page content -->
 @endsection
-
 
 @section('bottom_content')
 <!-- compose -->
@@ -336,7 +337,7 @@
         <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
       </div>
 
-        {{  Form::open(['route' =>'sendemail', 'method'=>'post','id'=>'submit-email','enctype'=>'multipart/form-data']) }}
+        {{  Form::open(['route' =>'sendemail', 'method'=>'post','id'=>'submit-email','files'=> true,'enctype'=>'multipart/form-data']) }}
 
 
 
@@ -351,8 +352,10 @@
       </div>
 
       <div class="form-group">
-              <h2 label for="emailAttachment">Upload your files</h2>
-          <input type="file" id="emailAttachment" name="emailAttachment"  data-parsley-filemaxmegabytes="50" data-parsley-trigger="change" >
+        {!! Form::label('emailAttachment', 'Upload Attachment:') !!}
+        {!! Form::file('emailAttachment', null, ['class' => 'form-control']) !!}
+              <!-- <h2 label for="emailAttachment">Upload your files</h2>
+             <input type="file" id="emailAttachment" name="emailAttachment"  data-parsley-filemaxmegabytes="20" data-parsley-trigger="change" > -->
       </div>
 
 
