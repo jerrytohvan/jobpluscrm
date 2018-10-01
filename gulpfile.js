@@ -208,9 +208,15 @@ elixir(function(mix) {
         mix.copy('vendor/bower_components/gentelella/vendors/ion.rangeSlider/js/ion.rangeSlider.min.js', 'public/js/ion.rangeSlider.min.js');
 
         // jquery.inputmask
-        mix.copy('vendor/bower_components/gentelella/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js', 'public/js/jquery.inputmask.bundle.min.js');
+        mix.copy('vendor/bower_components/jquery.easy-pie-chart/dist/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js', 'public/js/jquery.inputmask.bundle.min.js');
 
         // jQuery Knob
+        // mix.copy('vendor/bower_components/gentelella/vendors/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js', 'public/js/jquery.easypiechart.min.js');
+
+        mix.copy('vendor/bower_components/gentelella/vendors/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js', 'public/js/jquery.easypiechart.min.js');
+
+
+        // jQuery easy charts
         mix.copy('vendor/bower_components/gentelella/vendors/jquery-knob/dist/jquery.knob.min.js', 'public/js/jquery.knob.min.js');
 
         // Cropper
@@ -239,6 +245,7 @@ elixir(function(mix) {
         mix.copy('vendor/bower_components/gentelella/vendors/datatables.net-responsive/js/dataTables.responsive.min.js', 'public/js/dataTables.responsive.min.js');
         mix.copy('vendor/bower_components/gentelella/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js', 'public/js/responsive.bootstrap.js');
         mix.copy('vendor/bower_components/gentelella/vendors/datatables.net-scroller/js/dataTables.scroller.min.js', 'public/js/dataTables.scroller.min.js');
+
 
 
         // jszip
