@@ -88,7 +88,6 @@ $(window).load(function() {
 
   }
 
-  var chartData = [];
   var count = 0;
   $.ajaxSetup({
   headers: {
@@ -124,7 +123,7 @@ $(window).load(function() {
               '<div style="text-align: center; margin-bottom: 17px">' +
               '<span class="chart" data-percent="' + Math.round(sum/resumeKeywords.length*100) + '"><span class="percent">' + Math.round(sum/resumeKeywords.length*100) + '</span></span>'
               + '</div>' + '<h3 class="name_title">' + data[0][i].job_title + '</h3>' +
-              '<p>' + data[0][i]. + '</p>'
+              '<p>' + data[0][i].category + '</p>'
              + '<div class="divider"></div>' +
              '<h4 class="name_title">Skills:</h4><br/>'+
               + '<p>' + data[0][i].job_description+ '</p>' + '<div class="divider"></div>' + '<p>'
@@ -145,7 +144,6 @@ $(window).load(function() {
                  barColor: '#32213A'
              });
 
-            chartData.push(sum);
             count++;
          }
         });
