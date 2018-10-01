@@ -27,7 +27,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', true),
+    'debug' => env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -167,7 +167,6 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Spatie\Activitylog\ActivitylogServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-
     ],
 
     /*
