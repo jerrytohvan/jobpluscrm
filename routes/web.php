@@ -168,7 +168,7 @@ Route::group(['middleware' => ['web']], function () {
 'uses' => '\App\Models\Clients\ClientController@index_companies_new'
 ]);
 
-Route::post('/companies-industry', [
+    Route::post('/companies-industry', [
   'as' => 'companies.industry',
 'uses' => '\App\Models\Clients\ClientController@filterByIndustry'
 ]);
@@ -283,7 +283,7 @@ Route::post('/companies-industry', [
 Route::get('/telegram-send', [
   'as' => 'telegram.send',
 'uses' => '\App\Models\Chats\TelegramController@send'
-]);});
+]);
 
 Route::get('/employees', 'employeeController@index');
 Route::get('/employees/{id}', 'employeeController@show');

@@ -55,11 +55,10 @@ class ClientController extends Controller
 
     public function index_companies_clients()
     {
-      $score = $this->svc->getUrgencyScore($array);
-      $array = $this->svc->getAllClients();
+        $array = $this->svc->getAllClients();
+        $score = $this->svc->getUrgencyScore($array);
 
-      return view('layouts.companies_clients', compact('array', 'status', 'companies', 'score'));
-
+        return view('layouts.companies_clients', compact('array', 'status', 'companies', 'score'));
     }
 
     public function index_companies_leads()
@@ -452,8 +451,9 @@ class ClientController extends Controller
             }
         }
         return $string;
-
-    public function filterByIndustry(Request $request) {
+    }
+    public function filterByIndustry(Request $request)
+    {
         $industry = $request->input('industry');
         if ($industry == "All") {
             $array = Company::whereClient(1)->orderBy('name', 'asc')->get();

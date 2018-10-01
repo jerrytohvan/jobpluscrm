@@ -208,7 +208,7 @@ elixir(function(mix) {
         mix.copy('vendor/bower_components/gentelella/vendors/ion.rangeSlider/js/ion.rangeSlider.min.js', 'public/js/ion.rangeSlider.min.js');
 
         // jquery.inputmask
-        mix.copy('vendor/bower_components/jquery.easy-pie-chart/dist/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js', 'public/js/jquery.inputmask.bundle.min.js');
+        mix.copy('vendor/bower_components/gentelella/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js', 'public/js/jquery.inputmask.bundle.min.js');
 
         // jQuery Knob
         // mix.copy('vendor/bower_components/gentelella/vendors/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js', 'public/js/jquery.easypiechart.min.js');

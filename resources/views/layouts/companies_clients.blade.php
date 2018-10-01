@@ -220,7 +220,6 @@ $(document).ready(function() {
  $(".dataTables_filter label").addClass("pull-right");
 } );
 
-<<<<<<< HEAD
 
 var elems = document.getElementsByClassName('confirmation');
 var confirmIt = function (e) {
@@ -230,8 +229,6 @@ for (var i = 0, l = elems.length; i < l; i++) {
     elems[i].addEventListener('click', confirmIt, false);
 }
 
-=======
->>>>>>> wlBranch
 </script>
 <!-- Datatables -->
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>

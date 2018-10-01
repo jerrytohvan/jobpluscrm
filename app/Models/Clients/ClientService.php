@@ -42,12 +42,12 @@ class ClientService
     }
     public function getAllClients()
     {
-        return Company::whereClient(1)->orderBy('name', 'asc')->get();
+        return Company::whereClient(1)->orderBy('name', 'asc')->take(1000)->get();
     }
 
     public function getAllLeads()
     {
-        return Company::whereClient(0)->orderBy('name', 'asc')->get();
+        return Company::whereClient(0)->orderBy('name', 'asc')->take(1000)->get();
     }
 
     /**
@@ -116,7 +116,8 @@ class ClientService
     }
 
     //Working version
-    public function getUrgencyScore($array) {
+    public function getUrgencyScore($array)
+    {
         $scoreArray = array();
 
         foreach ($array as $company) {

@@ -66,7 +66,33 @@
 
 
                       </div>
-                      <div class="col-md-9 col-sm-9 col-xs-12">
+                      <div class="col-md-6 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2>Recent Activities by User</h2>
+                                      <div class="clearfix"></div>
+                                    </div>
+                                    <div class="content x_content">
+                                      <ul class="list-unstyled msg_list">
+                                        @foreach ($activities as $activity)
+                                        <li>
+                                          <a>
+
+                                            <span>
+                                              <span class="time">{{ $activity[0] }}</span>
+                                            </span>
+                                            <span class="message">
+                                              {{ $activity[1] }}
+                                            </span>
+                                          </a>
+                                        </li>
+                                        @endforeach
+
+                                      </ul>
+                                    </div>
+                                  </div>
+                              </div>
+                      <!-- <div class="col-md-9 col-sm-9 col-xs-12">
                         <div class="" role="tabpanel" data-example-id="togglable-tabs">
                           <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                             <li role="presentation" class=""><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="false">Recent Activity</a>
@@ -78,7 +104,6 @@
                           <div id="myTabContent" class="tab-content">
                             <div role="tabpanel" class="tab-pane fade" id="tab_content1" aria-labelledby="home-tab">
 
-                              <!-- start recent activity -->
                               <ul class="messages">
                                 <li>
                                   <img src="images/img.jpg" class="avatar" alt="Avatar">
@@ -146,12 +171,10 @@
                                 </li>
 
                               </ul>
-                              <!-- end recent activity -->
 
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
 
-                              <!-- start user projects -->
                               <table class="data table table-striped no-margin">
                                 <thead>
                                   <tr>
@@ -204,13 +227,12 @@
                                   </tr>
                                 </tbody>
                               </table>
-                              <!-- end user projects -->
 
                             </div>
 
                           </div>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>
@@ -245,22 +267,22 @@
                                 <div class="form-group">
                                     <label for="handphone">Mobile</label>
                                     <input id="handphone" class="form-control col-md-7 col-xs-12" required="required" type="text" name="handphone" value="{{ $user->handphone }}">
-                                </div>    
+                                </div>
 
                                 <div class="form-group">
                                     <label for="tele_id">Telegram Chat ID</label>
                                     <input id="tele_id" class="form-control col-md-7 col-xs-12" required="required" type="text" name="tele_id" value="{{ $user->tele_id }}">
-                                </div>    
+                                </div>
 
                                 <div class="form-group">
                                      <label for="birthday">Birth Date</label>
                                      <input type="text" class="form-control col-md-7 col-xs-12"  data-date-format="MM/DD/YYYY" required="required" id="birthday" name="birthday" value='{{ date("mm/dd/YYYY", strtotime($user->birth_date)) }}' />
-                                </div> 
+                                </div>
 
                                 <div class="form-group">
                                   <label for="photo">Display Picture</label>
                                   <input type="file" name="photo" id="photo" data-parsley-filemaxmegabytes="1" data-parsley-trigger="change" data-parsley-filemimetypes="image/jpeg, image/pipeg, image/png, image/bmp, image/webp">
-                               </div> 
+                               </div>
 
                             </form>
                         </div>

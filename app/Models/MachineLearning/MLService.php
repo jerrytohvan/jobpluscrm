@@ -221,7 +221,6 @@ class MLService
 
             $keywordsMatch[] = array_merge($titlesArray, $descArray, $skillsArray);
         }
-        dd($keywordsMatch);
         return [$matchingJobs,$points, $keywordsMatch, $keywords];
     }
 }
