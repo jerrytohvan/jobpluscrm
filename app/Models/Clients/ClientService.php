@@ -48,8 +48,6 @@ class ClientService
         return Company::whereClient(0)->orderBy('name', 'asc')->get();
     }
 
-
-
     /**
      * Checks user existed and creates a new user
      * @param  Array   $array
