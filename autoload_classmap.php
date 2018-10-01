@@ -131,7 +131,6 @@ return array(
     'ProjectGroupsTableSeeder' => $baseDir . '/database/seeds/ProjectGroupsTableSeeder.php',
     'QRcode' => $vendorDir . '/tecnickcom/tcpdf/include/barcodes/qrcode.php',
     'ResultsTableSeeder' => $baseDir . '/database/seeds/ResultsTableSeeder.php',
-    'ResumesTableSeeder' => $baseDir . '/database/seeds/ResumesTableSeeder.php',
     'TCPDF' => $vendorDir . '/tecnickcom/tcpdf/tcpdf.php',
     'TCPDF2DBarcode' => $vendorDir . '/tecnickcom/tcpdf/tcpdf_barcodes_2d.php',
     'TCPDFBarcode' => $vendorDir . '/tecnickcom/tcpdf/tcpdf_barcodes_1d.php',
@@ -143,7 +142,6 @@ return array(
     'TCPDF_IMPORT' => $vendorDir . '/tecnickcom/tcpdf/tcpdf_import.php',
     'TCPDF_PARSER' => $vendorDir . '/tecnickcom/tcpdf/tcpdf_parser.php',
     'TCPDF_STATIC' => $vendorDir . '/tecnickcom/tcpdf/include/tcpdf_static.php',
-    'TasksTableSeeder' => $baseDir . '/database/seeds/TasksTableSeeder.php',
     'UpdateTagsTable' => $baseDir . '/database/migrations/2016_06_29_073615_update_tags_table.php',
     'UsersTableSeeder' => $baseDir . '/database/seeds/UsersTableSeeder.php',
 );

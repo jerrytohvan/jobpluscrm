@@ -121,7 +121,7 @@
         <script src="{{ asset('js/smartresize.js') }}"></script>
 
         <!-- Custom Theme Scripts -->
-        <script src="{{ asset('js/gentelella.min.js') }}"></script>
+        <script src="{{ asset('js/gentelella.js') }}"></script>
 
         @stack('scripts')
 

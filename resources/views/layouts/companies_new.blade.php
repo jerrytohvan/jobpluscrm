@@ -264,7 +264,6 @@
             styling: 'bootstrap3'
         });
       }
-
   }
 </script>
 @endpush

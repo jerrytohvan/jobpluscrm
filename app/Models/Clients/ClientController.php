@@ -37,6 +37,7 @@ class ClientController extends Controller
         $candidates = $this->canSvc->getAllCandidates();
         return view('layouts.candidates_fulllist', compact('message', 'status', 'candidates'));
     }
+
     public function index_candidates_new()
     {
         $companies = $this->svc->getAllCompany();
@@ -54,8 +55,11 @@ class ClientController extends Controller
 
     public function index_companies_clients()
     {
-        $array = $this->svc->getAllClients();
-        return view('layouts.companies_clients', compact('array', 'status', 'companies'));
+      $score = $this->svc->getUrgencyScore($array);
+      $array = $this->svc->getAllClients();
+
+      return view('layouts.companies_clients', compact('array', 'status', 'companies', 'score'));
+
     }
 
     public function index_companies_leads()
@@ -65,7 +69,6 @@ class ClientController extends Controller
         $array = $this->svc->getAllLeads();
         return view('layouts.companies_leads', compact('array', 'status', 'message'));
     }
-
 
     public function index_companies_new()
     {
@@ -266,7 +269,6 @@ class ClientController extends Controller
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
-
     public function convertToClient(Company $company)
     {
         $message =  "Failed to update " . $company->name ." as client!";
@@ -450,5 +452,15 @@ class ClientController extends Controller
             }
         }
         return $string;
+
+    public function filterByIndustry(Request $request) {
+        $industry = $request->input('industry');
+        if ($industry == "All") {
+            $array = Company::whereClient(1)->orderBy('name', 'asc')->get();
+        } else {
+            $array = Company::where('industry', $industry)->get();
+        }
+        $score = $this->svc->getUrgencyScore($array);
+        return view('layouts.companies_clients', compact('array', 'score'));
     }
 }

@@ -150,6 +150,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Illuminate\Notifications\NotificationServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -164,7 +165,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Watson\BootstrapForm\BootstrapFormServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
-        Spatie\Activitylog\ActivitylogServiceProvider::class
+		
+		Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 
@@ -217,6 +219,8 @@ return [
             'Html' => Collective\Html\HtmlFacade::class,
             'BootForm' => Watson\BootstrapForm\Facades\BootstrapForm::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+		
+		'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 

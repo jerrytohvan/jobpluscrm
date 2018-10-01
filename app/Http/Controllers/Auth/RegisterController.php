@@ -43,7 +43,9 @@ class RegisterController extends Controller
 
     public function index()
     {
-        return Auth::user()->admin == 1 ? view('layouts.register'): abort(403, 'Unauthorized action.');
+        $status = "";
+        $message = "";
+        return Auth::user()->admin == 1 ? view('layouts.register', compact('message', 'status')): abort(403, 'Unauthorized action.');
     }
 
     /**
@@ -70,13 +72,21 @@ class RegisterController extends Controller
      */
     protected function register(Request $data)
     {
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'admin' => $data['admin'],
-            'profile_pic' => Gravatar::src($data['email'])
-        ]);
-        return view('layouts.register');
+        $status = 1;
+        $message = "User successfully added";
+        try {
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+                'admin' => $data['admin'],
+                'profile_pic' => Gravatar::src($data['email'])
+            ]);
+            return view('layouts.register', compact('message', 'status'));
+        } catch(\Illuminate\Database\QueryException $exception){
+            $status = 0;
+            $message = "This user already exist";
+            return view('layouts.register', compact('message', 'status'));
+        }
     }
 }
