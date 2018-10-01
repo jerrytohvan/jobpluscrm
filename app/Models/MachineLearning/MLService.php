@@ -163,6 +163,10 @@ class MLService
         return (array_sum($a[1]) > array_sum($b[1])) ? -1 : 1;
     }
 
+    public function potentialMaxPoints()
+    {
+    }
+
 
     public function matchPersonWithJobs($keywords)
     {
@@ -184,6 +188,7 @@ class MLService
                 $skills = Self::extract_keywords(preg_replace('/[0-9\W]/', ',', $job->skills));
                 $years_of_exp = $job->years_experience;
                 //will same words from each factor and keywords be counted twice?
+                //only based on counts (add weighted average? title: 0.2, desc: 0.1, skills: 0.3 , extra related words: 0.4)
                 $titlePoint = count(array_intersect($job_title, $keywords));
                 $descPoint = count(array_intersect($job_description, $keywords));
                 $skillsPoint = count(array_intersect($skills, $keywords));
@@ -214,9 +219,9 @@ class MLService
             $descArray = array_intersect($job_description, $keywords);
             $skillsArray = array_intersect($skills, $keywords);
 
-            $keywordsMatch[] = array_unique(array_merge($titlesArray, $descArray, $skillsArray));
+            $keywordsMatch[] = array_merge($titlesArray, $descArray, $skillsArray);
         }
-
+        dd($keywordsMatch);
         return [$matchingJobs,$points, $keywordsMatch, $keywords];
     }
 }
