@@ -11,7 +11,8 @@
         <!-- menu profile quick info -->
         <div class="profile">
             <div class="profile_pic">
-                <img src="{{ Gravatar::src(Auth::user()->email) }}" alt="Avatar of {{ Auth::user()->name }}" class="img-circle profile_img">
+                <!-- <img src="{{ Gravatar::src(Auth::user()->email) }}" alt="Avatar of {{ Auth::user()->name }}" class="img-circle profile_img"> -->
+                <img src="{{ (Auth::user()->profile_pic) }}" alt="Avatar" class="img-circle profile_img">
             </div>
 
             <div class="profile_info">
@@ -29,6 +30,11 @@
             <h3>General</h3>
             <ul class="nav side-menu">
               <li><a href="{{ route('dashboard') }}"><i class="fa fa-home"></i> Home </a></li>
+
+               @if(Auth::user()->admin == 1)
+              <li><a href="{{ route('index.register') }}"><i class="fa fa-users"></i>Manage Admin</a>
+              </li>
+              @endif
 
             <li><a href="{{ route('social.wall') }}"><i class="fa fa-comments-o"></i>Announcements </a>
             </li>
@@ -48,10 +54,7 @@
                 </ul>
               </li>
             </li>
-            @if(Auth::user()->admin == 1)
-            <li><a href="{{ route('index.register') }}"><i class="fa fa-users"></i>Manage Admin</a>
-            </li>
-            @endif
+  
             <li><a href="{{ route('index.mail') }}"><i class="fa fa-envelope-o"></i>Mail</a>
             </li>
             <li><a href="{{ route('index.calendar') }}"><i class="fa fa-calendar"></i>Calendar</a>

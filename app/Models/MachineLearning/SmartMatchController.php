@@ -14,6 +14,7 @@ class SmartMatchController extends Controller
         $this->svc = $mlService;
         $this->middleware('auth');
     }
+
     public function index()
     {
         return view('layouts.index_smart_match');
@@ -42,6 +43,26 @@ class SmartMatchController extends Controller
             $keywords = array_merge(explode(',', $candidate->summary_keywords), $keywords);
         }
         $results = $this->svc->matchPersonWithJobs($keywords);
-        return view('layouts.results_smart_match', compact('results'));
+        // return view('layouts.results_smart_match', compact('results'));
+        return view('layouts.smart_match_ajax', compact('results'));
+    }
+
+    public function matchCandidatesWithJobsToJson()
+    {
+        $candidate = Candidate::find(request()->input('candidate_id'));
+        $file = $candidate->files->first();
+        $keywords = $this->svc->readEmployeeResume($file->hashed_name, 2);
+
+        if (!empty($candidate->summary_keywords)) {
+            $keywords = array_merge(explode(',', $candidate->summary_keywords), $keywords);
+        }
+
+        $results = $this->svc->matchPersonWithJobs($keywords);
+        return json_encode($results);
+    }
+
+    public function resultsSmartMatch(Candidate $candidate)
+    {
+        return view('layouts.smart_match_ajax', compact('candidate'));
     }
 }

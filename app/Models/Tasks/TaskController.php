@@ -9,6 +9,7 @@ use App\Models\Tasks\TaskService;
 use App\Models\Users\User;
 use Auth;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -24,7 +25,7 @@ class TaskController extends Controller
         $companies = Company::all();
         $task = Task::all();
         //return $task;
-        return view('layouts.index_task', compact('users', 'companies','task'));
+        return view('layouts.index_task', compact('users', 'companies', 'task'));
     }
 
     public function createTask(Request $request)
@@ -33,15 +34,24 @@ class TaskController extends Controller
         $companies = Company::all();
         $task = $this->svc->storeTask($request);
         if ($task == null) {
-            $message = "Failed to add event";
+            $message = "Failed to add task";
             $status = 0;
         }
         return view('layouts.index_task', compact('status', 'message', 'users', 'companies'));
     }
 
-    public function display(){
+    public function display()
+    {
         $task = Task::all();
-        return $task;
+        $client = new Client();
+
+        // $request = $client->get('http://localhost:8000/tasks', [
+        //     GuzzleHttp\RequestOptions::JSON => ['foo' => 'bar'],
+        // ]);
+
+        $res = $client->request('GET', 'http://localhost:3000/mailData');
+        error_log(print_r($res->getBody()->getContents(), true));
+        //return $task;
     }
 
     public function createReminder(Request $request)
@@ -74,7 +84,6 @@ class TaskController extends Controller
         //return $creator;
 
         //return('to view',compact('task','assigned'))
-
     }
 
     public function showTaskList($company_id)
@@ -111,7 +120,7 @@ class TaskController extends Controller
                 $closedCreatedTask = Task::whereUserId($user_id)->whereStatus(2)->where('date_reminder', '<', $monthly)->orderBy('date_reminder', 'asc')->get();
                 $closedAssignedTask = Task::whereAssignedId($user_id)->whereStatus(2)->where('date_reminder', '<', $monthly)->orderBy('date_reminder', 'asc')->get();
                 //return view('ur view',compact('createdTask','onGoingTask','closedCreatedTask','closedAssignedTask','expiredCreatedTask','expiredAssignedTask'));
-            } else if ($condition == 'yearly') {
+            } elseif ($condition == 'yearly') {
                 $yearly = Date((Carbon::now()->format('Y-m-d 00:00:00')), strtotime("+1 year"));
                 $createdTask = Task::whereUserId($user_id)->whereType(true)->whereStatus(1)->where('date_reminder', '<', $yearly)->orderBy('date_reminder', 'asc')->get();
                 $onGoingTask = Task::whereAssignedId($user_id)->whereType(true)->whereStatus(1)->where('date_reminder', '<', $yearly)->orderBy('date_reminder', 'asc')->get();
@@ -126,7 +135,6 @@ class TaskController extends Controller
                 $closedAssignedTask = Task::whereAssignedId($user_id)->whereStatus(2)->where('date_reminder', '<', $default)->orderBy('date_reminder', 'asc')->get();
                 //return view('ur view',compact('createdTask','onGoingTask','closedCreatedTask','closedAssignedTask','expiredCreatedTask','expiredAssignedTask'));
             }
-
         }
 
 
@@ -138,9 +146,9 @@ class TaskController extends Controller
         // return $task;
     }
 
-    public function breakdownReport(){
+    public function breakdownReport()
+    {
         $now = Carbon::now();
-
     }
 
     public function closeTask($id)
@@ -162,5 +170,4 @@ class TaskController extends Controller
     {
         return $this->svc->destroyTask($id);
     }
-
 }

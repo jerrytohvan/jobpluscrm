@@ -28,9 +28,6 @@
    <!-- icheck -->
    <link href="{{ asset('css/green.css') }}" rel="stylesheet">
 
-   <!-- bootstrap progress bar -->
-   <link href="{{ asset('css/bootstrap-progressbar-3.3.4.min.css') }}" rel="stylesheet">
-
    <!--  Boostrap Datepick -->
     <link href="{{ asset('css/daterangepicker.css') }}" rel="stylesheet">
     <!-- jQuery -->
@@ -124,7 +121,7 @@
         <script src="{{ asset('js/smartresize.js') }}"></script>
 
         <!-- Custom Theme Scripts -->
-        <script src="{{ asset('js/gentelella.min.js') }}"></script>
+        <script src="{{ asset('js/gentelella.js') }}"></script>
 
         @stack('scripts')
 
@@ -141,8 +138,6 @@
     <!-- gauge.js -->
     <script src="{{ asset('js/gauge.min.js') }}"></script>
 
-    <!-- Bootstrap Progressbar -->
-    <script src="{{ asset('js/bootstrap-progressbar.min.js') }}"></script>
 
 
     <!-- Skycons -->

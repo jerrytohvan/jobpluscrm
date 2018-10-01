@@ -16,6 +16,9 @@ use App\Models\Users\UserService;
 use App\Models\ActivityLog\ActivityLogService;
 use App\Models\Clients\CandidateService;
 use App\Models\Jobs\Job;
+use App\Models\Comments\Comment;
+use App\Models\Posts\Post;
+use App\Models\Tasks\Task;
 
 class ClientController extends Controller
 {
@@ -34,6 +37,7 @@ class ClientController extends Controller
         $candidates = $this->canSvc->getAllCandidates();
         return view('layouts.candidates_fulllist', compact('message', 'status', 'candidates'));
     }
+
     public function index_candidates_new()
     {
         $companies = $this->svc->getAllCompany();
@@ -52,15 +56,18 @@ class ClientController extends Controller
     public function index_companies_clients()
     {
         $array = $this->svc->getAllClients();
-        return view('layouts.companies_clients', compact('array'));
+        $score = $this->svc->getUrgencyScore($array);
+
+        return view('layouts.companies_clients', compact('array', 'status', 'companies', 'score'));
     }
 
     public function index_companies_leads()
     {
+        $message = "";
+        $status = "";
         $array = $this->svc->getAllLeads();
-        return view('layouts.companies_leads', compact('array'));
+        return view('layouts.companies_leads', compact('array', 'status', 'message'));
     }
-
 
     public function index_companies_new()
     {
@@ -178,12 +185,56 @@ class ClientController extends Controller
         $accounts = $company->employees;
         $companyFiles = $company->files;
         $activities =   $this->actSvc->getActivitiesByCompany($company);
+        // dd($activities);
         $collaborators = $company->collaborators;
         $collaboratorsId = $collaborators->pluck('id')->toArray();
         $users = User::all();
         $notes = $company->posts;
-        $jobs = Job::whereCompanyId($company->id)->get();
-        return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes', 'jobs'));
+        $jobs = Job::whereCompanyId($company->id)->take(20)->get();
+
+
+        $tasks = Task::orderBy('order')->whereCompanyId($company->id)->get();
+
+        $tasksOpen = $tasks->map(function ($value, $key) {
+            $value['company'] = Company::find($value['company_id'])->name;
+            $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name : "";
+            $dateNow =  date_create(date("Y-m-d H:i:s"));
+            $dateAfter =  date_create(date($value['date_reminder']));
+            $dateDiff = date_diff($dateNow, $dateAfter);
+            $dateString = Self::constructStringFromDateTime($dateDiff);
+            $value['date_string'] = $dateString;
+            return $value;
+        })->filter(function ($task, $key) {
+            return $task->status == 0;
+        })->values();
+
+        $tasksOnGoing = $tasks->map(function ($value, $key) {
+            $value['company'] = Company::find($value['company_id'])->name;
+            $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name  : "";
+            $dateNow =  date_create(date("Y-m-d H:i:s"));
+            $dateAfter =  date_create(date($value['date_reminder']));
+            $dateDiff = date_diff($dateNow, $dateAfter);
+            $dateString = Self::constructStringFromDateTime($dateDiff);
+            $value['date_string'] = $dateString;
+            return $value;
+        })->filter(function ($task, $key) {
+            return $task->status == 1;
+        })->values();
+
+        $tasksClosed = $tasks->map(function ($value, $key) {
+            $value['company'] = Company::find($value['company_id'])->name;
+            $value['assignee'] =!empty($value['assigned_id']) ? User::find($value['assigned_id'])->name  : "";
+            $dateNow =  date_create(date("Y-m-d H:i:s"));
+            $dateAfter =  date_create(date($value['date_reminder']));
+            $dateDiff = date_diff($dateNow, $dateAfter);
+            $dateString = Self::constructStringFromDateTime($dateDiff);
+            $value['date_string'] = $dateString;
+            return $value;
+        })->filter(function ($task, $key) {
+            return $task->status == 2;
+        })->values();
+
+        return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes', 'jobs', 'tasksOpen', 'tasksOnGoing', 'tasksClosed'));
     }
     public function showCompanyPost(Company $company, $message=null, $status=null)
     {
@@ -217,13 +268,12 @@ class ClientController extends Controller
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
-
     public function convertToClient(Company $company)
     {
-        $message = "Failed to add updated!";
+        $message =  "Failed to update " . $company->name ." as client!";
         $status = 0;
         if ($this->svc->leadToClient($company)) {
-            $message = "Company successfully converted as a client!";
+            $message = $company->name . " company is successfully moved to client!";
             $status = 1;
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
@@ -275,7 +325,7 @@ class ClientController extends Controller
         if ($status) {
             $message = "File successfully removed!";
         } else {
-            $message = "Opps! File can't be removed!";
+            $message = "Oops! File can't be removed!";
         }
         //try using ajax and auto refresh page
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
@@ -285,13 +335,14 @@ class ClientController extends Controller
     {
         $company = Company::where('id', $company_id)->first();
         $employee = Employee::where('company_id', $company_id);
-        // $employee ->delete();
-        // $company->delete();
-        $message = "Opps! Company can't be deleted!";
-        $status = 0;
-        if ($employee->delete() && $company->delete()) {
+        try {
+            $employee ->delete();
+            $company->delete();
             $message = "Company's profile successfully removed!";
             $status = 1;
+        } catch (Exception $e) {
+            $message = "Oops! Company can't be deleted!";
+            $status = 0;
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
@@ -311,12 +362,105 @@ class ClientController extends Controller
 
     public function detachFromCompany(Company $company, User $user)
     {
-        $message = "Opps! User can't be removed. ";
+        $message = "Opps! User can't be removed";
         $status = 0;
         if ($this->userSvc->detachUserFromCompany($user, $company) ==1) {
-            $message = "User successfully removed.";
+            $message = "User successfully removed";
             $status = 1;
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
+
+    public function removeNote(Post $post)
+    {
+        $message = "Opps! Note can't be deleted. ";
+        $status = 0;
+        if (Auth::user() != $post->user) {
+            $message = "You are not authorised for this";
+            $status = 0;
+            return redirect()->back()->with(['message' => $message, 'status' => $status]);
+        }
+        $comment = $post->comment()->delete();
+        $post->delete();
+        $message = "Note successfully deleted";
+        $status = 1;
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
+
+    public function editNote(Request $request)
+    {
+        $this->validate($request, [
+          'content' => 'required'
+      ]);
+        $post = Post::find($request->id);
+        if (Auth::user() != $post->user) {
+            return redirect()->back();
+        }
+        $post->content = $request['content'];
+        $post->update();
+        return response()->json(['updated_content' => $post->content], 200);
+    }
+
+    public function constructStringFromDateTime($date)
+    {
+        if ($date->invert) {
+            return "Pass due date";
+        }
+        $string = "Due in ";
+        if ($date->y != "0") {
+            $string .= $date->y;
+            if ($date->y == '1') {
+                $string .= " year";
+            } else {
+                $string .= " years";
+            }
+        } elseif ($date->m != '0') {
+            $string .= $date->m;
+            if ($date->m == '1') {
+                $string .= " month";
+            } else {
+                $string .= " months";
+            }
+        } elseif ($date->d != '0') {
+            $string .= $date->d;
+            if ($date->d == '1') {
+                $string .= " day";
+            } else {
+                $string .= " days";
+            }
+        } elseif ($date->h != '0') {
+            $string .= $date->h;
+            if ($date->h == '1') {
+                $string .= " day";
+            } else {
+                $string .= " days";
+            }
+        } elseif ($date->i != '0') {
+            $string .= $date->i;
+            if ($date->i == '1') {
+                $string .= " minute";
+            } else {
+                $string .= " minutes";
+            }
+        } elseif ($date->s != '0') {
+            $string .= $date->s;
+            if ($date->s == '1') {
+                $string .= " second";
+            } else {
+                $string .= " seconds";
+            }
+        }
+        return $string;
+    }
+    public function filterByIndustry(Request $request)
+    {
+        $industry = $request->input('industry');
+        if ($industry == "All") {
+            $array = Company::whereClient(1)->orderBy('name', 'asc')->get();
+        } else {
+            $array = Company::where('industry', $industry)->get();
+        }
+        $score = $this->svc->getUrgencyScore($array);
+        return view('layouts.companies_clients', compact('array', 'score'));
     }
 }

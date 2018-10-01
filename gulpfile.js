@@ -89,9 +89,7 @@ elixir(function(mix) {
     mix.copy('vendor/bower_components/gentelella/vendors/pnotify/dist/pnotify.buttons.css', 'public/css/pnotify.buttons.css');
     mix.copy('vendor/bower_components/gentelella/vendors/pnotify/dist/pnotify.nonblock.css', 'public/css/pnotify.nonblock.css');
 
-    // mix.sass('../../../bower_components/gentelella/src/scss/custom.scss','public/css/custom.css');
-
-    // mix.minify('public/css/custom.css');
+    mix.copy('vendor/bower_components/fakeLoader/fakeLoader.css', 'public/css/fakeLoader.css');
 
     /****************/
     /* Copy Scripts */
@@ -213,6 +211,12 @@ elixir(function(mix) {
         mix.copy('vendor/bower_components/gentelella/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js', 'public/js/jquery.inputmask.bundle.min.js');
 
         // jQuery Knob
+        // mix.copy('vendor/bower_components/gentelella/vendors/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js', 'public/js/jquery.easypiechart.min.js');
+
+        mix.copy('vendor/bower_components/gentelella/vendors/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js', 'public/js/jquery.easypiechart.min.js');
+
+
+        // jQuery easy charts
         mix.copy('vendor/bower_components/gentelella/vendors/jquery-knob/dist/jquery.knob.min.js', 'public/js/jquery.knob.min.js');
 
         // Cropper
@@ -243,6 +247,7 @@ elixir(function(mix) {
         mix.copy('vendor/bower_components/gentelella/vendors/datatables.net-scroller/js/dataTables.scroller.min.js', 'public/js/dataTables.scroller.min.js');
 
 
+
         // jszip
         mix.copy('vendor/bower_components/gentelella/vendors/jszip/dist/jszip.min.js', 'public/js/jszip.min.js');
         // pdfmake
@@ -263,8 +268,8 @@ elixir(function(mix) {
 
         // Gentelella
         mix.copy('vendor/bower_components/gentelella/src/js/helpers/smartresize.js', 'public/js/smartresize.js');
-        // Gentelella
-        // mix.copy('/vendor/bower_components/gentelella/src/js/custom.js', 'public/js/gentelella.js');
+
+        mix.copy('vendor/bower_components/fakeLoader/fakeLoader.min.js', 'public/js/fakeLoader.min.js');
 
       // Gentelella
         mix.copy('vendor/bower_components/gentelella/build/js/custom.min.js', 'public/js/gentelella.min.js');
