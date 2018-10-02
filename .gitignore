@@ -1,0 +1,41 @@
+# ----------------------------
+# Generated Files & Folders
+# ----------------------------
+
+# [1] : Windows thumbnail cache files.
+# [2] : Folder config file.
+# [3] : Recycle Bin used on file shares.
+
+.idea
+.DS_Store
+.sass-cache
+*.csv
+node_modules/
+
+
+Thumbs.db     # [1]
+ehthumbs.db   # [1]
+Desktop.ini   # [2]
+$RECYCLE.BIN  # [3]
+
+# ----------------------------
+# Packaging
+# ----------------------------
+
+logs
+*.log
+npm-debug.log
+
+# ----------------------------
+# Project Folders
+# ----------------------------
+
+#build/
+vendor/
+public/storage
+public/hot
+storage/*.key
+.env
+#Homestead.yaml
+#Homestead.json
+/.vagrant
