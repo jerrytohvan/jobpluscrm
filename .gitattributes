@@ -46,7 +46,6 @@ LICENSE      text
 .yarnclean     text
 *.yml          text
 browserlist    text
-yarn.lock      text
 
 
 

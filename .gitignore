@@ -35,3 +35,10 @@ npm-debug.log*
 
 build/
 vendor/
+public/storage
+public/hot
+storage/*.key
+.env
+Homestead.yaml
+Homestead.json
+/.vagrant
