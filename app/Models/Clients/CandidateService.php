@@ -49,7 +49,8 @@ class CandidateService
                   'gender' => $array['gender'],
                   'handphone' => $array['handphone'],
                   'telephone' => $array['telephone'],
-                  'summary_keywords' => empty($array['summary_keywords']) ? "" : $array['summary_keywords'],
+                  'industry' => $array['industry'],
+                  'summary_keywords' => empty($array['keywords']) ? "" : $array['keywords'],
                   'birthdate' => $array['birthdate']
               ]);
                 $file = new Attachment([

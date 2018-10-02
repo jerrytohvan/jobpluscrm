@@ -60,8 +60,6 @@ class MLService
             fclose($handle);
         }
         echo 'Total memory usage : '. (memory_get_usage() - $begin);
-
-        // return Job::all();
     }
 
     public function array_flatten($array)
@@ -121,7 +119,6 @@ class MLService
                 $parser = new Parser();
                 $pdf = $parser->parseFile($fileDir);
                 $text = $pdf->getText();
-                // dd($text);
                 return $text;
             }
             return $docText;
@@ -170,11 +167,9 @@ class MLService
 
     public function matchPersonWithJobs($keywords)
     {
-        // progress bar session implementation
-        $total = 1000;
-
         //ADD ON FILTER BY JOB INDUSTRY
-        $chunks = Job::inRandomOrder()->paginate($total)->chunk(100);
+        // $chunks = Job::inRandomOrder()->paginate($total)->chunk(100);
+        $chunks = Job::all()->chunk(100);
         $index = 0;
         //collect top 10 job points
         $points = [];

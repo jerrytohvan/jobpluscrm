@@ -33,7 +33,8 @@ class ClientService
       'no_employees' => $array->no_employees == "" ? null :$array->no_employees ,
       'industry' => $array->industry,
       'lead_source' => $array->lead_source,
-      'description' => $array->description
+      'description' => $array->description,
+      'summary_keywords' => $array->keywords
       ]);
     }
     public function getAllCompany()

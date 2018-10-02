@@ -54,13 +54,6 @@
                 </ul>
               </li>
             </li>
-  
-            <li><a href="{{ route('index.mail') }}"><i class="fa fa-envelope-o"></i>Mail</a>
-            </li>
-            <li><a href="{{ route('index.calendar') }}"><i class="fa fa-calendar"></i>Calendar</a>
-            </li>
-            <li><a href="{{ route('index.tasks') }}"><i class="fa fa-clock-o"></i>Tasks</a>
-            </li>
             <li>
               <a><i class="fa fa-binoculars"></i>Jobs<span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
@@ -68,6 +61,14 @@
                 <li><a href="{{ route('jobs.new') }}">New</a></li>
                   </ul>
             </li>
+            <li><a href="{{ route('index.tasks') }}"><i class="fa fa-clock-o"></i>Tasks</a>
+            </li>
+            <li><a href="{{ route('index.mail') }}"><i class="fa fa-envelope-o"></i>Mail</a>
+            </li>
+            <li><a href="{{ route('index.calendar') }}"><i class="fa fa-calendar"></i>Calendar</a>
+            </li>
+
+
           </ul>
           </div>
 

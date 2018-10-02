@@ -129,16 +129,11 @@
   <!-- ELSE YIELD LOGIN-->
   @else
     @yield('content')
-
-
     <!-- Bootstrap -->
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
-
     <!-- gauge.js -->
     <script src="{{ asset('js/gauge.min.js') }}"></script>
-
-
 
     <!-- Skycons -->
     <script src="{{ asset('js/skycons.js') }}"></script>
@@ -149,8 +144,6 @@
     <script src="{{ asset('js/jquery.flot.time.js') }}"></script>
     <script src="{{ asset('js/jquery.flot.stack.js') }}"></script>
     <script src="{{ asset('js/jquery.flot.resize.js') }}"></script>
-
-
 
     <script src="{{ asset('js/date.js') }}"></script>
 
