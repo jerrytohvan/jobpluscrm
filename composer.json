@@ -40,13 +40,14 @@
         "fideloper/proxy": "^4.0",
         "laravel/tinker": "^1.0",
         "nunomaduro/collision": "^2.0",
-        "spatie/laravel-activitylog": "^2.8"
+        "spatie/laravel-activitylog": "^2.8",
+        "barryvdh/laravel-debugbar": "^3.1"
+
           },
     "require-dev": {
         "mockery/mockery": "0.9.*",
         "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*",
-        "barryvdh/laravel-debugbar": "^3.1"
+        "symfony/dom-crawler": "3.1.*"
     },
     "autoload": {
         "classmap": [
