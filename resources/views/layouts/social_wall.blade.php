@@ -1,7 +1,23 @@
 @extends('layouts.master')
 
 @section('content')
-@include('includes.message-block')
+
+@push('stylesheets')
+<!-- bwysiwyg -->
+<link href="{{ asset('css/prettify.min.css') }}" rel="stylesheet">
+<!-- Select2 -->
+<link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+<!-- Switchery -->
+<link href="{{ asset('css/switchery.min.css') }}" rel="stylesheet">
+<!-- starrr -->
+<link href="{{ asset('css/starrr.css') }}" rel="stylesheet">
+
+<!-- pnotify -->
+<link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
+@endpush
+
 <!-- SOCIAL WALL -->
 <div class="right_col" role="main">
   <div class="row tile_count">
@@ -47,13 +63,30 @@
                   <div class="interaction">
 
                     <!-- Should use icon when liked, light up icon and grey icon -->
-                      <button type="button" class="btn btn-default btn-xs fa fa-heart-o"><a href="#" class="like">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like'  }}</a></button>
-                      @if(Auth::user() == $post->user)
 
+                        <!-- number of likes -->
+                        @php
+                            $like_count = DB::table('likes')->where('post_id', $post->id)->count();
+                        @endphp
+
+                        @if ($like_count > 1)
+                            {{$like_count}} Likes
+                        @elseif ($like_count > 0)
+                            {{$like_count}} Like
+                        @endif
+
+                      <!-- {{DB::table('likes')->where('post_id', $post->id)->count() }} Likes -->
+
+                      <button type="button" class="btn btn-default btn-xs fa fa-heart-o like"><a href="{{ route('like.post', ['post_id' => $post->id, 'isLike' => 'true']) }}">
+                        {{  Auth::user()->likes()->where('post_id', $post->id)->first() ?
+                            Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ?
+                            'You like this post' : 'Like' : 'Like'  }}</a></button>
+
+                      @if(Auth::user() == $post->user)
                       <button type="button" class="btn btn-default btn-xs fa fa-edit"><a data-id="{{ $post->id }}" data-content="{{ $post->content }}" class="edit" id="Edit-modal"
                                  href="#edit-modal">Edit</a></button>
 
-                      <button type="button" class="btn btn-default btn-xs fa fa-trash"><a href="{{ route('delete.post', ['post_id' => $post->id]) }}">Delete</a></button>
+                      <button type="button" class="btn btn-default btn-xs fa fa-trash"><a href="{{ route('delete.post', ['post_id' => $post->id]) }}" class="confirmation">Delete</a></button>
 
                       @endif
                   </div>
@@ -90,31 +123,91 @@
 </div>
 
 <script>
-  //for modal
+    //for modal
     var token = '{{ Session::token() }}';
     var urlEdit = '{{ route('edit.post') }}';
     var urlLike = '{{ route('like.post') }}';
     var postId = 0;
 
     $(document).ready(function () {
-      $(".edit").click(function () {
-          postId = $(this).data('id');
-          $('#post-body').val($(this).data('content'));
-          $('#edit-modal').modal('show');
+        $('.ui-pnotify').remove();
+        loadNotification();
+
+        $(".edit").click(function () {
+            postId = $(this).data('id');
+            $('#post-body').val($(this).data('content'));
+            $('#edit-modal').modal('show');
         });
 
         //Pending for a more modern way to solve this
         $("#modal-save").click(function () {
-          var saveData = $.ajax({
-          type: 'POST',
-          url: urlEdit,
-          data:  {id: postId, content: $('#post-body').val(), _token:token},
-          dataType: "text",
-          success: function(resultData) {
-              window.location.reload();
-               }
+            var saveData = $.ajax({
+                type: 'POST',
+                url: urlEdit,
+                data:  {id: postId, content: $('#post-body').val(), _token:token},
+                dataType: "text",
+                success: function(resultData) {
+                    window.location.reload();
+                }
             });
+        });
+    });
+
+    function loadNotification(){
+        var message = "{{ Session::get('message') }}";
+        var status = "{{ Session::get('status')  }}";
+
+        if(message != "" && status != ""){
+            new PNotify({
+                title: (status == 1 ? "Success!" : "Failed!"),
+                text: message,
+                type: (status == 1 ? "success" : "error"),
+                styling: 'bootstrap3'
+            });
+
           });
       });
+      var elems = document.getElementsByClassName('confirmation');
+      var confirmIt = function (e) {
+          if (!confirm('Are you sure?')) e.preventDefault();
+      };
+      for (var i = 0, l = elems.length; i < l; i++) {
+          elems[i].addEventListener('click', confirmIt, false);
+      }
+
+        }
+    }
 </script>
 @endsection
+
+@section('bottom_content')
+
+@endsection
+
+@push('scripts')
+
+<!-- Switchery -->
+<script src="{{ asset('js/switchery.min.js') }}"></script>
+<!-- Select2 -->
+<script src="{{ asset('js/select2.full.min.js') }}"></script>
+<!-- Parsley -->
+<script src="{{ asset('js/parsley.min.js') }}"></script>
+<!-- Autosize -->
+<script src="{{ asset('js/autosize.min.js') }}"></script>
+<!-- jQuery autocomplete -->
+<script src="{{ asset('js/jquery.autocomplete.min.js') }}"></script>
+<!-- starrr -->
+<script src="{{ asset('js/starrr.js') }}"></script>
+<!-- bootstrap-wysiwyg -->
+<script src="{{ asset('js/jquery.hotkeys.js') }}"></script>
+<script src="{{ asset('js/prettify.js') }}"></script>
+
+<!-- jquery tags input -->
+<script src="{{ asset('js/jquery.tagsinput.js') }}"></script>
+
+<!-- bootstrap-wysiwyg -->
+<script src="{{ asset('js/pnotify.js') }}"></script>
+<script src="{{ asset('js/pnotify.buttons.js') }}"></script>
+<script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
+
+@endpush

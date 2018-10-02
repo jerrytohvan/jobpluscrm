@@ -16,6 +16,8 @@ use App\Models\Users\UserService;
 use App\Models\ActivityLog\ActivityLogService;
 use App\Models\Clients\CandidateService;
 use App\Models\Jobs\Job;
+use App\Models\Comments\Comment;
+use App\Models\Posts\Post;
 use App\Models\Tasks\Task;
 
 class ClientController extends Controller
@@ -35,6 +37,7 @@ class ClientController extends Controller
         $candidates = $this->canSvc->getAllCandidates();
         return view('layouts.candidates_fulllist', compact('message', 'status', 'candidates'));
     }
+
     public function index_candidates_new()
     {
         $companies = $this->svc->getAllCompany();
@@ -53,7 +56,9 @@ class ClientController extends Controller
     public function index_companies_clients()
     {
         $array = $this->svc->getAllClients();
-        return view('layouts.companies_clients', compact('array', 'status', 'companies'));
+        $score = $this->svc->getUrgencyScore($array);
+
+        return view('layouts.companies_clients', compact('array', 'status', 'companies', 'score'));
     }
 
     public function index_companies_leads()
@@ -63,7 +68,6 @@ class ClientController extends Controller
         $array = $this->svc->getAllLeads();
         return view('layouts.companies_leads', compact('array', 'status', 'message'));
     }
-
 
     public function index_companies_new()
     {
@@ -186,7 +190,7 @@ class ClientController extends Controller
         $collaboratorsId = $collaborators->pluck('id')->toArray();
         $users = User::all();
         $notes = $company->posts;
-        $jobs = Job::whereCompanyId($company->id)->get();
+        $jobs = Job::whereCompanyId($company->id)->take(20)->get();
 
 
         $tasks = Task::orderBy('order')->whereCompanyId($company->id)->get();
@@ -264,7 +268,6 @@ class ClientController extends Controller
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
-
     public function convertToClient(Company $company)
     {
         $message =  "Failed to update " . $company->name ." as client!";
@@ -322,7 +325,7 @@ class ClientController extends Controller
         if ($status) {
             $message = "File successfully removed!";
         } else {
-            $message = "Opps! File can't be removed!";
+            $message = "Oops! File can't be removed!";
         }
         //try using ajax and auto refresh page
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
@@ -332,13 +335,14 @@ class ClientController extends Controller
     {
         $company = Company::where('id', $company_id)->first();
         $employee = Employee::where('company_id', $company_id);
-        // $employee ->delete();
-        // $company->delete();
-        $message = "Opps! Company can't be deleted!";
-        $status = 0;
-        if ($employee->delete() && $company->delete()) {
+        try {
+            $employee ->delete();
+            $company->delete();
             $message = "Company's profile successfully removed!";
             $status = 1;
+        } catch (Exception $e) {
+            $message = "Oops! Company can't be deleted!";
+            $status = 0;
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
@@ -358,14 +362,45 @@ class ClientController extends Controller
 
     public function detachFromCompany(Company $company, User $user)
     {
-        $message = "Opps! User can't be removed. ";
+        $message = "Opps! User can't be removed";
         $status = 0;
         if ($this->userSvc->detachUserFromCompany($user, $company) ==1) {
-            $message = "User successfully removed.";
+            $message = "User successfully removed";
             $status = 1;
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
+
+    public function removeNote(Post $post)
+    {
+        $message = "Opps! Note can't be deleted. ";
+        $status = 0;
+        if (Auth::user() != $post->user) {
+            $message = "You are not authorised for this";
+            $status = 0;
+            return redirect()->back()->with(['message' => $message, 'status' => $status]);
+        }
+        $comment = $post->comment()->delete();
+        $post->delete();
+        $message = "Note successfully deleted";
+        $status = 1;
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
+
+    public function editNote(Request $request)
+    {
+        $this->validate($request, [
+          'content' => 'required'
+      ]);
+        $post = Post::find($request->id);
+        if (Auth::user() != $post->user) {
+            return redirect()->back();
+        }
+        $post->content = $request['content'];
+        $post->update();
+        return response()->json(['updated_content' => $post->content], 200);
+    }
+
     public function constructStringFromDateTime($date)
     {
         if ($date->invert) {
@@ -416,5 +451,16 @@ class ClientController extends Controller
             }
         }
         return $string;
+    }
+    public function filterByIndustry(Request $request)
+    {
+        $industry = $request->input('industry');
+        if ($industry == "All") {
+            $array = Company::whereClient(1)->orderBy('name', 'asc')->get();
+        } else {
+            $array = Company::where('industry', $industry)->get();
+        }
+        $score = $this->svc->getUrgencyScore($array);
+        return view('layouts.companies_clients', compact('array', 'score'));
     }
 }

@@ -43,7 +43,8 @@ class SmartMatchController extends Controller
             $keywords = array_merge(explode(',', $candidate->summary_keywords), $keywords);
         }
         $results = $this->svc->matchPersonWithJobs($keywords);
-        return view('layouts.results_smart_match', compact('results'));
+        // return view('layouts.results_smart_match', compact('results'));
+        return view('layouts.smart_match_ajax', compact('results'));
     }
 
     public function matchCandidatesWithJobsToJson()
@@ -56,7 +57,6 @@ class SmartMatchController extends Controller
             $keywords = array_merge(explode(',', $candidate->summary_keywords), $keywords);
         }
 
-        //return to json
         $results = $this->svc->matchPersonWithJobs($keywords);
         return json_encode($results);
     }

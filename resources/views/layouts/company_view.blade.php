@@ -388,14 +388,17 @@ html {
 
                                 @foreach($notes as $note)
                                 <li>
+
                                   <div class="message_date">
-                                    <h3 class="date text-info">{{ date("d", strtotime($note->created_at)) }}</h3>
-                                    <p class="month">{{ date("M", strtotime($note->created_at)) }}</p>
-                                    <p class="month">{{ date("Y", strtotime($note->created_at)) }}</p>
+                                      <p class="date text-info">{{ date("d M Y", strtotime($note->created_at))}}</p>
                                   </div>
                                   <div class="message_wrapper">
                                     <h4 class="heading">{{ $note->user->name }}</h4>
-                                      <blockquote class="message">{{ $note->content }}</blockquote>
+                                      <blockquote id="content-{{ $note->id }}" class="message">{{ $note->content }}</blockquote>
+                                    @if(Auth::user()->id == $note->user->id)
+                                      <a data-id="{{ $note->id }}" data-content="{{ $note->content }}" class="edit-note" id="Edit-modal" href="#edit-note">Edit</a>
+                                      <a href="{{ route('delete.note', ['post' => $note->id]) }}" class="confirmation">Delete</a>
+                                    @endif
                                     <br>
                                     <p class="url">
                                       <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
@@ -523,6 +526,30 @@ html {
                   </div>
 
    </div>
+
+   <div class="modal fade" tabindex="-1" role="dialog" id="edit-note">
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                   <h4 class="modal-title">Edit Note</h4>
+               </div>
+               <div class="modal-body">
+                   <form>
+                       <div class="form-group">
+                           <label for="post-body">Edit Note</label>
+                           <textarea class="form-control" name="post-body" id="post-body" rows="5"></textarea>
+                       </div>
+                   </form>
+               </div>
+               <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                   <button type="button" class="btn btn-primary" id="modal-note-save">Save changes</button>
+               </div>
+           </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+   </div><!-- /.modal -->
+
    <div class="modal fade" tabindex="-1" role="dialog" id="edit-modal"> -->
       <div class="modal-dialog">
          <div class="modal-content">
@@ -735,8 +762,6 @@ html {
       </div>
       <!-- /.modal-dialog -->
    </div>
-
-
    <div class="modal fade" tabindex="-1" role="dialog" id="edit-collaborators">
       <div class="modal-dialog">
          <div class="modal-content">
@@ -1003,6 +1028,57 @@ $(document).ready(function () {
 
 
   }
+
+  var urlEdit = `{{ route('edit.note') }}`;
+  var postId = 0;
+
+  $(document).ready(function () {
+    $(".edit-note").click(function () {
+        postId = $(this).data('id');
+        $('#post-body').val($(this).data('content'));
+        $('#edit-note').modal('show');
+      });
+
+      //Pending for a more modern way to solve this
+      $("#modal-note-save").click(function () {
+        var saveData = $.ajax({
+        type: 'POST',
+        url: urlEdit,
+        data:  {id: postId, content: $('#post-body').val(), _token:token},
+        dataType: "text",
+        success: function(resultData) {
+            var message = JSON.parse(resultData);
+            console.log(message.updated_content);
+            $('#content-' + postId).text(message.updated_content);
+            new PNotify({
+                title: "Success!",
+                text: "Company note is succesfully updated!",
+                type: "success",
+                styling: 'bootstrap3'
+            });
+            $('#edit-note').modal('hide');
+          },
+          fail: function(xhr, textStatus, errorThrown){
+            new PNotify({
+                title: "Something happened!",
+                text: "Company note cant be updated",
+                type: "error",
+                styling: 'bootstrap3'
+            });
+            $('#edit-note').modal('hide');
+          }
+        });
+      });
+    });
+
+
+    var elems = document.getElementsByClassName('confirmation');
+    var confirmIt = function (e) {
+        if (!confirm('Are you sure?')) e.preventDefault();
+    };
+    for (var i = 0, l = elems.length; i < l; i++) {
+        elems[i].addEventListener('click', confirmIt, false);
+    }
 </script>
 
 <script>
@@ -1016,9 +1092,7 @@ $(document).ready(function() {
 <script src="{{ asset('js/pnotify.js') }}"></script>
 <script src="{{ asset('js/pnotify.buttons.js') }}"></script>
 <script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
-
 <script src="{{ asset('js/echarts.min.js') }}"></script>
-
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/dataTables.buttons.min.js') }}"></script>

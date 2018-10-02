@@ -6,6 +6,7 @@ container = []
 
 
 #Sample Data similar-skills-28935-unique-skills-QueryResult
+stop_words  = open('./Data/stop_words.txt', 'r').read().split('\n')
 with open('./Data/similar-skills-28935-unique-skills-QueryResult.csv', 'rt') as f:
     next(f)
     reader = csv.reader(f, delimiter=',')
@@ -13,7 +14,7 @@ with open('./Data/similar-skills-28935-unique-skills-QueryResult.csv', 'rt') as 
         for word in row:
             words = word.split(' ')
             for object in words:
-                if object not in container:
+                if (object not in container) and (object not in stop_words):
                     container.append(object)
 
 with open('../../../public/skill_words.txt', 'w') as f:

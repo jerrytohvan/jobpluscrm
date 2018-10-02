@@ -30,14 +30,11 @@ class MLService
         #standford
         $this->stanfordStopwords =  file(public_path('/stanford_nl_stopwords.txt'));
 
-        #stop_words
-        $this->stopwords =  file(public_path('/stop_words.txt'));
-
         $this->skillwords =  array_chunk(file(public_path('/skill_words.txt'), FILE_IGNORE_NEW_LINES), 100, true);
         // Remove line breaks and spaces from stopwords
-        $this->stopwords = array_map(function ($x) {
+        $this->stanfordStopwords = array_map(function ($x) {
             return trim(strtolower($x));
-        }, $this->stopwords);
+        }, $this->stanfordStopwords);
     }
 
     public function setDataIntoDB($fileDir)
@@ -67,22 +64,6 @@ class MLService
         // return Job::all();
     }
 
-    #stop words
-    // public function extract_keywords($text)
-    // {
-    //     // Replace all non-word chars with comma
-    //     $pattern = '/[0-9\W]/';
-    //     $text = preg_replace($pattern, ',', $text);
-    //     // Create an array from $text
-    //     $text_array = explode(",", $text);
-    //     // remove whitespace and lowercase words in $text
-    //     $text_array = array_map('trim', $text_array);
-    //     $text_array =  array_map('strtolower', $text_array);
-    //
-    //     $data = array_diff($text_array, $this->stopwords);
-    //     unset($text_array);
-    //     return array_values(array_filter($data));
-    // }
     public function array_flatten($array)
     {
         if (!is_array($array)) {
@@ -157,16 +138,6 @@ class MLService
         return $output;
     }
 
-    //stopwords
-    // public function readEmployeeResume($fileName, $type = 0)
-    // {
-    //     $content = Self::convertFileIntoText($fileName, $type);
-    //     $keywords = Self::extract_keywords($content);
-    //     $minYearsExperience = trim(Self::retrieveYearsOfExperience($content));
-    //     $keywords = array_merge($keywords, [$minYearsExperience]);
-    //     return $keywords;
-    // }
-
     //skill words
     public function readEmployeeResume($fileName, $type = 0)
     {
@@ -192,41 +163,64 @@ class MLService
         return (array_sum($a[1]) > array_sum($b[1])) ? -1 : 1;
     }
 
+    public function potentialMaxPoints()
+    {
+    }
+
 
     public function matchPersonWithJobs($keywords)
     {
         // progress bar session implementation
         $total = 1000;
 
-        $chunks = Job::inRandomOrder()->paginate(1000)->chunk(100);
+        //ADD ON FILTER BY JOB INDUSTRY
+        $chunks = Job::inRandomOrder()->paginate($total)->chunk(100);
         $index = 0;
         //collect top 10 job points
         $points = [];
 
-
         foreach ($chunks as $jobs) {
             foreach ($jobs as $job) {
+                //algorithm
+                //count in stop words too
                 $job_title =  Self::extract_keywords($job->job_title);
                 $job_description = Self::extract_keywords($job->job_description);
                 $skills = Self::extract_keywords(preg_replace('/[0-9\W]/', ',', $job->skills));
                 $years_of_exp = $job->years_experience;
+                //will same words from each factor and keywords be counted twice?
+                //only based on counts (add weighted average? title: 0.2, desc: 0.1, skills: 0.3 , extra related words: 0.4)
                 $titlePoint = count(array_intersect($job_title, $keywords));
                 $descPoint = count(array_intersect($job_description, $keywords));
                 $skillsPoint = count(array_intersect($skills, $keywords));
                 $expPoint = $years_of_exp <=  (int)end($keywords) ? 1 : 0;
                 $points = Self::returnWithMaxPoints($points, array($index,[$titlePoint,$descPoint, $skillsPoint,$expPoint]));
                 $index++;
+                unset($job);
             }
         }
-
-
+        unset($chunks);
         $retrieveIndex = array_map(function ($row) {
             return $row[0];
         }, $points);
+
         $points = array_map(function ($row) {
             return $row[1];
         }, $points);
 
-        return [Job::whereIn('id', $retrieveIndex)->get(),$points];
+        //array of keywords match of the top 10 selection
+        $keywordsMatch = [];
+        $matchingJobs = Job::whereIn('id', $retrieveIndex)->get();
+        foreach ($matchingJobs as $jobs) {
+            $job_title =  Self::extract_keywords($jobs->job_title);
+            $job_description = Self::extract_keywords($jobs->job_description);
+            $skills = Self::extract_keywords(preg_replace('/[0-9\W]/', ',', $jobs->skills));
+
+            $titlesArray = array_intersect($job_title, $keywords);
+            $descArray = array_intersect($job_description, $keywords);
+            $skillsArray = array_intersect($skills, $keywords);
+
+            $keywordsMatch[] = array_merge($titlesArray, $descArray, $skillsArray);
+        }
+        return [$matchingJobs,$points, $keywordsMatch, $keywords];
     }
 }

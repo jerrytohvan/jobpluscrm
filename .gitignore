@@ -6,6 +6,7 @@
 # [2] : Folder config file.
 # [3] : Recycle Bin used on file shares.
 
+.env
 .idea
 .DS_Store
 .sass-cache
@@ -14,7 +15,6 @@ data_job_posts.csv
 job_skills.csv
 naukri_com-job_sample.csv
 reed_uk.csv
-node_modules/
 
 Thumbs.db     # [1]
 ehthumbs.db   # [1]
@@ -35,3 +35,5 @@ npm-debug.log*
 
 build/
 vendor/
+config/
+node_modules/

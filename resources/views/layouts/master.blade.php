@@ -6,7 +6,7 @@
   <!-- Meta, title, CSS, favicons, etc. -->
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
   <meta name="csrfToken" content="{{ csrf_token() }}">
 
 
@@ -121,7 +121,7 @@
         <script src="{{ asset('js/smartresize.js') }}"></script>
 
         <!-- Custom Theme Scripts -->
-        <script src="{{ asset('js/gentelella.min.js') }}"></script>
+        <script src="{{ asset('js/gentelella.js') }}"></script>
 
         @stack('scripts')
 

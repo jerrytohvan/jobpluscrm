@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInita457af9f91b7f598b617ad9056db0871
+class ComposerStaticInite45b4e3feff6a10ec904a49e82e5d1b7
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -542,7 +542,6 @@ class ComposerStaticInita457af9f91b7f598b617ad9056db0871
         'ProjectGroupsTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ProjectGroupsTableSeeder.php',
         'QRcode' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/qrcode.php',
         'ResultsTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ResultsTableSeeder.php',
-        'ResumesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ResumesTableSeeder.php',
         'TCPDF' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf.php',
         'TCPDF2DBarcode' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf_barcodes_2d.php',
         'TCPDFBarcode' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf_barcodes_1d.php',
@@ -554,7 +553,6 @@ class ComposerStaticInita457af9f91b7f598b617ad9056db0871
         'TCPDF_IMPORT' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf_import.php',
         'TCPDF_PARSER' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf_parser.php',
         'TCPDF_STATIC' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_static.php',
-        'TasksTableSeeder' => __DIR__ . '/../..' . '/database/seeds/TasksTableSeeder.php',
         'UpdateTagsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_29_073615_update_tags_table.php',
         'UsersTableSeeder' => __DIR__ . '/../..' . '/database/seeds/UsersTableSeeder.php',
     );
@@ -562,10 +560,10 @@ class ComposerStaticInita457af9f91b7f598b617ad9056db0871
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita457af9f91b7f598b617ad9056db0871::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita457af9f91b7f598b617ad9056db0871::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInita457af9f91b7f598b617ad9056db0871::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInita457af9f91b7f598b617ad9056db0871::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite45b4e3feff6a10ec904a49e82e5d1b7::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite45b4e3feff6a10ec904a49e82e5d1b7::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInite45b4e3feff6a10ec904a49e82e5d1b7::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInite45b4e3feff6a10ec904a49e82e5d1b7::$classMap;
 
         }, null, ClassLoader::class);
     }
