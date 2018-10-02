@@ -6,6 +6,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Models\Users\User;
 use App\Models\Tasks\Task;
+use App\Models\Users\UserCompany;
 use App\Models\Clients\Company;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,8 +20,11 @@ class AccountController extends Controller
     public function index()
     {
         $id = Auth::user()->id;
-        $tasks = Task::orderBy('order')->whereUserId($id)->orWhere('assigned_id', $id)->get();
-        //MAP WITH TASK OWNER, DUE, COMPANY NAME, DATE LEFT
+        $collaboratorsIn = Auth::user()->companies->map(function ($value, $key) {
+            return $value->id;
+        });
+        $tasks = Task::orderBy('order')->whereUserId($id)->orWhere('assigned_id', $id)->orWhereIn('company_id', $collaboratorsIn)->get();
+      
 
         $tasksOpen = $tasks->map(function ($value, $key) {
             $value['company'] = Company::find($value['company_id'])->name;
