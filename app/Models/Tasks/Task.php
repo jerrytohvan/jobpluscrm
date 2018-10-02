@@ -2,6 +2,7 @@
 
 namespace App\Models\Tasks;
 
+
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -10,6 +11,9 @@ class Task extends Model
     use LogsActivity;
 
     protected $guarded = [];
+    protected $casts = [
+        'collaborator' => 'array'
+    ];
     protected static $logAttributes = ["*"];
 
     public function users()

@@ -267,6 +267,7 @@ Route::group(['middleware' => ['web']], function () {
 
 
     Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
+    Route::get('/tasks/show','\App\Models\Tasks\TaskController@showTaskList');
 });
 
 // Route::get('/telegram', [

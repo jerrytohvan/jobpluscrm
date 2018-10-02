@@ -65,12 +65,11 @@ class TaskService
             'date_reminder' => $array['date_reminder'],
             'user_id' => Auth::user()->id,
             'company_id' => $array['company_id'],
-            //'user_id' => Auth::user()->id,
-            //'assigned_to_id' => $array['assigned_to_id'],
-            //'assigned_to_id' => User::where('email',$array['assigned_to_id'])->first() == "" ? null :User::where('email',$array['assigned_to_id'])->first()->id,
             'type' => true,
         ]);
     }
+    
+
 
     /**
      * Update the specified resource in storage.
@@ -126,5 +125,12 @@ class TaskService
             $task->delete();
             return response('Updated Successfully.', 200);
         }
+    }
+
+    public function insertCollab($tasks,$userIds){
+            foreach($tasks as $task){
+                    $task->update(['collaborator' =>$userIds]);
+                    $task->save();
+            }
     }
 }

@@ -86,7 +86,6 @@
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                   <button class="btn btn-primary" type="reset">Reset</button>
                   {{ Form::submit('Submit', ['class'=>'btn btn-success']) }}
-
                 </div>
               </div>
 
