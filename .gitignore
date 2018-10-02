@@ -9,12 +9,9 @@
 .idea
 .DS_Store
 .sass-cache
-data_samples.csv
-data_job_posts.csv
-job_skills.csv
-naukri_com-job_sample.csv
-reed_uk.csv
+*.csv
 node_modules/
+
 
 Thumbs.db     # [1]
 ehthumbs.db   # [1]
@@ -33,12 +30,12 @@ npm-debug.log*
 # Project Folders
 # ----------------------------
 
-build/
+#build/
 vendor/
 public/storage
 public/hot
 storage/*.key
 .env
-Homestead.yaml
-Homestead.json
+#Homestead.yaml
+#Homestead.json
 /.vagrant

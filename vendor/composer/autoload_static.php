@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit82a8f52a4a492e43514394dadc13dd01
+class ComposerStaticInit67515a4f0a8bb1a31c74d636d15bef8e
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -60,12 +60,13 @@ class ComposerStaticInit82a8f52a4a492e43514394dadc13dd01
         '883af48563631547925fa4c3b48ead07' => __DIR__ . '/..' . '/markbaker/complex/classes/src/operations/multiply.php',
         'f190e3308e6ca23234a2875edc985c03' => __DIR__ . '/..' . '/markbaker/complex/classes/src/operations/divideby.php',
         'ac9e33ce6841aa5bf5d16d465a2f03a7' => __DIR__ . '/..' . '/markbaker/complex/classes/src/operations/divideinto.php',
-        'f18cc91337d49233e5754e93f3ed9ec3' => __DIR__ . '/..' . '/laravelcollective/html/src/helpers.php',
-        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         'e91d0dc994644828154ae2387ede1ca8' => __DIR__ . '/..' . '/spatie/string/src/string_functions.php',
+        'f18cc91337d49233e5754e93f3ed9ec3' => __DIR__ . '/..' . '/laravelcollective/html/src/helpers.php',
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '72b1e3f4a2af9b30b3f137b3ec2057fc' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/helpers.php',
+        '4a1f389d6ce373bda9e57857d3b61c84' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/helpers.php',
         '377b22b161c09ed6e5152de788ca020a' => __DIR__ . '/..' . '/spatie/laravel-permission/src/helpers.php',
     );
 
@@ -149,6 +150,10 @@ class ComposerStaticInit82a8f52a4a492e43514394dadc13dd01
             'League\\Flysystem\\' => 17,
             'Laravel\\Tinker\\' => 15,
         ),
+        'J' => 
+        array (
+            'JakubOnderka\\PhpConsoleColor\\' => 29,
+        ),
         'I' => 
         array (
             'Illuminate\\' => 11,
@@ -176,6 +181,7 @@ class ComposerStaticInit82a8f52a4a492e43514394dadc13dd01
             'Doctrine\\Instantiator\\' => 22,
             'Doctrine\\Common\\Inflector\\' => 26,
             'DeepCopy\\' => 9,
+            'DebugBar\\' => 9,
         ),
         'C' => 
         array (
@@ -184,6 +190,10 @@ class ComposerStaticInit82a8f52a4a492e43514394dadc13dd01
             'Complex\\' => 8,
             'Collective\\Html\\' => 16,
             'Carbon\\' => 7,
+        ),
+        'B' => 
+        array (
+            'Barryvdh\\Debugbar\\' => 18,
         ),
         'A' => 
         array (
@@ -199,8 +209,8 @@ class ComposerStaticInit82a8f52a4a492e43514394dadc13dd01
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
         'XdgBaseDir\\' => 
         array (
@@ -380,6 +390,10 @@ class ComposerStaticInit82a8f52a4a492e43514394dadc13dd01
         array (
             0 => __DIR__ . '/..' . '/laravel/tinker/src',
         ),
+        'JakubOnderka\\PhpConsoleColor\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src',
+        ),
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
@@ -432,6 +446,10 @@ class ComposerStaticInit82a8f52a4a492e43514394dadc13dd01
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
         ),
+        'DebugBar\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar',
+        ),
         'Cron\\' => 
         array (
             0 => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron',
@@ -451,6 +469,10 @@ class ComposerStaticInit82a8f52a4a492e43514394dadc13dd01
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
+        'Barryvdh\\Debugbar\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src',
         ),
         'App\\' => 
         array (
@@ -497,10 +519,6 @@ class ComposerStaticInit82a8f52a4a492e43514394dadc13dd01
             array (
                 0 => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src',
             ),
-            'JakubOnderka\\PhpConsoleColor' => 
-            array (
-                0 => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src',
-            ),
         ),
         'G' => 
         array (
@@ -530,7 +548,6 @@ class ComposerStaticInit82a8f52a4a492e43514394dadc13dd01
         'CreateCandidatesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000757_create_candidates_table.php',
         'CreateCommentsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_164127_create_comments_table.php',
         'CreateCompaniesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_29_043417_create_companies_table.php',
-        'CreateDemoTasksTable' => __DIR__ . '/../..' . '/database/migrations/2018_09_16_120601_create_demo_tasks_table.php',
         'CreateEmployeesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000647_create_employees_table.php',
         'CreateFieldsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_14_092824_create_fields_table.php',
         'CreateInterestsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_14_092938_create_interests_table.php',
@@ -1211,10 +1228,10 @@ class ComposerStaticInit82a8f52a4a492e43514394dadc13dd01
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit82a8f52a4a492e43514394dadc13dd01::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit82a8f52a4a492e43514394dadc13dd01::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit82a8f52a4a492e43514394dadc13dd01::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit82a8f52a4a492e43514394dadc13dd01::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit67515a4f0a8bb1a31c74d636d15bef8e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit67515a4f0a8bb1a31c74d636d15bef8e::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit67515a4f0a8bb1a31c74d636d15bef8e::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit67515a4f0a8bb1a31c74d636d15bef8e::$classMap;
 
         }, null, ClassLoader::class);
     }
