@@ -7,8 +7,10 @@ use App\Models\Clients\Company;
 use App\Models\Tasks\Task;
 use App\Models\Tasks\TaskService;
 use App\Models\Users\User;
+use App\Models\Users\UserCompany;
 use Auth;
 use Carbon\Carbon;
+
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
@@ -50,7 +52,10 @@ class TaskController extends Controller
         // ]);
 
         $res = $client->request('GET', 'http://localhost:3000/mailData');
-        error_log(print_r($res->getBody()->getContents(), true));
+        
+            error_log(print_r($res->getBody()->getContents(), true));
+        
+        
         //return $task;
     }
 
@@ -86,12 +91,27 @@ class TaskController extends Controller
         //return('to view',compact('task','assigned'))
     }
 
-    public function showTaskList($company_id)
+    public function showTaskList($companyId)
     {
-        $taskList = Task::whereUserId(Auth::user()->id)->whereCompanyId($company_id)->orderBy('date_reminder', 'asc')->get();
-        if (sizeof($taskList) > 0) {
-            return $taskList;
+        $userIds = array();
+        $userCompany = UserCompany::whereCompanyId('1')->get();
+        foreach($userCompany as $user){
+            $userIds[] = $user->user_id;
         }
+        $tasks = Task::whereCompanyId($companyId)->get();
+        $this->svc->insertCollab($tasks,$userIds);
+        $crTasks = Task::whereCompanyId($companyId)->whereUserId('Auth::user()->id')->get();
+        $aTasks = Task::whereCompanyId($companyId)->whereAssignedId('Auth::user()->id')->get();
+        $coTasks = Task::whereCompanyId($companyId)->where('collaborator->Auth::user()->id')->get();
+        if(sizeof($crTasks) > 0){
+            return $crTasks;
+         } else if (sizeof($aTasks) > 0){
+            return $aTasks;
+        }
+         else if( sizeof($coTasks) > 0){
+            return $coTasks;
+        }
+        
     }
 
     public function showEvent()
