@@ -1,14 +1,17 @@
 @extends('layouts.master')
 
 @push('stylesheets')
-<!-- bootstrap-datetimepicker -->
-<!-- <link href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet"> -->
 <!-- Ion.RangeSlider -->
 <link href="{{ asset('css/normalize.css') }}" rel="stylesheet">
 <link href="{{ asset('css/ion.rangeSlider.css') }}" rel="stylesheet">
 <link href="{{ asset('css/ion.rangeSlider.skinFlat.css') }}" rel="stylesheet">
 <link href="{{ asset('css/cropper.min.css') }}" rel="stylesheet">
 <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
+
+<!-- pnotify -->
+<link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
 
 @endpush
 
@@ -21,40 +24,17 @@
              <div class="title_left">
                <h3>Tasks</h3>
              </div>
-
-             <div class="title_right">
-               <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                 <div class="input-group">
-                   <input type="text" class="form-control" placeholder="Search for...">
-                   <span class="input-group-btn">
-                     <button class="btn btn-default" type="button">Go!</button>
-                   </span>
-                 </div>
-               </div>
-             </div>
            </div>
-
            <div class="clearfix"></div>
            <div class="row">
-             <div class="col-md-12">
-
                <div class="col-md-12 col-sm-12 col-xs-12">
                  <div class="x_panel">
                    <div class="x_title">
                      <h2>Add New Task <small>Fill Task Details</small></h2>
-                     <ul class="nav navbar-right panel_toolbox">
-                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                       </li>
-
-                       <li><a class="close-link"><i class="fa fa-close"></i></a>
-                       </li>
-                     </ul>
                      <div class="clearfix"></div>
                    </div>
                    <div class="x_content">
                      <br />
-                     <!-- <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left"> -->
-
                      {{  Form::open(['route' => 'add.tasks','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
                        <div class="form-group">
                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Task Name <span class="required">*</span>
@@ -142,7 +122,6 @@
                    </div>
                  </div>
                </div>
-             </div>
            </div>
 
 
@@ -170,5 +149,30 @@ r
 <!-- Cropper -->
 <script src="{{ asset('js/cropper.min.js') }}"></script>
 
-<!--  -->
+<script src="{{ asset('js/pnotify.js') }}"></script>
+<script src="{{ asset('js/pnotify.buttons.js') }}"></script>
+<script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
+
+
+<script type="text/javascript">
+
+$(document).ready(function () {
+  $('.ui-pnotify').remove();
+    loadNotification();
+});
+function loadNotification(){
+  var message = "{{ $message }}";
+  var status = "{{ $status }}";
+
+  if(message != "" && status != ""){
+    new PNotify({
+        title: (status == 1 ? "Success!" : "Failed!"),
+        text: message,
+        type: (status == 1 ? "success" : "error"),
+        styling: 'bootstrap3'
+    });
+  }
+
+}
+</script>
 @endpush

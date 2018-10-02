@@ -28,8 +28,6 @@
       <div class="title_left">
         <h3>Register Admin</h3>
       </div>
-
-
     </div>
     <div class="clearfix"></div>
     <div class="row">
@@ -37,12 +35,10 @@
         <div class="x_panel">
           <div class="x_title">
             <h2>Create New Admin <small>Fill in the particulars below</small></h2>
-          
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
             <br />
-
             {{  Form::open(['route' => 'new.admin','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
               <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Full Name <span class="required">*</span>

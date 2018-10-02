@@ -21,22 +21,26 @@ class TaskController extends Controller
 
     public function index()
     {
+        $message="";
+        $status="";
         $users = User::all();
         $companies = Company::all();
         $task = Task::all();
         //return $task;
-        return view('layouts.index_task', compact('users', 'companies', 'task'));
+        return view('layouts.index_task', compact('users', 'companies', 'task', 'message', 'status'));
     }
 
-    public function createTask(Request $request)
+    public function createTask()
     {
         $users = User::all();
         $companies = Company::all();
-        $task = $this->svc->storeTask($request);
+        $task = $this->svc->storeTask(request()->all());
         if ($task == null) {
             $message = "Failed to add task";
             $status = 0;
         }
+        $message = "Task successfully created!";
+        $status = 1;
         return view('layouts.index_task', compact('status', 'message', 'users', 'companies'));
     }
 
