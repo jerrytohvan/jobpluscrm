@@ -123,6 +123,17 @@
         <!-- Custom Theme Scripts -->
         <script src="{{ asset('js/gentelella.js') }}"></script>
 
+        <script>
+            document.addEventListener('touchmove',
+                function(e) {
+                    e.preventDefault();
+                }, {passive:false});
+
+          document.documentElement.addEventListener('gesturestart', function (event) {
+              event.preventDefault();
+          }, false);
+        </script>
+
         @stack('scripts')
 
   </body>
@@ -151,6 +162,17 @@
 
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('js/gentelella.min.js') }}"></script>
+    <script>
+    document.addEventListener('touchmove',
+        function(e) {
+            e.preventDefault();
+        }, {passive:false});
+
+        document.documentElement.addEventListener('gesturestart', function (event) {
+    event.preventDefault();
+}, false);
+
+      </script>
     @stack('scripts')
 
   @endif
