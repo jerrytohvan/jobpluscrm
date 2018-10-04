@@ -57,7 +57,7 @@
 
                           <li class="m-top-xs">
                             <i class="fa fa-external-link user-profile-icon"></i>
-                            <a href="http://www.kimlabs.com/profile/" target="_blank">Total of projects in progress: </a>
+                            <a href="" target="_blank">Total of projects in progress: </a>
                           </li>
                         </ul>
 
