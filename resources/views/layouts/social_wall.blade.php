@@ -52,7 +52,8 @@
       <div class="col-md-6 col-md-offset-3">
           <header><h3>Past Announcements</h3></header>
           @foreach($posts as $post)
-           <div class="x_panel">  <!-- panel for post -->
+          <!-- panel for post -->
+           <div class="x_panel">  
               <article class="post" data-postid="{{ $post->id }}">
                   <p>{{ $post->content }}</p>
                   <div class="info">
@@ -61,8 +62,6 @@
 
                   <!-- Adding button  -->
                   <div class="interaction">
-
-                    <!-- Should use icon when liked, light up icon and grey icon -->
 
                         <!-- number of likes -->
                         @php
@@ -75,8 +74,6 @@
                             {{$like_count}} Like
                         @endif
 
-                      <!-- {{DB::table('likes')->where('post_id', $post->id)->count() }} Likes -->
-
                       <button type="button" class="btn btn-default btn-xs fa fa-heart-o like"><a href="{{ route('like.post', ['post_id' => $post->id, 'isLike' => 'true']) }}">
                         {{  Auth::user()->likes()->where('post_id', $post->id)->first() ?
                             Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ?
@@ -87,13 +84,13 @@
                                  href="#edit-modal">Edit</a></button>
 
                       <button type="button" class="btn btn-default btn-xs fa fa-trash"><a href="{{ route('delete.post', ['post_id' => $post->id]) }}" class="confirmation">Delete</a></button>
-
                       @endif
                   </div>
                   <!-- /Adding button  -->
 
               </article>
-            </div>  <!-- /panel for post -->
+            </div> 
+            <!-- /panel for post -->
           @endforeach
       </div>
   </section>
@@ -121,7 +118,6 @@
       </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
 </div>
-
 <script>
     //for modal
     var token = '{{ Session::token() }}';
@@ -151,12 +147,20 @@
                 }
             });
         });
+
+        var elems = document.getElementsByClassName('confirmation');
+        var confirmIt = function (e) {
+            if (!confirm('Are you sure?')) e.preventDefault();
+        };
+        for (var i = 0, l = elems.length; i < l; i++) {
+            elems[i].addEventListener('click', confirmIt, false);
+        }
     });
 
     function loadNotification(){
-        var message = "{{ Session::get('message') }}";
-        var status = "{{ Session::get('status')  }}";
-
+        var message = "{{ Session::get('message') }}";        
+        var status = "{{ Session::get('status') }}";
+       
         if(message != "" && status != ""){
             new PNotify({
                 title: (status == 1 ? "Success!" : "Failed!"),
@@ -164,20 +168,11 @@
                 type: (status == 1 ? "success" : "error"),
                 styling: 'bootstrap3'
             });
-
-          });
-      });
-      var elems = document.getElementsByClassName('confirmation');
-      var confirmIt = function (e) {
-          if (!confirm('Are you sure?')) e.preventDefault();
-      };
-      for (var i = 0, l = elems.length; i < l; i++) {
-          elems[i].addEventListener('click', confirmIt, false);
-      }
-
         }
+
     }
 </script>
+
 @endsection
 
 @section('bottom_content')
