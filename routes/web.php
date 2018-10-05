@@ -104,7 +104,7 @@ Route::group(['middleware' => ['auth']], function () {
         'uses' => '\App\Models\Clients\ClientController@updateAccount'
         ]);
 
-    Route::get('/delete/{employee_id}', [
+    Route::post('/delete', [
         'as' => 'delete.account',
         'uses' => '\App\Models\Clients\ClientController@removeAccount'
         ]);
@@ -154,7 +154,7 @@ Route::group(['middleware' => ['auth']], function () {
       'uses' => '\App\Models\Clients\ClientController@showCompanyPost'
       ]);
 
-    Route::get('/note/delete/{post}', [
+    Route::post('/note/delete', [
       'as' => 'delete.note',
       'uses' => '\App\Models\Clients\ClientController@removeNote'
     ]);
@@ -182,7 +182,7 @@ Route::group(['middleware' => ['auth']], function () {
             'uses' => '\App\Models\Clients\ClientController@removeFileFromCompany'
             ]);
 
-    Route::get('/deletecompany/{company_id}', [
+    Route::post('/deletecompany', [
 'as' => 'delete.company',
 'uses' => '\App\Models\Clients\ClientController@removeCompany'
 ]);
@@ -229,7 +229,7 @@ Route::group(['middleware' => ['auth']], function () {
   'as' => 'new.company.post',
 'uses' => '\App\Models\Clients\ClientController@addNote'
 ]);
-    Route::get('/deletepost/{post_id}', [
+    Route::post('/deletepost', [
     'as' => 'delete.post',
     'uses' => '\App\Models\SocialWall\SocialWallController@removePost'
   ]);
