@@ -27,8 +27,6 @@
       <div class="title_left">
         <h3></h3>
       </div>
-
-
     </div>
     <div class="clearfix"></div>
     <div class="row">
@@ -36,13 +34,7 @@
         <div class="x_panel">
           <div class="x_title">
             <h2>Add a Candidate<small>Fill in the particulars below</small></h2>
-            <ul class="nav navbar-right panel_toolbox">
-              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-              </li>
 
-              <li><a class="close-link"><i class="fa fa-close"></i></a>
-              </li>
-            </ul>
             <div class="clearfix"></div>
           </div>
 
@@ -117,7 +109,7 @@
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <select class="select2_single form-control" required="required" id="industry" name="industry" tabindex="-1">
-                      <option></option>
+                      <option value="">Select an Industry</option>
                       <option value="Aerospace industry">Aerospace industry</option>
                       <option value="Agriculture">Agriculture</option>
                       <option value="Fishing industry">Fishing industry</option>
@@ -166,30 +158,29 @@
                   </div>
               </div>
 
-              <div class="form-group">
-                <div class="control-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for"keywords">Summary Keywords<br/><small>Press enter for each keyword</small></label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input id="tags_1" type="text" class="tags" required="required" name="keywords" id="keywords" value="" style="display: none;">
-                    </div>
+            <div class="form-group">
+              <div class="control-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for"keywords">Summary Keywords<br/><small>Press enter for each keyword</small></label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input id="tags_1" type="text" class="tags" required="required" name="keywords" id="keywords" value="" style="display: none;">
+                </div>
               </div>
             </div>
 
-              <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="resume">Upload your resume (doc/docx/pdf format)<span class="required">*</span></label>
-                        <div class="col-md-6 col-sm-9 col-xs-12">
-                            <input type="file" name="resume" id="resume js-file-validation-example"  data-parsley-filemaxmegabytes="2" data-parsley-trigger="change" data-parsley-filemimetypes="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"  />
-                        </div>
-                      </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="resume">Upload your resume (doc/docx/pdf format)<span class="required">*</span></label>
+              <div class="col-md-6 col-sm-9 col-xs-12">
+                  <input type="file" name="resume" id="resume js-file-validation-example"  data-parsley-filemaxmegabytes="2" data-parsley-trigger="change" data-parsley-filemimetypes="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"  />
+              </div>
+            </div>
+
               <div class="ln_solid"></div>
               <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                   <button class="btn btn-primary" type="reset">Reset</button>
                   {{ Form::submit('Submit', ['class'=>'btn btn-success']) }}
-
                 </div>
               </div>
-
           {!! Form::close() !!}
           </div>
         </div>
@@ -231,9 +222,6 @@
 <script src="{{ asset('js/pnotify.buttons.js') }}"></script>
 <script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
 
-
-<!-- Custom Theme Scripts -->
-<script src="{{ asset('js/gentelella.min.js') }}"></script>
 
 <script type="text/javascript">
 

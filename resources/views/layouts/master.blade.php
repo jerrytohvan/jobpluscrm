@@ -15,7 +15,7 @@
   </title>
 
   <!-- Bootstrap -->
- 
+
   <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
   <!-- Font Awesome -->
   <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
@@ -121,7 +121,7 @@
         <script src="{{ asset('js/smartresize.js') }}"></script>
 
         <!-- Custom Theme Scripts -->
-        <script src="{{ asset('js/gentelella.js') }}"></script>
+        <script src="{{ asset('js/gentelella.min.js') }}"></script>
 
         <script>
         document.addEventListener('gesturestart', function (e) {

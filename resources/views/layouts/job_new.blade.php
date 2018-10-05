@@ -202,9 +202,6 @@
 <script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
 
 
-<!-- Custom Theme Scripts -->
-<script src="{{ asset('js/gentelella.min.js') }}"></script>
-
 <script type="text/javascript">
     $(document).ready(function () {
       $('.ui-pnotify').remove();

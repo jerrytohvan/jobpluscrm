@@ -273,6 +273,7 @@ elixir(function(mix) {
 
       // Gentelella
         mix.copy('vendor/bower_components/gentelella/build/js/custom.min.js', 'public/js/gentelella.min.js');
+        // mix.copy('./jobplus_gentelella/gentelella_2.0/src/js/custom.js', 'public/js/gentelella.js');
 
     /**************/
     /* Copy Fonts */
