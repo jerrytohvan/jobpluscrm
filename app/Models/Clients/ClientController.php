@@ -153,8 +153,10 @@ class ClientController extends Controller
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
-    public function removeAccount($employee_id)
+    public function removeAccount(Request $request)
     {
+        $requestArray = request()->all();
+        $employee_id = $requestArray['contact_id'];
         $employee = Employee::find($employee_id);
         if ($employee ->delete()) {
             $message = "Employee successfully removed!";
@@ -320,8 +322,10 @@ class ClientController extends Controller
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
-    public function removeCompany($company_id)
+    public function removeCompany(Request $request)
     {
+        $requestArray = request()->all();
+        $company_id = $requestArray['company_id'];
         $company = Company::where('id', $company_id)->first();
         $employee = Employee::where('company_id', $company_id);
         try {
@@ -360,10 +364,15 @@ class ClientController extends Controller
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
-    public function removeNote(Post $post)
+    public function removeNote(Request $request)
     {
         $message = "Opps! Note can't be deleted. ";
         $status = 0;
+
+        $requestArray = request()->all();
+        $postId = $requestArray['postId'];
+        $post = Post::where('id',$postId)->first();
+
         if (Auth::user() != $post->user) {
             $message = "You are not authorised for this";
             $status = 0;
