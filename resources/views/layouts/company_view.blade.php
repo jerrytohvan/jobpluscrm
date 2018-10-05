@@ -217,7 +217,7 @@ html {
                                                    <td >{{ $account == null ? "-" : $account->company == null ? "-":$account->company->name }}</td>
                                                    <td>
                                                       <a id="account_button" data-id="{{ $account->id }}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i>Edit</a>
-                                                      <a href="{{ route('delete.account', ['employee_id' => $account->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a>
+                                                      <a onclick="deleteAccount( {{ $account->id }} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a>
                                                    </td>
                                                 </tr>
                                                 @endforeach
@@ -397,7 +397,7 @@ html {
                                       <blockquote id="content-{{ $note->id }}" class="message">{{ $note->content }}</blockquote>
                                     @if(Auth::user()->id == $note->user->id)
                                       <a data-id="{{ $note->id }}" data-content="{{ $note->content }}" class="edit-note" id="Edit-modal" href="#edit-note">Edit</a>
-                                      <a href="{{ route('delete.note', ['post' => $note->id]) }}" class="confirmation">Delete</a>
+                                      <a onclick="deleteNote( {{ $note->id }} )" class="confirmation">Delete</a>
                                     @endif
                                     <br>
                                     <p class="url">
@@ -820,10 +820,60 @@ html {
       </div>
       <!-- /.modal-dialog -->
    </div>
+   
+   <div class="modal fade" tabindex="-1" role="dialog" id="confirm-delete">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title">Delete Contact</h4>
+            </div>
+            <div class="modal-body">
+               {{  Form::open(['route' => 'delete.account','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'delete_form']) }}
+               <p>Are you sure you want to delete this contact? This action cannot be undone.</P>
+               <input type="hidden" id="contact_id" name="contact_id" value="">
+
+               {!! Form::close() !!}
+              
+               <button type="button" class="btn btn-danger"  onclick="submitForm();" >Confirm Delete</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              
+            </div>
+            
+         </div>
+         <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+	 </div>
+
+     <div class="modal fade" tabindex="-1" role="dialog" id="confirm-deleteNote">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title">Delete Note</h4>
+            </div>
+            <div class="modal-body">
+               {{  Form::open(['route' => 'delete.note','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'delete_formNote']) }}
+               <p>Are you sure you want to delete this note? This action cannot be undone.</P>
+               <input type="hidden" id="postId" name="postId" value="">
+
+               {!! Form::close() !!}
+              
+               <button type="button" class="btn btn-danger"  onclick="submitFormNote();" >Confirm Delete</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              
+            </div>
+            
+         </div>
+         <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+	 </div>
+	 
+	 
 </div>
 @endsection
-
-
 
 @section('bottom_content')
 
@@ -937,9 +987,26 @@ function submitform()
   $('#modal_form_id').submit();
 }
 
-
 function updateAccountForm(){
   $('#account_form').submit();
+}
+
+function deleteAccount(employeeId) {
+  $('#contact_id').val(employeeId);
+  $('#confirm-delete').modal('show');
+}
+
+function submitForm() {
+    $('#delete_form').submit();
+}
+
+function deleteNote(noteId) {
+  $('#postId').val(noteId);
+  $('#confirm-deleteNote').modal('show');
+}
+
+function submitFormNote() {
+    $('#delete_formNote').submit();
 }
 
 $(document).ready(function () {
@@ -1072,13 +1139,13 @@ $(document).ready(function () {
     });
 
 
-    var elems = document.getElementsByClassName('confirmation');
-    var confirmIt = function (e) {
-        if (!confirm('Are you sure?')) e.preventDefault();
-    };
-    for (var i = 0, l = elems.length; i < l; i++) {
-        elems[i].addEventListener('click', confirmIt, false);
-    }
+    // var elems = document.getElementsByClassName('confirmation');
+    // var confirmIt = function (e) {
+    //     if (!confirm('Are you sure?')) e.preventDefault();
+    // };
+    // for (var i = 0, l = elems.length; i < l; i++) {
+    //     elems[i].addEventListener('click', confirmIt, false);
+    // }
 </script>
 
 <script>
