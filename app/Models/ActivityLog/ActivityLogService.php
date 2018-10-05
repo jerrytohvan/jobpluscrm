@@ -27,7 +27,6 @@ class ActivityLogService
     {
         $construct = [];
         $lastActivity = Activity::whereSubjectId($company->id)->orWhere('causer_id', $company->id)->orWhere('subject_type', Attachment::class)->orWhere('subject_type', Employee::class)->orWhere('subject_type', Task::class)->orWhere('subject_type', Company::class)->orderBy('created_at', 'desc')->take(10)->get();
-        // dd($lastActivity);
         foreach ($lastActivity as $activity) {
             if ((
               ($activity->subject_type == Company::class)||
@@ -88,9 +87,9 @@ class ActivityLogService
     public function getActivitiesByUser(User $user)
     {
         $construct = [];
-        $lastActivity = Activity::whereSubjectId($user->id)->orWhere('causer_id', $user->id)->orderBy('created_at', 'desc')->take(10)->get();
+        $lastActivity = Activity::whereSubjectId($user->id)->orWhere('causer_id', $user->id)->orderBy('created_at', 'desc')->get();
         foreach ($lastActivity as $activity) {
-            if ($activity->causer_type != null || $user->id != $activity->subject_id) {
+            if ($activity->causer_type != null && (($activity->causer_id ==  $activity->subject_id)|| $user->id != $activity->subject_id)) {
                 $dateNow =  date_create(date("Y-m-d H:i:s"));
                 $dateBefore =  date_create(date($activity->created_at));
                 $dateDiff = date_diff($dateBefore, $dateNow);
@@ -132,7 +131,7 @@ class ActivityLogService
                 $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
                 return "You " . $action . " " . $objectName . "'s account as an admin.";
             }
-            return $action . " your profile.";
+            return "You " . $action . " your own profile.";
         } elseif (Employee::class == $activity->subject_type) {
             $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
             $company = Company::find($activity->changes()->all()['attributes']['company_id']);

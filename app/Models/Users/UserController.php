@@ -66,10 +66,10 @@ class UserController extends Controller
             $photo = request()->file('photo');
             $ext = $photo->getClientOriginalExtension();
             $memberPic = "member_". $id . "." . $ext;
-            $url = "images/" . $memberPic;
+            $url = "images/profile_pic/" . $memberPic;
             $user->profile_pic = $url;
 
-            $path = public_path()."//images//";
+            $path = public_path()."//images//profile_pic//";
             $photo->move($path, $memberPic);
         }
         $user->save();
