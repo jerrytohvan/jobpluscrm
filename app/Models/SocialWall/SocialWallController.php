@@ -40,8 +40,10 @@ class SocialWallController extends Controller
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
-    public function removePost($post_id)
+    public function removePost(Request $request)
     {
+        $requestArray = request()->all();
+        $post_id = $requestArray['post_id'];
         $post = Post::find($post_id);
         if (Auth::user() != $post->user) {
             return redirect()->back();
