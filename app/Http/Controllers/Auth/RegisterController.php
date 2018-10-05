@@ -41,6 +41,84 @@ class RegisterController extends Controller
         $this->middleware('web');
     }
 
+    public function adminlist() {
+        $status = "";
+        $message = "";
+        $currentUser = Auth::user();
+        $users = User::where('id','!=',$currentUser->id)->get();
+        return view('layouts.admin_list', compact('message', 'status', 'users'));
+    }
+
+    public function updateAdmin()
+    {
+        $message = "User successfully updated!";
+        $status = 1;
+        
+        $requestArray =  request()->all();
+        $id = $requestArray['user_id'];  
+
+        $validator = Validator::make($requestArray, [
+            'name' => 'required',
+            'email' => 'required',
+            'handphone' => 'numeric'
+        ]);
+        
+        if ($validator->fails())
+        {
+            $errorArray = $validator->errors()->all();
+            $message = implode(" ",$errorArray);
+            $status = 0;
+            return redirect()->back()->with(['message' => $message, 'status' => $status]);
+        } else {
+            $user = User::where('id',$id)->first();
+            $user -> name = $requestArray['name'];
+            $user -> email =  $requestArray['email'];
+            $user -> handphone = $requestArray['handphone'];
+            $user -> tele_id = $requestArray['teleid'];
+            $birthday = $requestArray['birthdate'];
+            if ($birthday != "") {
+                $user -> birth_date = $requestArray['birthdate'];
+            }
+            $user -> save();
+            return redirect()->back()->with(['message' => $message, 'status' => $status]);
+        }
+    }
+
+    public function resetAdmin() {
+        $requestArray = request()->all();
+        $id = $requestArray['id'];  
+        $user = User::where('id',$id)->first();
+
+        $password = $requestArray['password'];
+        $confirmpw = $requestArray['confirmpw'];
+        if ($password == $confirmpw) {
+            $user -> password = bcrypt($password);
+            $user -> save();
+            $message = "User successfully updated!";
+            $status = 1;
+        } else {
+            $message = "Password does not match the confirm password.";
+            $status = 0;
+        }
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
+
+    public function deleteAdmin() {
+        
+        $requestArray = request()->all();
+        $id = $requestArray['uid'];  
+        $user = User::where('id',$id)->delete();
+
+        if ($user = User::where('id',$id)->first()==null) {
+            $message = "User successfully deleted!";
+            $status = 1;
+        } else {
+            $message = "Failed to delete user";
+            $status = 0;
+        }
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
+
     public function index()
     {
         $status = "";
