@@ -257,6 +257,6 @@
 
   }
 
-  
+
 </script>
 @endpush
