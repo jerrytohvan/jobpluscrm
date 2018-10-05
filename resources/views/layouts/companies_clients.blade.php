@@ -2,6 +2,11 @@
 
 
 @push('stylesheets')
+
+<!-- pnotify -->
+<link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
 <!-- Datatables -->
 <link href="{{ asset('css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('css/buttons.bootstrap.min.css') }}" rel="stylesheet">
@@ -133,7 +138,6 @@ function submitform()
 }
 
 $(document).ready(function() {
-    // $('#datatable').DataTable();
 
  var table = $('#datatable').DataTable({
         dom: 'lBfrtip',
@@ -145,7 +149,8 @@ $(document).ready(function() {
                   table.column(4).order('desc').draw();
                 }
             }
-        ]
+        ],
+        "bDestroy": true
     });
 
     $('<div class="col-md-12 col-xs-12"><label>{{  Form::open(['route' => 'companies.industry','method'=>'post','class' => 'form-horizontal form-label-left', 'id'=>'modal_form_id']) }}' +
@@ -226,11 +231,13 @@ for (var i = 0, l = elems.length; i < l; i++) {
 <script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('js/responsive.bootstrap.js') }}"></script>
 <script src="{{ asset('js/dataTables.scroller.min.js') }}"></script>
-<!-- jszip -->
-<script src="{{ asset('js/jszip.min.js') }}"></script>
-<!-- pdfmake -->
-<script src="{{ asset('js/pdfmake.min.js') }}"></script>
-<script src="{{ asset('js/vfs_fonts.js') }}"></script>
 
 
+
+<!-- Flot - , pice, time, stack, resize -->
+<script src="{{ asset('js/jquery.flot.js') }}"></script>
+<script src="{{ asset('js/jquery.flot.pie.js') }}"></script>
+<script src="{{ asset('js/jquery.flot.time.js') }}"></script>
+<script src="{{ asset('js/jquery.flot.stack.js') }}"></script>
+<script src="{{ asset('js/jquery.flot.resize.js') }}"></script>
 @endpush
