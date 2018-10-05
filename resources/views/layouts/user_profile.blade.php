@@ -277,7 +277,7 @@
 
                                 <div class="form-group">
                                      <label for="birthday">Birth Date</label>
-                                     <input type="text" class="form-control col-md-7 col-xs-12"  data-date-format="MM/DD/YYYY" required="required" id="birthday" name="birthday" value='{{ date("mm/dd/YYYY", strtotime($user->birth_date)) }}' />
+                                     <input type="date" class="form-control col-md-7 col-xs-12"  data-date-format="MM/DD/YYYY" required="required" id="birthday" name="birthday" value='{{ $user->birth_date }}' />
                                 </div>
 
                                 <div class="form-group">
@@ -379,14 +379,14 @@ function submitform()
           });
       });
 
-      $(function() {
-        $('input[name="birthday"]').daterangepicker({
-          singleDatePicker: true,
-          showDropdowns: true,
-          minYear: 1940,
-          maxYear: parseInt(moment().format('YYYY'),10)
-        })
-      });
+      // $(function() {
+      //   $('input[name="birthday"]').daterangepicker({
+      //     singleDatePicker: true,
+      //     showDropdowns: true,
+      //     minYear: 1940,
+      //     maxYear: parseInt(moment().format('YYYY'),10)
+      //   })
+      // });
 
 
 

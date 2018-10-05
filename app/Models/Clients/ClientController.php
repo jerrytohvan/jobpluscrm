@@ -57,7 +57,6 @@ class ClientController extends Controller
     {
         $array = $this->svc->getAllClients();
         $score = $this->svc->getUrgencyScore($array);
-
         return view('layouts.companies_clients', compact('array', 'status', 'companies', 'score'));
     }
 
@@ -442,15 +441,15 @@ class ClientController extends Controller
         }
         return $string;
     }
-    public function filterByIndustry(Request $request)
-    {
-        $industry = $request->input('industry');
-        if ($industry == "All") {
-            $array = Company::whereClient(1)->orderBy('name', 'asc')->get();
-        } else {
-            $array = Company::where('industry', $industry)->get();
-        }
-        $score = $this->svc->getUrgencyScore($array);
-        return view('layouts.companies_clients', compact('array', 'score'));
-    }
+    // public function filterByIndustry(Request $request)
+    // {
+    //     $industry = $request->input('industry');
+    //     if ($industry == "All") {
+    //         $array = Company::whereClient(1)->orderBy('name', 'asc')->get();
+    //     } else {
+    //         $array = Company::where('industry', $industry)->get();
+    //     }
+    //     $score = $this->svc->getUrgencyScore($array);
+    //     return view('layouts.companies_clients', compact('array', 'score'));
+    // }
 }

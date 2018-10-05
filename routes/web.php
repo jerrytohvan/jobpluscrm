@@ -52,6 +52,27 @@ Route::group(['middleware' => ['auth']], function () {
       'as'=>'new.admin',
   'uses' => '\App\Http\Controllers\Auth\RegisterController@register'
   ]);
+
+  Route::get('/admin-list', [
+    'as' => 'admin.list',
+    'uses' => '\App\Http\Controllers\Auth\RegisterController@adminlist'
+    ]);
+
+  Route::post('/admin/update', [
+    'as' => 'update.admin',
+    'uses' => '\App\Http\Controllers\Auth\RegisterController@updateAdmin'
+    ]);
+
+  Route::post('/admin/reset', [
+    'as' => 'reset.admin',
+    'uses' => '\App\Http\Controllers\Auth\RegisterController@resetAdmin'
+    ]);
+
+    Route::post('/admin/delete', [
+      'as' => 'delete.admin',
+      'uses' => '\App\Http\Controllers\Auth\RegisterController@deleteAdmin'
+      ]);
+  
     Route::get(
       '/candidates-full-list',
   ['as' => 'candidates.fulllist',

@@ -63,12 +63,6 @@ class UserController extends Controller
           'tele_id' => 'required',
           'birthday' => 'required'
         ]);
-
-        // $name = $request->input('name');
-        // $email = $request->input('email');
-        // $handphone = $request->input('handphone');
-        // $tele_id = $request->input('tele_id');
-        // $birthday = $request->input('birthday');
                 
         $user -> name = $request->input('name');
         $user -> email = $request->input('email');
