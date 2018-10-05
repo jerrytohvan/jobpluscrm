@@ -123,9 +123,12 @@ class ClientController extends Controller
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
-    public function removeCandidate(Candidate $candidate)
+    public function removeCandidate(Request $request)
     {
-        $id = $candidate->id;
+        $requestArray = request()->all();
+        $id = $requestArray['candidate_id'];
+        $candidate = Candidate::find($id);
+
         $message = "Failed to remove candidate!";
         $status = 0;
         $this->canSvc->destroyCandidate($candidate);

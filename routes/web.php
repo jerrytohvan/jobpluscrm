@@ -84,7 +84,7 @@ Route::group(['middleware' => ['auth']], function () {
   'uses' => '\App\Models\Clients\ClientController@index_candidates_new'
 ]);
 
-    Route::get('/candidate/remove/{candidate}', [
+    Route::post('/candidate/remove', [
     'as' => 'delete.candidate',
     'uses' => '\App\Models\Clients\ClientController@removeCandidate'
     ]);

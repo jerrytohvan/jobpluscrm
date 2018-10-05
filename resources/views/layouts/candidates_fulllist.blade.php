@@ -52,7 +52,7 @@
                               date("F d, Y", strtotime($candidate->birthdate))}}</td>
                             <td>
                                  <a href="{{ route('get.resume', ['file'=> $candidate->files->first()->attachable_id])}}"  class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Resume</a>
-                                 <a href="{{ route('delete.candidate', ['candidate' => $candidate->id]) }}" class="btn btn-danger btn-xs confirmation"><i class="fa fa-trash-o"></i> Delete </a>
+                                 <a onclick="deleteCandidate( {{ $candidate->id }} )" class="btn btn-danger btn-xs confirmation"><i class="fa fa-trash-o"></i> Delete </a>
                                  <a href="{{ route('smart.match.candidate', ['candidate' => $candidate->id]) }}" class="btn btn-success btn-xs"><i class="fa fa-trash-o"></i>Smart Match</a>
 
                             </td>
@@ -66,11 +66,35 @@
          </div>
       </div>
    </div>
+   
+   <div class="modal fade" tabindex="-1" role="dialog" id="confirm-delete">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title">Delete Candidate</h4>
+            </div>
+            <div class="modal-body">
+               {{  Form::open(['route' => 'delete.candidate','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'delete_form']) }}
+               <p>Are you sure you want to delete this candidate? This action cannot be undone.</P>
+               <input type="hidden" id="candidate_id" name="candidate_id" value="">
+
+               {!! Form::close() !!}
+              
+               <button type="button" class="btn btn-danger"  onclick="submitForm();" >Confirm Delete</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              
+            </div>
+            
+         </div>
+         <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+	 </div>
+   
 </div>
 
 @endsection
-
-
 
 @section('bottom_content')
 
@@ -96,16 +120,23 @@ function loadNotification(){
         styling: 'bootstrap3'
     });
   }
-
-
 }
-var elems = document.getElementsByClassName('confirmation');
-var confirmIt = function (e) {
-    if (!confirm('Are you sure?')) e.preventDefault();
-};
-for (var i = 0, l = elems.length; i < l; i++) {
-    elems[i].addEventListener('click', confirmIt, false);
+
+function deleteCandidate(candidateId) {
+  $('#candidate_id').val(candidateId);
+  $('#confirm-delete').modal('show');
 }
+
+function submitForm() {
+    $('#delete_form').submit();
+}
+// var elems = document.getElementsByClassName('confirmation');
+// var confirmIt = function (e) {
+//     if (!confirm('Are you sure?')) e.preventDefault();
+// };
+// for (var i = 0, l = elems.length; i < l; i++) {
+//     elems[i].addEventListener('click', confirmIt, false);
+// }
 
 
 </script>
