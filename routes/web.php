@@ -14,7 +14,13 @@ Route::get('/apply-jobs', [
 'uses' => '\App\Models\Clients\ClientController@public_add_candidate'
 ]);
 
-Route::group(['middleware' => ['web']], function () {
+Route::post('/candidates-new', [
+  'as' => 'add.new.candidate',
+'uses' => '\App\Models\Clients\ClientController@add_new_candidate'
+]);
+
+
+Route::group(['middleware' => ['auth']], function () {
     Route::get('/', 'AccountController@index')->name('dashboard');
     Route::patch('/tasks/{id}', '\App\Models\Tasks\TaskService@updateTasksStatus');
     Route::patch('/tasks/remove/{id}', '\App\Models\Tasks\TaskService@destroyTask');
@@ -62,10 +68,6 @@ Route::group(['middleware' => ['web']], function () {
     'uses' => '\App\Models\Clients\ClientController@removeCandidate'
     ]);
 
-    Route::post('/candidates-new', [
-      'as' => 'add.new.candidate',
-    'uses' => '\App\Models\Clients\ClientController@add_new_candidate'
-    ]);
 
     Route::post('/account-new', [
       'as' => 'add.new.account',
@@ -267,7 +269,7 @@ Route::group(['middleware' => ['web']], function () {
 
 
     Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
-    Route::get('/tasks/show','\App\Models\Tasks\TaskController@showTaskList');
+    Route::get('/tasks/show', '\App\Models\Tasks\TaskController@showTaskList');
 });
 
 // Route::get('/telegram', [

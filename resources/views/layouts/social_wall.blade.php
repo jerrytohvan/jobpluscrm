@@ -3,6 +3,11 @@
 @section('content')
 
 @push('stylesheets')
+
+<!-- pnotify -->
+<link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
 <!-- bwysiwyg -->
 <link href="{{ asset('css/prettify.min.css') }}" rel="stylesheet">
 <!-- Select2 -->
@@ -12,10 +17,6 @@
 <!-- starrr -->
 <link href="{{ asset('css/starrr.css') }}" rel="stylesheet">
 
-<!-- pnotify -->
-<link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
-<link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
-<link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
 @endpush
 
 <!-- SOCIAL WALL -->
@@ -122,35 +123,18 @@
   </div><!-- /.modal -->
 </div>
 
-<script>
-    //for modal
-    var token = '{{ Session::token() }}';
-    var urlEdit = '{{ route('edit.post') }}';
-    var urlLike = '{{ route('like.post') }}';
-    var postId = 0;
 
+@endsection
+
+@section('bottom_content')
+
+@endsection
+
+@push('scripts')
+<script>
     $(document).ready(function () {
         $('.ui-pnotify').remove();
         loadNotification();
-
-        $(".edit").click(function () {
-            postId = $(this).data('id');
-            $('#post-body').val($(this).data('content'));
-            $('#edit-modal').modal('show');
-        });
-
-        //Pending for a more modern way to solve this
-        $("#modal-save").click(function () {
-            var saveData = $.ajax({
-                type: 'POST',
-                url: urlEdit,
-                data:  {id: postId, content: $('#post-body').val(), _token:token},
-                dataType: "text",
-                success: function(resultData) {
-                    window.location.reload();
-                }
-            });
-        });
     });
 
     function loadNotification(){
@@ -165,27 +149,39 @@
                 styling: 'bootstrap3'
             });
 
-          });
-      });
-      var elems = document.getElementsByClassName('confirmation');
-      var confirmIt = function (e) {
-          if (!confirm('Are you sure?')) e.preventDefault();
-      };
-      for (var i = 0, l = elems.length; i < l; i++) {
-          elems[i].addEventListener('click', confirmIt, false);
-      }
-
         }
-    }
+}
+      //for modal
+      var token = `{{ Session::token() }}`;
+      var urlEdit = `{{ route('edit.post') }}`;
+      var urlLike = `{{ route('like.post') }}`;
+      var postId = 0;
+
+      $(document).ready(function() {
+          $(".edit").click(function () {
+              postId = $(this).data('id');
+              $('#post-body').val($(this).data('content'));
+              $('#edit-modal').modal('show');
+          });
+
+          //Pending for a more modern way to solve this
+          $("#modal-save").click(function () {
+              var saveData = $.ajax({
+                  type: 'POST',
+                  url: urlEdit,
+                  data:  {id: postId, content: $('#post-body').val(), _token:token},
+                  dataType: "text",
+                  success: function(resultData) {
+                      window.location.reload();
+                  }
+              });
+          });
+
+
+      });
+
+
 </script>
-@endsection
-
-@section('bottom_content')
-
-@endsection
-
-@push('scripts')
-
 <!-- Switchery -->
 <script src="{{ asset('js/switchery.min.js') }}"></script>
 <!-- Select2 -->

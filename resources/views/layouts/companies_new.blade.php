@@ -27,8 +27,6 @@
       <div class="title_left">
         <h3></h3>
       </div>
-
-
     </div>
     <div class="clearfix"></div>
     <div class="row">
@@ -36,14 +34,6 @@
         <div class="x_panel">
           <div class="x_title">
             <h2>Add a Company<small>Fill in the particulars below</small></h2>
-            <ul class="nav navbar-right panel_toolbox">
-              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-              </li>
-
-              <li><a class="close-link"><i class="fa fa-close"></i></a>
-              </li>
-            </ul>
-            <div class="clearfix"></div>
           </div>
           <div class="x_content">
             <br />
@@ -179,14 +169,14 @@
                     </select>
                   </div>
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
               <div class="control-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for"tags">Input Tags</label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                   <input id="tags_1" type="text" class="tags" name="tags" id="tags" value="" style="display: none;">
                               </div>
                         </div>
-                      </div>
+                      </div> -->
 
           <div class="form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12" for="description">Description</label>
@@ -264,6 +254,9 @@
             styling: 'bootstrap3'
         });
       }
+
   }
+
+
 </script>
 @endpush

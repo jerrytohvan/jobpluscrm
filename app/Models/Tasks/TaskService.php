@@ -68,7 +68,7 @@ class TaskService
             'type' => true,
         ]);
     }
-    
+
 
 
     /**
@@ -127,10 +127,11 @@ class TaskService
         }
     }
 
-    public function insertCollab($tasks,$userIds){
-            foreach($tasks as $task){
-                    $task->update(['collaborator' =>$userIds]);
-                    $task->save();
-            }
+    public function insertCollab($tasks, $userIds)
+    {
+        foreach ($tasks as $task) {
+            $task->update(['collaborator' =>$userIds]);
+            $task->save();
+        }
     }
 }

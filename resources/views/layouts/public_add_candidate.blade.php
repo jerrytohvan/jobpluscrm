@@ -11,6 +11,7 @@
 <!-- starrr -->
 <link href="{{ asset('css/starrr.css') }}" rel="stylesheet">
 
+
 <!-- pnotify -->
 <link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
 <link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
@@ -69,17 +70,17 @@
             </div>
 
               <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
-                        <div class="col-md-6 col-sm-9 col-xs-12">
-                          <select class="select2_single form-control" name="title" id="title" required="required" data-parsley-required-message="Please select a title" tabindex="-1">
-                            <option value=''>Select a Job Level Title</option>
-                            <option value='Entry/Junior'>Entry/Junior</option>
-                            <option value='Intermediate'>Intermediate</option>
-                            <option value='Senior'>Senior</option>
-                            <option value='Lead'>Lead</option>
-                          </select>
-                        </div>
-                    </div>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
+                  <div class="col-md-6 col-sm-9 col-xs-12">
+                    <select class="select2_single form-control" name="title" id="title" required="required" data-parsley-required-message="Please select a title" tabindex="-1">
+                      <option value=''>Select a Job Level Title</option>
+                      <option value='Entry/Junior'>Entry/Junior</option>
+                      <option value='Intermediate'>Intermediate</option>
+                      <option value='Senior'>Senior</option>
+                      <option value='Lead'>Lead</option>
+                    </select>
+                  </div>
+              </div>
 
               <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
@@ -109,6 +110,58 @@
                   <input type="date" class="form-control col-md-7 col-xs-12"  data-date-format="MM/DD/YYYY" required="required" id="birthdate" name="birthdate" value='' />
                 </div>
               </div>
+              <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry</label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <select class="select2_single form-control" required="required" id="industry" name="industry" tabindex="-1">
+                      <option></option>
+                      <option value="Aerospace industry">Aerospace industry</option>
+                      <option value="Agriculture">Agriculture</option>
+                      <option value="Fishing industry">Fishing industry</option>
+                      <option value="Timber industry">Timber industry</option>
+                      <option value="Tobacco industry">Tobacco industry</option>
+                      <option value="Chemical industry">Chemical industry</option>
+                      <option value="Pharmaceutical industry">Pharmaceutical industry</option>
+                      <option value="Computer industry">Computer industry</option>
+                      <option value="Software industry">Software industry</option>
+                      <option value="Technology industry">Technology industry</option>
+                      <option value="Construction industry">Construction industry</option>
+                      <option value="Real estate industry">Real estate industry</option>
+                      <option value="Public utilities industry">Public utilities industry</option>
+                      <option value="Defense industry">Defense industry</option>
+                      <option value="Arms industry">Arms industry</option>
+                      <option value="Education industry">Education industry</option>
+                      <option value="Energy industry">Energy industry</option>
+                      <option value="Electrical power industry">Electrical power industry</option>
+                      <option value="Petroleum industry">Petroleum industry</option>
+                      <option value="Entertainment industry">Entertainment industry</option>
+                      <option value="Financial services industry">Financial services industry</option>
+                      <option value="Insurance industry">Insurance industry</option>
+                      <option value="Food industry">Food industry</option>
+                      <option value="Fruit production">Fruit production</option>
+                      <option value="Health care industry">Health care industry</option>
+                      <option value="Hospitality industry">Hospitality industry</option>
+                      <option value="Information industry">Information industry</option>
+                      <option value="Manufacturing">Manufacturing</option>
+                      <option value="Electronics industry">Electronics industry</option>
+                      <option value="Pulp and paper industry">Pulp and paper industry</option>
+                      <option value="Steel industry">Steel industry</option>
+                      <option value="Shipbuilding industry">Shipbuilding industry</option>
+                      <option value="Mass Media Broadcasting">Mass Media Broadcasting</option>
+                      <option value="Film industry">Film industry</option>
+                      <option value="Music industry">Music industry</option>
+                      <option value="News media">News media</option>
+                      <option value="Publishing">Publishing</option>
+                      <option value="World Wide Web">World Wide Web</option>
+                      <option value="Mining">Mining</option>
+                      <option value="Telecommunications industry">Telecommunications industry</option>
+                      <option value="Transport industry">Transport industry</option>
+                      <option value="Water industry">Water industry</option>
+                      <option value="Other">Other</option>
+
+                    </select>
+                  </div>
+              </div>
 
               <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="resume">Upload your resume (doc/docx/pdf format)<span class="required">*</span></label>
@@ -116,15 +169,16 @@
                             <input type="file" name="resume" id="resume js-file-validation-example"  data-parsley-filemaxmegabytes="2" data-parsley-trigger="change" data-parsley-filemimetypes="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"  />
                         </div>
                       </div>
-                <div class="form-group">
-                  <div class="control-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for"summary_keywords">Please describe your skills, interest, and jobs you desired in keywords!<br/><small>Press enter for each keyword</small></label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                      <input id="tags_1" type="text" class="tags" required="required" name="summary_keywords" id="summary_keywords" value="" style="display: none;">
-                      </div>
-                  </div>
-                </div>
 
+                    <div class="form-group">
+                        <div class="control-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for"keywords">Summary Keywords<br/><small>Press enter for each keyword</small></label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="tags_1" type="text" class="tags" required="required" name="keywords" id="keywords" value="" style="display: none;">
+                            </div>
+                      </div>
+                    </div>
+                    <input type="hidden" value="1" id="type" name="type">
 
 
               <div class="ln_solid"></div>
@@ -170,6 +224,7 @@
 <script src="{{ asset('js/jquery.hotkeys.js') }}"></script>
 <script src="{{ asset('js/prettify.js') }}"></script>
 
+
 <!-- jquery tags input -->
 <script src="{{ asset('js/jquery.tagsinput.js') }}"></script>
 
@@ -178,6 +233,9 @@
 <script src="{{ asset('js/pnotify.buttons.js') }}"></script>
 <script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
 
+
+<!-- Custom Theme Scripts -->
+<script src="{{ asset('js/gentelella.min.js') }}"></script>
 
 <script type="text/javascript">
 

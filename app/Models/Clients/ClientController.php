@@ -76,17 +76,11 @@ class ClientController extends Controller
         $companies = $this->svc->getAllCompany();
         return view('layouts.companies_new', compact('message', 'status', 'companies'));
     }
-    public function add_new_company(Request $request)
+    public function add_new_company()
     {
         $message = "Company successfully added!";
         $status = 1;
-        $this->validate($request, [
-        'company_name' => 'required',
-        'address' => 'required',
-        'company_email' => 'required',
-        'telephone' => 'required'
-      ]);
-        $company = $this->svc->addCompany($request);
+        $company = $this->svc->addCompany(request()->all());
         if ($company == null) {
             $message = "Failed to add company!";
             $status = 0;
@@ -98,21 +92,17 @@ class ClientController extends Controller
     {
         $message = "Failed to add candidate!";
         $status = 0;
-        $this->validate(request(), [
-        'name' => 'required',
-        'title' => 'required',
-        'email' => 'required',
-        'gender' => 'required',
-        'handphone' => 'required',
-        'resume' => 'required',
-        'birthdate' => 'required',
-      ]);
         $resume = request()->file('resume');
         if ($resume!=null) {
             $candidate = $this->canSvc->addCandidateFile(request()->all());
             if ($candidate != null) {
-                $message = "Candidate successfully added!";
-                $status = 1;
+                if (!empty(request()->input('type'))) {
+                    $message = "Your application was successfully received! We'll get back to you with any matching jobs available soon!";
+                    $status = 1;
+                } else {
+                    $message = "Candidate successfully added!";
+                    $status = 1;
+                }
             }
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);

@@ -2,6 +2,11 @@
 
 
 @push('stylesheets')
+
+<!-- pnotify -->
+<link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
 <!-- Datatables -->
 <link href="{{ asset('css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('css/buttons.bootstrap.min.css') }}" rel="stylesheet">
@@ -20,20 +25,14 @@
             <div class="x_panel">
                <div class="x_title">
                   <h2>Company Clients List</h2>
-                  <ul class="nav navbar-right panel_toolbox">
-                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                     </li>
 
-                     <li><a class="close-link"><i class="fa fa-close"></i></a>
-                     </li>
-                  </ul>
                   <div class="clearfix"></div>
                </div>
                <div class="x_content">
 
                         <div class="table-responsive">
-
-
+                          <div class="dataTables_length" id="datatable_industry">
+                          </div>
                            <table id="datatable" class="table table-striped table-bordered dataTables"  >
                              <thead>
                                   <tr>
@@ -139,32 +138,22 @@ function submitform()
 }
 
 $(document).ready(function() {
-    // $('#datatable').DataTable();
 
- var table = $('#datatable').DataTable( {
+ var table = $('#datatable').DataTable({
         dom: 'lBfrtip',
         select: true,
-        // "columnDefs": [
-        //     {
-        //       "targets": [4],
-        //       "visible": false,
-        //       "searchable": false
-        //     }
-        // ],
         buttons: [
-            {
+          'copy','csv','print',{
                 text: 'Sort by Urgency',
                 action: function () {
-                  table.column( 4 ).order( 'desc' ).draw();
+                  table.column(4).order('desc').draw();
                 }
             }
-        ]
-    } );
+        ],
+        "bDestroy": true
+    });
 
-    $('{{  Form::open(['route' => 'companies.industry','method'=>'post','class' => 'form-horizontal form-label-left', 'id'=>'modal_form_id']) }}' +
-        '<div class="form-group">' +
-        // '<label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry</label>'+
-  			'<div class="col-md-6 col-sm-6 col-xs-12">'+
+    $('<div class="col-md-12 col-xs-12"><label>{{  Form::open(['route' => 'companies.industry','method'=>'post','class' => 'form-horizontal form-label-left', 'id'=>'modal_form_id']) }}' +
   			'<select class="select2_single form-control" id="industry" name="industry" tabindex="-1">'+
   			'<option disabled>Industry</option>'+
         '<option value="All">All</option>' +
@@ -213,11 +202,10 @@ $(document).ready(function() {
         '<option value="Other">Other</option>' +
         '</select>' +
         '<button type="button" class="btn btn-primary btn-sm" onclick="submitform();">Filter</button>' +
-        '</div>' +
-        '</div>'+
-        '{!! Form::close() !!}').appendTo("#datatable_wrapper .dataTables_filter");
 
- $(".dataTables_filter label").addClass("pull-right");
+        '{!! Form::close() !!}</label></div>').appendTo("#datatable_wrapper #datatable_filter");
+
+ // $(".dataTables_filter label").addClass("pull-right");
 } );
 
 
@@ -243,11 +231,13 @@ for (var i = 0, l = elems.length; i < l; i++) {
 <script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('js/responsive.bootstrap.js') }}"></script>
 <script src="{{ asset('js/dataTables.scroller.min.js') }}"></script>
-<!-- jszip -->
-<script src="{{ asset('js/jszip.min.js') }}"></script>
-<!-- pdfmake -->
-<script src="{{ asset('js/pdfmake.min.js') }}"></script>
-<script src="{{ asset('js/vfs_fonts.js') }}"></script>
 
 
+
+<!-- Flot - , pice, time, stack, resize -->
+<script src="{{ asset('js/jquery.flot.js') }}"></script>
+<script src="{{ asset('js/jquery.flot.pie.js') }}"></script>
+<script src="{{ asset('js/jquery.flot.time.js') }}"></script>
+<script src="{{ asset('js/jquery.flot.stack.js') }}"></script>
+<script src="{{ asset('js/jquery.flot.resize.js') }}"></script>
 @endpush
