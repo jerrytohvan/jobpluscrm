@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'pgsql_production'),
+    'default' => env('DB_CONNECTION', 'pgsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -53,7 +53,7 @@ return [
             'port' => '5432',
             'database' => 'jobplus',
             'username' => 'postgres',
-            'password' => 'yiyao',
+            'password' => 'root',
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
