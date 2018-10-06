@@ -1,1 +1,1 @@
-node testing.js
+node function.js

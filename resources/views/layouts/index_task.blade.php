@@ -51,20 +51,6 @@
                          </div>
                        </div>
 
-                       <div class="form-group">
-                         <label for="type" class="control-label col-md-3 col-sm-3 col-xs-12">Type </label>
-                         <div class="col-md-6 col-sm-6 col-xs-12">
-                           <div id="type" class="btn-group" data-toggle="buttons">
-                             <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                               <input type="radio" name="type" value="1"> &nbsp; Task &nbsp;
-                             </label>
-                             <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                               <input type="radio" name="type" value="0"> Event
-                             </label>
-                           </div>
-                         </div>
-                       </div>
-
                        <!-- <div class="form-group">
                          <label for="assigned_id" class="control-label col-md-3 col-sm-3 col-xs-12">Email </label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
