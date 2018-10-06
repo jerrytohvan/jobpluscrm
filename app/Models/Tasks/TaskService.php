@@ -18,8 +18,8 @@ class TaskService
     //default task/event for todolist
     public function storeTask($array)
     {
-        $userId = Auth::user()->id;
-        if ($userId != 1) {
+        $status = Auth::user()->admin;
+        if (!$status) {
             return Task::Create([
                 'title' => $array['title'],
                 'description' => $array['description'],
@@ -27,9 +27,9 @@ class TaskService
                 'company_id' =>  $array['company_id'],
                 'status' => 1,
                 'user_id' => Auth::user()->id,
-                'type' => $array['type'],
+                'type' => 1
             ]);
-        } elseif ($userId == 1) {
+        } elseif ($status) {
             if ((int)$array['assigned_id'] == 0) {
                 return Task::Create([
                     'title' => $array['title'],
@@ -39,7 +39,7 @@ class TaskService
                     'assigned_id' =>  0,
                     'status' => 0,
                     'user_id' => Auth::user()->id,
-                    'type' => $array['type'],
+                    'type' => 1
                 ]);
             } else {
                 return Task::Create([
@@ -50,7 +50,7 @@ class TaskService
                     'status' => 1,
                     'user_id' => Auth::user()->id,
                     'assigned_id' => (int)$array['assigned_id'],
-                    'type' => $array['type'],
+                    'type' => 1
                 ]);
             }
         }
