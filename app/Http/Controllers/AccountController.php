@@ -24,11 +24,20 @@ class AccountController extends Controller
             return $value->id;
         });
         $tasks = Task::orderBy('order')->whereUserId($id)->orWhere('assigned_id', $id)->orWhereIn('company_id', $collaboratorsIn)->get();
-      
 
-        $tasksOpen = $tasks->map(function ($value, $key) {
-            $value['company'] = Company::find($value['company_id'])->name;
-            $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name : "";
+        //retrieve all company and users
+        $companies = Company::all();
+        $users = User::all();
+        $tasksOpen = $tasks->map(function ($value, $key) use ($companies,$users) {
+            // $value['company'] = Company::find($value['company_id'])->name;
+            $value['company'] =  $companies->filter(function ($company) use ($value) {
+                return $company->id == $value['company_id'];
+            })->first()->name;
+
+            // $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name : "";
+            $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                return $user->id == $value['assigned_id'];
+            })->first()->name :  "";
             $dateNow =  date_create(date("Y-m-d H:i:s"));
             $dateAfter =  date_create(date($value['date_reminder']));
             $dateDiff = date_diff($dateNow, $dateAfter);
@@ -39,9 +48,13 @@ class AccountController extends Controller
             return $task->status == 0;
         })->values();
 
-        $tasksOnGoing = $tasks->map(function ($value, $key) {
-            $value['company'] = Company::find($value['company_id'])->name;
-            $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name  : "";
+        $tasksOnGoing = $tasks->map(function ($value, $key) use ($companies,$users) {
+            $value['company'] =  $companies->filter(function ($company) use ($value) {
+                return $company->id == $value['company_id'];
+            })->first()->name;
+            $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                return $user->id == $value['assigned_id'];
+            })->first()->name :  "";
             $dateNow =  date_create(date("Y-m-d H:i:s"));
             $dateAfter =  date_create(date($value['date_reminder']));
             $dateDiff = date_diff($dateNow, $dateAfter);
@@ -52,9 +65,13 @@ class AccountController extends Controller
             return $task->status == 1;
         })->values();
 
-        $tasksClosed = $tasks->map(function ($value, $key) {
-            $value['company'] = Company::find($value['company_id'])->name;
-            $value['assignee'] =!empty($value['assigned_id']) ? User::find($value['assigned_id'])->name  : "";
+        $tasksClosed = $tasks->map(function ($value, $key) use ($companies,$users) {
+            $value['company'] =  $companies->filter(function ($company) use ($value) {
+                return $company->id == $value['company_id'];
+            })->first()->name;
+            $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                return $user->id == $value['assigned_id'];
+            })->first()->name:  "";
             $dateNow =  date_create(date("Y-m-d H:i:s"));
             $dateAfter =  date_create(date($value['date_reminder']));
             $dateDiff = date_diff($dateNow, $dateAfter);
