@@ -271,12 +271,13 @@
 
                                 <div class="form-group">
                                     <label for="tele_id">Telegram Chat ID</label>
+                                    <a href="#show-instruction" data-toggle="modal" data-target="#show-instruction">?</a>
                                     <input id="tele_id" class="form-control col-md-7 col-xs-12" required="required" type="text" name="tele_id" value="{{ $user->tele_id }}">
                                 </div>
 
                                 <div class="form-group">
                                      <label for="birthday">Birth Date</label>
-                                     <input type="text" class="form-control col-md-7 col-xs-12"  data-date-format="MM/DD/YYYY" required="required" id="birthday" name="birthday" value='{{ date("mm/dd/YYYY", strtotime($user->birth_date)) }}' />
+                                     <input type="date" class="form-control col-md-7 col-xs-12"  data-date-format="MM/DD/YYYY" required="required" id="birthday" name="birthday" value='{{ $user->birth_date }}' />
                                 </div>
 
                                 <div class="form-group">
@@ -296,11 +297,36 @@
                 </div><!-- /.modal-dialog -->
 
             </div><!-- /.modal -->
+
+                <div class="modal fade" tabindex="-1" role="dialog" id="show-instruction">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Instruction</h4>
+                        </div>
+                        <div class="modal-body">
+                          
+                          <font color="red">
+                            To get your Telegram Chat ID:<br>
+                            1) Open your Telegram app<br>
+                            2) Search for "@get_id_bot"<br>
+                            3) Click "Start" and wait for a few seconds<br>
+                            4) You will receive a message with your Chat ID.
+                          </font>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
           </div>
       <!-- /page content -->
 
 @endsection
-
 
 
 @section('bottom_content')
@@ -353,14 +379,14 @@ function submitform()
           });
       });
 
-      $(function() {
-        $('input[name="birthday"]').daterangepicker({
-          singleDatePicker: true,
-          showDropdowns: true,
-          minYear: 1940,
-          maxYear: parseInt(moment().format('YYYY'),10)
-        })
-      });
+      // $(function() {
+      //   $('input[name="birthday"]').daterangepicker({
+      //     singleDatePicker: true,
+      //     showDropdowns: true,
+      //     minYear: 1940,
+      //     maxYear: parseInt(moment().format('YYYY'),10)
+      //   })
+      // });
 
 
 

@@ -57,7 +57,6 @@ class ClientController extends Controller
     {
         $array = $this->svc->getAllClients();
         $score = $this->svc->getUrgencyScore($array);
-
         return view('layouts.companies_clients', compact('array', 'status', 'companies', 'score'));
     }
 
@@ -124,9 +123,12 @@ class ClientController extends Controller
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
-    public function removeCandidate(Candidate $candidate)
+    public function removeCandidate(Request $request)
     {
-        $id = $candidate->id;
+        $requestArray = request()->all();
+        $id = $requestArray['candidate_id'];
+        $candidate = Candidate::find($id);
+
         $message = "Failed to remove candidate!";
         $status = 0;
         $this->canSvc->destroyCandidate($candidate);
@@ -154,8 +156,10 @@ class ClientController extends Controller
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
-    public function removeAccount($employee_id)
+    public function removeAccount(Request $request)
     {
+        $requestArray = request()->all();
+        $employee_id = $requestArray['contact_id'];
         $employee = Employee::find($employee_id);
         if ($employee ->delete()) {
             $message = "Employee successfully removed!";
@@ -321,8 +325,10 @@ class ClientController extends Controller
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
-    public function removeCompany($company_id)
+    public function removeCompany(Request $request)
     {
+        $requestArray = request()->all();
+        $company_id = $requestArray['company_id'];
         $company = Company::where('id', $company_id)->first();
         $employee = Employee::where('company_id', $company_id);
         try {
@@ -361,10 +367,15 @@ class ClientController extends Controller
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
-    public function removeNote(Post $post)
+    public function removeNote(Request $request)
     {
         $message = "Opps! Note can't be deleted. ";
         $status = 0;
+
+        $requestArray = request()->all();
+        $postId = $requestArray['postId'];
+        $post = Post::where('id',$postId)->first();
+
         if (Auth::user() != $post->user) {
             $message = "You are not authorised for this";
             $status = 0;
@@ -442,15 +453,15 @@ class ClientController extends Controller
         }
         return $string;
     }
-    public function filterByIndustry(Request $request)
-    {
-        $industry = $request->input('industry');
-        if ($industry == "All") {
-            $array = Company::whereClient(1)->orderBy('name', 'asc')->get();
-        } else {
-            $array = Company::where('industry', $industry)->get();
-        }
-        $score = $this->svc->getUrgencyScore($array);
-        return view('layouts.companies_clients', compact('array', 'score'));
-    }
+    // public function filterByIndustry(Request $request)
+    // {
+    //     $industry = $request->input('industry');
+    //     if ($industry == "All") {
+    //         $array = Company::whereClient(1)->orderBy('name', 'asc')->get();
+    //     } else {
+    //         $array = Company::where('industry', $industry)->get();
+    //     }
+    //     $score = $this->svc->getUrgencyScore($array);
+    //     return view('layouts.companies_clients', compact('array', 'score'));
+    // }
 }

@@ -71,7 +71,7 @@
                             <td>
                                 <a href="{{ route('view.company', ['company' => $data->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
                                 <a href="{{ route('convert.lead', ['company' => $data->id]) }}" class="btn btn-info btn-xs"><i class="fa fa-random"></i> Convert </a>
-                                <a href="{{ route('delete.company', ['company_id' => $data->id]) }}" class="btn btn-danger btn-xs confirmation"><i class="fa fa-trash-o"></i> Delete </a>
+                                <a onclick="deleteLead( {{ $data->id }} )" class="btn btn-danger btn-xs confirmation"><i class="fa fa-trash-o"></i> Delete </a>
                               </td>
                           </tr>
                           @endforeach
@@ -83,11 +83,35 @@
          </div>
       </div>
    </div>
+      
+	<div class="modal fade" tabindex="-1" role="dialog" id="confirm-delete">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title">Delete Lead</h4>
+            </div>
+            <div class="modal-body">
+               {{  Form::open(['route' => 'delete.company','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'delete_form']) }}
+               <p>Are you sure you want to delete this lead? This action cannot be undone.</P>
+               <input type="hidden" id="company_id" name="company_id" value="">
+
+               {!! Form::close() !!}
+              
+               <button type="button" class="btn btn-danger"  onclick="submitForm();" >Confirm Delete</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              
+            </div>
+            
+         </div>
+         <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+	 </div>
+   
 </div>
 
 @endsection
-
-
 
 @section('bottom_content')
 
@@ -113,16 +137,24 @@ function loadNotification(){
         styling: 'bootstrap3'
     });
   }
-
-
 }
-var elems = document.getElementsByClassName('confirmation');
-var confirmIt = function (e) {
-    if (!confirm('Are you sure?')) e.preventDefault();
-};
-for (var i = 0, l = elems.length; i < l; i++) {
-    elems[i].addEventListener('click', confirmIt, false);
+
+function deleteLead(companyId) {
+  $('#company_id').val(companyId);
+  $('#confirm-delete').modal('show');
 }
+
+function submitForm() {
+    $('#delete_form').submit();
+}
+
+// var elems = document.getElementsByClassName('confirmation');
+// var confirmIt = function (e) {
+//     if (!confirm('Are you sure?')) e.preventDefault();
+// };
+// for (var i = 0, l = elems.length; i < l; i++) {
+//     elems[i].addEventListener('click', confirmIt, false);
+// }
 
 
 </script>

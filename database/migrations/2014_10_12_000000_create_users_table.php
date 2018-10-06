@@ -24,6 +24,8 @@ class CreateUsersTable extends Migration
             $table->boolean('admin')->default(false);
             $table->rememberToken();
             $table->timestamps();
+            $table->string('handphone')->nullable();
+            $table->string('tele_id')->nullable();
         });
     }
 

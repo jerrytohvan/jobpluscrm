@@ -34,8 +34,15 @@
               </li>
 
                @if(Auth::user()->admin == 1)
+              <!-- <li><a href="{{ route('index.register') }}"><i class="fa fa-users"></i>Manage Admin</a>
+              </li> -->
+
               <li>
-                <a href="{{ route('index.register') }}"><i class="fa fa-users"></i>Manage Admin</a>
+                <a><i class="fa fa-users"></i> Manage Admin <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li><a href="{{ route('admin.list') }}"></i>Admins</a>
+                  <li><a href="{{ route('index.register') }}">New</a></li>
+                    </ul>
               </li>
               @endif
 
