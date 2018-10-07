@@ -30,6 +30,30 @@ class CandidateService
         $candidate->save();
         return $candidate;
     }
+    // public function addFileToCompany()
+    // {
+    //     $file = request()->file('file_upload');
+    //     if ($file != null) {
+    //         $path = storage_path()."/app/attachments";
+    //         $original_name = $file->getClientOriginalName();
+    //         $ext = pathinfo($original_name, PATHINFO_EXTENSION);
+    //         $company =  Company::find(request()->input('company_id'));
+    //         //add image & file compressor
+    //         $hashed_name = md5($original_name. time()) . "." . $ext;
+    //         $file->move($path, $hashed_name);
+    //         $storedFile = $this->compSvc->addCompanyFiles($hashed_name, $original_name, $company);
+    //         if ($storedFile != null) {
+    //             $status = 1;
+    //             $message = "File is successfully added!";
+    //             $accounts = $company->employees;
+    //             $companyFiles = $company->files;
+    //             return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    //         }
+    //     }
+    //     $status = 0;
+    //     $message = "Failed to add file";
+    //     return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    // }
 
 
     public function addCandidateFile($array)
@@ -41,8 +65,8 @@ class CandidateService
             $hashed_name = md5($original_name. time()) . "." . $ext;
             $filenameArray = explode('.', $hashed_name);
             $path =  storage_path() ."/app/resumes";
-            if ($file->move($path, $hashed_name)) {
-                $candidate = Candidate::Create([
+            $file->move($path, $hashed_name);
+            $candidate = Candidate::Create([
                   'name' => $array['name'],
                   'email' => $array['email'],
                   'title' => $array['title'],
@@ -53,18 +77,16 @@ class CandidateService
                   'summary_keywords' => empty($array['keywords']) ? "" : $array['keywords'],
                   'birthdate' => $array['birthdate']
               ]);
-                $file = new Attachment([
+            $file = new Attachment([
                 'file_name' => $original_name,
                 'hashed_name' => $hashed_name,
                 'file_type' => end($filenameArray)
               ]);
 
-                $candidate->files()->save($file);
-                $file->attachable()->associate($candidate)->save();
-                return $candidate;
-            }
+            $candidate->files()->save($file);
+            $file->attachable()->associate($candidate)->save();
+            return $candidate;
         }
-        return null;
     }
 
     public function removeFile(Attachment $file)

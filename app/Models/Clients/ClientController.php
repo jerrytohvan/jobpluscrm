@@ -374,7 +374,7 @@ class ClientController extends Controller
 
         $requestArray = request()->all();
         $postId = $requestArray['postId'];
-        $post = Post::where('id',$postId)->first();
+        $post = Post::where('id', $postId)->first();
 
         if (Auth::user() != $post->user) {
             $message = "You are not authorised for this";

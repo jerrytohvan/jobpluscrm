@@ -51,7 +51,7 @@
                             <td>{{
                               date("F d, Y", strtotime($candidate->birthdate))}}</td>
                             <td>
-                                 <a href="{{ route('get.resume', ['file'=> $candidate->files->first()->attachable_id])}}"  class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Resume</a>
+                                 <a href="{{ route('get.resume', ['file'=> $candidate->files->first()->id])}}"  class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Resume</a>
                                  <a onclick="deleteCandidate( {{ $candidate->id }} )" class="btn btn-danger btn-xs confirmation"><i class="fa fa-trash-o"></i> Delete </a>
                                  <a href="{{ route('smart.match.candidate', ['candidate' => $candidate->id]) }}" class="btn btn-success btn-xs"><i class="fa fa-trash-o"></i>Smart Match</a>
 
@@ -66,7 +66,7 @@
          </div>
       </div>
    </div>
-   
+
    <div class="modal fade" tabindex="-1" role="dialog" id="confirm-delete">
       <div class="modal-dialog">
          <div class="modal-content">
@@ -80,18 +80,18 @@
                <input type="hidden" id="candidate_id" name="candidate_id" value="">
 
                {!! Form::close() !!}
-              
+
                <button type="button" class="btn btn-danger"  onclick="submitForm();" >Confirm Delete</button>
                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              
+
             </div>
-            
+
          </div>
          <!-- /.modal-content -->
       </div>
       <!-- /.modal-dialog -->
 	 </div>
-   
+
 </div>
 
 @endsection
