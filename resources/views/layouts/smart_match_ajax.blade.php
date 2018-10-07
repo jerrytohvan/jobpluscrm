@@ -205,7 +205,7 @@ $(window).load(function() {
         });
         $('.right_col').show();
         $("#fakeLoader").remove();
-        $('.chart').data('easyPieChart').enableAnimation();
+        // $('.chart').data('easyPieChart').enableAnimation();
 
   },
   error: function(msg){
