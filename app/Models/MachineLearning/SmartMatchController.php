@@ -56,13 +56,18 @@ class SmartMatchController extends Controller
         if (!empty($candidate->summary_keywords)) {
             $keywords = array_merge(explode(',', $candidate->summary_keywords), $keywords);
         }
-
-        $results = $this->svc->matchPersonWithJobs($keywords);
+        $results = $this->svc->matchPersonWithJobs($keywords, $candidate->industry);
         return json_encode($results);
     }
 
     public function resultsSmartMatch(Candidate $candidate)
     {
-        return view('layouts.smart_match_ajax', compact('candidate'));
+        $file = $candidate->files->first();
+        $keywords = $this->svc->readEmployeeResume($file->hashed_name, 2);
+
+        if (!empty($candidate->summary_keywords)) {
+            $keywords = array_merge(explode(',', $candidate->summary_keywords), $keywords);
+        }
+        return view('layouts.smart_match_ajax', compact('candidate', 'keywords'));
     }
 }

@@ -42,7 +42,16 @@ class MLService
         $begin = memory_get_usage();
         $maxId = Company::max('id');
         $minId = Company::min('id');
-        // $container = new Collection();
+        $industriesRandom =   ["Aerospace industry", "Agriculture",
+        "Fishing industry","Timber industry","Tobacco industry","Chemical industry",
+        "Pharmaceutical industry","Computer industry","Software industry",
+        "Technology industry", "Construction industry", "Real estate industry",
+        "Public utilities industry", "Defense industry", "Arms industry", "Education industry",
+        "Energy industry", "Electrical power industry", "Petroleum industry", "Entertainment industry",
+        "Financial services industry", "Insurance industry", "Food industry", "Fruit production", "Health care industry",
+        "Hospitality industry","Information industry", "Manufacturing","Electronics industry", "Pulp and paper industry",
+        "Steel industry", "Shipbuilding industry", "Mass Media Broadcasting", "Film industry", "Music industry", "News media", "Publishing",
+        "World Wide Web", "Mining", "Telecommunications industry", "Transport industry", "Water industry","Other"];
         if (($handle = fopen($fileDir, 'r')) !== false) {
             $header = fgetcsv($handle);
             while (($data = fgetcsv($handle)) !== false) {
@@ -51,7 +60,7 @@ class MLService
               'job_description' => $data[1] ,
               'category' =>$data[2],
               'skills' => $data[3] ,
-              'industry' => $data[4],
+              'industry' => $industriesRandom[array_rand($industriesRandom)],
               'years_experience' => !empty($data[5])|| $data[5] == -1 ? $data[5]:0,
               'company_id' => rand($minId, $maxId)
             ]);
@@ -160,35 +169,63 @@ class MLService
         return (array_sum($a[1]) > array_sum($b[1])) ? -1 : 1;
     }
 
-    public function potentialMaxPoints()
+    public function potentialMaxPoints($portionArray, $pointsArray, $keywordsTotal)
     {
+        $max = 0;
+        for ($i = 0; $i < sizeof($portionArray); $i++) {
+            if ($pointsArray[$i] != 0) {
+                //100% match means that all the keywords matches on that attribute comparison
+                $max += $keywordsTotal * $portionArray[$i];
+            }
+        }
+        return $max;
     }
 
 
-    public function matchPersonWithJobs($keywords)
+    public function matchPersonWithJobs($keywords, $industry = null)
     {
         //ADD ON FILTER BY JOB INDUSTRY
         // $chunks = Job::inRandomOrder()->paginate($total)->chunk(100);
-        $chunks = Job::all()->chunk(100);
+        if ($industry!= null) {
+            $chunks = Job::whereIndustry($industry)->get()->chunk(100);
+        } else {
+            $chunks = Job::all()->paginate(1000)->chunk(100);
+        }
         $index = 0;
         //collect top 10 job points
         $points = [];
-
         foreach ($chunks as $jobs) {
             foreach ($jobs as $job) {
                 //algorithm
-                //count in stop words too
                 $job_title =  Self::extract_keywords($job->job_title);
                 $job_description = Self::extract_keywords($job->job_description);
                 $skills = Self::extract_keywords(preg_replace('/[0-9\W]/', ',', $job->skills));
                 $years_of_exp = $job->years_experience;
+                $summary = explode(",", $job->summary_keywords) ;
+                foreach ($summary as $key => $value) {
+                    $summary[$key] = trim($value);
+                }
+
+                $titlePortion = 0.1;
+                $descPortion = 0.2;
+                $skillsPortion = 0.3;
+                $expPortion = 0.1;
+                $summaryPortion = 0.3;
+
                 //will same words from each factor and keywords be counted twice?
-                //only based on counts (add weighted average? title: 0.2, desc: 0.1, skills: 0.3 , extra related words: 0.4)
-                $titlePoint = count(array_intersect($job_title, $keywords));
-                $descPoint = count(array_intersect($job_description, $keywords));
-                $skillsPoint = count(array_intersect($skills, $keywords));
-                $expPoint = $years_of_exp <=  (int)end($keywords) ? 1 : 0;
-                $points = Self::returnWithMaxPoints($points, array($index,[$titlePoint,$descPoint, $skillsPoint,$expPoint]));
+                $titlePoint = count(array_intersect($job_title, $keywords)) * $titlePortion;
+                $descPoint = count(array_intersect($job_description, $keywords)) * $descPortion;
+                $skillsPoint = count(array_intersect($skills, $keywords)) * $skillsPortion;
+                $expPoint = ($years_of_exp <=  (int)end($keywords) ? 1 : 0) * $expPortion;
+                $summaryKeywordsPoint = count(array_intersect($summary, $keywords)) * $summaryPortion;
+
+                $maxPoint = Self::potentialMaxPoints(
+                    [$titlePortion, $descPortion, $skillsPortion, $expPortion, $summaryPortion],
+                    [$titlePoint, $descPoint, $skillsPoint,$expPoint, $summaryKeywordsPoint],
+                    sizeof($keywords)
+                );
+                $accuracy = [$job->id, ($titlePoint + $descPoint + $skillsPoint + $expPoint + $summaryKeywordsPoint)/$maxPoint];
+                $points = Self::returnWithMaxPoints($points, array($index,[$titlePoint,$descPoint, $skillsPoint,$expPoint, $summaryKeywordsPoint], $accuracy));
                 $index++;
                 unset($job);
             }
@@ -201,6 +238,9 @@ class MLService
         $points = array_map(function ($row) {
             return $row[1];
         }, $points);
+        $accuracy =   array_map(function ($row) {
+            return $row[2];
+        }, $points);
 
         //array of keywords match of the top 10 selection
         $keywordsMatch = [];
@@ -209,13 +249,18 @@ class MLService
             $job_title =  Self::extract_keywords($jobs->job_title);
             $job_description = Self::extract_keywords($jobs->job_description);
             $skills = Self::extract_keywords(preg_replace('/[0-9\W]/', ',', $jobs->skills));
+            $summary = explode(",", $jobs->summary_keywords) ;
+            foreach ($summary as $key => $value) {
+                $summary[$key] = trim($value);
+            }
 
             $titlesArray = array_intersect($job_title, $keywords);
             $descArray = array_intersect($job_description, $keywords);
             $skillsArray = array_intersect($skills, $keywords);
+            $summaryArray = array_intersect($summary, $keywords);
 
-            $keywordsMatch[] = array_merge($titlesArray, $descArray, $skillsArray);
+            $keywordsMatch[] = array_unique(array_merge($titlesArray, $descArray, $skillsArray, $summaryArray));
         }
-        return [$matchingJobs,$points, $keywordsMatch, $keywords];
+        return [$matchingJobs,$points, $accuracy, $keywordsMatch, $keywords];
     }
 }

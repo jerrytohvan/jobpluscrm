@@ -31,15 +31,68 @@ $(window).load(function() {
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Results - Smart Match</h3>
+                <h3>Smart Match - Candidate Profile</h3>
               </div>
             </div>
             <div class="clearfix"></div>
             <div class="row">
+              <div  class="col-md-12 col-xs-12">
+                <div class="bs-example" data-example-id="simple-jumbotron">
+                <div class="jumbotron">
+                  <h1>{{ $candidate->name }}</h1>
+                  <h5>Title</h5><p style="font-size: 14px;"> {{ $candidate->title }}</p>
+                  <h5>Gender</h5><p style="font-size: 14px;"> {{ $candidate->gender }}</p>
+                  <h5>Email</h5><p style="font-size: 14px;"> {{ $candidate->email }}</p>
+                  <h5>Handphone</h5><p style="font-size: 14px;"> {{ $candidate->handphone }}</p>
+                  <h5>Industry Interest</h5><p style="font-size: 14px;"> {{ $candidate->industry }}</p>
+                  <h5>Resume Keywords</h5><p style="font-size: 14px;"> {{ implode(", ",$keywords)  }}</p>
+                  <h5>Download Resume</h5>
+                  @php
+                    $resume = $candidate->files->first();
+                  @endphp
+                  <a href="{{ route('get.file', ['file'=> $resume->id])}}"><i class="
+                     @php
+                     switch ($resume->file_type) {
+                       case 'jpg':
+                       case 'jpeg':
+                       case 'png':
+                       echo 'fa fa-picture-o';
+                       break;
+                       case 'pdf':
+                       echo 'fa fa-file-pdf-o';
+                       break;
+                       case 'xls':
+                       case 'xlsx':
+                       case 'xltm':
+                       case 'xlsm':
+                       case 'csv':
+                       echo 'fa fa-file-excel-o';
+                       break;
+                       case 'ppt':
+                       case 'pptx':
+                       echo 'fa fa-file-powerpoint-o';
+                       break;
+                       case 'doc':
+                       case 'docx':
+                       echo 'fa fa-file-word-o';
+                       break;
+                       case 'zip':
+                       case 'rar':
+                       case '7z':
+                       echo 'fa fa-file-archive-o';
+                       break;
+                       default:
+                       echo 'fa fa-folder';
+                     }
+                     @endphp"></i>{{ $resume->file_name }}</a>
+
+                </div>
+              </div>
+              </div>
               <div class="col-md-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Smart Match <small>Here's what we found out!</small></h2>
+                    <h2>Smart Match - Results <small>Here's what we found out!</small></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -104,30 +157,33 @@ $(window).load(function() {
   dataType: 'json',
   success: function(data){
         $(function() {
-          var individualKeywords = data[2];
-          var resumeKeywords = data[3];
-          console.log(individualKeywords);
-          console.log(resumeKeywords);
           for(var i=0; i<data[0].length; i++){
-            var sum = 0;
-            for (var j = 0; j< data[1][i].length; j++) {
-              sum += data[1][i][j]
-            }
+            // console.log($(data[3][0]).size());
+            var keywordsConcat = data[3][i];
+            // for (var j = 1; j < data[3][i].length; j++) {
+            //     keywordsConcat +=  ", " + data[3][i][j];
+            //   }
+
+              var blkstr = [];
+              $.each(keywordsConcat, function(idx2,val2) {
+                blkstr.push(val2);
+              });
+
 
             var $wrapper = $('<div class="col-md-12 col-sm-12 col-xs-12 widget_tally_box">');
             var $xpannel = $('<div class="x_panel ui-ribbon-container">')
             var $ribbon = $('<div class="ui-ribbon-wrapper">')
-            $ribbon.prepend($('<div class="ui-ribbon">'+ sum +'</div>'));
+            $ribbon.prepend($('<div class="ui-ribbon">'+ Math.round(data[1][i].reduce((a, b) => a + b, 0)) +' Points</div>'));
             $xpannel.prepend(
               $('<div class="x_content">' +
               '<div style="text-align: center; margin-bottom: 17px">' +
-              '<span class="chart" data-percent="' + Math.round(sum/resumeKeywords.length*100) + '"><span class="percent">' + Math.round(sum/resumeKeywords.length*100) + '</span></span>'
+              '<span class="chart" data-percent="' + Math.round(data[2][i]) + '"><span class="percent">' + Math.round(data[2][i]) + '</span></span>'
               + '</div>' + '<h3 class="name_title">' + data[0][i].job_title + '</h3>' +
               '<p>' + data[0][i].category + '</p>'
              + '<div class="divider"></div>' +
              '<h4 class="name_title">Skills:</h4><br/>'+
               + '<p>' + data[0][i].job_description+ '</p>' + '<div class="divider"></div>' + '<p>'
-             + data[0][i].skills+ '</p>' + '<div class="divider"></div>' + '<p>' + "Keywords match: " + data[2][i] + '</p>' + '</div>'));
+             + data[0][i].skills+ '</p>' + '<div class="divider"></div>' + '<p>' + "Keywords match: " + blkstr.join(", ") + '</p>' + '</div>'));
              $xpannel.prepend($('<div class="x_title">' + '<h2>#' + (count+1) + '</h2>' + '<div class="clearfix"></div>' + '</div>'));
              $xpannel.prepend($ribbon);
              $wrapper.prepend($xpannel);
