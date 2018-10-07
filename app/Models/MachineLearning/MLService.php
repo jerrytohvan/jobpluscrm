@@ -185,12 +185,13 @@ class MLService
     public function matchPersonWithJobs($keywords, $industry = null)
     {
         //ADD ON FILTER BY JOB INDUSTRY
-        // $chunks = Job::inRandomOrder()->paginate($total)->chunk(100);
         if ($industry!= null) {
-            $chunks = Job::whereIndustry($industry)->get()->chunk(100);
+            $chunks = Job::where('industry', '=', $industry)->get()->chunk(100);
+            // dd($chunks[0][0]);
         } else {
             $chunks = Job::all()->paginate(1000)->chunk(100);
         }
+
         $index = 0;
         //collect top 10 job points
         $points = [];
@@ -227,24 +228,36 @@ class MLService
                 $accuracy = [$job->id, ($titlePoint + $descPoint + $skillsPoint + $expPoint + $summaryKeywordsPoint)/$maxPoint];
                 $points = Self::returnWithMaxPoints($points, array($index,[$titlePoint,$descPoint, $skillsPoint,$expPoint, $summaryKeywordsPoint], $accuracy));
                 $index++;
-                unset($job);
+                // unset($job);
             }
         }
-        unset($chunks);
+
+        // unset($chunks);
+        // $retrieveIndex = array_map(function ($row) {
+        //     return $row[3];
+        // }, $points);
         $retrieveIndex = array_map(function ($row) {
-            return $row[0];
+            return $row[2][0];
         }, $points);
 
         $points = array_map(function ($row) {
             return $row[1];
         }, $points);
+
         $accuracy =   array_map(function ($row) {
             return $row[2];
         }, $points);
 
+
         //array of keywords match of the top 10 selection
         $keywordsMatch = [];
         $matchingJobs = Job::whereIn('id', $retrieveIndex)->get();
+
+        // $matchingJobs =  $chunks->filter(function ($job, $value) use ($retrieveIndex) {
+        //     return in_array($job->id, $retrieveIndex);
+        // });
+        // dd($matchingJobs);
+
         foreach ($matchingJobs as $jobs) {
             $job_title =  Self::extract_keywords($jobs->job_title);
             $job_description = Self::extract_keywords($jobs->job_description);

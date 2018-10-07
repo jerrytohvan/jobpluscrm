@@ -97,16 +97,11 @@ $(window).load(function() {
                   </div>
                   <div class="x_content">
                     <!-- display resume analysis -->
-
                     <div class="clearfix"></div>
 
                     <div  id="table-list">
 
-
-
-
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -158,28 +153,23 @@ $(window).load(function() {
   success: function(data){
         $(function() {
           for(var i=0; i<data[0].length; i++){
-            // console.log($(data[3][0]).size());
             var keywordsConcat = data[3][i];
-            // for (var j = 1; j < data[3][i].length; j++) {
-            //     keywordsConcat +=  ", " + data[3][i][j];
-            //   }
-
-              var blkstr = [];
+            var blkstr = [];
               $.each(keywordsConcat, function(idx2,val2) {
                 blkstr.push(val2);
               });
-
+              // return [$matchingJobs,$points, $accuracy, $keywordsMatch, $keywords];
 
             var $wrapper = $('<div class="col-md-12 col-sm-12 col-xs-12 widget_tally_box">');
-            var $xpannel = $('<div class="x_panel ui-ribbon-container">')
-            var $ribbon = $('<div class="ui-ribbon-wrapper">')
+            var $xpannel = $('<div class="x_panel ui-ribbon-container">');
+            var $ribbon = $('<div class="ui-ribbon-wrapper">');
             $ribbon.prepend($('<div class="ui-ribbon">'+ Math.round(data[1][i].reduce((a, b) => a + b, 0)) +' Points</div>'));
             $xpannel.prepend(
               $('<div class="x_content">' +
               '<div style="text-align: center; margin-bottom: 17px">' +
               '<span class="chart" data-percent="' + Math.round(data[2][i]) + '"><span class="percent">' + Math.round(data[2][i]) + '</span></span>'
               + '</div>' + '<h3 class="name_title">' + data[0][i].job_title + '</h3>' +
-              '<p>' + data[0][i].category + '</p>'
+              '<p>' + data[0][i].industry + '</p>'
              + '<div class="divider"></div>' +
              '<h4 class="name_title">Skills:</h4><br/>'+
               + '<p>' + data[0][i].job_description+ '</p>' + '<div class="divider"></div>' + '<p>'
