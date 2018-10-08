@@ -50,7 +50,7 @@ $(window).load(function() {
                   @php
                     $resume = $candidate->files->first();
                   @endphp
-                  <a href="{{ route('get.file', ['file'=> $resume->id])}}"><i class="
+                  <a href="{{ route('get.resume', ['file'=> $resume->id])}}"><i class="
                      @php
                      switch ($resume->file_type) {
                        case 'jpg':

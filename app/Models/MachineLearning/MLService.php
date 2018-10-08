@@ -115,7 +115,9 @@ class MLService
         if ($type == 1) {
             $fileDir = realpath($_SERVER["DOCUMENT_ROOT"])."/storage/".$fileName;
         } elseif ($type == 2) {
+            // $fileDir = realpath($_SERVER["DOCUMENT_ROOT"])."/storage/app/resumes/".$fileName;
             $fileDir = storage_path() ."/app/resumes/".$fileName;
+            // "/Users/jerrytohvan/jobpluscrm/storage/app/resumes/c3794237ff59bbef2279246cd532f470.docx"
         } else {
             $fileDir = realpath($_SERVER["DOCUMENT_ROOT"])."/public/".$fileName;
         }
@@ -225,7 +227,7 @@ class MLService
                     [$titlePoint, $descPoint, $skillsPoint,$expPoint, $summaryKeywordsPoint],
                     sizeof($keywords)
                 );
-                $accuracy = [$job->id, ($titlePoint + $descPoint + $skillsPoint + $expPoint + $summaryKeywordsPoint)/$maxPoint];
+                $accuracy =  $maxPoint != 0 ? [$job->id, ($titlePoint + $descPoint + $skillsPoint + $expPoint + $summaryKeywordsPoint)/$maxPoint] : 0;
                 $points = Self::returnWithMaxPoints($points, array($index,[$titlePoint,$descPoint, $skillsPoint,$expPoint, $summaryKeywordsPoint], $accuracy));
                 $index++;
                 // unset($job);
