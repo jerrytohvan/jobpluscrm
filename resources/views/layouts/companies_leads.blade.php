@@ -49,7 +49,7 @@
                               @endphp
                               <ul style="list-style: none; padding: 0;">
                               @foreach($accounts as $account)
-                                    <li> <b> {{ $account->name . ": " }} </b> {{ $account->telephone }} </li>
+                                    <li> <b> {{ $account->name . ": " }} </b> {{ $account->handphone }} </li>
                               @endforeach
                               <ul>
                             </td>
@@ -83,7 +83,7 @@
          </div>
       </div>
    </div>
-      
+
 	<div class="modal fade" tabindex="-1" role="dialog" id="confirm-delete">
       <div class="modal-dialog">
          <div class="modal-content">
@@ -97,18 +97,18 @@
                <input type="hidden" id="company_id" name="company_id" value="">
 
                {!! Form::close() !!}
-              
+
                <button type="button" class="btn btn-danger"  onclick="submitForm();" >Confirm Delete</button>
                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              
+
             </div>
-            
+
          </div>
          <!-- /.modal-content -->
       </div>
       <!-- /.modal-dialog -->
 	 </div>
-   
+
 </div>
 
 @endsection

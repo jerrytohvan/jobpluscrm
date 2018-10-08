@@ -60,7 +60,7 @@
                                     @endphp
                                     <ul style="list-style: none; padding: 0;">
                                     @foreach($accounts as $account)
-                                          <li> <b> {{ $account->name . ": " }} </b> {{ $account->telephone }} </li>
+                                          <li> <b> {{ $account->name . ": " }} </b> {{ $account->handphone }} </li>
                                     @endforeach
                                     <ul>
                                   </td>
