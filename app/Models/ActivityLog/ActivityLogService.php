@@ -89,7 +89,7 @@ class ActivityLogService
         $construct = [];
         $lastActivity = Activity::whereSubjectId($user->id)->orWhere('causer_id', $user->id)->orderBy('created_at', 'desc')->get();
         foreach ($lastActivity as $activity) {
-            if ($activity->causer_type != null && (($activity->causer_id ==  $activity->subject_id)|| $user->id != $activity->subject_id)) {
+            if ($activity->causer_type != null && ($user->id != $activity->subject_id || ($activity->causer_id ==  $activity->subject_id))) {
                 $dateNow =  date_create(date("Y-m-d H:i:s"));
                 $dateBefore =  date_create(date($activity->created_at));
                 $dateDiff = date_diff($dateBefore, $dateNow);
