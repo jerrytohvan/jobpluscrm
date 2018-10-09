@@ -300,15 +300,30 @@ class ClientController extends Controller
 
     public function getFile(Attachment $file)
     {
-        if (Auth::user()) {
-            return response()->download(storage_path() . "/app/attachments/" . $file->hashed_name, $file->file_name);
+        try {
+            $path = storage_path() . "/app/attachments/" . $file->hashed_name;
+
+            if (Auth::user()&& file_exists($path)) {
+                return response()->download($path, $file->file_name);
+            } else {
+                return redirect()->back()->with(['message' => "ERROR, Something happened, file not found", 'status' => 0]);
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => "ERROR, Something happened, file not found", 'status' => 0]);
         }
     }
 
     public function getResume(Attachment $file)
     {
-        if (Auth::user()) {
-            return response()->download(storage_path() . "/app/resumes/" . $file->hashed_name, $file->file_name);
+        try {
+            $path = storage_path() . "/app/resumes/" . $file->hashed_name;
+            if (Auth::user() && file_exists($path)) {
+                return response()->download($path, $file->file_name);
+            } else {
+                return redirect()->back()->with(['message' => "Error, Something happened, file not found", 'status' => 0]);
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => "Error, Something happened, file not found", 'status' => 0]);
         }
     }
 

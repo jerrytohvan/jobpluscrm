@@ -5,6 +5,7 @@ namespace App\Models\Clients;
 use Illuminate\Http\Request;
 use App\Models\Clients\Candidate;
 use App\Models\Attachments\Attachment;
+use Illuminate\Support\Facades\Auth;
 
 class CandidateService
 {
@@ -91,21 +92,32 @@ class CandidateService
 
     public function removeFile(Attachment $file)
     {
-        $path = storage_path()."/app/resumes/";
-        $fileDir = $path . $file->hashed_name;
-        unlink($fileDir);
-        if (!file_exists($fileDir)) {
-            $file->delete();
-            return 1;
+        try {
+            $path = storage_path() . "/app/resumes/" . $file->hashed_name;
+            if (Auth::user() && file_exists($path)) {
+                unlink($fileDir);
+                $file->delete();
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (Exception $e) {
+            return 0;
         }
-        return  0;
     }
 
     public function destroyCandidate(Candidate $candidate)
     {
-        $file = Self::removeFile($candidate->files->first());
-        if ($file == 1) {
-            $candidate->delete();
+        try {
+            $file = Self::removeFile($candidate->files->first());
+            if ($file == 1) {
+                $candidate->delete();
+                return redirect()->back()->with(['message' => "Candidate successfully removed", 'status' => 1]);
+            } else {
+                return redirect()->back()->with(['message' => "ERROR, Something happened, file not found", 'status' => 0]);
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => "ERROR, Something happened, file not found", 'status' => 0]);
         }
     }
 }
