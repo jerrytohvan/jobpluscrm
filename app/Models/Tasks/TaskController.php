@@ -50,10 +50,18 @@ class TaskController extends Controller
         // $task = Task::all();
         $client = new Client();
 
-        $res = $client->request('GET', 'http://localhost:3000/mailData');
-        $content = $res->getBody()->getContents();
-        if (sizeof($content) > 0) {
-            error_log(print_r($content, true));
+        try {
+            $res = $client->request('GET', 'http://localhost:3000/mailData');
+            $content = $res->getBody()->getContents();
+            //error_log(print_r($content, true));
+            $var = json_decode($content,true);
+            
+            //error_log(print_r($var, true));
+            if (sizeof($var) > 0) {
+                error_log(print_r( " more than 1", true));
+            }
+        } catch (Exception $e) {
+            error_log(print_r( $e->getMessage(), true));
         }
 
     }

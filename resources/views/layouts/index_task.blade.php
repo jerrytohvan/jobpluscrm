@@ -90,7 +90,7 @@
                                  <div class="controls">
                                    <div class="input-prepend input-group" >
                                      <!-- <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span> -->
-                                     <input type="datetime-local" name="date_reminder" id="date_reminder" required="required" class="form-control" value="" />
+                                     <input type="date" name="date_reminder" id="date_reminder" required="required" class="form-control" value="" />
                                    </div>
                                  </div>
                                </div>

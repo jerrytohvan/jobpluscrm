@@ -286,13 +286,13 @@ Route::group(['middleware' => ['auth']], function () {
       'as' => 'add.job',
     'uses' => '\App\Models\Jobs\JobController@add_jobs'
     ]);
-    Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
+    
 
 
-    Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
+    // Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
     Route::get('/tasks/show', '\App\Models\Tasks\TaskController@showTaskList');
 });
-
+Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
 // Route::get('/telegram', [
 //   'as' => 'telegram',
 // 'uses' => '\App\Models\Chats\TelegramController@index'
