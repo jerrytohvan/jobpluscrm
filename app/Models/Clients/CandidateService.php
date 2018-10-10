@@ -95,8 +95,8 @@ class CandidateService
         try {
             $path = storage_path() . "/app/resumes/" . $file->hashed_name;
             if (Auth::user() && file_exists($path)) {
-                unlink($fileDir);
                 $file->delete();
+                unlink($path);
                 return 1;
             } else {
                 return 0;
