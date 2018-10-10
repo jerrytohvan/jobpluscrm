@@ -114,7 +114,7 @@ class MailController extends Controller
                 $data = array(
                   'toEmail' =>$emailTo,
                   'subject'=>$taskSubject,
-                  'emailMessage' =>$taskText,               
+                  'emailMessage' =>$taskText,
                   'tasks'=>$tasks['tasklist'];
 
                 );
@@ -130,14 +130,6 @@ class MailController extends Controller
                 $message->from('gabrielongxe@gmail.com','Gabriel');
                 $message->to($data['toEmail']);
                 $message->subject($data['subject']);
-                if (request()->file('emailAttachment') != null) {
-                      $message->attach($data['emailAttachment']->getRealPath(),
-                      array(
-                          'as'=>'emailAttachment.'. $data['emailAttachment']->getClientOriginalExtension(),
-                          'mime'=>$data['emailAttachment']->getMimeType())
-                      );
-                 }
-
                 $message->setBody($data['emailMessage']);
                 error_log(print_r("sending", true));
             });
