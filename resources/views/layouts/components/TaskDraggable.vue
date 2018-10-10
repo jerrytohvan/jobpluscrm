@@ -4,10 +4,21 @@
             <section class="list">
                 <header>Open</header>
                 <draggable class="drag-area" :list="tasksOpenNew" :options="{animation:200, group:'status'}" :element="'article'" @add="onAdd($event, 0)"  @change="update">
-                    <article class="card" v-for="(task, index) in tasksOpenNew" :key="task.id" :data-id="task.id">
-                        <header>
+                    <article class="cardOpen" v-for="(task, index) in tasksOpenNew" :key="task.id" :data-id="task.id">
+                      <a class="remove-item" @click="removeItem(task.id,index,0)">x</a>
+                        <header style="font-size:18px;color:#FFFFFF;">
                             {{ task.title }}
                         </header>
+                        <p style="font-size:8px;color:#FFFFFF;">{{ task.description }}</p>
+                        <p style="font-size:8px;color:#FFFFFF;">{{ task.date_string }}</p>
+                        <ul class="list-inline">
+                          <li v-if="task.assignee != ''">
+                              <p style="font-size:8px;color:#FFFFFF;">Assigned To: {{ task.assignee }}</p>
+                          </li>
+                          <li>
+                              <p style="font-size:8px;color:#FFFFFF;">Company: {{ task.company }}</p>
+                          </li>
+                        </ul>
                     </article>
                 </draggable>
             </section>
@@ -16,10 +27,21 @@
             <section class="list">
                 <header>On-going</header>
                 <draggable class="drag-area"  :list="tasksOnGoingNew" :options="{animation:200, group:'status'}" :element="'article'" @add="onAdd($event, 1)"  @change="update">
-                    <article class="card" v-for="(task, index) in tasksOnGoingNew" :key="task.id" :data-id="task.id">
-                        <header>
+                    <article class="cardInProgress" v-for="(task, index) in tasksOnGoingNew" :key="task.id" :data-id="task.id" >
+                      <a class="remove-item" @click="removeItem(task.id, index,1)">x</a>
+                        <header  style="font-size:18px;color:#FFFFFF;">
                             {{ task.title }}
                         </header>
+                        <p  style="font-size:8px;color:#FFFFFF;">{{ task.description }}</p>
+                        <p  style="font-size:8px;color:#FFFFFF;">{{ task.date_string }}</p>
+                        <ul class="list-inline">
+                          <li v-if="task.assignee != ''">
+                              <p  style="font-size:8px;color:#FFFFFF;">Assigned By: {{ task.assignee }}</p>
+                          </li>
+                          <li>
+                              <p  style="font-size:8px;color:#FFFFFF;">Company: {{ task.company }}</p>
+                          </li>
+                        </ul>
                     </article>
                 </draggable>
             </section>
@@ -28,14 +50,26 @@
             <section class="list">
                 <header>Closed</header>
                 <draggable class="drag-area"  :list="tasksClosedNew" :options="{animation:200, group:'status'}" :element="'article'" @add="onAdd($event, 2)"  @change="update">
-                    <article class="card" v-for="(task, index) in tasksClosedNew" :key="task.id" :data-id="task.id">
-                        <header>
+                    <article class="cardClosed" v-for="(task, index) in tasksClosedNew" :key="task.id" :data-id="task.id">
+                      <a class="remove-item" @click="removeItem(task.id, index,2)">x</a>
+                        <header style="font-size:18px;color:#FFFFFF;">
                             {{ task.title }}
                         </header>
+                        <p style="font-size:8px;color:#FFFFFF;">{{ task.description }}</p>
+                        <p style="font-size:8px;color:#FFFFFF;">{{ task.date_string }}</p>
+                        <ul class="list-inline">
+                          <li v-if="task.assignee != ''">
+                              <p  style="font-size:8px;color:#FFFFFF;">Assigned By: {{ task.assignee }}</p>
+                          </li>
+                          <li>
+                              <p  style="font-size:8px;color:#FFFFFF;">Company: {{ task.company }}</p>
+                          </li>
+                        </ul>
                     </article>
                 </draggable>
             </section>
         </div>
+
     </div>
 </template>
 
@@ -58,12 +92,24 @@
       onAdd(event, status) {
         let id = event.item.getAttribute('data-id');
         //change to ajax
-        axios.patch('/demos/tasks/' + id, {
+        axios.patch('/tasks/' + id, {
           status: status
         }).then((response) => {
           console.log(response.data);
+          new PNotify({
+            title: (response.status == 200 ? "Success!" : "Failed!"),
+            text: (response.status == 200 ? "Task successfully moved!" : "Task failed to be moved!"),
+            type: (response.status == 200 ? "success" : "error"),
+            styling: 'bootstrap3'
+          });
         }).catch((error) => {
           console.log(error);
+          // new PNotify({
+          //     title: "Something Happened!",
+          //     text: error,
+          //     type: "error"),
+          //   styling: 'bootstrap3'
+          // });
         })
       },
       update() {
@@ -81,14 +127,45 @@
         let tasks = this.tasksClosed.concat(this.tasksOnGoing).concat(this.tasksOpen);
         //change to ajax
 
-        axios.put('/demos/tasks/updateAll', {
+        axios.put('/tasks/updateAll/', {
           tasks: tasks
         }).then((response) => {
           console.log(response.data);
         }).catch((error) => {
           console.log(error);
+
         })
-      }
+      },
+      removeItem(taskid, index, type) {
+        //change to ajax
+        axios.patch('/tasks/remove/' + taskid, {
+          status: status
+        }).then((response) => {
+          console.log(response.status);
+          new PNotify({
+            title: (response.status == 200 ? "Success!" : "Failed!"),
+            text: (response.status == 200 ? "Task successfully removed!" : "Task failed to be removed!"),
+            type: (response.status == 200 ? "success" : "error"),
+            styling: 'bootstrap3'
+          });
+        }).catch((error) => {
+          console.log(error);
+          // new PNotify({
+          //     title: "Something Happened!",
+          //     text: error,
+          //     type: "error"),
+          //   styling: 'bootstrap3'
+          // });
+        });
+        if (type == 0) {
+          this.tasksOpenNew.splice(index, 1);
+        } else if (type == 1) {
+          this.tasksOnGoingNew.splice(index, 1);
+        } else {
+          this.tasksClosedNew.splice(index, 1);
+        }
+        // this.update();
+      },
 
     }
   }
@@ -96,7 +173,7 @@
 
 <style>
   .list {
-    background-color: #26004d;
+    background-color: #354751;
     border-radius: 3px;
     margin: 5px 5px;
     padding: 10px;
@@ -112,13 +189,20 @@
     cursor: grab;
   }
 
+  .list p {
+    color: grey;
+    text-align: left;
+    font-size: 10px;
+  }
+
+
   .list article {
     border-radius: 3px;
     margin-top: 10px;
   }
 
-  .list .card {
-    background-color: #FFF;
+  .list .cardInProgress {
+    background-color: #E6CB92;
     border-bottom: 1px solid #CCC;
     padding: 15px 10px;
     cursor: pointer;
@@ -126,11 +210,43 @@
     font-weight: bolder;
   }
 
+  .list .cardClosed {
+    background-color: #B5C385;
+    border-bottom: 1px solid #CCC;
+    padding: 15px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+  }
+
+  .list .cardOpen {
+    background-color: #87C3B9;
+    border-bottom: 1px solid #CCC;
+    padding: 15px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+  }
+
+
   .list .card:hover {
     background-color: #F0F0F0;
   }
 
   .drag-area {
     min-height: 10px;
+  }
+
+  .remove-item {
+    float: right;
+    color: #CA3C25;
+    opacity: 0.5;
+    font-size: 1.5em;
+  }
+
+  .remove-item:hover {
+    float: right;
+    color: #CA3C25;
+    opacity: 1;
   }
 </style>

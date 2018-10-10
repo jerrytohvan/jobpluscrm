@@ -337,7 +337,11 @@
         <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
       </div>
 
+<<<<<<< HEAD
         {{  Form::open(['route' =>'sendemail', 'method'=>'post','id'=>'submit-email','files'=> true,'enctype'=>'multipart/form-data']) }}
+=======
+        {{  Form::open(['route' =>'sendemail', 'method'=>'post','id'=>'submit-email','enctype'=>'multipart/form-data']) }}
+>>>>>>> 1e830ae2ed82ceb627e7a7dd247125945976850d
 
 
 
@@ -352,10 +356,15 @@
       </div>
 
       <div class="form-group">
+<<<<<<< HEAD
         {!! Form::label('emailAttachment', 'Upload Attachment:') !!}
         {!! Form::file('emailAttachment', null, ['class' => 'form-control']) !!}
               <!-- <h2 label for="emailAttachment">Upload your files</h2>
              <input type="file" id="emailAttachment" name="emailAttachment"  data-parsley-filemaxmegabytes="20" data-parsley-trigger="change" > -->
+=======
+              <h2 label for="emailAttachment">Upload your files</h2>
+          <input type="file" id="emailAttachment" name="emailAttachment"  data-parsley-filemaxmegabytes="50" data-parsley-trigger="change" >
+>>>>>>> 1e830ae2ed82ceb627e7a7dd247125945976850d
       </div>
 
 
@@ -372,6 +381,7 @@
     <label for="toEmail">TO * :</label>
     <input type="email" id="toEmail" class="form-control parsley-error" name="toEmail" data-parsley-trigger="change" required="required">
     </div>
+<<<<<<< HEAD
 
     <div class="form-group">
     <label for="ccEmail">CC  :</label>
@@ -379,6 +389,15 @@
     </div>
 
     <div class="form-group">
+=======
+
+    <div class="form-group">
+    <label for="ccEmail">CC  :</label>
+    <input type="email" id="ccEmail" class="form-control" name="ccEmail" data-parsley-trigger="change" >
+    </div>
+
+    <div class="form-group">
+>>>>>>> 1e830ae2ed82ceb627e7a7dd247125945976850d
     <label for="subject">Subject * :</label>
     <input type="text" id="subject" class="form-control parsley-error" name="subject" data-parsley-trigger="change" required="required">
     </div>

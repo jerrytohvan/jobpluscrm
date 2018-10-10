@@ -7,8 +7,10 @@ use App\Models\Clients\Company;
 use App\Models\Tasks\Task;
 use App\Models\Tasks\TaskService;
 use App\Models\Users\User;
+use App\Models\Users\UserCompany;
 use Auth;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -20,28 +22,40 @@ class TaskController extends Controller
 
     public function index()
     {
+        $message = "";
+        $status = "";
         $users = User::all();
         $companies = Company::all();
         $task = Task::all();
         //return $task;
-        return view('layouts.index_task', compact('users', 'companies','task'));
+        return view('layouts.index_task', compact('users', 'companies', 'task', 'message', 'status'));
     }
 
-    public function createTask(Request $request)
+    public function createTask()
     {
         $users = User::all();
         $companies = Company::all();
-        $task = $this->svc->storeTask($request);
+        $task = $this->svc->storeTask(request()->all());
         if ($task == null) {
-            $message = "Failed to add event";
+            $message = "Failed to add task";
             $status = 0;
         }
+        $message = "Task successfully created!";
+        $status = 1;
         return view('layouts.index_task', compact('status', 'message', 'users', 'companies'));
     }
 
-    public function display(){
-        $task = Task::all();
-        return $task;
+    public function display()
+    {
+        // $task = Task::all();
+        $client = new Client();
+
+        $res = $client->request('GET', 'http://localhost:3000/mailData');
+        $content = $res->getBody()->getContents();
+        if (sizeof($content) > 0) {
+            error_log(print_r($content, true));
+        }
+
     }
 
     public function createReminder(Request $request)
@@ -74,15 +88,28 @@ class TaskController extends Controller
         //return $creator;
 
         //return('to view',compact('task','assigned'))
-
     }
 
-    public function showTaskList($company_id)
+    public function showTaskList($companyId)
     {
-        $taskList = Task::whereUserId(Auth::user()->id)->whereCompanyId($company_id)->orderBy('date_reminder', 'asc')->get();
-        if (sizeof($taskList) > 0) {
-            return $taskList;
+        $userIds = array();
+        $userCompany = UserCompany::whereCompanyId('1')->get();
+        foreach ($userCompany as $user) {
+            $userIds[] = $user->user_id;
         }
+        $tasks = Task::whereCompanyId($companyId)->get();
+        $this->svc->insertCollab($tasks, $userIds);
+        $crTasks = Task::whereCompanyId($companyId)->whereUserId('Auth::user()->id')->get();
+        $aTasks = Task::whereCompanyId($companyId)->whereAssignedId('Auth::user()->id')->get();
+        $coTasks = Task::whereCompanyId($companyId)->where('collaborator->Auth::user()->id')->get();
+        if (sizeof($crTasks) > 0) {
+            return $crTasks;
+        } else if (sizeof($aTasks) > 0) {
+            return $aTasks;
+        } else if (sizeof($coTasks) > 0) {
+            return $coTasks;
+        }
+
     }
 
     public function showEvent()
@@ -98,12 +125,13 @@ class TaskController extends Controller
         $now = Carbon::now()->format('Y-m-d 00:00:00');
         $user_id = $user->id;
         $condition = request()->get('date');
+        $status = Auth::user()->admin;
         //$createdTask = Task::whereUserId($user_id)->whereType(true)->where('date_reminder', '>', $now)->get();
         // $assignedTask = Task::whereAssignedId($user_id)->whereType(true)->where('date_reminder', '>', $now)->get();
         // $expiredTask = Task::whereAssignedId($user_id)->whereType(true)->where('date_reminder', '<', $now)->where('status', '<', 3)->orderBy('date_reminder', 'asc')->get();
         $expiredCreatedTask = Task::whereUserId($user->id)->whereType(true)->where('status', '<', 2)->where('date_reminder', '<', $now)->orderBy('date_reminder', 'asc')->get();
         $expiredAssignedTask = Task::whereAssignedId($user->id)->whereType(true)->where('status', '<', 2)->where('date_reminder', '<', $now)->orderBy('date_reminder', 'asc')->get();
-        if (Auth::user()->id == 1) {
+        if ($status) {
             if ($condition == 'monthly') {
                 $monthly = Date((Carbon::now()->format('Y-m-d 00:00:00')), strtotime("+1 month"));
                 $createdTask = Task::whereUserId($user_id)->whereType(true)->whereStatus(1)->where('date_reminder', '<', $monthly)->orderBy('date_reminder', 'asc')->get();
@@ -111,7 +139,7 @@ class TaskController extends Controller
                 $closedCreatedTask = Task::whereUserId($user_id)->whereStatus(2)->where('date_reminder', '<', $monthly)->orderBy('date_reminder', 'asc')->get();
                 $closedAssignedTask = Task::whereAssignedId($user_id)->whereStatus(2)->where('date_reminder', '<', $monthly)->orderBy('date_reminder', 'asc')->get();
                 //return view('ur view',compact('createdTask','onGoingTask','closedCreatedTask','closedAssignedTask','expiredCreatedTask','expiredAssignedTask'));
-            } else if ($condition == 'yearly') {
+            } elseif ($condition == 'yearly') {
                 $yearly = Date((Carbon::now()->format('Y-m-d 00:00:00')), strtotime("+1 year"));
                 $createdTask = Task::whereUserId($user_id)->whereType(true)->whereStatus(1)->where('date_reminder', '<', $yearly)->orderBy('date_reminder', 'asc')->get();
                 $onGoingTask = Task::whereAssignedId($user_id)->whereType(true)->whereStatus(1)->where('date_reminder', '<', $yearly)->orderBy('date_reminder', 'asc')->get();
@@ -126,10 +154,7 @@ class TaskController extends Controller
                 $closedAssignedTask = Task::whereAssignedId($user_id)->whereStatus(2)->where('date_reminder', '<', $default)->orderBy('date_reminder', 'asc')->get();
                 //return view('ur view',compact('createdTask','onGoingTask','closedCreatedTask','closedAssignedTask','expiredCreatedTask','expiredAssignedTask'));
             }
-
         }
-
-
 
         //$qd = string($mnth) +" 00:00:00";
         //error_log(print_r( typeof($mnth),true));
@@ -138,15 +163,16 @@ class TaskController extends Controller
         // return $task;
     }
 
-    public function breakdownReport(){
+    public function breakdownReport()
+    {
         $now = Carbon::now();
-
     }
 
     public function closeTask($id)
     {
         $task = Task::find('id', $id);
-        if (Auth::user()->id == 1 || $task->username == Auth::user()->id) {
+        $status = Auth::user()->admin;
+        if ($status || $task->user_id == Auth::user()->id) {
             $task->status = 2;
             $task->save();
             return $task;
@@ -162,5 +188,4 @@ class TaskController extends Controller
     {
         return $this->svc->destroyTask($id);
     }
-
 }

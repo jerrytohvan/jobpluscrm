@@ -315,7 +315,7 @@ class CompaniesTableSeeder extends Seeder
                 'website' => 'nil',
                 'client' => true
             ],
-            
+
             [
                 'name' =>'Amino Group',
                 'address' => 'nil',

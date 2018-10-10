@@ -3,13 +3,17 @@
 @push('stylesheets')
 <script src="https://unpkg.com/vue"></script>
 
+<!-- pnotify -->
+<link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
 <!-- page content -->
 <div class="right_col" role="main">
   <!-- top tiles -->
-  <div class="row tile_count">
+  <!-- <div class="row tile_count">
     <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
       <span class="count_top"><i class="fa fa-user"></i>Task Overdue</span>
       <div class="count">{{'test'}}</div>
@@ -41,7 +45,7 @@
       <div class="count">5</div>
       <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
     </div>
-  </div>
+  </div> -->
   <!-- /top tiles -->
 
     <!-- start vue -->
@@ -79,6 +83,14 @@
 @push('scripts')
 
 <script src="{{ asset('js/vue-app-compiled.js') }}"></script>
+<script src="{{ asset('js/pnotify.js') }}"></script>
+<script src="{{ asset('js/pnotify.buttons.js') }}"></script>
+<script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
 
+<script>
+$(document).ready(function() {
+    $('.ui-pnotify').remove();
+} );
 
+</script>
 @endpush

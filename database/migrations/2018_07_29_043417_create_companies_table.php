@@ -21,7 +21,7 @@ class CreateCompaniesTable extends Migration
             $table->string('telephone_no');
             $table->string('fax_no')->nullable();
             $table->string('website')->nullable();
-            $table->string('no_employees')->nullable();
+            $table->integer('no_employees')->nullable()->default(0);
             $table->string('industry')->nullable();
             $table->string('lead_source')->nullable();
             $table->boolean('client')->default(false);//1 as client,2 as referral

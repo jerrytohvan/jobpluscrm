@@ -11,7 +11,8 @@
         <!-- menu profile quick info -->
         <div class="profile">
             <div class="profile_pic">
-                <img src="{{ Gravatar::src(Auth::user()->email) }}" alt="Avatar of {{ Auth::user()->name }}" class="img-circle profile_img">
+                <!-- <img src="{{ Gravatar::src(Auth::user()->email) }}" alt="Avatar of {{ Auth::user()->name }}" class="img-circle profile_img"> -->
+                <img src="{{ (Auth::user()->profile_pic) }}" alt="Avatar" class="img-circle profile_img">
             </div>
 
             <div class="profile_info">
@@ -28,43 +29,61 @@
           <div class="menu_section">
             <h3>General</h3>
             <ul class="nav side-menu">
-              <li><a href="{{ route('dashboard') }}"><i class="fa fa-home"></i> Home </a></li>
-
-            <li><a href="{{ route('social.wall') }}"><i class="fa fa-comments-o"></i>Announcements </a>
-            </li>
               <li>
-                <a><i class="fa fa-edit"></i> Companies <span class="fa fa-chevron-down"></span></a>
+                <a href="{{ route('dashboard') }}"><i class="fa fa-home"></i> Home </a>
+              </li>
+
+               @if(Auth::user()->admin == 1)
+              <!-- <li><a href="{{ route('index.register') }}"><i class="fa fa-users"></i>Manage Admin</a>
+              </li> -->
+
+              <li>
+                <a><i class="fa fa-users"></i> Manage Admin <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                  <!-- <li><a href="">Full List</a></li> -->
-                  <li><a href="{{ route('companies.clients') }}">Clients</a></li>
-                  <li><a href="{{ route('companies.leads') }}">Leads</a></li>
-                  <li><a href="{{ route('companies.new') }}">New</a></li>
+                  <li><a href="{{ route('admin.list') }}"></i>Admins</a>
+                  <li><a href="{{ route('index.register') }}">New</a></li>
                     </ul>
               </li>
+              @endif
+
+            <li>
+              <a href="{{ route('social.wall') }}"><i class="fa fa-comments-o"></i>Announcements </a>
+            </li>
+            <li>
+              <a><i class="fa fa-edit"></i> Companies <span class="fa fa-chevron-down"></span></a>
+              <ul class="nav child_menu">
+                <!-- <li><a href="">Full List</a></li> -->
+                <li><a href="{{ route('companies.clients') }}">Clients</a></li>
+                <li><a href="{{ route('companies.leads') }}">Leads</a></li>
+                <li><a href="{{ route('companies.new') }}">New</a></li>
+                </ul>
+            </li>
+
               <li><a><i class="fa fa-desktop"></i> Candidates <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                   <li><a href="{{ route('candidates.fulllist') }}">Full list</a></li>
                   <li><a href="{{ route('candidates.new') }}">New</a></li>
                 </ul>
               </li>
-            </li>
-            @if(Auth::user()->admin == 1)
-            <li><a href="{{ route('index.register') }}"><i class="fa fa-users"></i>Manage Admin</a>
-            </li>
-            @endif
-            <li><a href="{{ route('index.mail') }}"><i class="fa fa-envelope-o"></i>Mail</a>
-            </li>
-            <li><a href="{{ route('index.calendar') }}"><i class="fa fa-calendar"></i>Calendar</a>
-            </li>
-            <li><a href="{{ route('index.tasks') }}"><i class="fa fa-clock-o"></i>Tasks</a>
-            </li>
+
             <li>
               <a><i class="fa fa-binoculars"></i>Jobs<span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
                 <li><a href="{{ route('jobs.list') }}">List</a></li>
                 <li><a href="{{ route('jobs.new') }}">New</a></li>
-                  </ul>
+              </ul>
             </li>
+            <li>
+              <a href="{{ route('index.tasks') }}"><i class="fa fa-clock-o"></i>Tasks</a>
+            </li>
+            <!-- <li>
+              <a href="{{ route('index.mail') }}"><i class="fa fa-envelope-o"></i>Mail</a>
+            </li>
+            <li>
+              <a href="{{ route('index.calendar') }}"><i class="fa fa-calendar"></i>Calendar</a>
+            </li>
+ -->
+
           </ul>
           </div>
 

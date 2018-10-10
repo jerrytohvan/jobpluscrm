@@ -1,7 +1,24 @@
 @extends('layouts.master')
 
 @section('content')
-@include('includes.message-block')
+
+@push('stylesheets')
+
+<!-- pnotify -->
+<link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
+<!-- bwysiwyg -->
+<link href="{{ asset('css/prettify.min.css') }}" rel="stylesheet">
+<!-- Select2 -->
+<link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+<!-- Switchery -->
+<link href="{{ asset('css/switchery.min.css') }}" rel="stylesheet">
+<!-- starrr -->
+<link href="{{ asset('css/starrr.css') }}" rel="stylesheet">
+
+@endpush
+
 <!-- SOCIAL WALL -->
 <div class="right_col" role="main">
   <div class="row tile_count">
@@ -36,7 +53,8 @@
       <div class="col-md-6 col-md-offset-3">
           <header><h3>Past Announcements</h3></header>
           @foreach($posts as $post)
-           <div class="x_panel">  <!-- panel for post -->
+          <!-- panel for post -->
+           <div class="x_panel">
               <article class="post" data-postid="{{ $post->id }}">
                   <p>{{ $post->content }}</p>
                   <div class="info">
@@ -46,21 +64,34 @@
                   <!-- Adding button  -->
                   <div class="interaction">
 
-                    <!-- Should use icon when liked, light up icon and grey icon -->
-                      <button type="button" class="btn btn-default btn-xs fa fa-heart-o"><a href="#" class="like">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like'  }}</a></button>
-                      @if(Auth::user() == $post->user)
+                        <!-- number of likes -->
+                        @php
+                            $like_count = DB::table('likes')->where('post_id', $post->id)->count();
+                        @endphp
 
+                        @if ($like_count > 1)
+                            {{$like_count}} Likes
+                        @elseif ($like_count > 0)
+                            {{$like_count}} Like
+                        @endif
+
+                      <button type="button" class="btn btn-default btn-xs fa fa-heart-o like"><a href="{{ route('like.post', ['post_id' => $post->id, 'isLike' => 'true']) }}">
+                        {{  Auth::user()->likes()->where('post_id', $post->id)->first() ?
+                            Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ?
+                            'You like this post' : 'Like' : 'Like'  }}</a></button>
+
+                      @if(Auth::user() == $post->user)
                       <button type="button" class="btn btn-default btn-xs fa fa-edit"><a data-id="{{ $post->id }}" data-content="{{ $post->content }}" class="edit" id="Edit-modal"
                                  href="#edit-modal">Edit</a></button>
 
-                      <button type="button" class="btn btn-default btn-xs fa fa-trash"><a href="{{ route('delete.post', ['post_id' => $post->id]) }}">Delete</a></button>
-
+                      <button type="button" class="btn btn-default btn-xs fa fa-trash"><a onclick="deletePost( {{ $post->id }})" >Delete</a></button>
                       @endif
                   </div>
                   <!-- /Adding button  -->
 
               </article>
-            </div>  <!-- /panel for post -->
+            </div>
+            <!-- /panel for post -->
           @endforeach
       </div>
   </section>
@@ -87,34 +118,125 @@
           </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
+
+
+  <div class="modal fade" tabindex="-1" role="dialog" id="confirm-delete">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title">Delete Post</h4>
+            </div>
+            <div class="modal-body">
+               {{  Form::open(['route' => 'delete.post','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'delete_form']) }}
+               <p>Are you sure you want to delete this post? This action cannot be undone.</P>
+               <input type="hidden" id="post_id" name="post_id" value="">
+
+               {!! Form::close() !!}
+
+               <button type="button" class="btn btn-danger"  onclick="submitForm();" >Confirm Delete</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+            </div>
+
+         </div>
+         <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+	  </div>
+
 </div>
 
-<script>
-  //for modal
-    var token = '{{ Session::token() }}';
-    var urlEdit = '{{ route('edit.post') }}';
-    var urlLike = '{{ route('like.post') }}';
-    var postId = 0;
 
-    $(document).ready(function () {
-      $(".edit").click(function () {
-          postId = $(this).data('id');
-          $('#post-body').val($(this).data('content'));
-          $('#edit-modal').modal('show');
-        });
-
-        //Pending for a more modern way to solve this
-        $("#modal-save").click(function () {
-          var saveData = $.ajax({
-          type: 'POST',
-          url: urlEdit,
-          data:  {id: postId, content: $('#post-body').val(), _token:token},
-          dataType: "text",
-          success: function(resultData) {
-              window.location.reload();
-               }
-            });
-          });
-      });
-</script>
 @endsection
+
+@section('bottom_content')
+
+@endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        $('.ui-pnotify').remove();
+        loadNotification();
+    });
+
+    function deletePost(postid) {
+        $('#post_id').val(postid);
+        $('#confirm-delete').modal('show');
+    }
+
+    function submitForm() {
+        $('#delete_form').submit();
+    }
+
+    function loadNotification(){
+        var message = "{{ Session::get('message') }}";
+        var status = "{{ Session::get('status') }}";
+
+        if(message != "" && status != ""){
+            new PNotify({
+                title: (status == 1 ? "Success!" : "Failed!"),
+                text: message,
+                type: (status == 1 ? "success" : "error"),
+                styling: 'bootstrap3'
+            });
+
+        }
+      }
+      //for modal
+      var token = `{{ Session::token() }}`;
+      var urlEdit = `{{ route('edit.post') }}`;
+      var urlLike = `{{ route('like.post') }}`;
+      var postId = 0;
+
+      $(document).ready(function() {
+          $(".edit").click(function () {
+              postId = $(this).data('id');
+              $('#post-body').val($(this).data('content'));
+              $('#edit-modal').modal('show');
+          });
+
+          //Pending for a more modern way to solve this
+          $("#modal-save").click(function () {
+              var saveData = $.ajax({
+                  type: 'POST',
+                  url: urlEdit,
+                  data:  {id: postId, content: $('#post-body').val(), _token:token},
+                  dataType: "text",
+                  success: function(resultData) {
+                      window.location.reload();
+                  }
+              });
+          });
+
+
+      });
+
+
+</script>
+<!-- Switchery -->
+<script src="{{ asset('js/switchery.min.js') }}"></script>
+<!-- Select2 -->
+<script src="{{ asset('js/select2.full.min.js') }}"></script>
+<!-- Parsley -->
+<script src="{{ asset('js/parsley.min.js') }}"></script>
+<!-- Autosize -->
+<script src="{{ asset('js/autosize.min.js') }}"></script>
+<!-- jQuery autocomplete -->
+<script src="{{ asset('js/jquery.autocomplete.min.js') }}"></script>
+<!-- starrr -->
+<script src="{{ asset('js/starrr.js') }}"></script>
+<!-- bootstrap-wysiwyg -->
+<script src="{{ asset('js/jquery.hotkeys.js') }}"></script>
+<script src="{{ asset('js/prettify.js') }}"></script>
+
+<!-- jquery tags input -->
+<script src="{{ asset('js/jquery.tagsinput.js') }}"></script>
+
+<!-- bootstrap-wysiwyg -->
+<script src="{{ asset('js/pnotify.js') }}"></script>
+<script src="{{ asset('js/pnotify.buttons.js') }}"></script>
+<script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
+
+@endpush

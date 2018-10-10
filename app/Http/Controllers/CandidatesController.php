@@ -15,11 +15,11 @@ class CandidatesController extends Controller
         $this->svc = $candidateSvc;
         // $this->middleware('auth');
     }
-     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    /**
+    * Display a listing of the resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
     public function index()
     {
         //
@@ -52,7 +52,6 @@ class CandidatesController extends Controller
         //
         $candidate = Candidate::find($id);
         return $candidate;
-
     }
 
     /**

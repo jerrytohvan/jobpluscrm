@@ -11,6 +11,11 @@
 <!-- starrr -->
 <link href="{{ asset('css/starrr.css') }}" rel="stylesheet">
 
+<!-- pnotify -->
+<link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
+
 
 @endpush
 
@@ -23,8 +28,6 @@
       <div class="title_left">
         <h3>Register Admin</h3>
       </div>
-
-
     </div>
     <div class="clearfix"></div>
     <div class="row">
@@ -32,12 +35,10 @@
         <div class="x_panel">
           <div class="x_title">
             <h2>Create New Admin <small>Fill in the particulars below</small></h2>
-          
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
             <br />
-
             {{  Form::open(['route' => 'new.admin','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
               <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Full Name <span class="required">*</span>
@@ -85,7 +86,6 @@
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                   <button class="btn btn-primary" type="reset">Reset</button>
                   {{ Form::submit('Submit', ['class'=>'btn btn-success']) }}
-
                 </div>
               </div>
 
@@ -121,6 +121,32 @@
 <!-- bootstrap-wysiwyg -->
 <script src="{{ asset('js/jquery.hotkeys.js') }}"></script>
 <script src="{{ asset('js/prettify.js') }}"></script>
+
+<script src="{{ asset('js/pnotify.js') }}"></script>
+<script src="{{ asset('js/pnotify.buttons.js') }}"></script>
+<script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function () {
+  $('.ui-pnotify').remove();
+    loadNotification();
+});
+function loadNotification(){
+  var message = "{{ $message }}";
+  var status = "{{ $status }}";
+
+  if(message != "" && status != ""){
+    new PNotify({
+        title: (status == 1 ? "Success!" : "Failed!"),
+        text: message,
+        type: (status == 1 ? "success" : "error"),
+        styling: 'bootstrap3'
+    });
+  }
+
+}
+</script>
 
 @endpush
 

@@ -5,6 +5,7 @@
 <link href="{{ asset('css/normalize.css') }}" rel="stylesheet">
 
 <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
+<script src="https://unpkg.com/vue"></script>
 
 
 <!-- pnotify -->
@@ -216,7 +217,7 @@ html {
                                                    <td >{{ $account == null ? "-" : $account->company == null ? "-":$account->company->name }}</td>
                                                    <td>
                                                       <a id="account_button" data-id="{{ $account->id }}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i>Edit</a>
-                                                      <a href="{{ route('delete.account', ['employee_id' => $account->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a>
+                                                      <a onclick="deleteAccount( {{ $account->id }} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a>
                                                    </td>
                                                 </tr>
                                                 @endforeach
@@ -282,7 +283,20 @@ html {
                               </div>
                             </div>
 
-            <div>
+                    <div>
+                      <!-- start vue -->
+                      <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <h3 class="text-center title-color">Company's Tasks</h3>
+                           <div class="well" id="app">
+                             <task-draggable :tasks-open="{{ $tasksOpen }}" :tasks-on-going="{{ $tasksOnGoing }}" :tasks-closed="{{ $tasksClosed }}"></task-draggable>
+                           </div> <!-- end app -->
+                       </div>
+                      </div>
+                      <!-- end vue -->
+                    </div>
+
+                  <div>
                     <div class="x_title">
                        <h2>Job Lists</h2>
                        <ul class="nav navbar-right panel_toolbox">
@@ -325,102 +339,42 @@ html {
                     </div>
             </div>
 
-                            <div class="row">
-                              <div class="col-md-6 col-xs-12">
-                                          <div class="x_panel">
-                                            <div class="x_title">
-                                              <h2>Recent Activities on Company</h2>
-                                              <div class="clearfix"></div>
-                                            </div>
-                                            <div class="content x_content">
-                                              <ul class="list-unstyled msg_list">
-                                                @foreach ($activities as $activity)
-                                                <li>
-                                                  <a>
-                                                    <span class="image">
-                                                      <img src="{{ $activity[0]->profile_pic == null ?  Gravatar::src(Auth::user()->email) : $activity[0]->profile_pic }}" alt="img">
-                                                    </span>
-                                                    <span>
-                                                      <span>{{ $activity[0]->name }}</span>
-                                                      <span class="time">{{ $activity[2] }}</span>
-                                                    </span>
-                                                    <span class="message">
-                                                      {{ $activity[3] }}
-                                                    </span>
-                                                  </a>
-                                                </li>
-                                                @endforeach
-
-                                              </ul>
-                                            </div>
-                                          </div>
-                                      </div>
-
-                              <div class="col-md-6 col-xs-12">
-                                <div class="x_panel">
-                                  <div class="x_title">
-                                    <h2>To Do List <small>Sample tasks</small></h2>
-
-                                    <div class="clearfix"></div>
-                                  </div>
-                                  <div class="content x_content">
-                                    <div class="">
-                                      <ul class="to_do">
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Schedule meeting with new client </p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Create email address for new intern</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Have IT fix the network printer</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Copy backups to offsite location</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Food truck fixie locavors mcsweeney</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Food truck fixie locavors mcsweeney</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Create email address for new intern</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Have IT fix the network printer</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Copy backups to offsite location</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Copy backups to offsite location</p>
-                                        </li>
-                                        <li>
-                                          <p>
-                                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Copy backups to offsite location</p>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </div>
+              <div class="row">
+                <div class="col-md-12 col-xs-12">
+                            <div class="x_panel">
+                              <div class="x_title">
+                                <h2>Recent Activities on Company</h2>
+                                <div class="clearfix"></div>
                               </div>
+                              <div class="content x_content">
+                                <ul class="list-unstyled msg_list">
+                                  @foreach ($activities as $activity)
+                                  <li>
+                                    <a>
+                                      <span class="image">
+                                        <img src="{{ $activity[0]->profile_pic == null ?  Gravatar::src(Auth::user()->email) : $activity[0]->profile_pic }}" alt="img">
+                                      </span>
+                                      <span>
+                                        <span>{{ $activity[0]->name }}</span>
+                                        <span class="time">{{ $activity[2] }}</span>
+                                      </span>
+                                      <span class="message">
+                                        {{ $activity[3] }}
+                                      </span>
+                                    </a>
+                                  </li>
+                                  @endforeach
+
+                                </ul>
+                              </div>
+                            </div>
+                        </div>
                             </div>
 
                             <!-- recent activities -> notes -->
                             <div class="row">
 
-                              <h3>Add Company Notes</h3>
+                              <h3>Company Notes</h3>
                                  <div class="x_panel"> <!-- panel -->
                                     {{  Form::open(['route' => ['new.company.post', $company->id],'method'=>'post']) }}
                                       <div class="form-group">
@@ -434,14 +388,17 @@ html {
 
                                 @foreach($notes as $note)
                                 <li>
+
                                   <div class="message_date">
-                                    <h3 class="date text-info">{{ date("d", strtotime($note->created_at)) }}</h3>
-                                    <p class="month">{{ date("M", strtotime($note->created_at)) }}</p>
-                                    <p class="month">{{ date("Y", strtotime($note->created_at)) }}</p>
+                                      <p class="date text-info">{{ date("d M Y", strtotime($note->created_at))}}</p>
                                   </div>
                                   <div class="message_wrapper">
                                     <h4 class="heading">{{ $note->user->name }}</h4>
-                                      <blockquote class="message">{{ $note->content }}</blockquote>
+                                      <blockquote id="content-{{ $note->id }}" class="message">{{ $note->content }}</blockquote>
+                                    @if(Auth::user()->id == $note->user->id)
+                                      <a data-id="{{ $note->id }}" data-content="{{ $note->content }}" class="edit-note" id="Edit-modal" href="#edit-note">Edit</a>
+                                      <a onclick="deleteNote( {{ $note->id }} )" class="confirmation">Delete</a>
+                                    @endif
                                     <br>
                                     <p class="url">
                                       <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
@@ -569,6 +526,30 @@ html {
                   </div>
 
    </div>
+
+   <div class="modal fade" tabindex="-1" role="dialog" id="edit-note">
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                   <h4 class="modal-title">Edit Note</h4>
+               </div>
+               <div class="modal-body">
+                   <form>
+                       <div class="form-group">
+                           <label for="post-body">Edit Note</label>
+                           <textarea class="form-control" name="post-body" id="post-body" rows="5"></textarea>
+                       </div>
+                   </form>
+               </div>
+               <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                   <button type="button" class="btn btn-primary" id="modal-note-save">Save changes</button>
+               </div>
+           </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+   </div><!-- /.modal -->
+
    <div class="modal fade" tabindex="-1" role="dialog" id="edit-modal"> -->
       <div class="modal-dialog">
          <div class="modal-content">
@@ -781,8 +762,6 @@ html {
       </div>
       <!-- /.modal-dialog -->
    </div>
-
-
    <div class="modal fade" tabindex="-1" role="dialog" id="edit-collaborators">
       <div class="modal-dialog">
          <div class="modal-content">
@@ -841,10 +820,60 @@ html {
       </div>
       <!-- /.modal-dialog -->
    </div>
+   
+   <div class="modal fade" tabindex="-1" role="dialog" id="confirm-delete">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title">Delete Contact</h4>
+            </div>
+            <div class="modal-body">
+               {{  Form::open(['route' => 'delete.account','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'delete_form']) }}
+               <p>Are you sure you want to delete this contact? This action cannot be undone.</P>
+               <input type="hidden" id="contact_id" name="contact_id" value="">
+
+               {!! Form::close() !!}
+              
+               <button type="button" class="btn btn-danger"  onclick="submitForm();" >Confirm Delete</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              
+            </div>
+            
+         </div>
+         <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+	 </div>
+
+     <div class="modal fade" tabindex="-1" role="dialog" id="confirm-deleteNote">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title">Delete Note</h4>
+            </div>
+            <div class="modal-body">
+               {{  Form::open(['route' => 'delete.note','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'delete_formNote']) }}
+               <p>Are you sure you want to delete this note? This action cannot be undone.</P>
+               <input type="hidden" id="postId" name="postId" value="">
+
+               {!! Form::close() !!}
+              
+               <button type="button" class="btn btn-danger"  onclick="submitFormNote();" >Confirm Delete</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              
+            </div>
+            
+         </div>
+         <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+	 </div>
+	 
+	 
 </div>
 @endsection
-
-
 
 @section('bottom_content')
 
@@ -958,9 +987,26 @@ function submitform()
   $('#modal_form_id').submit();
 }
 
-
 function updateAccountForm(){
   $('#account_form').submit();
+}
+
+function deleteAccount(employeeId) {
+  $('#contact_id').val(employeeId);
+  $('#confirm-delete').modal('show');
+}
+
+function submitForm() {
+    $('#delete_form').submit();
+}
+
+function deleteNote(noteId) {
+  $('#postId').val(noteId);
+  $('#confirm-deleteNote').modal('show');
+}
+
+function submitFormNote() {
+    $('#delete_formNote').submit();
 }
 
 $(document).ready(function () {
@@ -1049,6 +1095,57 @@ $(document).ready(function () {
 
 
   }
+
+  var urlEdit = `{{ route('edit.note') }}`;
+  var postId = 0;
+
+  $(document).ready(function () {
+    $(".edit-note").click(function () {
+        postId = $(this).data('id');
+        $('#post-body').val($(this).data('content'));
+        $('#edit-note').modal('show');
+      });
+
+      //Pending for a more modern way to solve this
+      $("#modal-note-save").click(function () {
+        var saveData = $.ajax({
+        type: 'POST',
+        url: urlEdit,
+        data:  {id: postId, content: $('#post-body').val(), _token:token},
+        dataType: "text",
+        success: function(resultData) {
+            var message = JSON.parse(resultData);
+            console.log(message.updated_content);
+            $('#content-' + postId).text(message.updated_content);
+            new PNotify({
+                title: "Success!",
+                text: "Company note is succesfully updated!",
+                type: "success",
+                styling: 'bootstrap3'
+            });
+            $('#edit-note').modal('hide');
+          },
+          fail: function(xhr, textStatus, errorThrown){
+            new PNotify({
+                title: "Something happened!",
+                text: "Company note cant be updated",
+                type: "error",
+                styling: 'bootstrap3'
+            });
+            $('#edit-note').modal('hide');
+          }
+        });
+      });
+    });
+
+
+    // var elems = document.getElementsByClassName('confirmation');
+    // var confirmIt = function (e) {
+    //     if (!confirm('Are you sure?')) e.preventDefault();
+    // };
+    // for (var i = 0, l = elems.length; i < l; i++) {
+    //     elems[i].addEventListener('click', confirmIt, false);
+    // }
 </script>
 
 <script>
@@ -1058,13 +1155,11 @@ $(document).ready(function() {
 
 } );
 </script>
-
+<script src="{{ asset('js/vue-app-compiled.js') }}"></script>
 <script src="{{ asset('js/pnotify.js') }}"></script>
 <script src="{{ asset('js/pnotify.buttons.js') }}"></script>
 <script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
-
 <script src="{{ asset('js/echarts.min.js') }}"></script>
-
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/dataTables.buttons.min.js') }}"></script>

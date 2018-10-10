@@ -53,7 +53,28 @@ class UserController extends Controller
     }
     public function updateProfile()
     {
-        dd(request()->all());
+        $user = Auth::user();
+        $id =  $user->id;
+
+        $user->name = request()->input('name');
+        $user->email =  request()->input('email');
+        $user->handphone = request()->input('handphone');
+        $user->tele_id = request()->input('tele_id');
+        $user->birth_date =  request()->input('birthday');
+
+        if (request()->hasFile('photo')) {
+            $photo = request()->file('photo');
+            $ext = $photo->getClientOriginalExtension();
+            $memberPic = "member_". $id . "." . $ext;
+            $url = "images/profile_pic/" . $memberPic;
+            $user->profile_pic = $url;
+
+            $path = public_path()."//images//profile_pic//";
+            $photo->move($path, $memberPic);
+        }
+        $user->save();
+
+        return redirect()->route('show.profile');
     }
 
     public function logout()

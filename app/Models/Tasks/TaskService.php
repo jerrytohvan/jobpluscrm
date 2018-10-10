@@ -18,10 +18,8 @@ class TaskService
     //default task/event for todolist
     public function storeTask($array)
     {
-
-      
-        $userId = Auth::user()->id;
-        if ($userId != 1) {
+        $status = Auth::user()->admin;
+        if (!$status) {
             return Task::Create([
                 'title' => $array['title'],
                 'description' => $array['description'],
@@ -29,18 +27,19 @@ class TaskService
                 'company_id' =>  $array['company_id'],
                 'status' => 1,
                 'user_id' => Auth::user()->id,
-                'type' => $array['type'],
+                'type' => 1
             ]);
-        } else if ($userId == 1) {
-            if (empty($array['assigned_id'])) {
+        } elseif ($status) {
+            if ((int)$array['assigned_id'] == 0) {
                 return Task::Create([
                     'title' => $array['title'],
                     'description' => $array['description'],
                     'date_reminder' => $array['date_reminder'],
                     'company_id' =>  $array['company_id'],
-                    'status' => 1,
+                    'assigned_id' =>  0,
+                    'status' => 0,
                     'user_id' => Auth::user()->id,
-                    'type' => $array['type'],
+                    'type' => 1
                 ]);
             } else {
                 return Task::Create([
@@ -48,15 +47,13 @@ class TaskService
                     'description' => $array['description'],
                     'date_reminder' => $array['date_reminder'],
                     'company_id' => $array['company_id'],
-                    'status' => 0,
+                    'status' => 1,
                     'user_id' => Auth::user()->id,
-                    'assigned_id' => $array['assigned_id'],
-                    'type' => $array['type'],
+                    'assigned_id' => (int)$array['assigned_id'],
+                    'type' => 1
                 ]);
             }
         }
-      
-
     }
 
     // create a reminder
@@ -68,38 +65,10 @@ class TaskService
             'date_reminder' => $array['date_reminder'],
             'user_id' => Auth::user()->id,
             'company_id' => $array['company_id'],
-            //'user_id' => Auth::user()->id,
-            //'assigned_to_id' => $array['assigned_to_id'],
-            //'assigned_to_id' => User::where('email',$array['assigned_to_id'])->first() == "" ? null :User::where('email',$array['assigned_to_id'])->first()->id,
             'type' => true,
         ]);
     }
 
-   
-
-    //create a tasklist for company page
-    // public function storeTaskList($array)
-    // {
-
-    //   return Task::Create([
-    //     'title' => $array['title'],
-    //     'description' => $array['title'],
-    //     'status' => $array['status'],
-    //     'type' => $array['type'],
-    //     'assigned_id' => $array['assigned_id'],
-    //     'company_id' => $array['company_id']
-    //   ]);
-    // }
-
-    //retrieve all task for todolist
-    // public function getToDoList(){
-    //  return Task::whereUserId(21)->whereType(true)->get() == "" ? null:Task::whereAssignedToId(Auth::user()->id)->whereType(true)->get()->sort('date_reminder','asc');
-    // }
-
-    //retrieve all event for calendarview
-    // public function getEventList(){
-    //   return Task::whereUserId(Auth::user()->id)->whereType(false)->get()->sort('date_reminder','asc') == "" ? null:Task::whereAssignedToId(Auth::user()->id)->whereType(false)->get()->sort('date_reminder','asc');
-    // }
 
 
     /**
@@ -119,6 +88,29 @@ class TaskService
         return $task;
     }
 
+    public function updateTasksStatus($id)
+    {
+        $task = Task::find($id);
+        $task->status = request()->input('status');
+        $task->save();
+
+        return response('Updated Successfully.', 200);
+    }
+
+    public function updateTasksOrder()
+    {
+        $tasks = Task::all();
+
+        foreach ($tasks as $task) {
+            $id = $task->id;
+            foreach (request()->input('tasks') as $tasksNew) {
+                if ($tasksNew['id'] == $id) {
+                    $task->update(['order' => $tasksNew['order']]);
+                }
+            }
+        }
+        return response('Updated Successfully.', 200);
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -128,14 +120,18 @@ class TaskService
      */
     public function destroyTask($id)
     {
-
-        if (Task::whereUserId(Auth::user()->id == 1)) {
-        Task::findOrFail($id)->delete();
-        return 204;
+        $task = Task::find($id);
+        if ($task) {
+            $task->delete();
+            return response('Updated Successfully.', 200);
         }
-
     }
 
-
-
+    public function insertCollab($tasks, $userIds)
+    {
+        foreach ($tasks as $task) {
+            $task->update(['collaborator' =>$userIds]);
+            $task->save();
+        }
+    }
 }
