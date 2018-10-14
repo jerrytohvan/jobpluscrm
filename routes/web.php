@@ -289,12 +289,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
 
 
-<<<<<<< HEAD
+
 Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
-=======
+
     Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
     Route::get('/tasks/show', '\App\Models\Tasks\TaskController@showTaskList');
->>>>>>> 1e830ae2ed82ceb627e7a7dd247125945976850d
+
 });
 
 // Route::get('/telegram', [
@@ -436,7 +436,7 @@ Route::get('oauth', [
   'uses' => 'gCalendarController@oauth']);
 
   // email Routes
-<<<<<<< HEAD
+
     // Route::post('sendemail', 'MailController@sendemail');
     Route::post('displayemail', 'MailController@displayemail');
     Route::post('/mail', [
@@ -451,11 +451,10 @@ Route::get('/taskOverdue',[
   'uses' => '\App\Http\Controllers\MetricsController@tasksOverdue'
   ]);
 // Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
-=======
+
   // Route::post('sendemail', 'MailController@sendemail');
   Route::post('displayemail', 'MailController@displayemail');
   Route::post('/mail', [
       'as' => 'sendemail',
     'uses' => '\App\Models\Mail\MailController@sendemail'
     ]);
->>>>>>> 1e830ae2ed82ceb627e7a7dd247125945976850d

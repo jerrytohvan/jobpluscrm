@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit1764410ec8c05c63565e9596403b1890
+class ComposerStaticInitab17f9a6aaf07985ab11f4f01fb5e4ef
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -65,6 +65,7 @@ class ComposerStaticInit1764410ec8c05c63565e9596403b1890
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         'e91d0dc994644828154ae2387ede1ca8' => __DIR__ . '/..' . '/spatie/string/src/string_functions.php',
+        '4a1f389d6ce373bda9e57857d3b61c84' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/helpers.php',
         '72b1e3f4a2af9b30b3f137b3ec2057fc' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/helpers.php',
         '377b22b161c09ed6e5152de788ca020a' => __DIR__ . '/..' . '/spatie/laravel-permission/src/helpers.php',
     );
@@ -149,6 +150,10 @@ class ComposerStaticInit1764410ec8c05c63565e9596403b1890
             'League\\Flysystem\\' => 17,
             'Laravel\\Tinker\\' => 15,
         ),
+        'J' => 
+        array (
+            'JakubOnderka\\PhpConsoleColor\\' => 29,
+        ),
         'I' => 
         array (
             'Illuminate\\' => 11,
@@ -176,6 +181,7 @@ class ComposerStaticInit1764410ec8c05c63565e9596403b1890
             'Doctrine\\Instantiator\\' => 22,
             'Doctrine\\Common\\Inflector\\' => 26,
             'DeepCopy\\' => 9,
+            'DebugBar\\' => 9,
         ),
         'C' => 
         array (
@@ -184,6 +190,10 @@ class ComposerStaticInit1764410ec8c05c63565e9596403b1890
             'Complex\\' => 8,
             'Collective\\Html\\' => 16,
             'Carbon\\' => 7,
+        ),
+        'B' => 
+        array (
+            'Barryvdh\\Debugbar\\' => 18,
         ),
         'A' => 
         array (
@@ -380,6 +390,10 @@ class ComposerStaticInit1764410ec8c05c63565e9596403b1890
         array (
             0 => __DIR__ . '/..' . '/laravel/tinker/src',
         ),
+        'JakubOnderka\\PhpConsoleColor\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src',
+        ),
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
@@ -432,6 +446,10 @@ class ComposerStaticInit1764410ec8c05c63565e9596403b1890
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
         ),
+        'DebugBar\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar',
+        ),
         'Cron\\' => 
         array (
             0 => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron',
@@ -451,6 +469,10 @@ class ComposerStaticInit1764410ec8c05c63565e9596403b1890
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
+        'Barryvdh\\Debugbar\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src',
         ),
         'App\\' => 
         array (
@@ -497,10 +519,6 @@ class ComposerStaticInit1764410ec8c05c63565e9596403b1890
             array (
                 0 => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src',
             ),
-            'JakubOnderka\\PhpConsoleColor' => 
-            array (
-                0 => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src',
-            ),
         ),
         'G' => 
         array (
@@ -530,7 +548,6 @@ class ComposerStaticInit1764410ec8c05c63565e9596403b1890
         'CreateCandidatesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000757_create_candidates_table.php',
         'CreateCommentsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_164127_create_comments_table.php',
         'CreateCompaniesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_29_043417_create_companies_table.php',
-        'CreateDemoTasksTable' => __DIR__ . '/../..' . '/database/migrations/2018_09_16_120601_create_demo_tasks_table.php',
         'CreateEmployeesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000647_create_employees_table.php',
         'CreateFieldsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_14_092824_create_fields_table.php',
         'CreateInterestsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_14_092938_create_interests_table.php',
@@ -745,6 +762,8 @@ class ComposerStaticInit1764410ec8c05c63565e9596403b1890
         'PHPUnit\\Framework\\MockObject\\Matcher\\Parameters' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/Matcher/Parameters.php',
         'PHPUnit\\Framework\\MockObject\\Matcher\\StatelessInvocation' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/Matcher/StatelessInvocation.php',
         'PHPUnit\\Framework\\MockObject\\MockBuilder' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/MockBuilder.php',
+        'PHPUnit\\Framework\\MockObject\\MockMethod' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/MockMethod.php',
+        'PHPUnit\\Framework\\MockObject\\MockMethodSet' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/MockMethodSet.php',
         'PHPUnit\\Framework\\MockObject\\MockObject' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/ForwardCompatibility/MockObject.php',
         'PHPUnit\\Framework\\MockObject\\RuntimeException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/Exception/RuntimeException.php',
         'PHPUnit\\Framework\\MockObject\\Stub' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/Stub.php',
@@ -838,6 +857,7 @@ class ComposerStaticInit1764410ec8c05c63565e9596403b1890
         'PHPUnit\\Util\\TestDox\\XmlResultPrinter' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/TestDox/XmlResultPrinter.php',
         'PHPUnit\\Util\\TextTestListRenderer' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/TextTestListRenderer.php',
         'PHPUnit\\Util\\Type' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Type.php',
+        'PHPUnit\\Util\\XdebugFilterScriptGenerator' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/XdebugFilterScriptGenerator.php',
         'PHPUnit\\Util\\Xml' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Xml.php',
         'PHPUnit\\Util\\XmlTestListRenderer' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/XmlTestListRenderer.php',
         'PHPUnit_Framework_MockObject_MockObject' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/MockObject.php',
@@ -1211,10 +1231,10 @@ class ComposerStaticInit1764410ec8c05c63565e9596403b1890
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit1764410ec8c05c63565e9596403b1890::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit1764410ec8c05c63565e9596403b1890::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit1764410ec8c05c63565e9596403b1890::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit1764410ec8c05c63565e9596403b1890::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitab17f9a6aaf07985ab11f4f01fb5e4ef::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitab17f9a6aaf07985ab11f4f01fb5e4ef::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitab17f9a6aaf07985ab11f4f01fb5e4ef::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitab17f9a6aaf07985ab11f4f01fb5e4ef::$classMap;
 
         }, null, ClassLoader::class);
     }

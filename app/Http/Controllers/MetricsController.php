@@ -14,24 +14,22 @@ class MetricsController extends Controller
       $todayDate = "";
       $sevenDaysAgoDate = "";
       $fourteenDaysAgoDate = "";
-      $tasklist = Task.getallTask();
+      $completedThisWeek = 0;
+      $completedPreviousWeek = 0;
       // companiesCreatedLastSeven
-          $companiesCreatedLastSeven = 0;
-          $companiesCreatedLastFourteen = 0;
-          foreach ($comapny as $companiesList) {
-            if($companyCreateDate<=today() && $companyCreateDate>= $seveDaysAgoDate){
-              $companiesCreatedLastSeven++;
-            }elseif ($companyCreateDate<=today() && $companyCreateDate>= $fourteenDaysAgoDate) {
-                $companiesCreatedLastFourteen++;
-            }
-          }
-
+      $completedTasklastWeek = Companies::whereStatus('2')->where('updated_at','<=',date() )->where('updated_at','>=',$sevenDaysAgoDate)->get();
+      foreach ($completedTasklastWeek as $task) {
+            $completedThisWeek++;
+      }
       // companiesCreatedPrevSeven
-          $companiesCreatedPrevSeven = 0;
-
-      //
-
-
+      $companiesCreatedPrevSeven = Companies::whereStatus('2')->where('updated_at','<=',$sevenDaysAgoDate )->where('updated_at','>=',$fourteenDaysAgoDate)->get();
+      foreach ($completedTasklastWeek as $task) {
+            $completedThisWeek++;
+      }
+      //company growth rate
+        $companyPercentageChange = 0.0;
+        $companyPercentageChange = $completedThisWeek/$completedLastWeek ;
+          return view('layouts.dashboard', compact('companyPercentageChange'));
     }
 //number of task completed last 7 days compared to the previous 7 days.
     public function taskCompletedComparison(){
@@ -40,23 +38,18 @@ class MetricsController extends Controller
             $fourteenDaysAgoDate = strtotime("-14 day", $date);;
             $completedThisWeek = 0;
             $completedPreviousWeek = 0;
-            $percentageChange = 0.0;
-
-            $allTask = Task::all();
-            $completedTaskDate = Task::whereStatus('2')->where('updated_at','>=',date() )->get();
-
-            foreach ($allTask as $task) {
-              if ($task.endDate()<=today()&&$task.endDate()>= $sevenDaysAgoDAte)
-                {
+            $taskPercentageChange = 0.0;
+            $completedTasklastWeek = Task::whereStatus('2')->where('updated_at','<=',date() )->where('updated_at','>=',$sevenDaysAgoDate)->get();
+            $completedTaskPreviousWeek = Task::whereStatus('2')->where('updated_at','<=',$sevenDaysAgoDate )->where('updated_at','>=',$fourteenDaysAgoDate)->get();
+            foreach ($completedTasklastWeek as $task) {
                   $completedThisWeek++;
-                }
-              if ($task.endDate() <= $sevenDaysAgoDAte &&$task.endDate()>= $fourteenDaysAgoDate)
-                {
-                  $completedLastWeek++;
-                }
             }
-            $percentageChange = $completedThisWeek/$completedLastWeek ;
-        return $percentageChange;
+            foreach ($completedTaskPreviousWeek as $task) {
+                $completedLastWeek++;
+            }
+
+            $taskPercentageChange = $completedThisWeek/$completedLastWeek ;
+            return view('layouts.dashboard', compact('taskPercentageChange'));
     }
     // number of tasks that are currently overdue
     public function tasksOverdue(){

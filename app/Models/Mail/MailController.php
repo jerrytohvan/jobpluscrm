@@ -102,15 +102,25 @@ class MailController extends Controller
         // show the view and pass the nerd to it
         return view('emails.showmail', compact('m'));
     }
+
+
+
+// YY CAN EDIT AFTER HERE
+
+
+
+
     Public function processYYdata(Array $array){
         $keys = $array[0];
         $values =$array[1];
         for($i = 0 ; $i<=sizeof($keys); $i++){
+          //where the send email to is supposed to be
             $emailTo = User::whereId($keys[i])->email;
             for($j=0; $j<=sizeOf($value[i]); $j++){
                 $message = $value[$j];
                 $formattedMessage = str_replace(',','/n',$message);
 
+            // where your data is supposed to be 
                 $data = array(
                   'toEmail' =>$emailTo,
                   'subject'=>$taskSubject,
