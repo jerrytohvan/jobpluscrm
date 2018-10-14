@@ -120,12 +120,12 @@ class MailController extends Controller
                 $message = $value[$j];
                 $formattedMessage = str_replace(',','/n',$message);
 
-            // where your data is supposed to be 
+            // where your data is supposed to be
                 $data = array(
                   'toEmail' =>$emailTo,
                   'subject'=>$taskSubject,
                   'emailMessage' =>$taskText,
-                  'tasks'=>$tasks['tasklist'];
+                  'tasks'=>$tasks['tasklist']
 
                 );
                 sendTasksEmail($data);
