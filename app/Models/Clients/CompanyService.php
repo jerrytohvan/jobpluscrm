@@ -21,13 +21,14 @@ class CompanyService
         'address' => $array['address'],
         'email' => $array['email'],
         'telephone_no' => $array['telephone_no'],
-        'fax_no' => $array['fax_no'],
+        'client' => $array['client'],
         'website' => $array['website'],
         'no_employees' => $array['no_employees'],
         'industry' => $array['industry'],
         'lead_source' => $array['lead_source'],
         'transaction' => $array['transaction'],
-        'description' => $array['description']
+        'description' => $array['description'],
+        'type'=> $array['type']
       ]);
     }
 

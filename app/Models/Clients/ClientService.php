@@ -28,9 +28,9 @@ class ClientService
         'address' => $array['address'],
         'email' => $array['company_email'],
       'telephone_no' => $array['telephone'],
-      'fax_no' => $array['fax'],
+      'client' => $array['client'],
       'website' => $array['website'],
-      'no_employees' => $array['no_employees'] == "" ? null :$array['no_employees'],
+      'no_employees' => $array['no_employees'] == "" ? 0 :$array['no_employees'],
       'industry' => $array['industry'],
       'lead_source' => $array['lead_source'],
       'description' => $array['description']

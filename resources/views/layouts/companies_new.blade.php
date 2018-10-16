@@ -67,13 +67,6 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fax">Fax No
-                </label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input type="text" id="fax" name="fax"  data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
-                </div>
-              </div>
-              <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="website">Website
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -89,7 +82,7 @@
               </div>
 
               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry</label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry *</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <select class="select2_single form-control" id="industry" name="industry" tabindex="-1">
                       <option></option>
@@ -142,7 +135,7 @@
               </div>
 
               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lead_source">Lead Source</label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lead_source">Lead Source *</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <select class="select2_single form-control" id="lead_source" name="lead_source" tabindex="-1">
                       <option></option>
@@ -184,7 +177,19 @@
                         <textarea class="resizable_textarea form-control" name="description" id="description" placeholder="Type here" style="z-index: auto; position: relative; line-height: 20px; font-size: 14px; transition: none; background:transparent!important; margin: 0px 8px 0px 0px; "></textarea>
                       </div>
                     </div>
-
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">Company Type <span class="required">*</span></label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div id="client" class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                      <input type="radio" name="client" required="required" value="1"> Client
+                    </label>
+                    <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                      <input type="radio" name="client"  value="0"> Lead
+                    </label>
+                  </div>
+                </div>
+              </div>
               <div class="ln_solid"></div>
               <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">

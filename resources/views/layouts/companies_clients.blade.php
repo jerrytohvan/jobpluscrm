@@ -47,7 +47,7 @@
                                       <th>Industry</th>
                                       <th>Score</th>
                                       <th style="width: 15%">Action</th>
-                                      <th>Latest Update</th>
+                                      <th>Last Update</th>
                                   </tr>
                               </thead>
                               <tbody>
