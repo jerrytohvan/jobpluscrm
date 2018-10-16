@@ -774,17 +774,17 @@
     },
     {
         "name": "google/apiclient-services",
-        "version": "v0.70",
-        "version_normalized": "0.70.0.0",
+        "version": "v0.72",
+        "version_normalized": "0.72.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/googleapis/google-api-php-client-services.git",
-            "reference": "759a1a246409eae1c723abc72d817205a1d5549f"
+            "reference": "e8c6b72963b19e707b8a6c46fe3515207bb03bd2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/759a1a246409eae1c723abc72d817205a1d5549f",
-            "reference": "759a1a246409eae1c723abc72d817205a1d5549f",
+            "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/e8c6b72963b19e707b8a6c46fe3515207bb03bd2",
+            "reference": "e8c6b72963b19e707b8a6c46fe3515207bb03bd2",
             "shasum": ""
         },
         "require": {
@@ -793,7 +793,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.8"
         },
-        "time": "2018-09-16T00:22:55+00:00",
+        "time": "2018-10-13T00:23:17+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1318,17 +1318,17 @@
     },
     {
         "name": "laravel/tinker",
-        "version": "v1.0.7",
-        "version_normalized": "1.0.7.0",
+        "version": "v1.0.8",
+        "version_normalized": "1.0.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/laravel/tinker.git",
-            "reference": "e3086ee8cb1f54a39ae8dcb72d1c37d10128997d"
+            "reference": "cafbf598a90acde68985660e79b2b03c5609a405"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/laravel/tinker/zipball/e3086ee8cb1f54a39ae8dcb72d1c37d10128997d",
-            "reference": "e3086ee8cb1f54a39ae8dcb72d1c37d10128997d",
+            "url": "https://api.github.com/repos/laravel/tinker/zipball/cafbf598a90acde68985660e79b2b03c5609a405",
+            "reference": "cafbf598a90acde68985660e79b2b03c5609a405",
             "shasum": ""
         },
         "require": {
@@ -1345,7 +1345,7 @@
         "suggest": {
             "illuminate/database": "The Illuminate Database package (~5.1)."
         },
-        "time": "2018-05-17T13:42:07+00:00",
+        "time": "2018-10-12T19:39:35+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1539,17 +1539,17 @@
     },
     {
         "name": "maatwebsite/excel",
-        "version": "3.1.1",
-        "version_normalized": "3.1.1.0",
+        "version": "3.1.2",
+        "version_normalized": "3.1.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-            "reference": "7f2cdb5ac02401460c52e09ad64cdcd91c97732f"
+            "reference": "a80179c3f33d06fc0d7f22891d6aae4bb083f8c3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/7f2cdb5ac02401460c52e09ad64cdcd91c97732f",
-            "reference": "7f2cdb5ac02401460c52e09ad64cdcd91c97732f",
+            "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/a80179c3f33d06fc0d7f22891d6aae4bb083f8c3",
+            "reference": "a80179c3f33d06fc0d7f22891d6aae4bb083f8c3",
             "shasum": ""
         },
         "require": {
@@ -1564,7 +1564,7 @@
             "phpunit/phpunit": "^7.0",
             "predis/predis": "^1.1"
         },
-        "time": "2018-10-04T09:00:36+00:00",
+        "time": "2018-10-11T09:21:58+00:00",
         "type": "library",
         "extra": {
             "laravel": {
@@ -1607,17 +1607,17 @@
     },
     {
         "name": "markbaker/complex",
-        "version": "1.4.6",
-        "version_normalized": "1.4.6.0",
+        "version": "1.4.7",
+        "version_normalized": "1.4.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/MarkBaker/PHPComplex.git",
-            "reference": "a78d82ae4e682c3809fc3023d1b0ce654f6ab12b"
+            "reference": "1ea674a8308baf547cbcbd30c5fcd6d301b7c000"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/MarkBaker/PHPComplex/zipball/a78d82ae4e682c3809fc3023d1b0ce654f6ab12b",
-            "reference": "a78d82ae4e682c3809fc3023d1b0ce654f6ab12b",
+            "url": "https://api.github.com/repos/MarkBaker/PHPComplex/zipball/1ea674a8308baf547cbcbd30c5fcd6d301b7c000",
+            "reference": "1ea674a8308baf547cbcbd30c5fcd6d301b7c000",
             "shasum": ""
         },
         "require": {
@@ -1633,7 +1633,7 @@
             "sebastian/phpcpd": "2.*",
             "squizlabs/php_codesniffer": "^3.3.0"
         },
-        "time": "2018-07-31T08:38:40+00:00",
+        "time": "2018-10-13T23:28:42+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -2019,17 +2019,17 @@
     },
     {
         "name": "nikic/php-parser",
-        "version": "v4.0.4",
-        "version_normalized": "4.0.4.0",
+        "version": "v4.1.0",
+        "version_normalized": "4.1.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nikic/PHP-Parser.git",
-            "reference": "fa6ee28600d21d49b2b4e1006b48426cec8e579c"
+            "reference": "d0230c5c77a7e3cfa69446febf340978540958c0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/fa6ee28600d21d49b2b4e1006b48426cec8e579c",
-            "reference": "fa6ee28600d21d49b2b4e1006b48426cec8e579c",
+            "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/d0230c5c77a7e3cfa69446febf340978540958c0",
+            "reference": "d0230c5c77a7e3cfa69446febf340978540958c0",
             "shasum": ""
         },
         "require": {
@@ -2039,14 +2039,14 @@
         "require-dev": {
             "phpunit/phpunit": "^6.5 || ^7.0"
         },
-        "time": "2018-09-18T07:03:24+00:00",
+        "time": "2018-10-10T09:24:14+00:00",
         "bin": [
             "bin/php-parse"
         ],
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "4.0-dev"
+                "dev-master": "4.1-dev"
             }
         },
         "installation-source": "dist",
@@ -2407,17 +2407,17 @@
     },
     {
         "name": "php-science/textrank",
-        "version": "1.1.0",
-        "version_normalized": "1.1.0.0",
+        "version": "1.1.1",
+        "version_normalized": "1.1.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/DavidBelicza/PHP-Science-TextRank.git",
-            "reference": "756da9c34ff113ac7aca1be69f2b920b4371ef8e"
+            "reference": "882adbd0f0d2d0b4229a43dee563785c84738ff9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/DavidBelicza/PHP-Science-TextRank/zipball/756da9c34ff113ac7aca1be69f2b920b4371ef8e",
-            "reference": "756da9c34ff113ac7aca1be69f2b920b4371ef8e",
+            "url": "https://api.github.com/repos/DavidBelicza/PHP-Science-TextRank/zipball/882adbd0f0d2d0b4229a43dee563785c84738ff9",
+            "reference": "882adbd0f0d2d0b4229a43dee563785c84738ff9",
             "shasum": ""
         },
         "require": {
@@ -2428,7 +2428,7 @@
         "require-dev": {
             "phpunit/phpunit": "^5.4"
         },
-        "time": "2018-08-21T11:27:07+00:00",
+        "time": "2018-10-08T08:50:14+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -2868,17 +2868,17 @@
     },
     {
         "name": "phpunit/php-code-coverage",
-        "version": "6.0.8",
-        "version_normalized": "6.0.8.0",
+        "version": "6.1.0",
+        "version_normalized": "6.1.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-            "reference": "848f78b3309780fef7ec8c4666b7ab4e6b09b22f"
+            "reference": "0685fb6a43aed1b2e09804d1aaf17144c82861f8"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/848f78b3309780fef7ec8c4666b7ab4e6b09b22f",
-            "reference": "848f78b3309780fef7ec8c4666b7ab4e6b09b22f",
+            "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/0685fb6a43aed1b2e09804d1aaf17144c82861f8",
+            "reference": "0685fb6a43aed1b2e09804d1aaf17144c82861f8",
             "shasum": ""
         },
         "require": {
@@ -2899,11 +2899,11 @@
         "suggest": {
             "ext-xdebug": "^2.6.0"
         },
-        "time": "2018-10-04T03:41:23+00:00",
+        "time": "2018-10-16T05:37:37+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "6.0-dev"
+                "dev-master": "6.1-dev"
             }
         },
         "installation-source": "dist",
@@ -3466,24 +3466,24 @@
     },
     {
         "name": "psy/psysh",
-        "version": "v0.9.8",
-        "version_normalized": "0.9.8.0",
+        "version": "v0.9.9",
+        "version_normalized": "0.9.9.0",
         "source": {
             "type": "git",
             "url": "https://github.com/bobthecow/psysh.git",
-            "reference": "ed3c32c4304e1a678a6e0f9dc11dd2d927d89555"
+            "reference": "9aaf29575bb8293206bb0420c1e1c87ff2ffa94e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/bobthecow/psysh/zipball/ed3c32c4304e1a678a6e0f9dc11dd2d927d89555",
-            "reference": "ed3c32c4304e1a678a6e0f9dc11dd2d927d89555",
+            "url": "https://api.github.com/repos/bobthecow/psysh/zipball/9aaf29575bb8293206bb0420c1e1c87ff2ffa94e",
+            "reference": "9aaf29575bb8293206bb0420c1e1c87ff2ffa94e",
             "shasum": ""
         },
         "require": {
             "dnoegel/php-xdg-base-dir": "0.1",
             "ext-json": "*",
             "ext-tokenizer": "*",
-            "jakub-onderka/php-console-highlighter": "0.3.*",
+            "jakub-onderka/php-console-highlighter": "0.3.*|0.4.*",
             "nikic/php-parser": "~1.3|~2.0|~3.0|~4.0",
             "php": ">=5.4.0",
             "symfony/console": "~2.3.10|^2.4.2|~3.0|~4.0",
@@ -3501,7 +3501,7 @@
             "ext-readline": "Enables support for arrow-key history navigation, and showing and manipulating command history.",
             "hoa/console": "A pure PHP readline implementation. You'll want this if your PHP install doesn't already support readline or libedit."
         },
-        "time": "2018-09-05T11:40:09+00:00",
+        "time": "2018-10-13T15:16:03+00:00",
         "bin": [
             "bin/psysh"
         ],
@@ -4391,17 +4391,17 @@
     },
     {
         "name": "spatie/laravel-permission",
-        "version": "2.21.0",
-        "version_normalized": "2.21.0.0",
+        "version": "2.23.0",
+        "version_normalized": "2.23.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/spatie/laravel-permission.git",
-            "reference": "5415d29d54d15985b8cf56fef30d7514c8608309"
+            "reference": "104e3aad0ac6f1364ec52d3f3f9d9ded0e822d82"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/5415d29d54d15985b8cf56fef30d7514c8608309",
-            "reference": "5415d29d54d15985b8cf56fef30d7514c8608309",
+            "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/104e3aad0ac6f1364ec52d3f3f9d9ded0e822d82",
+            "reference": "104e3aad0ac6f1364ec52d3f3f9d9ded0e822d82",
             "shasum": ""
         },
         "require": {
@@ -4415,7 +4415,7 @@
             "orchestra/testbench": "~3.4.2|~3.5.0|~3.6.0|~3.7.0",
             "phpunit/phpunit": "^5.7|6.2|^7.0"
         },
-        "time": "2018-09-29T04:20:17+00:00",
+        "time": "2018-10-15T19:10:43+00:00",
         "type": "library",
         "extra": {
             "laravel": {

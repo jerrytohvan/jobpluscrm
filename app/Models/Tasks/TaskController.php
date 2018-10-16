@@ -12,12 +12,14 @@ use Auth;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use App\Models\Chats\TelegramService;
 
 class TaskController extends Controller
 {
-    public function __construct(TaskService $taskSvc)
+    public function __construct(TaskService $taskSvc, TelegramService $teleSvc)
     {
         $this->svc = $taskSvc;
+        $this->tSvc = $teleSvc;
     }
 
     public function index()
@@ -49,17 +51,19 @@ class TaskController extends Controller
     {
         // $task = Task::all();
         $client = new Client();
+        
 
         try {
             $res = $client->request('GET', 'http://localhost:3000/mailData');
+            //error_log(print_r($res, true));
             $content = $res->getBody()->getContents();
-            //error_log(print_r($content, true));
+            error_log(print_r($content, true));
             $var = json_decode($content,true);
-            
+            $teleMessage = $this->tSvc->send($var);
             //error_log(print_r($var, true));
-            if (sizeof($var) > 0) {
-                error_log(print_r( " more than 1", true));
-            }
+            // if (sizeof($var) > 0) {
+            //     error_log(print_r( " more than 1", true));
+            // }
         } catch (Exception $e) {
             error_log(print_r( $e->getMessage(), true));
         }
