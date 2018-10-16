@@ -59,7 +59,7 @@ class TaskController extends Controller
             $content = $res->getBody()->getContents();
             error_log(print_r($content, true));
             $var = json_decode($content,true);
-            $teleMessage = $this->tSvc->send($var);
+            //$teleMessage = $this->tSvc->send($var);
             //error_log(print_r($var, true));
             // if (sizeof($var) > 0) {
             //     error_log(print_r( " more than 1", true));
