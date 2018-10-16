@@ -446,10 +446,22 @@ Route::get('oauth', [
 
 
 // metrics routes
-Route::get('/taskOverdue',[
-  'as' => 'taskOverdue',
-  'uses' => '\App\Http\Controllers\MetricsController@tasksOverdue'
+Route::get('/dashboard/newLeadsComparison',[
+  'as' => 'newLeadsComparison',
+  'uses' => '\App\Http\Controllers\MetricsController@newLeadsComparison'
   ]);
+
+  Route::get('/dashboard/taskCompletedComparison',[
+    'as' => 'taskCompletedComparison',
+    'uses' => '\App\Http\Controllers\MetricsController@taskCompletedComparison'
+    ]);
+
+  Route::get('/dashboard/tasksOverdue',[
+      'as' => 'tasksOverdue',
+      'uses' => '\App\Http\Controllers\MetricsController@tasksOverdue'
+      ]);
+
+
 // Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
 
   // Route::post('sendemail', 'MailController@sendemail');
