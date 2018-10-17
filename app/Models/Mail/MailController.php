@@ -102,14 +102,7 @@ class MailController extends Controller
         // show the view and pass the nerd to it
         return view('emails.showmail', compact('m'));
     }
-
-
-
 // YY CAN EDIT AFTER HERE
-
-
-
-
     Public function processYYdata(Array $array){
         $keys = $array[0];
         $values =$array[1];
@@ -119,14 +112,12 @@ class MailController extends Controller
             for($j=0; $j<=sizeOf($value[i]); $j++){
                 $message = $value[$j];
                 $formattedMessage = str_replace(',','/n',$message);
-
             // where your data is supposed to be
                 $data = array(
                   'toEmail' =>$emailTo,
                   'subject'=>$taskSubject,
                   'emailMessage' =>$taskText,
-                  'tasks'=>$tasks['tasklist']
-
+                  'tasks'=>$tasks['tasklist'],
                 );
                 sendTasksEmail($data);
             }
@@ -135,7 +126,6 @@ class MailController extends Controller
 
       public function sendTasksEmail($data)
       {
-
             Mail::send([], $data, function ($message) use ($data) {
                 $message->from('gabrielongxe@gmail.com','Gabriel');
                 $message->to($data['toEmail']);
@@ -143,7 +133,6 @@ class MailController extends Controller
                 $message->setBody($data['emailMessage']);
                 error_log(print_r("sending", true));
             });
-
         error_log(print_r("sent", true));
         return view('layouts.index_mail', compact('message'));
     }

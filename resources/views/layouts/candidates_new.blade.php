@@ -50,14 +50,15 @@
             </div>
 
             <div class="form-group">
-              <label for="gender" class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
+              <label for="gender" class="control-label col-md-3 col-sm-3 col-xs-12">Gender <span class="required">*</span>
+              </label>
               <div class="col-md-6 col-sm-6 col-xs-12">
-                <div id="gender" class="btn-group" data-toggle="buttons">
+                <div id="gender" class="btn-group" data-toggle="buttons" >
                   <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                    <input type="radio" name="gender" checked value="M"> &nbsp; Male &nbsp;
+                    <input type="radio" name="gender"  value="M"  required="required">  Male 
                   </label>
-                  <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                    <input type="radio" name="gender" value="F"> Female
+                  <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                    <input type="radio" name="gender"  value="F"  required="required">  Female 
                   </label>
                 </div>
               </div>
@@ -99,14 +100,14 @@
               </div>
 
               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="birthdate">Birth Date</label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="birthdate">Birth Date *</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                   <input type="date" class="form-control col-md-7 col-xs-12"  data-date-format="MM/DD/YYYY" required="required" id="birthdate" name="birthdate" value='' />
                 </div>
               </div>
 
               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry</label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry *</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <select class="select2_single form-control" required="required" id="industry" name="industry" tabindex="-1">
                       <option value="">Select an Industry</option>
@@ -170,7 +171,7 @@
             <div class="form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="resume">Upload your resume (doc/docx/pdf format)<span class="required">*</span></label>
               <div class="col-md-6 col-sm-9 col-xs-12">
-                  <input type="file" name="resume" id="resume js-file-validation-example"  data-parsley-filemaxmegabytes="2" data-parsley-trigger="change" data-parsley-filemimetypes="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"  />
+                  <input type="file"  required="required" name="resume" id="resume js-file-validation-example"  data-parsley-filemaxmegabytes="2" data-parsley-trigger="change" data-parsley-filemimetypes="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"  />
               </div>
             </div>
 

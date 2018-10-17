@@ -69,14 +69,14 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12">Admin Type</label>
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">Admin Type <span class="required">*</span></label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                   <div id="admin" class="btn-group" data-toggle="buttons">
                     <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                      <input type="radio" name="admin" value="1"> &nbsp; Admin &nbsp;
+                      <input type="radio" name="admin" required="required" value="1"> Admin
                     </label>
-                    <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                      <input type="radio" name="admin" checked value="0"> User
+                    <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                      <input type="radio" name="admin"  value="0"> User
                     </label>
                   </div>
                 </div>

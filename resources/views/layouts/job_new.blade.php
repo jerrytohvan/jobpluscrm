@@ -132,7 +132,7 @@
               </div>
 
               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company">Company</label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company">Company *</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <select class="select2_single form-control"  required="required"id="company" name="company" tabindex="-1">
                       <option>Select a company</option>
