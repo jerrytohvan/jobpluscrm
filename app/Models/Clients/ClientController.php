@@ -10,7 +10,7 @@ use App\Models\Clients\Company;
 use App\Models\Employees\Employee;
 use App\Models\Clients\CompanyService;
 use App\Models\Attachments\Attachment;
-use Illuminate\Support\Facades\Auth;
+//use Illuminate\Support\Facades\Auth;
 use App\Models\Clients\ClientService;
 use App\Models\Users\UserService;
 use App\Models\ActivityLog\ActivityLogService;
@@ -19,16 +19,20 @@ use App\Models\Jobs\Job;
 use App\Models\Comments\Comment;
 use App\Models\Posts\Post;
 use App\Models\Tasks\Task;
+use App\Models\Tasks\TaskService;
+use App\Models\Users\UserCompany;
+use Auth;
 
 class ClientController extends Controller
 {
-    public function __construct(UserService $userSvc, ClientService $clientSvc, CompanyService $compService, ActivityLogService $actService, CandidateService $canSvc)
+    public function __construct(UserService $userSvc, ClientService $clientSvc, CompanyService $compService, ActivityLogService $actService, CandidateService $canSvc , TaskService $taskSvc)
     {
         $this->svc = $clientSvc;
         $this->compSvc = $compService;
         $this->actSvc = $actService;
         $this->userSvc = $userSvc;
         $this->canSvc = $canSvc;
+        $this->taskSvc = $taskSvc;
     }
     public function index_candidates_full_list()
     {
@@ -227,7 +231,25 @@ class ClientController extends Controller
         })->filter(function ($task, $key) {
             return $task->status == 2;
         })->values();
-
+        ///////////////////////////////////////////////////////////////////////
+        $userIds = array();
+        $userCompany = UserCompany::whereCompanyId($company->id)->get();
+        foreach ($userCompany as $user) {
+            $userIds[] = $user->user_id;
+        }
+        $tasksByCompany = Task::whereCompanyId($company->id)->get();
+        $this->taskSvc->insertCollab($tasksByCompany, $userIds);
+        // $crTasks = Task::whereCompanyId($company->id)->whereUserId(Auth::user()->id)->get();
+        // $aTasks = Task::whereCompanyId($company->id)->whereAssignedId(Auth::user()->id)->get();
+        // $coTasks = Task::whereCompanyId($company->id)->where('collaborator->Auth::user()->id')->get();
+        // if (sizeof($crTasks) > 0) {
+        //     return $crTasks;
+        // } else if (sizeof($aTasks) > 0) {
+        //     return $aTasks;
+        // } else if (sizeof($coTasks) > 0) {
+        //     return $coTasks;
+        // }
+        
         return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes', 'jobs', 'tasksOpen', 'tasksOnGoing', 'tasksClosed'));
     }
     public function showCompanyPost(Company $company, $message=null, $status=null)
