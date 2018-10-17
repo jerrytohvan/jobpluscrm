@@ -77,6 +77,7 @@ class ClientService
     public function updateCompanyProfile(Company $company, $array)
     {
         foreach ($array as $key => $value) {
+            
             $company->$key = $value;
         }
         $company->save();

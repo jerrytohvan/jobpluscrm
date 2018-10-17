@@ -22,7 +22,6 @@ class TaskService
         if (!$status) {
             return Task::Create([
                 'title' => $array['title'],
-                'description' => $array['description'],
                 'date_reminder' => $array['date_reminder'],
                 'company_id' =>  $array['company_id'],
                 'status' => 1,
@@ -33,7 +32,6 @@ class TaskService
             if ((int)$array['assigned_id'] == 0) {
                 return Task::Create([
                     'title' => $array['title'],
-                    'description' => $array['description'],
                     'date_reminder' => $array['date_reminder'],
                     'company_id' =>  $array['company_id'],
                     'assigned_id' =>  0,
@@ -44,7 +42,6 @@ class TaskService
             } else {
                 return Task::Create([
                     'title' => $array['title'],
-                    'description' => $array['description'],
                     'date_reminder' => $array['date_reminder'],
                     'company_id' => $array['company_id'],
                     'status' => 1,
@@ -61,7 +58,6 @@ class TaskService
     {
         return Task::Create([
             'title' => $array['title'],
-            'description' => $array['description'],
             'date_reminder' => $array['date_reminder'],
             'user_id' => Auth::user()->id,
             'company_id' => $array['company_id'],

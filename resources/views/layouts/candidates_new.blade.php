@@ -67,13 +67,7 @@
               <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
                         <div class="col-md-6 col-sm-9 col-xs-12">
-                          <select class="select2_single form-control" name="title" id="title" required="required" data-parsley-required-message="Please select a title" tabindex="-1">
-                            <option value=''>Select a Job Level Title</option>
-                            <option value='Entry/Junior'>Entry/Junior</option>
-                            <option value='Intermediate'>Intermediate</option>
-                            <option value='Senior'>Senior</option>
-                            <option value='Lead'>Lead</option>
-                          </select>
+                          <input type="text" id="title" name="title" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
 

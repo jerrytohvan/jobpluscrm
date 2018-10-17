@@ -26,8 +26,8 @@ class TaskController extends Controller
     {
         $message = "";
         $status = "";
-        $users = User::all();
-        $companies = Company::all();
+        $users = User::all()->sortBy('name');
+        $companies = Company::all()->sortBy('name');
         $task = Task::all();
         //return $task;
         return view('layouts.index_task', compact('users', 'companies', 'task', 'message', 'status'));
