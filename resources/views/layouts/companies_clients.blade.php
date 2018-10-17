@@ -92,33 +92,13 @@
                                       <a href="{{ route('view.company', ['company' => $data->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
                                       <a onclick="deleteClient( {{ $data->id}} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
                                   </td>
-                                  <td>
-                                    @php
-                                      $latest_update = $data->updated_at;
-
-                                      $employeesUpdate = $data->employees->max('updated_at');
-                                      if ($employeesUpdate > $latest_update) {
-                                        $latest_update = $employeesUpdate;
-                                      }
-
-                                      $postUpdate = $data->posts->max('updated_at');
-                                      if ($postUpdate > $latest_update) {
-                                        $latest_update = $postUpdate;
-                                      }
-
-                                      $collaboratorsUpdate = $data->collaborators->max('updated_at');
-                                      if ($collaboratorsUpdate > $latest_update) {
-                                        $latest_update = $collaboratorsUpdate;
-                                      }
-
-                                      $tasksUpdate = $data->tasks->max('updated_at');
-                                      if ($tasksUpdate > $latest_update) {
-                                        $latest_update = $tasksUpdate;
-                                      }
-
-                                    @endphp
-                                      {{ $latest_update }}
-                                  </td>
+                                  @foreach ($lastUpdate as $companyId=>$thisUpdate)
+                                    @if ($companyId == $data->id)
+                                      <td>
+                                        {{ $thisUpdate }}
+                                      </td>
+                                    @endif
+                                  @endforeach
                                 </tr>
                                 @endforeach
                               </tbody>
