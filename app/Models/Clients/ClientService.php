@@ -8,6 +8,7 @@ use App\Models\Comments\Comment;
 use App\Models\Posts\Post;
 use App\Models\Tasks\Task;
 use App\Models\Users\UserCompany;
+use App\Models\Users\User;
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Auth;
@@ -237,5 +238,30 @@ class ClientService
             }
         }
         return $updateArray;
+    }
+    
+    public function getAllCollaborators($array) {
+
+        $allCollaborators = array();
+
+        $userCompany = UserCompany::join('users', 'users.id', '=', 'user_id')->get();
+        
+        $i = 0;
+        foreach ($array as $company) {
+            $company_id = $company['id'];
+            
+            foreach ($userCompany as $user) {
+               
+                $cid = $user['company_id'];
+                if ($cid == $company_id) {
+                    $name = $user['name'];
+                    $profilePic = $user['profile_pic'];
+                    $array = array($company_id, $name, $profilePic);
+                    $allCollaborators[$i] = $array;
+                }
+                $i = $i + 1;
+            }
+        }
+        return $allCollaborators;
     }
 }

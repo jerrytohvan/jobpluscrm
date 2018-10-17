@@ -65,18 +65,15 @@
                                     <ul>
                                   </td>
                                   <td>
-                                    @php
-                                      $collaborators = $data->collaborators;
-                                    @endphp
-                                    <ul class="list-inline">
-                                      @if(!empty($collaborators))
-                                        @foreach($collaborators as $profile)
+                                  <ul class="list-inline">
+                                  @foreach ($allCollaborators as $collaborator)
+                                    @if ($collaborator[0] == $data->id)
                                       <li>
-                                          <!-- <b> {{ $profile->name }} </b> -->
-                                          <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}" title="{{ $profile->name }}">
+                                          <!-- <b> {{ $collaborator[1] }} </b> -->
+                                          <img src="{{ $collaborator[2] }}" class="avatar" alt="{{ $collaborator[1] }}" title="{{ $collaborator[1] }}">
                                       </li>
-                                        @endforeach
-                                      @endif
+                                    @endif
+                                  @endforeach
                                   </td>
                                   <td>
                                     {{ $data -> industry }}
