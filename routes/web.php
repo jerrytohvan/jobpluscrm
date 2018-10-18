@@ -467,3 +467,8 @@ Route::get('/dashboard/newLeadsComparison',[
       'as' => 'sendemail',
     'uses' => '\App\Models\Mail\MailController@sendemail'
     ]);
+
+    Route::post('processTaskForEmail', [
+        'as' => 'processTaskForEmail',
+      'uses' => '\App\Models\Mail\MailController@processTaskForEmail'
+      ]);
