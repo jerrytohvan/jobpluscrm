@@ -165,10 +165,14 @@ class MLService
 
     public function cmp($a, $b)
     {
-        if (array_sum($a[1]) == array_sum($b[1])) {
+        // if (array_sum($a[1]) == array_sum($b[1])) {
+        //     return 0;
+        // }
+        // return (array_sum($a[1]) > array_sum($b[1])) ? -1 : 1;
+        if ($a[2] == $b[2]) {
             return 0;
         }
-        return (array_sum($a[1]) > array_sum($b[1])) ? -1 : 1;
+        return ($a[2] > $b[2]) ? -1 : 1;
     }
 
     public function potentialMaxPoints($portionArray, $pointsArray, $keywordsTotal)
@@ -189,14 +193,22 @@ class MLService
         //ADD ON FILTER BY JOB INDUSTRY
         if ($industry!= null) {
             $chunks = Job::where('industry', '=', $industry)->get()->chunk(100);
+            // $chunks = Job::find('2179')->chunk();
+            //
+            // $word1 = 'one ';
+            // $word2 = 'two three';
+            // dd(similar_text($word1, $word2, $percent));
+            // dd($chunks);
+
+            //2179
             // dd($chunks[0][0]);
         } else {
-            $chunks = Job::all()->paginate(1000)->chunk(100);
+            $chunks = Job::paginate(2000)->chunk(100);
         }
 
-        $index = 0;
         //collect top 10 job points
         $points = [];
+        // $container = [];
         foreach ($chunks as $jobs) {
             foreach ($jobs as $job) {
                 //algorithm
@@ -209,13 +221,14 @@ class MLService
                     $summary[$key] = trim($value);
                 }
 
+                //
                 $titlePortion = 0.1;
                 $descPortion = 0.2;
                 $skillsPortion = 0.3;
                 $expPortion = 0.1;
                 $summaryPortion = 0.3;
 
-                //will same words from each factor and keywords be counted twice?
+                // will same words from each factor and keywords be counted twice?
                 $titlePoint = count(array_intersect($job_title, $keywords)) * $titlePortion;
                 $descPoint = count(array_intersect($job_description, $keywords)) * $descPortion;
                 $skillsPoint = count(array_intersect($skills, $keywords)) * $skillsPortion;
@@ -227,33 +240,40 @@ class MLService
                     [$titlePoint, $descPoint, $skillsPoint,$expPoint, $summaryKeywordsPoint],
                     sizeof($keywords)
                 );
-                $accuracy =  $maxPoint != 0 ? [$job->id, ($titlePoint + $descPoint + $skillsPoint + $expPoint + $summaryKeywordsPoint)/$maxPoint] : 0;
-                $points = Self::returnWithMaxPoints($points, array($index,[$titlePoint,$descPoint, $skillsPoint,$expPoint, $summaryKeywordsPoint], $accuracy));
-                $index++;
+                // $accuracy =  $maxPoint != 0 ? [$job->id, ($titlePoint + $descPoint + $skillsPoint + $expPoint + $summaryKeywordsPoint)/$maxPoint] : 0;
+                //join arrays into text
+                // $unique_text = implode(" ", array_unique(array_merge($job_title, $job_description, $skills, $summary)));
+                // dd($unique_text);
+                // $similarity = similar_text(implode(" ", $keywords), $unique_text, $percent);
+                // $accuracy = ($similarity)/count($keywords) *100;
+                $keywordsMatched = array_intersect($keywords, array_unique(array_merge($job_title, $job_description, $skills, $summary)));
+                $accuracy =  count($keywordsMatched)/count($keywords) * 100;
+                $points = Self::returnWithMaxPoints($points, array($job->id,[$titlePoint,$descPoint, $skillsPoint,$expPoint, $summaryKeywordsPoint], $accuracy,$keywordsMatched));
+
+                // $container[] = [$job->id, $job->job_title, $similarity, $accuracy];
                 // unset($job);
             }
         }
 
-        // unset($chunks);
-        // $retrieveIndex = array_map(function ($row) {
-        //     return $row[3];
-        // }, $points);
-        $retrieveIndex = array_map(function ($row) {
-            return $row[2][0];
-        }, $points);
 
-        $points = array_map(function ($row) {
-            return $row[1];
+        $retrieveIndex = array_map(function ($row) {
+            return $row[0];
         }, $points);
 
         $accuracy =   array_map(function ($row) {
             return $row[2];
         }, $points);
 
+        $points = array_map(function ($row) {
+            return $row[1];
+        }, $points);
+
+
 
         //array of keywords match of the top 10 selection
         $keywordsMatch = [];
         $matchingJobs = Job::whereIn('id', $retrieveIndex)->get();
+        // dd($matchingJobs);
 
         // $matchingJobs =  $chunks->filter(function ($job, $value) use ($retrieveIndex) {
         //     return in_array($job->id, $retrieveIndex);
@@ -277,5 +297,9 @@ class MLService
             $keywordsMatch[] = array_unique(array_merge($titlesArray, $descArray, $skillsArray, $summaryArray));
         }
         return [$matchingJobs,$points, $accuracy, $keywordsMatch, $keywords];
+    }
+
+    public function updateJobMatch()
+    {
     }
 }
