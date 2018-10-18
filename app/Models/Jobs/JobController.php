@@ -38,7 +38,7 @@ class JobController extends Controller
     {
         $message = "";
         $status = "";
-        $companies = Company::all();
+        $companies = Company::all()->sortBy('name');
         return view('layouts.job_new', compact('status', 'message', 'companies'));
     }
 

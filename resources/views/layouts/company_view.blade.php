@@ -443,8 +443,6 @@ html {
                                       <p>{{ $company->email }}</p>
                                       <p class="title">Telephone No.</p>
                                       <p>{{ $company->telephone_no }}</p>
-                                      <p class="title">Fax No.</p>
-                                      <p>{{ $company->fax == '' ? '-': $company->fax }}</p>
                                       <p class="title">Industry</p>
                                       <p>{{ $company->industry == '' ? '-': $company->industry }}</p>
                                       <p class="title">Website</p>
@@ -584,13 +582,6 @@ html {
                   </div>
                </div>
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fax_no">Fax No
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="text" id="fax_no" name="fax_no"  data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12" value="{{ $company->fax_no }}">
-                  </div>
-               </div>
-               <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="website">Website
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
@@ -598,12 +589,13 @@ html {
                   </div>
                </div>
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_employees">No of Employees
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_employees">No of Employees *
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="number" id="no_employees"  name="no_employees"  class="form-control col-md-7 col-xs-12" value="{{ $company->no_employees }}">
+                     <input type="number" id="no_employees"  name="no_employees" required="required"  class="form-control col-md-7 col-xs-12" value="{{ $company->no_employees }}">
                   </div>
                </div>
+               
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
@@ -1028,7 +1020,6 @@ $(document).ready(function () {
         company_id:$('#comapany-id').val(),
         email: $('#email').val(),
         telephone_no: $('#telephone_no').val(),
-        fax_no: $('#fax_no').val(),
         address: $('#address').val(),
         industry: $('#industry').val(),
         website: $('#website').val(),
