@@ -269,27 +269,23 @@ class AccountController extends Controller
     }
     // companies compared with last 14 days ratio
     public function newLeadsComparison(){
-      $todayDate = $this->todayDate();
-      $sevenDaysAgoDate = $this->thisWeek();
-      $fourteenDaysAgoDate = $this->lastWeek();
-      $madeThisWeek = 0;
-      $madeLastWeek = 0;
-      // companiesCreatedLast 7 days
-      $madeThisWeek = $this->leadsThisWeek();
-      // companies created last 14 days
-      $companiesCreatedLastWeek =Company::where('created_at','<=',$sevenDaysAgoDate  )->where('created_at','>=',$fourteenDaysAgoDate)->get();
-      foreach ($companiesCreatedLastWeek as $task) {
-            $madeLastWeek++;
-      }
-      //company growth rate
-        $companyPercentageChange = 0.0;
-        if($madeLastWeek !=0 || $madeThisWeek != 0){
-          $companyPercentageChange = $madeThisWeek/$madeLastWeek;
+        $todayDate = $this->todayDate();
+        $sevenDaysAgoDate = $this->thisWeek();
+        $fourteenDaysAgoDate = $this->lastWeek();
+        $madeThisWeek = 0;
+        $madeLastWeek = 0;
+        // companiesCreatedLast 7 days
+        $madeThisWeek = $this->leadsThisWeek();
+        // companies created last 14 days
+        $companiesCreatedLastWeek =Company::where('created_at','<=',$sevenDaysAgoDate  )->where('created_at','>=',$fourteenDaysAgoDate)->get();
+        foreach ($companiesCreatedLastWeek as $task) {
+              $madeLastWeek++;
         }
-        return $companyPercentageChange;
-
+        //company growth rate
+          $companyPercentageChange = 0.0;
+          if($madeLastWeek !=0 || $madeThisWeek != 0){
+              $companyPercentageChange = $madeThisWeek/$madeLastWeek;
+          }
+          return $companyPercentageChange;
     }
-
-
-
 }
