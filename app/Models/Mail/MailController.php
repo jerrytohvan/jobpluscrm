@@ -5,12 +5,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Storage;
 use Mail;
+use App\Models\Clients\Company;
+use App\Models\Tasks\Task;
+use App\Models\Users\User;
+
 class MailController extends Controller
 {
     public function index()
     {
         return view('/layouts/index_mail');
     }
+
       public function sendemail(Request $request)
       {
           $data = array(
@@ -19,6 +24,7 @@ class MailController extends Controller
             'emailMessage' =>$request->emailMessage,
             'emailAttachment'=>$request->emailAttachment,
             'ccEmail'=>$request->ccEmail
+
           );
             Mail::send([], $data, function ($message) use ($data) {
                 $message->from('gabrielongxe@gmail.com','Gabriel');
@@ -34,12 +40,15 @@ class MailController extends Controller
                           'mime'=>$data['emailAttachment']->getMimeType())
                       );
                  }
+
                 $message->setBody($data['emailMessage']);
                 error_log(print_r("sending", true));
             });
+
         error_log(print_r("sent", true));
         return view('layouts.index_mail', compact('message'));
     }
+
     // public function sendemailtoMany()
     // {
     //     $emails=[''];
@@ -98,36 +107,84 @@ class MailController extends Controller
         return view('emails.showmail', compact('m'));
     }
 // YY CAN EDIT AFTER HERE
-    Public function processYYdata(Array $array){
-        $keys = $array[0];
-        $values =$array[1];
-        for($i = 0 ; $i<=sizeof($keys); $i++){
-          //where the send email to is supposed to be
-            $emailTo = User::whereId($keys[i])->email;
-            for($j=0; $j<=sizeOf($value[i]); $j++){
-                $message = $value[$j];
-                $formattedMessage = str_replace(',','/n',$message);
-            // where your data is supposed to be 
-                $data = array(
-                  'toEmail' =>$emailTo,
-                  'subject'=>$taskSubject,
-                  'emailMessage' =>$taskText,
-                  'tasks'=>$tasks['tasklist'],
-                );
-                sendTasksEmail($data);
-            }
-        }
-      }
-      public function sendTasksEmail($data)
-      {
-            Mail::send([], $data, function ($message) use ($data) {
-                $message->from('gabrielongxe@gmail.com','Gabriel');
-                $message->to($data['toEmail']);
-                $message->subject($data['subject']);
-                $message->setBody($data['emailMessage']);
-                error_log(print_r("sending", true));
-            });
-        error_log(print_r("sent", true));
-        return view('layouts.index_mail', compact('message'));
+
+    public function processTaskForEmail(Array $array){
+        
+      $companyArr = array();
+      $companies = Company::all();
+      foreach ($companies as $company) {
+          $id = $company['id'];
+          $name = $company['name'];
+          $companyArr[$id] = $name;
     }
+        $userids = $array[0];
+        for ($i=0; $i<sizeof($userids); $i++) {
+            $userid = $userids[$i];
+            $user_email = User::where('id', $userid)->pluck('email')->first();
+            $messageArr = $array[1][$i];
+            $message = "Task(s) to be done:\n\n";
+
+            for ($j=0; $j<sizeof($messageArr); $j++) {
+                $messageStr = $messageArr[$j];
+                $index = strrpos($messageStr, ",");
+                $companyId = substr($messageStr, 0, $index);
+                $companyName = $companyArr[$companyId];
+                $messageDesc = substr($messageStr, $index+1);
+
+                if ($j == 0) {
+                    $message .= "" .$companyName . ":\n" . $messageDesc;
+                } else {
+                    $message .= "\n\n" .$companyName . ":\n" . $messageDesc;
+                }
+            }
+            $data = array(
+                'toEmail' =>$user_email,
+                'subject'=>$messageDesc,
+                'emailMessage' =>$message
+              );
+               $this->sendTasksEmail($data);
+          }
+          
+  }
+
+
+    public function sendTasksEmail($data)
+    {
+      $sent = false;
+          Mail::send([], $data, function ($message) use ($data) {
+              $message->from('gabrielongxe@gmail.com','Gabriel');
+              $message->to($data['toEmail']);
+              $message->subject($data['subject']);
+              $message->setBody($data['emailMessage']);
+          });
+      $sent = true;
+      return $sent;
+  }
+
+
+
+    // Public function processYYdata(Array $array){
+    //     $keys = $array[0];
+    //     $values =$array[1];
+    //     for($i = 0 ; $i<=sizeof($keys); $i++){
+    //       //where the send email to is supposed to be
+    //
+    //
+    //         $emailTo = User::whereId($keys[i])->email;
+    //         for($j=0; $j<=sizeOf($value[i]); $j++){
+    //             $message = $value[$j];
+    //             $formattedMessage = str_replace(',','/n',$message);
+    //         // where your data is supposed to be
+    //             $data = array(
+    //               'toEmail' =>$emailTo,
+    //               'subject'=>$taskSubject,
+    //               'emailMessage' =>$taskText,
+    //               'tasks'=>$tasks['tasklist'],
+    //             );
+    //             sendTasksEmail($data);
+    //         }
+    //     }
+    //   }
+
+
 }
