@@ -458,6 +458,13 @@ Route::get('/dashboard/newLeadsComparison',[
       'uses' => '\App\Http\Controllers\MetricsController@tasksOverdue'
       ]);
 
+      Route::get('/dashboard/taskThisWeek',[
+          'as' => 'taskThisWeek',
+          'uses' => '\App\Http\Controllers\MetricsController@taskThisWeek'
+          ]);
+
+
+
 
 // Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
 

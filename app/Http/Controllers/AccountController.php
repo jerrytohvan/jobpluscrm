@@ -162,24 +162,25 @@ class AccountController extends Controller
 
 // today's date
     public function todayDate(){
-    $todayDate = Carbon::now()->format('Y-m-d 00:00:00');
+    $todayDate = Carbon::now()->format('Y-m-d 23:59:59');
     return $todayDate;
     }
 // 7 days ago date
     public function thisWeek(){
         $todayDate = $this->todayDate();
-        $sevenDaysAgoDate = Date($todayDate,strtotime("-7 day"));
+        $sevenDaysAgoDate = Date('y-m-d',strtotime("-7 days"));
         return $sevenDaysAgoDate;
     }
 // 14 days ago date
     public function lastWeek(){
         $todayDate = $this->todayDate();
         $sevenDaysAgoDate = $this->thisWeek();
-        $fourteenDaysAgoDate =Date($todayDate,strtotime("-14 day"));
+        $fourteenDaysAgoDate =Date('y-m-d',strtotime("-14 day"));
         return $fourteenDaysAgoDate;
     }
 
-  // overdue task
+  // Metric 1
+  //overdue task
     public function tasksOverdue(){
           $now = $this->todayDate();
           $tasksOverdueCounter = 0;
@@ -216,20 +217,23 @@ class AccountController extends Controller
       }
       //compare
       $overdueComparison = 0.0;
-      if($overdueTasksThisWeek !=0 || $overdueTaskLastWeek != 0){
+      if($overdueTasksThisWeek != 0){
+        $overdueComparison = 100.0;
+      }
+      if($overdueTaskLastWeek != 0){
           $overdueComparison = $overdueTasksThisWeek/$overdueTaskLastWeek;
       }
       return $overdueComparison;
     }
 
-
-// task of the last 7 days
+// METRIC 2
+// task competed  of the last 7 days
     public function taskThisWeek(){
       $completedThisWeek = 0;
       $todayDate = $this->todayDate();
       $sevenDaysAgoDate = $this->thisWeek();
-      $completedTasklastWeek = Task::whereStatus('2')->where('updated_at','<=',$todayDate )->where('updated_at','>=',$sevenDaysAgoDate)->get();
-      foreach ($completedTasklastWeek as $task) {
+     $completedTaskThisWeek = Task::whereStatus(2)->where('updated_at','<=',$todayDate)->where('updated_at','>=',$sevenDaysAgoDate)->get();
+      foreach ($completedTaskThisWeek as $task) {
             $completedThisWeek++;
       }
       return $completedThisWeek;
@@ -249,12 +253,18 @@ class AccountController extends Controller
             }
             //tasks this week counter
             $completedThisWeek = $this->taskThisWeek();
-            if($completedLastWeek != 0 || $completedThisWeek != 0){
+            if($completedThisWeek != 0){
+              $taskPercentageChange = 100.0;
+            }
+            if($completedLastWeek != 0){
                 $taskPercentageChange = $completedThisWeek/$completedLastWeek;
             }
 
             return $taskPercentageChange;
     }
+
+
+    // Metric 3
     // companies created last 7 days
     public function leadsThisWeek(){
       $todayDate = $this->todayDate();
@@ -283,7 +293,10 @@ class AccountController extends Controller
         }
         //company growth rate
           $companyPercentageChange = 0.0;
-          if($madeLastWeek !=0 || $madeThisWeek != 0){
+          if($madeThisWeek != 0){
+            $companyPercentageChange = 100.0;
+          }
+          if($madeLastWeek !=0){
               $companyPercentageChange = $madeThisWeek/$madeLastWeek;
           }
           return $companyPercentageChange;
