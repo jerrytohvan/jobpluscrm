@@ -17,8 +17,10 @@ class JobController extends Controller
     }
     public function index()
     {
-        $jobs = Job::all()->take(500);
-        return view('layouts.job_index', compact('jobs'));
+        $message = "";
+        $status = "";
+        $jobs = Job::paginate(500);
+        return view('layouts.job_index', compact('jobs', 'message', 'status'));
     }
 
     public function add_jobs()
@@ -38,5 +40,18 @@ class JobController extends Controller
         $status = "";
         $companies = Company::all();
         return view('layouts.job_new', compact('status', 'message', 'companies'));
+    }
+
+    public function delete_job()
+    {
+        $job = Job::find(request()->input('job'));
+        if ($job != null && $job->delete()) {
+            $message = "Job post successfully removed!";
+            $status = 1;
+        } else {
+            $message = "Failed to remove job post!";
+            $status = 0;
+        }
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 }

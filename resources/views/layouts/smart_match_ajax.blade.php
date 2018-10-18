@@ -163,7 +163,7 @@ $(window).load(function() {
             var $wrapper = $('<div class="col-md-12 col-sm-12 col-xs-12 widget_tally_box">');
             var $xpannel = $('<div class="x_panel ui-ribbon-container">');
             var $ribbon = $('<div class="ui-ribbon-wrapper">');
-            $ribbon.prepend($('<div class="ui-ribbon">'+ Math.round(data[1][i].reduce((a, b) => a + b, 0)) +' Points</div>'));
+            // $ribbon.prepend($('<div class="ui-ribbon">'+ Math.round(data[1][i].reduce((a, b) => a + b, 0)) +' Points</div>'));
             $xpannel.prepend(
               $('<div class="x_content">' +
               '<div style="text-align: center; margin-bottom: 17px">' +
@@ -171,9 +171,9 @@ $(window).load(function() {
               + '</div>' + '<h3 class="name_title">' + data[0][i].job_title + '</h3>' +
               '<p>' + data[0][i].industry + '</p>'
              + '<div class="divider"></div>' +
-             '<h4 class="name_title">Skills:</h4><br/>'+
-              + '<p>' + data[0][i].job_description+ '</p>' + '<div class="divider"></div>' + '<p>'
-             + data[0][i].skills+ '</p>' + '<div class="divider"></div>' + '<p>' + "Keywords match: " + blkstr.join(", ") + '</p>' + '</div>'));
+             '<h4 class="name_title">Job Description</h4><br/>'+
+              + '<p>' + data[0][i].job_description+ '</p>' + '<div class="divider"></div>' + '<h4 class="name_title">Job Skills</h4><br/><p>'
+             + data[0][i].skills+ '</p>' + '<div class="divider"></div><h4 class="name_title">Resume Skills Keyword(s) matched</h4><br/>' + '<p>'  + blkstr.join(", ") + '</p>' + '</div>'));
              $xpannel.prepend($('<div class="x_title">' + '<h2>#' + (count+1) + '</h2>' + '<div class="clearfix"></div>' + '</div>'));
              $xpannel.prepend($ribbon);
              $wrapper.prepend($xpannel);

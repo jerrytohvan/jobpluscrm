@@ -286,7 +286,13 @@ Route::group(['middleware' => ['auth']], function () {
       'as' => 'add.job',
     'uses' => '\App\Models\Jobs\JobController@add_jobs'
     ]);
-    
+
+    Route::post('/jobs/delete', [
+      'as' => 'delete.job',
+    'uses' => '\App\Models\Jobs\JobController@delete_job'
+    ]);
+
+
 
 
     // Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
