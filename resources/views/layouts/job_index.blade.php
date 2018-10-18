@@ -8,6 +8,11 @@
 <link href="{{ asset('css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('css/responsive.bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('css/scroller.bootstrap.min.css') }}" rel="stylesheet">
+
+<!-- pnotify -->
+<link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
 @endpush
 
 
@@ -48,7 +53,9 @@
                                   <td>{{ $job->job_title }}</td>
                                   <td>{{ $job->job_description}}</td>
                                   <td>{{ $job->skills }}</td>
-                                  <td>-</td>
+                                  <td>
+                                    <a onclick="deletejob( {{ $job }} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                                  </td>
                                 </tr>
                                 @endforeach
                               </tbody>
@@ -60,6 +67,34 @@
 
       </div>
    </div>
+
+
+   <div class="modal fade" tabindex="-1" role="dialog" id="delete-job">
+    <div class="modal-dialog">
+       <div class="modal-content">
+          <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+             <h4 class="modal-title">Delete Job Post</h4>
+          </div>
+          <div class="modal-body">
+             {{  Form::open(['route' => 'delete.job','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'delete_form']) }}
+             <p>Are you sure you want to delete this Job post? This action cannot be undone.</P>
+             <input type="hidden" id="job" name="job" value="">
+
+             {!! Form::close() !!}
+
+             <button type="button" class="btn btn-danger"  onclick="deleteJob();" >Confirm Delete</button>
+             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+          </div>
+
+       </div>
+       <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+
+
 </div>
 
 @endsection
@@ -71,11 +106,7 @@
 @endsection
 
 @push('scripts')
-<script>
-$(document).ready(function() {
-    $('#datatable').DataTable();
-} );
-</script>
+
 <!-- Datatables -->
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
@@ -95,5 +126,43 @@ $(document).ready(function() {
 <script src="{{ asset('js/pdfmake.min.js') }}"></script>
 <script src="{{ asset('js/vfs_fonts.js') }}"></script>
 
+
+<script src="{{ asset('js/pnotify.js') }}"></script>
+<script src="{{ asset('js/pnotify.buttons.js') }}"></script>
+<script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
+<script>
+$(document).ready(function() {
+    $('#datatable').DataTable();
+} );
+
+
+function deletejob(job) {
+  $('#job').val(job.id);
+  $('#delete-job').modal('show');
+}
+
+function deleteJob() {
+  $('#delete_form').submit();
+}
+
+$(document).ready(function () {
+  $('.ui-pnotify').remove();
+    loadNotification();
+});
+
+function loadNotification(){
+  var message = "{{ Session::get('message') }}";
+  var status = "{{ Session::get('status') }}";
+
+  if(message != "" && status != ""){
+    new PNotify({
+        title: (status == 1 ? "Success!" : "Failed!"),
+        text: message,
+        type: (status == 1 ? "success" : "error"),
+        styling: 'bootstrap3'
+    });
+  }
+}
+</script>
 
 @endpush
