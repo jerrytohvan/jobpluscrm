@@ -37,20 +37,12 @@
                      <br />
                      {{  Form::open(['route' => 'add.tasks','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
                        <div class="form-group">
-                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Task Name <span class="required">*</span>
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Task <span class="required">*</span>
                          </label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
-                           <input type="text" id="title" name = "title" required="required" class="form-control col-md-7 col-xs-12">
+                           <input type="text" id="task" name = "title" required="required" class="form-control col-md-7 col-xs-12">
                          </div>
                        </div>
-
-                       <div class="form-group">
-                         <label for="description" class="control-label col-md-3 col-sm-3 col-xs-12">Description <span class="required">*</span></label>
-                         <div class="col-md-6 col-sm-6 col-xs-12">
-                           <input id="description" class="form-control col-md-7 col-xs-12" type="text" name="description" required="required">
-                         </div>
-                       </div>
-
                        <!-- <div class="form-group">
                          <label for="assigned_id" class="control-label col-md-3 col-sm-3 col-xs-12">Email </label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
@@ -70,7 +62,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company_id">Company</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company_id">Company *</label>
                         <div class="col-md-6 col-sm-9 col-xs-12">
                           <select class="select2_single form-control"  required='required' name="company_id" id="company_id" tabindex="-1">
                            <option value=''>Select a Company</option>
@@ -83,7 +75,7 @@
 
 
                        <div class="form-group">
-                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Date and Time <span class="required">*</span>
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Due Date <span class="required">*</span>
                          </label>
                            <div class="col-md-6 col-sm-6 col-xs-12">
                                <div class="control-group">

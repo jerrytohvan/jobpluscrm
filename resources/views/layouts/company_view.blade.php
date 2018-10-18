@@ -164,7 +164,7 @@ html {
                                           @endforeach
                                         @endif
                                           <a id="collaborators_button" >
-                                            <span class="glyphicon glyphicon-plus-sign gi-1x"></span>
+                                            <span class="glyphicon glyphicon-pencil gi-1x"></span>
                                            </a>
                                         </li>
                                       </ul>
@@ -177,7 +177,6 @@ html {
 
                             <div>
                               <div class="col-md-6 col-sm-6 col-xs-12">
-                                 <h2> Contacts </h2>
                                  <ul class="nav navbar-right panel_toolbox">
                                  </ul>
                                  <div class="clearfix"></div>
@@ -188,7 +187,7 @@ html {
                                     <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                                        <li role="presentation" class="active"><a href="#tab_account" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Contacts</a>
                                        </li>
-                                       <li role="presentation" class=""><a href="#new_account" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">New Contact</a>
+                                       <li role="presentation" class=""><a href="#new_account" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Add Contact</a>
                                        </li>
                                     </ul>
                                     <div id="myTabContent" class="tab-content">
@@ -229,7 +228,7 @@ html {
                                        <div role="tabpanel" class="tab-pane fade" id="new_account" aria-labelledby="profile-tab">
                                           {{  Form::open(['route' => 'add.new.account','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
                                           <div class="form-group">
-                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Account Name <span class="required">*</span>
+                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name"> Name <span class="required">*</span>
                                              </label>
                                              <div class="col-md-6 col-sm-6 col-xs-12">
                                                 <input type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12">
@@ -240,10 +239,16 @@ html {
                                              <div class="col-md-6 col-sm-9 col-xs-12">
                                                 <select class="select2_single form-control" name="title" id="title" required="required" data-parsley-required-message="Please select a title" tabindex="-1">
                                                    <option value=''>Select a Job Level Title</option>
-                                                   <option value='Entry/Junior'>Entry/Junior</option>
-                                                   <option value='Intermediate'>Intermediate</option>
-                                                   <option value='Senior'>Senior</option>
-                                                   <option value='Lead'>Lead</option>
+                                                   <option value='HR Executive'>HR Executive</option>
+                                                   <option value='HR Manager'>HR Manager</option>
+                                                   <option value='HR Director'>HR Director</option>
+                                                   <option value='Office Administrator'>Office Administrator</option>
+                                                   <option value='Office Manager'>Office Manager</option>
+                                                   <option value='Director'>Director</option>
+                                                   <option value='CEO'>CEO</option>
+                                                   <option value='General Manager'>General Manager</option>
+                                                   <option value='Hiring Manager'>Hiring Manager</option>
+                                                   <option value='unknown'>unknown</option>
                                                 </select>
                                              </div>
                                           </div>
@@ -432,16 +437,12 @@ html {
                                 </div>
                                 <div class="panel-body">
                                    <div class="project_detail">
-                                      <p class="title">Company Name</p>
-                                      <p>{{ $company->name }}</p>
                                       <p class="title">Address</p>
                                       <p>{{ $company->address }}</p>
                                       <p class="title">Email</p>
                                       <p>{{ $company->email }}</p>
                                       <p class="title">Telephone No.</p>
                                       <p>{{ $company->telephone_no }}</p>
-                                      <p class="title">Fax No.</p>
-                                      <p>{{ $company->fax == '' ? '-': $company->fax }}</p>
                                       <p class="title">Industry</p>
                                       <p>{{ $company->industry == '' ? '-': $company->industry }}</p>
                                       <p class="title">Website</p>
@@ -581,13 +582,6 @@ html {
                   </div>
                </div>
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fax_no">Fax No
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="text" id="fax_no" name="fax_no"  data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12" value="{{ $company->fax_no }}">
-                  </div>
-               </div>
-               <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="website">Website
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
@@ -595,12 +589,13 @@ html {
                   </div>
                </div>
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_employees">No of Employees
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_employees">No of Employees *
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="number" id="no_employees"  name="no_employees"  class="form-control col-md-7 col-xs-12" value="{{ $company->no_employees }}">
+                     <input type="number" id="no_employees"  name="no_employees" required="required"  class="form-control col-md-7 col-xs-12" value="{{ $company->no_employees }}">
                   </div>
                </div>
+               
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
@@ -1025,7 +1020,6 @@ $(document).ready(function () {
         company_id:$('#comapany-id').val(),
         email: $('#email').val(),
         telephone_no: $('#telephone_no').val(),
-        fax_no: $('#fax_no').val(),
         address: $('#address').val(),
         industry: $('#industry').val(),
         website: $('#website').val(),
