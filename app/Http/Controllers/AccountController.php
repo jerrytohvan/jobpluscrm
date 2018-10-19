@@ -168,14 +168,14 @@ class AccountController extends Controller
 // 7 days ago date
     public function thisWeek(){
         $todayDate = $this->todayDate();
-        $sevenDaysAgoDate = Date('y-m-d',strtotime("-7 days"));
+        $sevenDaysAgoDate = Date('Y-m-d',strtotime("-7 days"));
         return $sevenDaysAgoDate;
     }
 // 14 days ago date
     public function lastWeek(){
         $todayDate = $this->todayDate();
         $sevenDaysAgoDate = $this->thisWeek();
-        $fourteenDaysAgoDate =Date('y-m-d',strtotime("-14 day"));
+        $fourteenDaysAgoDate =Date('Y-m-d',strtotime("-14 day"));
         return $fourteenDaysAgoDate;
     }
 

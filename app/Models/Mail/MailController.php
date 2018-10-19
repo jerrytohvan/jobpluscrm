@@ -27,7 +27,7 @@ class MailController extends Controller
 
           );
             Mail::send([], $data, function ($message) use ($data) {
-                $message->from('gabrielongxe@gmail.com','Gabriel');
+                $message->from('admin@jobplus.sg','JobPlus');
                 $message->to($data['toEmail']);
                 if ($data['ccEmail'] != null) {
                     $message->cc($data['ccEmail']);
@@ -54,8 +54,8 @@ class MailController extends Controller
     {
         /* connect to gmail */
         $hostname = '{imap.gmail.com:993/imap/ssl}INBOX';
-        $username = 'gabrielongxe@gmail.com';
-        $password = 'Heavenfire357';
+        $username = 'admin@jobplus.sg';
+        $password = '68169888';
         $inbox = imap_open($hostname, $username, $password) or die('Cannot connect: ' . imap_last_error());
         $emails = imap_search($inbox, 'ALL');
         if ($emails) {
@@ -139,7 +139,7 @@ class MailController extends Controller
       $sent = false;
       error_log(print_r("satrt", true));
           Mail::send([], $data, function ($message) use ($data) {
-              $message->from('gabrielongxe@gmail.com','Gabriel');
+              $message->from('admin@jobplus.sg','JobPlus');
               $message->to($data['toEmail']);
               $message->subject($data['subject']);
               $message->setBody($data['emailMessage']);
