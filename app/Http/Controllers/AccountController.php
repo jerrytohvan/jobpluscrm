@@ -249,7 +249,7 @@ class AccountController extends Controller
             // tasks in the prev week
             $completedTaskPreviousWeek = Task::whereStatus('2')->where('updated_at','<=',$sevenDaysAgoDate )->where('updated_at','>=',$fourteenDaysAgoDate)->get();
             foreach ($completedTaskPreviousWeek as $task) {
-                $completedlastWeek++;
+                $completedLastWeek++;
             }
             //tasks this week counter
             $completedThisWeek = $this->taskThisWeek();

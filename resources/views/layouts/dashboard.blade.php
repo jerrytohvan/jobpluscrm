@@ -14,22 +14,22 @@
 <div class="right_col" role="main">
   <!-- top tiles -->
   <div class="row tile_count">
-    <div class="col-md-2 col-sm-2 col-xs-6 tile_stats_count">
+    <div class="col-md-3 col-sm-2 col-xs-6 tile_stats_count">
       <span class="count_top"><i class="fa fa-user"></i>Task Overdue</span>
       <div class="count">{{$tasksOverdue}}</div>
       <span class="count_bottom"><i class="green">>{{$overdueComparison}}%</i> From last Week</span>
     </div>
-    <div class="col-md-2 col-sm-2 col-xs-6 tile_stats_count">
+    <div class="col-md-3 col-sm-2 col-xs-6 tile_stats_count">
       <span class="count_top"><i class="fa fa-user"></i> Task Completed This Week</span>
       <div class="count green">{{$taskThisWeek}}</div>
       <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>>{{$taskComparison}}%</i> From last Week</span>
     </div>
-    <div class="col-md-2 col-sm-2 col-xs-6 tile_stats_count">
+    <div class="col-md-3 col-sm-2 col-xs-6 tile_stats_count">
       <span class="count_top"><i class="fa fa-clock-o"></i> New Companies This Week</span>
       <div class="count">{{$leadsThisWeek}}</div>
       <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>>{{$leadsComparison}}%</i> From last Week</span>
     </div>
-     <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+     <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
       <span class="count_top"><i class="fa fa-user"></i> Month to date</span>
       <div class="count">5</div>
       <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
