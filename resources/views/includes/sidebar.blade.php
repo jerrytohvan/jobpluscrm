@@ -41,7 +41,7 @@
                 <a><i class="fa fa-users"></i> Manage Admin <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                   <li><a href="{{ route('admin.list') }}"></i>Admins</a>
-                  <li><a href="{{ route('index.register') }}">Add</a></li>
+                  <li><a href="{{ route('index.register') }}">Add User/Admin</a></li>
                     </ul>
               </li>
               @endif
@@ -55,14 +55,14 @@
                 <!-- <li><a href="">Full List</a></li> -->
                 <li><a href="{{ route('companies.clients') }}">Clients</a></li>
                 <li><a href="{{ route('companies.leads') }}">Leads</a></li>
-                <li><a href="{{ route('companies.new') }}">Add</a></li>
+                <li><a href="{{ route('companies.new') }}">Add Client/Lead</a></li>
                 </ul>
             </li>
 
               <li><a><i class="fa fa-desktop"></i> Candidates <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                   <li><a href="{{ route('candidates.fulllist') }}">Full list</a></li>
-                  <li><a href="{{ route('candidates.new') }}">Add</a></li>
+                  <li><a href="{{ route('candidates.new') }}">Add Candidate</a></li>
                 </ul>
               </li>
 
@@ -70,7 +70,7 @@
               <a><i class="fa fa-binoculars"></i>Jobs<span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
                 <li><a href="{{ route('jobs.list') }}">List</a></li>
-                <li><a href="{{ route('jobs.new') }}">Add</a></li>
+                <li><a href="{{ route('jobs.new') }}">Add Job</a></li>
               </ul>
             </li>
             <li>

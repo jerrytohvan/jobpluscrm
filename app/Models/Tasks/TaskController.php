@@ -8,7 +8,7 @@ use App\Models\Tasks\Task;
 use App\Models\Tasks\TaskService;
 use App\Models\Users\User;
 use App\Models\Users\UserCompany;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -61,8 +61,8 @@ class TaskController extends Controller
             $content = $res->getBody()->getContents();
             error_log(print_r($content, true));
             $var = json_decode($content,true);
-             //$this->tSvc->send($var);
-            $emailSend = $this->mTc->processTaskForEmail($var);
+             $this->tSvc->send($var);
+            //$emailSend = $this->mTc->processTaskForEmail($var);
             //error_log(print_r($var, true));
             // if (sizeof($var) > 0) {
             //     error_log(print_r( " more than 1", true));
@@ -192,6 +192,44 @@ class TaskController extends Controller
             $task->save();
             return $task;
         }
+    }
+
+    public function topfew(){
+        $tmr = Carbon::tomorrow()->format('Y-m-d 00:00:00');
+        dd(Auth::user());
+        //$value = Auth::user()->id;
+        // $user = User::all();
+        // error_log(print_r( $user,true));
+        error_log(print_r( $tmr,true));
+        // $collaboratorsIn = Auth::user()->companies->map(function ($value, $key) {
+        //     return $value->id;
+        // });
+        // $tasks = Task::orderBy('order')->whereUserId($id)->orWhere('assigned_id', $id)->orWhereIn('company_id', $collaboratorsIn)->get();
+
+        // //retrieve all company and users
+        // $companies = Company::all();
+        // $users = User::all();
+        // $tasksOpen = $tasks->map(function ($value, $key) use ($companies,$users) {
+        //     // $value['company'] = Company::find($value['company_id'])->name;
+        //     $value['company'] =  $companies->filter(function ($company) use ($value) {
+        //         return $company->id == $value['company_id'];
+        //     })->first()->name;
+
+        //     // $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name : "";
+        //     $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+        //         return $user->id == $value['assigned_id'];
+        //     })->first()->name :  "";
+        //     $dateNow =  date_create(date("Y-m-d H:i:s"));
+        //     $dateAfter =  date_create(date($value['date_reminder']));
+        //     $dateDiff = date_diff($dateNow, $dateAfter);
+        //     $dateString = Self::constructStringFromDateTime($dateDiff);
+        //     $value['date_string'] = $dateString;
+        //     return $value;
+        // })->filter(function ($task, $key) {
+        //     return $task->status == 0;
+        // })->values();
+
+        //return $value;
     }
 
     public function updateToDoList($id)

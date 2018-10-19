@@ -485,3 +485,5 @@ Route::get('/dashboard/newLeadsComparison',[
         'as' => 'processTaskForEmail',
       'uses' => '\App\Models\Mail\MailController@processTaskForEmail'
       ]);
+
+      Route::get('/tasks/topkopen','\App\Models\Tasks\TaskController@topfew');
