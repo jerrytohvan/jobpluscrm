@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-xs-12 col-md-4">
             <section class="list">
-                <header>Open</header>
+                <header>Open Task</header>
                 <draggable class="drag-area" :list="tasksOpenNew" :options="{animation:200, group:'status'}" :element="'article'" @add="onAdd($event, 0)"  @change="update">
                     <article class="cardOpen" v-for="(task, index) in tasksOpenNew" :key="task.id" :data-id="task.id">
                       <a class="remove-item" @click="removeItem(task.id,index,0)">x</a>
@@ -25,7 +25,7 @@
         </div>
         <div class="col-xs-12 col-md-4">
             <section class="list">
-                <header>On-going</header>
+                <header>On-going Task</header>
                 <draggable class="drag-area"  :list="tasksOnGoingNew" :options="{animation:200, group:'status'}" :element="'article'" @add="onAdd($event, 1)"  @change="update">
                     <article class="cardInProgress" v-for="(task, index) in tasksOnGoingNew" :key="task.id" :data-id="task.id" >
                       <a class="remove-item" @click="removeItem(task.id, index,1)">x</a>
@@ -48,7 +48,7 @@
         </div>
         <div class="col-xs-12 col-md-4">
             <section class="list">
-                <header>Closed</header>
+                <header>Closed Task</header>
                 <draggable class="drag-area"  :list="tasksClosedNew" :options="{animation:200, group:'status'}" :element="'article'" @add="onAdd($event, 2)"  @change="update">
                     <article class="cardClosed" v-for="(task, index) in tasksClosedNew" :key="task.id" :data-id="task.id">
                       <a class="remove-item" @click="removeItem(task.id, index,2)">x</a>
