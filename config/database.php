@@ -53,11 +53,11 @@ return [
             'port' => '5432',
             'database' => 'jobplus',
             'username' => 'postgres',
-            'password' => 'yiyao',
+            'password' => 'root',
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
-            'sslmode' => 'allow',
+            // 'sslmode' => 'allow',
         ],
         'pgsql_production' => [
             'driver' => 'pgsql',
