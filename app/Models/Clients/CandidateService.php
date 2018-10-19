@@ -6,9 +6,15 @@ use Illuminate\Http\Request;
 use App\Models\Clients\Candidate;
 use App\Models\Attachments\Attachment;
 use Illuminate\Support\Facades\Auth;
+use  App\Models\Attachments\AttachmentService;
 
 class CandidateService
 {
+    public function __construct(AttachmentService $attachSvc)
+    {
+        $this->attachSvc = $attachSvc;
+    }
+
     public function getAllCandidates()
     {
         return Candidate::all()->sortBy('name');
@@ -59,6 +65,7 @@ class CandidateService
 
     public function addCandidateFile($array)
     {
+        dd('ok');
         $file = $array['resume'];
         if ($file != null) {
             $original_name = $file->getClientOriginalName();
@@ -66,7 +73,8 @@ class CandidateService
             $hashed_name = md5($original_name. time()) . "." . $ext;
             $filenameArray = explode('.', $hashed_name);
             $path =  storage_path() ."/app/resumes";
-            $file->move($path, $hashed_name);
+            // $file->move($path, $hashed_name);
+            $savedFile = $this->attachSvc->uploadFile($hashed_name, $file);
             $candidate = Candidate::Create([
                   'name' => $array['name'],
                   'email' => $array['email'],

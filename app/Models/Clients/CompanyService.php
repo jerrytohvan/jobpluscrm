@@ -4,6 +4,8 @@ namespace App\Models\Clients;
 
 use Illuminate\Http\Request;
 use App\Models\Attachments\Attachment;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Filesystem\Filesystem;
 
 class CompanyService
 {
@@ -49,22 +51,42 @@ class CompanyService
         return $company;
     }
 
+    // public function addCompanyFiles($hashedName, $fileName, Company $company)
+    // {
+    //     $fileDir = storage_path() ."/app/attachments/".$hashedName;
+    //     $filenameArray = explode('.', $hashedName);
+    //     if (file_exists($fileDir)) {
+    //         $file = new Attachment([
+    //           'file_name' => $fileName,
+    //           'hashed_name' => $hashedName,
+    //           'file_type' => end($filenameArray)
+    //       ]);
+    //         $company->files()->save($file);
+    //         $file->attachable()->associate($company)->save();
+    //         return $file;
+    //     }
+    //     return null;
+    // }
+
     public function addCompanyFiles($hashedName, $fileName, Company $company)
     {
         $fileDir = storage_path() ."/app/attachments/".$hashedName;
         $filenameArray = explode('.', $hashedName);
-        if (file_exists($fileDir)) {
+        $exists = Storage::disk('s3')->exists($hashedName);
+        if ($exists) {
             $file = new Attachment([
-              'file_name' => $fileName,
-              'hashed_name' => $hashedName,
-              'file_type' => end($filenameArray)
-          ]);
+                  'file_name' => $fileName,
+                  'hashed_name' => $hashedName,
+                  'file_type' => end($filenameArray)
+              ]);
             $company->files()->save($file);
             $file->attachable()->associate($company)->save();
             return $file;
         }
         return null;
     }
+
+
 
     public function removeFile(Attachment $file)
     {
