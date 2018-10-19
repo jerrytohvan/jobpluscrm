@@ -339,9 +339,9 @@ class ClientController extends Controller
     public function getResume(Attachment $file)
     {
         try {
-            $path = storage_path() . "/app/resumes/" . $file->hashed_name;
-            if (Auth::user() && file_exists($path)) {
-                return response()->download($path, $file->file_name);
+            $exists = Storage::disk('s3')->exists('/resume/'. $file->hashed_name);
+            if (Auth::user() && $exists) {
+                return $this->attachSvc->downloadFile('/resume/' . $file->hashed_name, $file->file_name);
             } else {
                 return redirect()->back()->with(['message' => "Error, Something happened, file not found", 'status' => 0]);
             }
