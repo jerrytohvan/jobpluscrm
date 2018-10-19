@@ -13,13 +13,15 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Models\Chats\TelegramService;
+use App\Models\Mail\MailController;
 
 class TaskController extends Controller
 {
-    public function __construct(TaskService $taskSvc, TelegramService $teleSvc)
+    public function __construct(TaskService $taskSvc, TelegramService $teleSvc , MailController $mailTc)
     {
         $this->svc = $taskSvc;
         $this->tSvc = $teleSvc;
+        $this->mTc = $mailTc;
     }
 
     public function index()
@@ -59,7 +61,8 @@ class TaskController extends Controller
             $content = $res->getBody()->getContents();
             error_log(print_r($content, true));
             $var = json_decode($content,true);
-            //$teleMessage = $this->tSvc->send($var);
+             //$this->tSvc->send($var);
+            $emailSend = $this->mTc->processTaskForEmail($var);
             //error_log(print_r($var, true));
             // if (sizeof($var) > 0) {
             //     error_log(print_r( " more than 1", true));

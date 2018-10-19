@@ -5,12 +5,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Storage;
 use Mail;
+use App\Models\Clients\Company;
+use App\Models\Tasks\Task;
+use App\Models\Users\User;
+
 class MailController extends Controller
 {
     public function index()
     {
         return view('/layouts/index_mail');
     }
+
       public function sendemail(Request $request)
       {
           $data = array(
@@ -19,6 +24,7 @@ class MailController extends Controller
             'emailMessage' =>$request->emailMessage,
             'emailAttachment'=>$request->emailAttachment,
             'ccEmail'=>$request->ccEmail
+
           );
             Mail::send([], $data, function ($message) use ($data) {
                 $message->from('gabrielongxe@gmail.com','Gabriel');
@@ -34,31 +40,16 @@ class MailController extends Controller
                           'mime'=>$data['emailAttachment']->getMimeType())
                       );
                  }
+
                 $message->setBody($data['emailMessage']);
                 error_log(print_r("sending", true));
             });
+
         error_log(print_r("sent", true));
         return view('layouts.index_mail', compact('message'));
     }
-    // public function sendemailtoMany()
-    // {
-    //     $emails=[''];
-    //
-    //     Mail::send([], [], function ($message) use ($emails) {
-    //         $message->from('gabrielongxe@gmail.com', 'Gabriel');
-    //         $message->to($emails)->subject('This is test e-mail');
-    //         if (request()->input('ccEmail') != null) {
-    //             $message->cc(request()->input('ccEmail'));
-    //         }
-    //         if (request()->input('emailAttachment') != null) {
-    //             $message->attach(request()->file('emailAttachment'));
-    //         }
-    //         $message->setBody(request()->input('emailMessage'));
-    //     });
-    //     var_dump(Mail:: failures());
-    //     exit;
-    // }
-    // function to retrieve mail
+
+
     public function getMail()
     {
         /* connect to gmail */
@@ -97,37 +88,65 @@ class MailController extends Controller
         // show the view and pass the nerd to it
         return view('emails.showmail', compact('m'));
     }
-// YY CAN EDIT AFTER HERE
-    Public function processYYdata(Array $array){
-        $keys = $array[0];
-        $values =$array[1];
-        for($i = 0 ; $i<=sizeof($keys); $i++){
-          //where the send email to is supposed to be
-            $emailTo = User::whereId($keys[i])->email;
-            for($j=0; $j<=sizeOf($value[i]); $j++){
-                $message = $value[$j];
-                $formattedMessage = str_replace(',','/n',$message);
-            // where your data is supposed to be 
-                $data = array(
-                  'toEmail' =>$emailTo,
-                  'subject'=>$taskSubject,
-                  'emailMessage' =>$taskText,
-                  'tasks'=>$tasks['tasklist'],
-                );
-                sendTasksEmail($data);
+
+
+    // Backend Methods
+    // process each task and send it as an email
+    public function processTaskForEmail(Array $array){
+
+      $companyArr = array();
+      $companies = Company::all();
+      foreach ($companies as $company) {
+          $id = $company['id'];
+          $name = $company['name'];
+          $companyArr[$id] = $name;
+    }
+        // retrieve user ID's
+        $userids = $array[0];
+        for ($i=0; $i<sizeof($userids); $i++) {
+            $userid = $userids[$i];
+            // person recieving the email is configured in this line
+            $user_email = User::where('id', $userid)->pluck('email')->first();
+            $messageArr = $array[1][$i];
+            $message = "Task(s) to be done:\n\n";
+            // Preoare message to be sent
+            for ($j=0; $j<sizeof($messageArr); $j++) {
+                $messageStr = $messageArr[$j];
+                $index = strrpos($messageStr, ",");
+                $companyId = substr($messageStr, 0, $index);
+                $companyName = $companyArr[$companyId];
+                $messageDesc = substr($messageStr, $index+1);
+
+                if ($j == 0) {
+                    $message .= "" .$companyName . ":\n" . $messageDesc;
+                } else {
+                    $message .= "\n\n" .$companyName . ":\n" . $messageDesc;
+                }
             }
-        }
-      }
-      public function sendTasksEmail($data)
-      {
-            Mail::send([], $data, function ($message) use ($data) {
-                $message->from('gabrielongxe@gmail.com','Gabriel');
-                $message->to($data['toEmail']);
-                $message->subject($data['subject']);
-                $message->setBody($data['emailMessage']);
-                error_log(print_r("sending", true));
-            });
-        error_log(print_r("sent", true));
-        return view('layouts.index_mail', compact('message'));
+            // configure email data packet to call the method
+            $data = array(
+                'toEmail' =>$user_email,
+                'subject'=>$messageDesc,
+                'emailMessage' =>$message
+              );
+            // email is sent in this method
+               $this->sendTasksEmail($data);
+          }
+    }
+    // send the tasks email out
+    public function sendTasksEmail($data)
+    {
+      $sent = false;
+      error_log(print_r("satrt", true));
+          Mail::send([], $data, function ($message) use ($data) {
+              $message->from('gabrielongxe@gmail.com','Gabriel');
+              $message->to($data['toEmail']);
+              $message->subject($data['subject']);
+              $message->setBody($data['emailMessage']);
+              error_log(print_r("sending", true));
+          });
+      error_log(print_r("sent", true));
+      $sent = true;
+      return $sent;
     }
 }

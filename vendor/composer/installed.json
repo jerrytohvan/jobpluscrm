@@ -3152,6 +3152,7 @@
         ]
     },
     {
+<<<<<<< HEAD
         "name": "filp/whoops",
         "version": "2.2.1",
         "version_normalized": "2.2.1.0",
@@ -3169,6 +3170,33 @@
         "require": {
             "php": "^5.5.9 || ^7.0",
             "psr/log": "^1.0.1"
+=======
+        "name": "phpunit/php-code-coverage",
+        "version": "6.1.1",
+        "version_normalized": "6.1.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
+            "reference": "b097681a19a48e52706f57e47a09594bac4f7cab"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/b097681a19a48e52706f57e47a09594bac4f7cab",
+            "reference": "b097681a19a48e52706f57e47a09594bac4f7cab",
+            "shasum": ""
+        },
+        "require": {
+            "ext-dom": "*",
+            "ext-xmlwriter": "*",
+            "php": "^7.1",
+            "phpunit/php-file-iterator": "^2.0",
+            "phpunit/php-text-template": "^1.2.1",
+            "phpunit/php-token-stream": "^3.0",
+            "sebastian/code-unit-reverse-lookup": "^1.0.1",
+            "sebastian/environment": "^3.1 || ^4.0",
+            "sebastian/version": "^2.0.1",
+            "theseer/tokenizer": "^1.1"
+>>>>>>> ae9739162b77694ccce17b008372ed9f8c2733b0
         },
         "require-dev": {
             "mockery/mockery": "^0.9 || ^1.0",
@@ -3179,7 +3207,11 @@
             "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
             "whoops/soap": "Formats errors as SOAP responses"
         },
+<<<<<<< HEAD
         "time": "2018-06-30T13:14:06+00:00",
+=======
+        "time": "2018-10-18T09:01:38+00:00",
+>>>>>>> ae9739162b77694ccce17b008372ed9f8c2733b0
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3448,6 +3480,7 @@
         ]
     },
     {
+<<<<<<< HEAD
         "name": "spatie/laravel-activitylog",
         "version": "2.8.4",
         "version_normalized": "2.8.4.0",
@@ -3468,12 +3501,62 @@
             "illuminate/support": "~5.5.0|~5.6.0|~5.7.0",
             "php": "^7.0",
             "spatie/string": "^2.1"
+=======
+        "name": "phpunit/phpunit",
+        "version": "7.4.1",
+        "version_normalized": "7.4.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sebastianbergmann/phpunit.git",
+            "reference": "c5a120ade60992bd671a912188ee9ee9f8083bbd"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c5a120ade60992bd671a912188ee9ee9f8083bbd",
+            "reference": "c5a120ade60992bd671a912188ee9ee9f8083bbd",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/instantiator": "^1.1",
+            "ext-dom": "*",
+            "ext-json": "*",
+            "ext-libxml": "*",
+            "ext-mbstring": "*",
+            "ext-xml": "*",
+            "myclabs/deep-copy": "^1.7",
+            "phar-io/manifest": "^1.0.2",
+            "phar-io/version": "^2.0",
+            "php": "^7.1",
+            "phpspec/prophecy": "^1.7",
+            "phpunit/php-code-coverage": "^6.0.7",
+            "phpunit/php-file-iterator": "^2.0.1",
+            "phpunit/php-text-template": "^1.2.1",
+            "phpunit/php-timer": "^2.0",
+            "sebastian/comparator": "^3.0",
+            "sebastian/diff": "^3.0",
+            "sebastian/environment": "^3.1 || ^4.0",
+            "sebastian/exporter": "^3.1",
+            "sebastian/global-state": "^2.0",
+            "sebastian/object-enumerator": "^3.0.3",
+            "sebastian/resource-operations": "^2.0",
+            "sebastian/version": "^2.0.1"
+        },
+        "conflict": {
+            "phpunit/phpunit-mock-objects": "*"
+>>>>>>> ae9739162b77694ccce17b008372ed9f8c2733b0
         },
         "require-dev": {
             "orchestra/testbench": "~3.5.0|~3.6.0|~3.7.0",
             "phpunit/phpunit": "^6.2|^7.0"
         },
+<<<<<<< HEAD
         "time": "2018-09-23T12:00:26+00:00",
+=======
+        "time": "2018-10-18T09:02:52+00:00",
+        "bin": [
+            "phpunit"
+        ],
+>>>>>>> ae9739162b77694ccce17b008372ed9f8c2733b0
         "type": "library",
         "extra": {
             "laravel": {
@@ -5773,6 +5856,7 @@
         "description": "Component for reading phar.io manifest information from a PHP Archive (PHAR)"
     },
     {
+<<<<<<< HEAD
         "name": "myclabs/deep-copy",
         "version": "1.8.1",
         "version_normalized": "1.8.1.0",
@@ -5785,6 +5869,20 @@
             "type": "zip",
             "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
             "reference": "3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
+=======
+        "name": "tecnickcom/tcpdf",
+        "version": "6.2.26",
+        "version_normalized": "6.2.26.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/tecnickcom/TCPDF.git",
+            "reference": "367241059ca166e3a76490f4448c284e0a161f15"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/367241059ca166e3a76490f4448c284e0a161f15",
+            "reference": "367241059ca166e3a76490f4448c284e0a161f15",
+>>>>>>> ae9739162b77694ccce17b008372ed9f8c2733b0
             "shasum": ""
         },
         "require": {
@@ -5798,7 +5896,11 @@
             "doctrine/common": "^2.6",
             "phpunit/phpunit": "^7.1"
         },
+<<<<<<< HEAD
         "time": "2018-06-11T23:09:50+00:00",
+=======
+        "time": "2018-10-16T17:24:05+00:00",
+>>>>>>> ae9739162b77694ccce17b008372ed9f8c2733b0
         "type": "library",
         "installation-source": "dist",
         "autoload": {

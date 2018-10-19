@@ -24,6 +24,7 @@ class VerifyCsrfToken extends BaseVerifier
         'likes/*',
         'resumes/*',
         'tasks/*',
-        'events/*'
+        'events/*',
+        'dashboard/*'
     ];
 }

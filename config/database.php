@@ -50,10 +50,17 @@ return [
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => 'localhost',
+<<<<<<< HEAD
             'port' => '5432',
             'database' => 'jobplus',
             'username' => 'postgres',
             'password' => 'root',
+=======
+            'port' =>   '5432',
+            'database' =>   'jobplus',
+            'username' =>  'postgres',
+            'password' =>  'yiyao',
+>>>>>>> ae9739162b77694ccce17b008372ed9f8c2733b0
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',

@@ -13,39 +13,39 @@
 <!-- page content -->
 <div class="right_col" role="main">
   <!-- top tiles -->
-  <!-- <div class="row tile_count">
-    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-      <span class="count_top"><i class="fa fa-user"></i> Total Users</span>
-      <div class="count">0</div>
-      <span class="count_bottom"><i class="green">4% </i> From last Week</span>
+  <div class="row tile_count">
+    <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
+      <span class="count_top"><i class="fa fa-user"></i>Task Overdue</span>
+      <div class="count">{{$tasksOverdue}}</div>
+      <span class="count_bottom"><i class="green">>{{$overdueComparison}}%</i> From last Week</span>
     </div>
-    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-      <span class="count_top"><i class="fa fa-clock-o"></i> Average Time to link</span>
-      <div class="count">0</div>
-      <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span>
+    <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
+      <span class="count_top"><i class="fa fa-user"></i> Task Completed This Week</span>
+      <div class="count green">{{$taskThisWeek}}</div>
+      <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>>{{$taskComparison}}%</i> From last Week</span>
     </div>
-    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-      <span class="count_top"><i class="fa fa-user"></i> Total Males</span>
-      <div class="count green">0</div>
-      <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+    <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
+      <span class="count_top"><i class="fa fa-clock-o"></i> New Companies This Week</span>
+      <div class="count">{{$leadsThisWeek}}</div>
+      <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>>{{$leadsComparison}}%</i> From last Week</span>
     </div>
-    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+    <!-- <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
       <span class="count_top"><i class="fa fa-user"></i> Total Females</span>
-      <div class="count">0</div>
+      <div class="count">5</div>
       <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
     </div>
     <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
       <span class="count_top"><i class="fa fa-user"></i> Total Companies</span>
-      <div class="count">0</div>
+      <div class="count">5</div>
       <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
     </div>
     <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
       <span class="count_top"><i class="fa fa-user"></i> Total Connections</span>
-      <div class="count">0</div>
+      <div class="count">5</div>
       <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
     </div>
   </div> -->
-  <!-- /top tiles -->
+  <!-- /top tiles-->
 
     <!-- start vue -->
     <div class="row">
