@@ -59,10 +59,10 @@ class TaskController extends Controller
             $res = $client->request('GET', 'http://localhost:3000/mailData');
             //error_log(print_r($res, true));
             $content = $res->getBody()->getContents();
-            //error_log(print_r($content, true));
+            error_log(print_r($content, true));
             $var = json_decode($content,true);
-             $this->tSvc->send($var);
-            $this->mTc->processTaskForEmail($var);
+             //$this->tSvc->send($var);
+            $emailSend = $this->mTc->processTaskForEmail($var);
             //error_log(print_r($var, true));
             // if (sizeof($var) > 0) {
             //     error_log(print_r( " more than 1", true));

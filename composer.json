@@ -41,7 +41,10 @@
         "laravel/tinker": "^1.0",
         "nunomaduro/collision": "^2.0",
         "spatie/laravel-activitylog": "^2.8",
-        "barryvdh/laravel-debugbar": "^3.1"
+        "aws/aws-sdk-php-laravel": "^3.1",
+        "barryvdh/laravel-debugbar": "^3.1",
+        "league/flysystem-aws-s3-v3": "~1.0",
+        "league/flysystem-cached-adapter": "^1.0"
 
           },
     "require-dev": {
