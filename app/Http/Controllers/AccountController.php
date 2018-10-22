@@ -90,8 +90,9 @@ class AccountController extends Controller
         $leadsThisWeek = $this->leadsThisWeek();
         $overdueComparison = $this->overdueComparison();
         $totalTaskCompletedThisYear = $this->totalTaskCompletedThisYear();
+        $companiesYTD = $this->companiesYTD();
 
-        return view('layouts.dashboard', compact('tasksOpen', 'tasksOnGoing', 'tasksClosed','tasksOverdue','leadsComparison','taskComparison','taskThisWeek','leadsThisWeek','overdueComparison','totalTaskCompletedThisYear'));
+        return view('layouts.dashboard', compact('tasksOpen', 'tasksOnGoing', 'tasksClosed','tasksOverdue','leadsComparison','taskComparison','taskThisWeek','leadsThisWeek','overdueComparison','totalTaskCompletedThisYear','companiesYTD'));
     }
 
     public function index_data_presentation()
@@ -310,6 +311,13 @@ class AccountController extends Controller
               $companyPercentageChange = $madeThisWeek/$madeLastWeek;
           }
           return $companyPercentageChange;
+    }
+    public function companiesYTD(){
+            $todayDate = $this->todayDate();
+            $firstDayOfYear = Date('Y-m-d',strtotime('first day of january this year'));
+            $companiesCreatedYTD =Company::where('created_at','<=',$todayDate  )->where('created_at','>=',$firstDayOfYear)->get();
+            $companiesYTD = sizeof($companiesCreatedYTD);
+            return $companiesYTD;
     }
 
 }
