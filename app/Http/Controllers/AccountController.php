@@ -90,8 +90,9 @@ class AccountController extends Controller
         $leadsThisWeek = $this->leadsThisWeek();
         $overdueComparison = $this->overdueComparison();
         $totalTaskCompletedThisYear = $this->totalTaskCompletedThisYear();
+        $companiesYTD = $this->companiesYTD();
 
-        return view('layouts.dashboard', compact('tasksOpen', 'tasksOnGoing', 'tasksClosed','tasksOverdue','leadsComparison','taskComparison','taskThisWeek','leadsThisWeek','overdueComparison','totalTaskCompletedThisYear'));
+        return view('layouts.dashboard', compact('tasksOpen', 'tasksOnGoing', 'tasksClosed','tasksOverdue','leadsComparison','taskComparison','taskThisWeek','leadsThisWeek','overdueComparison','totalTaskCompletedThisYear','companiesYTD'));
     }
 
     public function index_data_presentation()
@@ -162,9 +163,13 @@ class AccountController extends Controller
 // AFTER THIS IS THE METRIC CONTROLLER PLEASE DO NOT DELETE
 
 // today's date
+    public function todayDateEnd(){
+        $todayDateEnd = Carbon::now('Asia/Singapore')->format('Y-m-d 23:59:59');
+    return $todayDateEnd;
+    }
     public function todayDate(){
-    $todayDate = Carbon::now()->format('Y-m-d 23:59:59');
-    return $todayDate;
+        $todayDate = Carbon::now('Asia/Singapore')->format('Y-m-d');
+        return $todayDate;
     }
 // 7 days ago date
     public function thisWeek(){
@@ -229,7 +234,7 @@ class AccountController extends Controller
 // task competed  of the last 7 days
     public function taskThisWeek(){
       $completedThisWeek = 0;
-      $todayDate = $this->todayDate();
+      $todayDate = $this->todayDateEnd();
       $sevenDaysAgoDate = $this->thisWeek();
       $completedTaskThisWeek = Task::whereStatus(2)->where('updated_at','<=',$todayDate)->where('updated_at','>=',$sevenDaysAgoDate)->get();
       $completedThisWeek = sizeof($completedTaskThisWeek);
@@ -238,7 +243,7 @@ class AccountController extends Controller
 
 // task of last 7 versus last 14
     public function taskCompletedComparison(){
-          $todayDate = $this->todayDate();
+          $todayDate = $this->todayDateEnd();
           $sevenDaysAgoDate = $this->thisWeek();
           $fourteenDaysAgoDate = $this->lastWeek();
           $completedLastWeek = 0;
@@ -260,7 +265,7 @@ class AccountController extends Controller
 
     //total task completed this year
     public function totalTaskCompletedThisYear(){
-            $todayDate = $this->todayDate();
+            $todayDate = $this->todayDateEnd();
             $firstDayOfYear = Date('Y-m-d',strtotime('first day of january this year'));
             $completedTaskForYear = Task::whereStatus(2)->where('updated_at','<=',$todayDate )->where('updated_at','>=',$firstDayOfYear)->get();
             $counter = sizeof($completedTaskForYear);
@@ -306,6 +311,13 @@ class AccountController extends Controller
               $companyPercentageChange = $madeThisWeek/$madeLastWeek;
           }
           return $companyPercentageChange;
+    }
+    public function companiesYTD(){
+            $todayDate = $this->todayDate();
+            $firstDayOfYear = Date('Y-m-d',strtotime('first day of january this year'));
+            $companiesCreatedYTD =Company::where('created_at','<=',$todayDate  )->where('created_at','>=',$firstDayOfYear)->get();
+            $companiesYTD = sizeof($companiesCreatedYTD);
+            return $companiesYTD;
     }
 
 }
