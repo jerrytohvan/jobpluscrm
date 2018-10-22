@@ -79,6 +79,9 @@
             <li>
               <a href="{{ route('index.mail') }}"><i class="fa fa-envelope-o"></i>Mail</a>
             </li>
+            <li>
+              <a href="{{ route('dummy.index') }}"><i class="fa fa-clock-o"></i>Dummy</a>
+            </li>
           <!--  <li>
               <a href="{{ route('index.calendar') }}"><i class="fa fa-calendar"></i>Calendar</a>
             </li>

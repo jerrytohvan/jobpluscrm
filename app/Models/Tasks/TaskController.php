@@ -31,6 +31,7 @@ class TaskController extends Controller
         $users = User::all()->sortBy('name');
         $companies = Company::all()->sortBy('name');
         $task = Task::all();
+        //error_log(print_r(Auth::user()->id, true));
         //return $task;
         return view('layouts.index_task', compact('users', 'companies', 'task', 'message', 'status'));
     }
@@ -195,41 +196,73 @@ class TaskController extends Controller
     }
 
     public function topfew(){
-        $tmr = Carbon::tomorrow()->format('Y-m-d 00:00:00');
-        dd(Auth::user());
-        //$value = Auth::user()->id;
-        // $user = User::all();
+        $tmr = Carbon::tomorrow('Asia/Singapore')->format('Y-m-d 00:00:00');
+        //dd(Auth::user());
+        $id = Auth::user()->id;
+        $user = User::all();
         // error_log(print_r( $user,true));
-        error_log(print_r( $tmr,true));
-        // $collaboratorsIn = Auth::user()->companies->map(function ($value, $key) {
-        //     return $value->id;
-        // });
-        // $tasks = Task::orderBy('order')->whereUserId($id)->orWhere('assigned_id', $id)->orWhereIn('company_id', $collaboratorsIn)->get();
+        //error_log(print_r( $tmr,true));
+        $collaboratorsIn = Auth::user()->companies->map(function ($value, $key) {
+            return $value->id;
+        });
+        $tasks = Task::whereUserId($id)->where('date_reminder','<',$tmr)->orWhere('assigned_id', $id)->where('date_reminder','<',$tmr)->orWhereIn('company_id', $collaboratorsIn)->where('date_reminder','<',$tmr)->orderBy('date_reminder','desc')->Limit(5)->get();
+        //error_log(print_r( $tasks,true));
+        //retrieve all company and users
+        $companies = Company::all();
+        $users = User::all();
+        $tasksOpen = $tasks->map(function ($value, $key) use ($companies,$users) {
+            // $value['company'] = Company::find($value['company_id'])->name;
+            $value['company'] =  $companies->filter(function ($company) use ($value) {
+                return $company->id == $value['company_id'];
+            })->first()->name;
+            $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                return $user->id == $value['user_id'];
+            })->first()->name:  "";
+            // $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name : "";
+            $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                return $user->id == $value['assigned_id'];
+            })->first()->name :  "";
+            
 
-        // //retrieve all company and users
-        // $companies = Company::all();
-        // $users = User::all();
-        // $tasksOpen = $tasks->map(function ($value, $key) use ($companies,$users) {
-        //     // $value['company'] = Company::find($value['company_id'])->name;
-        //     $value['company'] =  $companies->filter(function ($company) use ($value) {
-        //         return $company->id == $value['company_id'];
-        //     })->first()->name;
+            return $value;
+        })->filter(function ($task, $key) {
+            return $task->status == 0;
+        })->values();
 
-        //     // $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name : "";
-        //     $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
-        //         return $user->id == $value['assigned_id'];
-        //     })->first()->name :  "";
-        //     $dateNow =  date_create(date("Y-m-d H:i:s"));
-        //     $dateAfter =  date_create(date($value['date_reminder']));
-        //     $dateDiff = date_diff($dateNow, $dateAfter);
-        //     $dateString = Self::constructStringFromDateTime($dateDiff);
-        //     $value['date_string'] = $dateString;
-        //     return $value;
-        // })->filter(function ($task, $key) {
-        //     return $task->status == 0;
-        // })->values();
+        $tasksOnGoing = $tasks->map(function ($value, $key) use ($companies,$users) {
+            $value['company'] =  $companies->filter(function ($company) use ($value) {
+                return $company->id == $value['company_id'];
+            })->first()->name;
+            $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                return $user->id == $value['user_id'];
+            })->first()->name:  "";
+            $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                return $user->id == $value['assigned_id'];
+            })->first()->name :  "";
+            return $value;
+        })->filter(function ($task, $key) {
+            return $task->status == 1;
+        })->values();
 
-        //return $value;
+        $tasksClosed = $tasks->map(function ($value, $key) use ($companies,$users) {
+            $value['company'] =  $companies->filter(function ($company) use ($value) {
+                return $company->id == $value['company_id'];
+            })->first()->name;
+            $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                return $user->id == $value['user_id'];
+            })->first()->name:  "";
+            $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                return $user->id == $value['assigned_id'];
+            })->first()->name:  "";
+            return $value;
+        })->filter(function ($task, $key) {
+            return $task->status == 2;
+        })->values();
+
+        $message = "hi";
+        $status = "200";
+
+        return view('layouts.dummy', compact('tasksOpen','message','status'));
     }
 
     public function updateToDoList($id)
