@@ -1,4 +1,5 @@
 var elixir = require('laravel-elixir');
+require('laravel-elixir-vue-2')
 
 /*
  |--------------------------------------------------------------------------
@@ -88,13 +89,13 @@ elixir(function(mix) {
     mix.copy('vendor/bower_components/gentelella/vendors/pnotify/dist/pnotify.buttons.css', 'public/css/pnotify.buttons.css');
     mix.copy('vendor/bower_components/gentelella/vendors/pnotify/dist/pnotify.nonblock.css', 'public/css/pnotify.nonblock.css');
 
-    // mix.sass('../../../bower_components/gentelella/src/scss/custom.scss','public/css/custom.css');
-
-    // mix.minify('public/css/custom.css');
+    mix.copy('vendor/bower_components/fakeLoader/fakeLoader.css', 'public/css/fakeLoader.css');
 
     /****************/
     /* Copy Scripts */
     /****************/
+
+    mix.webpack('./public/js/vue-app.js','public/js/vue-app-compiled.js');
 
     // Bootstrap
     mix.copy('vendor/bower_components/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js', 'public/js/bootstrap.min.js');
@@ -104,6 +105,10 @@ elixir(function(mix) {
 
     // iCheck
     mix.copy('vendor/bower_components/gentelella/vendors/iCheck/icheck.min.js', 'public/js/icheck.min.js');
+
+    // Vue
+    mix.copy('vendor/bower_components/vue/dist/vue.min.js', 'public/js/vue.min.js');
+    mix.copy('vendor/bower_components/vue/dist/vue.common.js', 'public/js/vue.common.js');
 
     // jQuery
     mix.copy('vendor/bower_components/gentelella/vendors/jquery/dist/jquery.min.js', 'public/js/jquery.min.js');
@@ -206,6 +211,12 @@ elixir(function(mix) {
         mix.copy('vendor/bower_components/gentelella/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js', 'public/js/jquery.inputmask.bundle.min.js');
 
         // jQuery Knob
+        // mix.copy('vendor/bower_components/gentelella/vendors/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js', 'public/js/jquery.easypiechart.min.js');
+
+        mix.copy('vendor/bower_components/gentelella/vendors/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js', 'public/js/jquery.easypiechart.min.js');
+
+
+        // jQuery easy charts
         mix.copy('vendor/bower_components/gentelella/vendors/jquery-knob/dist/jquery.knob.min.js', 'public/js/jquery.knob.min.js');
 
         // Cropper
@@ -236,6 +247,7 @@ elixir(function(mix) {
         mix.copy('vendor/bower_components/gentelella/vendors/datatables.net-scroller/js/dataTables.scroller.min.js', 'public/js/dataTables.scroller.min.js');
 
 
+
         // jszip
         mix.copy('vendor/bower_components/gentelella/vendors/jszip/dist/jszip.min.js', 'public/js/jszip.min.js');
         // pdfmake
@@ -253,13 +265,15 @@ elixir(function(mix) {
         // echarts
         mix.copy('vendor/bower_components/gentelella/vendors/echarts/dist/echarts.min.js', 'public/js/echarts.min.js');
 
+
         // Gentelella
         mix.copy('vendor/bower_components/gentelella/src/js/helpers/smartresize.js', 'public/js/smartresize.js');
-        // Gentelella
-        // mix.copy('/vendor/bower_components/gentelella/src/js/custom.js', 'public/js/gentelella.js');
+
+        mix.copy('vendor/bower_components/fakeLoader/fakeLoader.min.js', 'public/js/fakeLoader.min.js');
 
       // Gentelella
         mix.copy('vendor/bower_components/gentelella/build/js/custom.min.js', 'public/js/gentelella.min.js');
+        // mix.copy('./jobplus_gentelella/gentelella_2.0/src/js/custom.js', 'public/js/gentelella.js');
 
     /**************/
     /* Copy Fonts */

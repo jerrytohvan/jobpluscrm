@@ -32,6 +32,9 @@
   "dependencies": {
     "gentelella": "^1.4.0",
     "datatables.net-bs": "^2.1.1",
-    "prettyPrint": ""
+    "prettyPrint": "",
+    "jquery.easy-pie-chart": "^2",
+    "vue": "^2.5.17",
+    "fakeloader": "^1.1.0"
   }
 }

@@ -159,14 +159,15 @@
                     </select>
                   </div>
               </div>
+              
             <div class="form-group">
               <div class="control-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for"keywords">Summary Keywords<br/><small>Press enter for each keyword</small></label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                   <input id="tags_1" type="text" class="tags" required="required" name="keywords" id="keywords" value="" style="display: none;">
-                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
 
               <div class="ln_solid"></div>

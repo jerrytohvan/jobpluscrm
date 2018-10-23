@@ -57,7 +57,7 @@
 
                           <li class="m-top-xs">
                             <i class="fa fa-external-link user-profile-icon"></i>
-                            <a href="http://www.kimlabs.com/profile/" target="_blank">Total of projects in progress: </a>
+                            <a href="" target="_blank">Total of projects in progress: </a>
                           </li>
                         </ul>
 
@@ -66,7 +66,33 @@
 
 
                       </div>
-                      <div class="col-md-9 col-sm-9 col-xs-12">
+                      <div class="col-md-6 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2>Recent Activities by User</h2>
+                                      <div class="clearfix"></div>
+                                    </div>
+                                    <div class="content x_content">
+                                      <ul class="list-unstyled msg_list">
+                                        @foreach ($activities as $activity)
+                                        <li>
+                                          <a>
+
+                                            <span>
+                                              <span class="time">{{ $activity[0] }}</span>
+                                            </span>
+                                            <span class="message">
+                                              {{ $activity[1] }}
+                                            </span>
+                                          </a>
+                                        </li>
+                                        @endforeach
+
+                                      </ul>
+                                    </div>
+                                  </div>
+                              </div>
+                      <!-- <div class="col-md-9 col-sm-9 col-xs-12">
                         <div class="" role="tabpanel" data-example-id="togglable-tabs">
                           <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                             <li role="presentation" class=""><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="false">Recent Activity</a>
@@ -78,7 +104,6 @@
                           <div id="myTabContent" class="tab-content">
                             <div role="tabpanel" class="tab-pane fade" id="tab_content1" aria-labelledby="home-tab">
 
-                              <!-- start recent activity -->
                               <ul class="messages">
                                 <li>
                                   <img src="images/img.jpg" class="avatar" alt="Avatar">
@@ -146,12 +171,10 @@
                                 </li>
 
                               </ul>
-                              <!-- end recent activity -->
 
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
 
-                              <!-- start user projects -->
                               <table class="data table table-striped no-margin">
                                 <thead>
                                   <tr>
@@ -204,13 +227,12 @@
                                   </tr>
                                 </tbody>
                               </table>
-                              <!-- end user projects -->
 
                             </div>
 
                           </div>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>
@@ -245,22 +267,23 @@
                                 <div class="form-group">
                                     <label for="handphone">Mobile</label>
                                     <input id="handphone" class="form-control col-md-7 col-xs-12" required="required" type="text" name="handphone" value="{{ $user->handphone }}">
-                                </div>    
+                                </div>
 
                                 <div class="form-group">
                                     <label for="tele_id">Telegram Chat ID</label>
+                                    <a href="#show-instruction" data-toggle="modal" data-target="#show-instruction">?</a>
                                     <input id="tele_id" class="form-control col-md-7 col-xs-12" required="required" type="text" name="tele_id" value="{{ $user->tele_id }}">
-                                </div>    
+                                </div>
 
                                 <div class="form-group">
                                      <label for="birthday">Birth Date</label>
-                                     <input type="text" class="form-control col-md-7 col-xs-12"  data-date-format="MM/DD/YYYY" required="required" id="birthday" name="birthday" value='{{ date("mm/dd/YYYY", strtotime($user->birth_date)) }}' />
-                                </div> 
+                                     <input type="date" class="form-control col-md-7 col-xs-12"  data-date-format="MM/DD/YYYY" required="required" id="birthday" name="birthday" value='{{ $user->birth_date }}' />
+                                </div>
 
                                 <div class="form-group">
                                   <label for="photo">Display Picture</label>
                                   <input type="file" name="photo" id="photo" data-parsley-filemaxmegabytes="1" data-parsley-trigger="change" data-parsley-filemimetypes="image/jpeg, image/pipeg, image/png, image/bmp, image/webp">
-                               </div> 
+                               </div>
 
                             </form>
                         </div>
@@ -274,11 +297,36 @@
                 </div><!-- /.modal-dialog -->
 
             </div><!-- /.modal -->
+
+                <div class="modal fade" tabindex="-1" role="dialog" id="show-instruction">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Instruction</h4>
+                        </div>
+                        <div class="modal-body">
+                          
+                          <font color="red">
+                            To get your Telegram Chat ID:<br>
+                            1) Open your Telegram app<br>
+                            2) Search for "@get_id_bot"<br>
+                            3) Click "Start" and wait for a few seconds<br>
+                            4) You will receive a message with your Chat ID.
+                          </font>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
           </div>
       <!-- /page content -->
 
 @endsection
-
 
 
 @section('bottom_content')
@@ -331,14 +379,14 @@ function submitform()
           });
       });
 
-      $(function() {
-        $('input[name="birthday"]').daterangepicker({
-          singleDatePicker: true,
-          showDropdowns: true,
-          minYear: 1940,
-          maxYear: parseInt(moment().format('YYYY'),10)
-        })
-      });
+      // $(function() {
+      //   $('input[name="birthday"]').daterangepicker({
+      //     singleDatePicker: true,
+      //     showDropdowns: true,
+      //     minYear: 1940,
+      //     maxYear: parseInt(moment().format('YYYY'),10)
+      //   })
+      // });
 
 
 

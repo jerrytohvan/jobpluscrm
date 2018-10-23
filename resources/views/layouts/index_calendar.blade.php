@@ -8,6 +8,7 @@
 
 
 @section('content')
+
 <div class="right_col" role="main">
   <div class="">
     <div class="page-title">
@@ -53,7 +54,51 @@
           </div>
           <div class="x_content">
 
-            <div id='calendar'></div>
+            <div id='calendar'>
+            {{  Form::open(['route' => 'add.calendar','method'=>'post']) }}
+            <div class="form-group">
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Task <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="text" id="title" name="title" required="required" class="form-control col-md-7 col-xs-12">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="description">Description <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="text" id="description" name="description" required="description" class="form-control col-md-7 col-xs-12">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="date_reminder">Reminder
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="text" id="date_reminder" name="date_reminder" class="form-control col-md-7 col-xs-12">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="assigned_to_id">Email
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="text" id="assigned_to_id" name="assigned_to_id" class="form-control col-md-7 col-xs-12">
+                </div>
+              </div>
+              <div>
+              <select name="type">
+              <option value="event">Event</option>
+              <option value="task">Task</option>
+              </select>
+              </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                  <button class="btn btn-primary" type="reset">Reset</button>
+                  {{ Form::submit('Submit', ['class'=>'btn btn-success']) }}
+
+                </div>
+              </div>
 
           </div>
         </div>
@@ -67,7 +112,8 @@
 
 
 @section('bottom_content')
-<div id="CalenderModalNew" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+<!-- <div id="CalenderModalNew" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
 
@@ -79,6 +125,7 @@
         <div id="testmodal" style="padding: 5px 20px;">
           <form id="antoform" class="form-horizontal calender" role="form">
             <div class="form-group">
+            {{  Form::open(['route' => 'add.calendar','method'=>'post']) }}
               <label class="col-sm-3 control-label">Title</label>
               <div class="col-sm-9">
                 <input type="text" class="form-control" id="title" name="title">
@@ -87,7 +134,7 @@
             <div class="form-group">
               <label class="col-sm-3 control-label">Description</label>
               <div class="col-sm-9">
-                <textarea class="form-control" style="height:55px;" id="descr" name="descr"></textarea>
+                <textarea class="form-control" style="height:55px;" id="description" name="description"></textarea>
               </div>
             </div>
           </form>
@@ -121,7 +168,7 @@
             <div class="form-group">
               <label class="col-sm-3 control-label">Description</label>
               <div class="col-sm-9">
-                <textarea class="form-control" style="height:55px;" id="descr2" name="descr"></textarea>
+                <textarea class="form-control" style="height:55px;" id="descr2" name="descr2"></textarea>
               </div>
             </div>
 
@@ -137,13 +184,13 @@
 </div>
 
 <div id="fc_create" data-toggle="modal" data-target="#CalenderModalNew"></div>
-<div id="fc_edit" data-toggle="modal" data-target="#CalenderModalEdit"></div>
+<div id="fc_edit" data-toggle="modal" data-target="#CalenderModalEdit"></div> -->
 
 
 @endsection
 
-@push('scripts')
+<!-- @push('scripts') -->
 <!-- FullCalendar -->
-<script src="{{ asset('js/fullcalendar.min.js') }}"></script>
+<!-- <script src="{{ asset('js/fullcalendar.min.js') }}"></script> -->
 
-@endpush
+<!-- @endpush -->

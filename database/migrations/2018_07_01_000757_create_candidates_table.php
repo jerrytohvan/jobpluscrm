@@ -20,6 +20,10 @@ class CreateCandidatesTable extends Migration
             $table->char('gender');
             $table->string('email');
             $table->string('handphone');
+            $table->integer('working_experience')->nullable()->default(0);
+            $table->text('industry')->nullable();
+            $table->boolean('type')->default(false); //1=candidate, 2=application
+            $table->integer('field_id')->nullable();
             $table->string('telephone')->nullable();
             $table->text('summary_keywords')->nullable();
             $table->date('birthdate')->nullable();

@@ -12,10 +12,13 @@ class Company extends Model
     protected $guarded = [];
     protected static $logAttributes = ["*"];
 
-
     public function employees()
     {
         return $this->hasMany('App\Models\Employees\Employee');
+    }
+    public function tasks()
+    {
+        return $this->hasMany('App\Models\Tasks\Task');
     }
     public function candidates()
     {
@@ -23,7 +26,7 @@ class Company extends Model
     }
     public function events()
     {
-        return $this->belongsToMany('App\Models\Events\Event');
+        return $this->hasMany('App\Models\Tasks\Task');
     }
     public function comments()
     {
@@ -42,5 +45,9 @@ class Company extends Model
     public function collaborators()
     {
         return $this->belongsToMany('App\Models\Users\User', 'user_company')->using('App\Models\Users\UserCompany');
+    }
+    public function jobs()
+    {
+        return $this->hasMany('App\Models\Jobs\Job');
     }
 }

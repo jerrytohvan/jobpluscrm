@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -16,14 +17,15 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
             $table->text('title');
-            $table->text('description');
             $table->dateTime('date_reminder');
-            $table->string('reminder_type');
-            $table->boolean('open_task')->default(true); //1: open task, 0:closed task
-            $table->dateTime('date_completed');
-            $table->integer('company_id');
-            $table->integer('employee_id');
-            $table->integer('assigned_to_id');
+            $table->integer('user_id')->nullable();
+            $table->integer('assigned_id')->unsigned()->nullable();
+            $table->json('collaborator')->unsigned()->nullable();
+            $table->boolean('type')->default(true);//tasks = true, event = false
+            $table->integer('order')->unsigned()->default(0);
+            $table->integer('company_id')->nullable();
+            $table->integer('contact_id')->nullable();
+            $table->integer('status')->nullable();
             $table->timestamps();
         });
     }

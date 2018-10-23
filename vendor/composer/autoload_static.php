@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
+class ComposerStaticInit91111d0d441003ed7df8dc4c017e9dd1
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -63,6 +63,7 @@ class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
         'f18cc91337d49233e5754e93f3ed9ec3' => __DIR__ . '/..' . '/laravelcollective/html/src/helpers.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
+        '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         'e91d0dc994644828154ae2387ede1ca8' => __DIR__ . '/..' . '/spatie/string/src/string_functions.php',
         '4a1f389d6ce373bda9e57857d3b61c84' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/helpers.php',
         '72b1e3f4a2af9b30b3f137b3ec2057fc' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/helpers.php',
@@ -75,8 +76,13 @@ class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
             'phpseclib\\' => 10,
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'X' => 
+        array (
+            'XdgBaseDir\\' => 11,
+        ),
         'W' => 
         array (
+            'Whoops\\' => 7,
             'Webmozart\\Assert\\' => 17,
             'Watson\\BootstrapForm\\' => 21,
         ),
@@ -118,6 +124,7 @@ class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
         ),
         'P' => 
         array (
+            'Psy\\' => 4,
             'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
@@ -125,8 +132,13 @@ class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
             'Psr\\Cache\\' => 10,
             'Phpml\\' => 6,
             'PhpScience\\TextRank\\' => 20,
+            'PhpParser\\' => 10,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
             'Patchwork\\' => 10,
+        ),
+        'N' => 
+        array (
+            'NunoMaduro\\Collision\\' => 21,
         ),
         'M' => 
         array (
@@ -136,6 +148,11 @@ class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
         'L' => 
         array (
             'League\\Flysystem\\' => 17,
+            'Laravel\\Tinker\\' => 15,
+        ),
+        'J' => 
+        array (
+            'JakubOnderka\\PhpConsoleColor\\' => 29,
         ),
         'I' => 
         array (
@@ -151,6 +168,7 @@ class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
         'F' => 
         array (
             'Firebase\\JWT\\' => 13,
+            'Fideloper\\Proxy\\' => 16,
             'Faker\\' => 6,
         ),
         'E' => 
@@ -193,6 +211,14 @@ class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'XdgBaseDir\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src',
+        ),
+        'Whoops\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',
         ),
         'Webmozart\\Assert\\' => 
         array (
@@ -299,6 +325,10 @@ class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
         array (
             0 => __DIR__ . '/..' . '/ramsey/uuid/src',
         ),
+        'Psy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psy/psysh/src',
+        ),
         'Psr\\SimpleCache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
@@ -328,6 +358,10 @@ class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
             0 => __DIR__ . '/..' . '/php-science/textrank/src',
             1 => __DIR__ . '/..' . '/php-science/textrank/tests',
         ),
+        'PhpParser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
+        ),
         'PhpOffice\\PhpSpreadsheet\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
@@ -335,6 +369,10 @@ class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
         'Patchwork\\' => 
         array (
             0 => __DIR__ . '/..' . '/patchwork/utf8/src/Patchwork',
+        ),
+        'NunoMaduro\\Collision\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nunomaduro/collision/src',
         ),
         'Monolog\\' => 
         array (
@@ -347,6 +385,14 @@ class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
         'League\\Flysystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/flysystem/src',
+        ),
+        'Laravel\\Tinker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravel/tinker/src',
+        ),
+        'JakubOnderka\\PhpConsoleColor\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src',
         ),
         'Illuminate\\' => 
         array (
@@ -371,6 +417,10 @@ class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
         'Firebase\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+        'Fideloper\\Proxy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/fideloper/proxy/src',
         ),
         'Faker\\' => 
         array (
@@ -463,6 +513,13 @@ class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
                 0 => __DIR__ . '/..' . '/mockery/mockery/library',
             ),
         ),
+        'J' => 
+        array (
+            'JakubOnderka\\PhpConsoleHighlighter' => 
+            array (
+                0 => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src',
+            ),
+        ),
         'G' => 
         array (
             'Google_Service_' => 
@@ -492,11 +549,11 @@ class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
         'CreateCommentsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_164127_create_comments_table.php',
         'CreateCompaniesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_29_043417_create_companies_table.php',
         'CreateEmployeesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000647_create_employees_table.php',
-        'CreateEventsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000734_create_events_table.php',
         'CreateFieldsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_14_092824_create_fields_table.php',
         'CreateInterestsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_14_092938_create_interests_table.php',
         'CreateJobsTable' => __DIR__ . '/../..' . '/database/migrations/2018_09_03_121152_create_jobs_table.php',
         'CreateLikesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_14_162904_create_likes_table.php',
+        'CreateMemoTable' => __DIR__ . '/../..' . '/database/migrations/2018_08_29_111857_create_memo_table.php',
         'CreateMessagesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_000818_create_messages_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreatePostsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_01_164136_create_posts_table.php',
@@ -705,6 +762,8 @@ class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
         'PHPUnit\\Framework\\MockObject\\Matcher\\Parameters' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/Matcher/Parameters.php',
         'PHPUnit\\Framework\\MockObject\\Matcher\\StatelessInvocation' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/Matcher/StatelessInvocation.php',
         'PHPUnit\\Framework\\MockObject\\MockBuilder' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/MockBuilder.php',
+        'PHPUnit\\Framework\\MockObject\\MockMethod' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/MockMethod.php',
+        'PHPUnit\\Framework\\MockObject\\MockMethodSet' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/MockMethodSet.php',
         'PHPUnit\\Framework\\MockObject\\MockObject' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/ForwardCompatibility/MockObject.php',
         'PHPUnit\\Framework\\MockObject\\RuntimeException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/Exception/RuntimeException.php',
         'PHPUnit\\Framework\\MockObject\\Stub' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/Stub.php',
@@ -798,6 +857,7 @@ class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
         'PHPUnit\\Util\\TestDox\\XmlResultPrinter' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/TestDox/XmlResultPrinter.php',
         'PHPUnit\\Util\\TextTestListRenderer' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/TextTestListRenderer.php',
         'PHPUnit\\Util\\Type' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Type.php',
+        'PHPUnit\\Util\\XdebugFilterScriptGenerator' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/XdebugFilterScriptGenerator.php',
         'PHPUnit\\Util\\Xml' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Xml.php',
         'PHPUnit\\Util\\XmlTestListRenderer' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/XmlTestListRenderer.php',
         'PHPUnit_Framework_MockObject_MockObject' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/MockObject.php',
@@ -1171,10 +1231,10 @@ class ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit0c8c26981c60b670e3d94d96ae3eb019::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit91111d0d441003ed7df8dc4c017e9dd1::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit91111d0d441003ed7df8dc4c017e9dd1::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit91111d0d441003ed7df8dc4c017e9dd1::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit91111d0d441003ed7df8dc4c017e9dd1::$classMap;
 
         }, null, ClassLoader::class);
     }

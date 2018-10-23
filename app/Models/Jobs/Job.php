@@ -10,4 +10,9 @@ class Job extends Model
     use LogsActivity;
     protected $guarded = [];
     protected static $logAttributes = ["*"];
+
+    public function companies()
+    {
+        return $this->belongsTo('App\Models\Clients\Company');
+    }
 }
