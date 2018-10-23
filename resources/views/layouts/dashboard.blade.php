@@ -14,7 +14,7 @@
 <div class="right_col" role="main">
   <!-- top tiles -->
   <div class="row tile_count">
-    <div class="col-md-4 col-sm-2 col-xs-6 tile_stats_count">
+    <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
       <span class="count_top"><i class="fa fa-clock-o"></i>Task Overdue</span>
       <div class="count">{{$tasksOverdue}}</div>
       <span class="count_bottom"><i class="green">>{{$overdueComparison}}%</i> From last Week</span>
