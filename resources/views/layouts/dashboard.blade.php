@@ -62,7 +62,7 @@
 
   <!-- start of table  -->
   <!-- page content -->
-
+</div>
 
          <div class="clearfix"></div>
 
