@@ -189,7 +189,7 @@ class ClientController extends Controller
         // dd($activities);
         $collaborators = $company->collaborators;
         $collaboratorsId = $collaborators->pluck('id')->toArray();
-        $users = User::all();
+        $users = User::orderBy('name','asc')->get();
         $notes = $company->posts;
         $jobs = Job::whereCompanyId($company->id)->take(20)->get();
 

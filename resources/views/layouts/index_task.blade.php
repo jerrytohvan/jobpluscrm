@@ -51,7 +51,7 @@
                        </div> -->
 
                        <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="assigned_id">Assign Personel</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="assigned_id">Assign Consultant</label>
                         <div class="col-md-6 col-sm-9 col-xs-12">
                           <select class="select2_single form-control" name="assigned_id" id="assigned_id" tabindex="-1">
                           <option value='0'>Select a Personel</option>

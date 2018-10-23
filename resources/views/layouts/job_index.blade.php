@@ -40,9 +40,9 @@
                            <table id="datatable" class="table table-striped table-bordered dataTables"  >
                              <thead>
                                   <tr>
-                                      <th style="width: 10%">Title</th>
+                                      <th style="width: 10%">Job Title</th>
                                       <th style="width: 25%">Description</th>
-                                      <th>Skills</th>
+                                      <th>Skills & Qualifications</th>
                                       <th style="width: 15%">Action</th>
 
                                   </tr>

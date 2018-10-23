@@ -64,7 +64,7 @@
               </div>
 
               <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="job_skills">Job Skills</label>
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="job_skills">Skills & Qualifications</label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                   <textarea class="resizable_textarea form-control" required="required" name="job_skills" id="job_skills" placeholder="Type skills here" style="z-index: auto; position: relative; line-height: 20px; font-size: 14px; transition: none; background:transparent!important; margin: 0px 8px 0px 0px; "></textarea>
                 </div>
@@ -149,7 +149,7 @@
               </div>
 
               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company">Company *</label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company">Client *</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <select class="select2_single form-control"  required="required"id="company" name="company" tabindex="-1">
                       <option>Select a company</option>
