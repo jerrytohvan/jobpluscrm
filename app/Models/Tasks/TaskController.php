@@ -17,7 +17,7 @@ use App\Models\Mail\MailController;
 
 class TaskController extends Controller
 {
-    public function __construct(TaskService $taskSvc, TelegramService $teleSvc , MailController $mailTc)
+    public function __construct(TaskService $taskSvc, TelegramService $teleSvc, MailController $mailTc)
     {
         $this->svc = $taskSvc;
         $this->tSvc = $teleSvc;
@@ -53,24 +53,23 @@ class TaskController extends Controller
     {
         // $task = Task::all();
         $client = new Client();
-        
+
 
         try {
             $res = $client->request('GET', 'http://localhost:3000/mailData');
             //error_log(print_r($res, true));
             $content = $res->getBody()->getContents();
             error_log(print_r($content, true));
-            $var = json_decode($content,true);
-             //$this->tSvc->send($var);
+            $var = json_decode($content, true);
+            //$this->tSvc->send($var);
             $emailSend = $this->mTc->processTaskForEmail($var);
             //error_log(print_r($var, true));
             // if (sizeof($var) > 0) {
             //     error_log(print_r( " more than 1", true));
             // }
         } catch (Exception $e) {
-            error_log(print_r( $e->getMessage(), true));
+            error_log(print_r($e->getMessage(), true));
         }
-
     }
 
     public function createReminder(Request $request)
@@ -119,12 +118,11 @@ class TaskController extends Controller
         $coTasks = Task::whereCompanyId($companyId)->where('collaborator->Auth::user()->id')->get();
         if (sizeof($crTasks) > 0) {
             return $crTasks;
-        } else if (sizeof($aTasks) > 0) {
+        } elseif (sizeof($aTasks) > 0) {
             return $aTasks;
-        } else if (sizeof($coTasks) > 0) {
+        } elseif (sizeof($coTasks) > 0) {
             return $coTasks;
         }
-
     }
 
     public function showEvent()
