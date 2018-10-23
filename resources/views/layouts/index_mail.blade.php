@@ -10,7 +10,7 @@
 <!-- page content -->
 
 <div class="right_col" role="main">
-  <div class="">
+  <div class="clearfix">
 
     <div class="page-title">
       <div class="title_left">
@@ -58,6 +58,7 @@
               <div class="col-sm-3 mail_list_column">
                 <button id="compose" class="btn btn-sm btn-success btn-block" type="button">COMPOSE</button>
                 <a href="#">
+                  </div>
           <!--        <div class="mail_list">
                     <div class="left">
                       <i class="fa fa-circle"></i> <i class="fa fa-edit"></i>
@@ -266,7 +267,7 @@
 
 @section('bottom_content')
 <!-- compose -->
-< >
+
 
 <div class="compose col-md-6 col-xs-12">
   <div class="compose-header">
@@ -403,6 +404,7 @@
   </div>
                 {!! Form::close() !!}
 </div>
+
 
 
 <!-- /compose -->
