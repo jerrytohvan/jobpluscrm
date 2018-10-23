@@ -8,7 +8,7 @@ use App\Models\Tasks\Task;
 use App\Models\Tasks\TaskService;
 use App\Models\Users\User;
 use App\Models\Users\UserCompany;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ use App\Models\Mail\MailController;
 
 class TaskController extends Controller
 {
-    public function __construct(TaskService $taskSvc, TelegramService $teleSvc , MailController $mailTc)
+    public function __construct(TaskService $taskSvc, TelegramService $teleSvc, MailController $mailTc)
     {
         $this->svc = $taskSvc;
         $this->tSvc = $teleSvc;
@@ -31,6 +31,7 @@ class TaskController extends Controller
         $users = User::all()->sortBy('name');
         $companies = Company::all()->sortBy('name');
         $task = Task::all();
+        //error_log(print_r(Auth::user()->id, true));
         //return $task;
         return view('layouts.index_task', compact('users', 'companies', 'task', 'message', 'status'));
     }
@@ -53,24 +54,17 @@ class TaskController extends Controller
     {
         // $task = Task::all();
         $client = new Client();
-        
+
 
         try {
             $res = $client->request('GET', 'http://localhost:3000/mailData');
-            //error_log(print_r($res, true));
             $content = $res->getBody()->getContents();
-            //error_log(print_r($content, true));
-            $var = json_decode($content,true);
-             $this->tSvc->send($var);
-            $this->mTc->processTaskForEmail($var);
-            //error_log(print_r($var, true));
-            // if (sizeof($var) > 0) {
-            //     error_log(print_r( " more than 1", true));
-            // }
+            error_log(print_r($content, true));
+            $var = json_decode($content, true);
+            $emailSend = $this->mTc->processTaskForEmail($var);
         } catch (Exception $e) {
-            error_log(print_r( $e->getMessage(), true));
+            error_log(print_r($e->getMessage(), true));
         }
-
     }
 
     public function createReminder(Request $request)
@@ -119,12 +113,11 @@ class TaskController extends Controller
         $coTasks = Task::whereCompanyId($companyId)->where('collaborator->Auth::user()->id')->get();
         if (sizeof($crTasks) > 0) {
             return $crTasks;
-        } else if (sizeof($aTasks) > 0) {
+        } elseif (sizeof($aTasks) > 0) {
             return $aTasks;
-        } else if (sizeof($coTasks) > 0) {
+        } elseif (sizeof($coTasks) > 0) {
             return $coTasks;
         }
-
     }
 
     public function showEvent()
@@ -192,6 +185,77 @@ class TaskController extends Controller
             $task->save();
             return $task;
         }
+    }
+
+    public function topfew()
+    {
+        $tmr = Carbon::tomorrow('Asia/Singapore')->format('Y-m-d 00:00:00');
+        //dd(Auth::user());
+        $id = Auth::user()->id;
+        $user = User::all();
+        // error_log(print_r( $user,true));
+        //error_log(print_r( $tmr,true));
+        $collaboratorsIn = Auth::user()->companies->map(function ($value, $key) {
+            return $value->id;
+        });
+        $tasks = Task::whereUserId($id)->where('date_reminder', '<', $tmr)->orWhere('assigned_id', $id)->where('date_reminder', '<', $tmr)->orWhereIn('company_id', $collaboratorsIn)->where('date_reminder', '<', $tmr)->orderBy('date_reminder', 'desc')->Limit(5)->get();
+        //error_log(print_r( $tasks,true));
+        //retrieve all company and users
+        $companies = Company::all();
+        $users = User::all();
+        $tasksOpen = $tasks->map(function ($value, $key) use ($companies,$users) {
+            // $value['company'] = Company::find($value['company_id'])->name;
+            $value['company'] =  $companies->filter(function ($company) use ($value) {
+                return $company->id == $value['company_id'];
+            })->first()->name;
+            $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                return $user->id == $value['user_id'];
+            })->first()->name:  "";
+            // $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name : "";
+            $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                return $user->id == $value['assigned_id'];
+            })->first()->name :  "";
+
+
+            return $value;
+        })->filter(function ($task, $key) {
+            return $task->status == 0;
+        })->values();
+
+        $tasksOnGoing = $tasks->map(function ($value, $key) use ($companies,$users) {
+            $value['company'] =  $companies->filter(function ($company) use ($value) {
+                return $company->id == $value['company_id'];
+            })->first()->name;
+            $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                return $user->id == $value['user_id'];
+            })->first()->name:  "";
+            $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                return $user->id == $value['assigned_id'];
+            })->first()->name :  "";
+            return $value;
+        })->filter(function ($task, $key) {
+            return $task->status == 1;
+        })->values();
+
+        $tasksClosed = $tasks->map(function ($value, $key) use ($companies,$users) {
+            $value['company'] =  $companies->filter(function ($company) use ($value) {
+                return $company->id == $value['company_id'];
+            })->first()->name;
+            $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                return $user->id == $value['user_id'];
+            })->first()->name:  "";
+            $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                return $user->id == $value['assigned_id'];
+            })->first()->name:  "";
+            return $value;
+        })->filter(function ($task, $key) {
+            return $task->status == 2;
+        })->values();
+
+        $message = "hi";
+        $status = "200";
+
+        return view('layouts.dummy', compact('tasksOpen', 'message', 'status'));
     }
 
     public function updateToDoList($id)

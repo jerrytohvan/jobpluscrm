@@ -23,7 +23,7 @@
          <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                <div class="x_title">
-                  <h2>Candidates Full-List</h2>
+                  <h2>Dummy Task</h2>
               <div class="clearfix"></div>
                </div>
                <div class="x_content">
@@ -31,31 +31,20 @@
                      <table id="datatable" class="table table-striped table-bordered dataTables"  >
                        <thead>
                          <tr>
-                           <th>Name</th>
-                           <th>Job Title</th>
-                           <th>Email</th>
-                           <th>Handphone No.</th>
-                           <th>Telephone No.</th>
-                           <th>Birthdate</th>
+                           <th>Task</th>
+                           <th>Due Date</th>
+                           <th>Creator</th>
+                           <th>Collaborator</th>
                            <th style="width: 25%;">Action</th>
                          </tr>
                         </thead>
                         <tbody>
-                          @foreach ($candidates as $candidate)
-                          <tr role="row" class="{{ (($candidate->id % 2) == 1) ? 'odd':'even'}}">
-                            <td>{{ $candidate->name }}</td>
-                            <td>{{ $candidate->title }}</td>
-                            <td>{{ $candidate->email }}</td>
-                            <td>{{ $candidate->handphone }}</td>
-                            <td>{{ $candidate->telephone == null ? "-" : $candidate->telephone }}</td>
-                            <td>{{
-                              date("F d, Y", strtotime($candidate->birthdate))}}</td>
-                            <td>
-                                 <a href="{{ route('get.resume', ['file'=> $candidate->files->first()->id])}}"  class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Resume</a>
-                                 <a onclick="deleteCandidate( {{ $candidate->id }} )" class="btn btn-danger btn-xs confirmation"><i class="fa fa-trash-o"></i> Delete </a>
-                                 <a href="{{ route('smart.match.candidate', ['candidate' => $candidate->id]) }}" class="btn btn-success btn-xs"><i class="fa fa-trash-o"></i>Smart Match</a>
-
-                            </td>
+                          @foreach ($tasksOpen as $task)
+                          <tr role="row" class="{{ $task->id}}">
+                            <td>{{$task->title}}</td>
+                            <td>{{substr($task->date_reminder,0,10)}}</td>
+                            <td>{{$task->creator}}</td>
+                            <td>{{$task->company}}</td>     
                           </tr>
                           @endforeach
                         </tbody>
@@ -67,30 +56,7 @@
       </div>
    </div>
 
-   <div class="modal fade" tabindex="-1" role="dialog" id="confirm-delete">
-      <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-               <h4 class="modal-title">Delete Candidate</h4>
-            </div>
-            <div class="modal-body">
-               {{  Form::open(['route' => 'delete.candidate','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'delete_form']) }}
-               <p>Are you sure you want to delete this candidate? This action cannot be undone.</P>
-               <input type="hidden" id="candidate_id" name="candidate_id" value="">
 
-               {!! Form::close() !!}
-
-               <button type="button" class="btn btn-danger"  onclick="submitForm();" >Confirm Delete</button>
-               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-
-            </div>
-
-         </div>
-         <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-	 </div>
 
 </div>
 

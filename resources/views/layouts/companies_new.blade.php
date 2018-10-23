@@ -85,8 +85,8 @@
               <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry *</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                    <select class="select2_single form-control" id="industry" name="industry" tabindex="-1">
-                    <option></option>
+                    <select class="select2_single form-control" required="required" id="industry" name="industry" tabindex="-1">
+                    <option value="">Select an Industry</option>
                     <option value="Accounting / Audit / Tax Services">Accounting / Audit / Tax Services</option>
                     <option value="Advertising / Marketing / Promotion / PR">Advertising / Marketing / Promotion / PR</option>
                     <option value="Aerospace / Aviation / Airline">Aerospace / Aviation / Airline</option>
