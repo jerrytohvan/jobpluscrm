@@ -51,7 +51,6 @@
     <!-- start vue -->
     <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
-        <h3 class="text-center title-color">Your Tasks</h3>
          <div class="well" id="app">
            <task-draggable :tasks-open="{{ $tasksOpen }}" :tasks-on-going="{{ $tasksOnGoing }}" :tasks-closed="{{ $tasksClosed }}"></task-draggable>
          </div> <!-- end app -->

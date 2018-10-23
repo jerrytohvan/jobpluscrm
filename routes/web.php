@@ -294,7 +294,9 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 
-
+    Route::get('/tasks/dummyTask',[
+      'as' => 'dummy.index',
+      'uses' => '\App\Models\Tasks\TaskController@topfew']);
     // Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
     Route::get('/tasks/show', '\App\Models\Tasks\TaskController@showTaskList');
 
@@ -485,3 +487,5 @@ Route::get('/dashboard/newLeadsComparison',[
         'as' => 'processTaskForEmail',
       'uses' => '\App\Models\Mail\MailController@processTaskForEmail'
       ]);
+
+      
