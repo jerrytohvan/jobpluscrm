@@ -74,18 +74,25 @@
                   <input type="url" id="website"  name="website"  class="form-control col-md-7 col-xs-12">
                 </div>
               </div>
+
               <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_employees">No of Employees
-                </label>
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_employees">No of Employees </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input type="number" id="no_employees"  name="no_employees"  class="form-control col-md-7 col-xs-12">
-                </div>
+                  <select class="select2_single form-control" id="no_employees" name="no_employees" tabindex="-1">
+                        <option value></option>
+                        <option value="1-5">1-5</option>
+                        <option value="6-20">6-20</option>
+                        <option value="21-100">21-100</option>
+                        <option value="101-500">101-500</option>
+                        <option value=">501">>501</option>
+                      </select>
+                  </div>
               </div>
 
               <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry *</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                    <select class="select2_single form-control" required="required" id="industry" name="industry" tabindex="-1">
+                  <select class="select2_single form-control" required="required" id="industry" name="industry" tabindex="-1">
                     <option value="">Select an Industry</option>
                     <option value="Accounting / Audit / Tax Services">Accounting / Audit / Tax Services</option>
                     <option value="Advertising / Marketing / Promotion / PR">Advertising / Marketing / Promotion / PR</option>
@@ -153,7 +160,7 @@
               </div>
 
               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lead_source">Lead Source *</label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lead_source">Lead Source</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <select class="select2_single form-control" id="lead_source" name="lead_source" tabindex="-1">
                       <option></option>

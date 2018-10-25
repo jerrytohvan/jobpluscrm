@@ -27,13 +27,15 @@ class JobController extends Controller
 
     public function add_jobs()
     {
-        $message = "Failed to add job";
-        $status = 0;
-        if ($this->svc->addJob(request()->all())) {
-            $message = "Job successfully added";
-            $status = 1;
+        $message = "Job successfully added";
+        $status = 1;
+        $companies = Company::all()->sortBy('name');
+        $job = $this->svc->addJob(request()->all());
+        if ($job == null) {
+            $message = "Failed to add job";
+            $status = 0;
         }
-        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+        return view('layouts.job_new', compact('status', 'message','companies'));
     }
 
     public function index_job_new()
@@ -48,7 +50,6 @@ class JobController extends Controller
     {
     
         $requestArray =  request()->all();
-        // dd($requestArray);
         $validator = Validator::make($requestArray, [
             'job_title' => 'required',
             'job_description' => 'required',
@@ -71,8 +72,6 @@ class JobController extends Controller
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
-
-
 
     public function delete_job()
     {

@@ -16,7 +16,6 @@
 <link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
 <link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
 <link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
-
 @endpush
 
 
@@ -221,23 +220,25 @@
 
 
 <script type="text/javascript">
-    $(document).ready(function () {
-      $('.ui-pnotify').remove();
-        loadNotification();
-    });
-    function loadNotification(){
-      var message = "{{ $message }}";
-      var status = "{{ $status }}";
+  $(document).ready(function () {
+    $('.ui-pnotify').remove();
+      loadNotification();
+  });
 
-      if(message != "" && status != ""){
-        new PNotify({
-            title: (status == 1 ? "Success!" : "Failed!"),
-            text: message,
-            type: (status == 1 ? "success" : "error"),
-            styling: 'bootstrap3'
-        });
-      }
+  function loadNotification(){
+    var message = "{{ $message }}";
+    var status = "{{ $status }}";
+
+    if(message != "" && status != ""){
+      new PNotify({
+          title: (status == 1 ? "Success!" : "Failed!"),
+          text: message,
+          type: (status == 1 ? "success" : "error"),
+          styling: 'bootstrap3'
+      });
+    }
 
   }
 </script>
+
 @endpush
