@@ -63,8 +63,12 @@ class ClientController extends Controller
     public function index_companies_clients()
     {
         $array = $this->svc->getAllClients();
-        $score = $this->svc->getUrgencyScore($array);
-        return view('layouts.companies_clients', compact('array', 'status', 'companies', 'score'));
+        $allEmployees = $this->svc->getAllEmployees($array);
+        // $score = $this->svc->getUrgencyScore($array);
+        $urgency = $this->svc->getUrgency($array);
+        $lastUpdate = $this->svc->getLastUpdate($array);
+        $allCollaborators = $this->svc->getAllCollaborators($array);
+        return view('layouts.companies_clients', compact('status', 'companies', 'array', 'allEmployees', 'urgency', 'lastUpdate', 'allCollaborators'));
     }
 
     public function index_companies_leads()

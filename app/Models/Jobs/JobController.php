@@ -7,6 +7,7 @@ use  App\Models\Clients\Candidate;
 use App\Models\Clients\Company;
 use App\Models\Jobs\JobService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class JobController extends Controller
 {
@@ -20,18 +21,21 @@ class JobController extends Controller
         $message = "";
         $status = "";
         $jobs = Job::paginate(500);
-        return view('layouts.job_index', compact('jobs', 'message', 'status'));
+        $companies = Company::all()->sortBy('name');
+        return view('layouts.job_index', compact('jobs', 'message', 'status','companies'));
     }
 
     public function add_jobs()
     {
-        $message = "Failed to add job";
-        $status = 0;
-        if ($this->svc->addJob(request()->all())) {
-            $message = "Job successfully added";
-            $status = 1;
+        $message = "Job successfully added";
+        $status = 1;
+        $companies = Company::all()->sortBy('name');
+        $job = $this->svc->addJob(request()->all());
+        if ($job == null) {
+            $message = "Failed to add job";
+            $status = 0;
         }
-        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+        return view('layouts.job_new', compact('status', 'message','companies'));
     }
 
     public function index_job_new()
@@ -40,6 +44,33 @@ class JobController extends Controller
         $status = "";
         $companies = Company::all()->sortBy('name');
         return view('layouts.job_new', compact('status', 'message', 'companies'));
+    }
+
+    public function update_job()
+    {
+    
+        $requestArray =  request()->all();
+        $validator = Validator::make($requestArray, [
+            'job_title' => 'required',
+            'job_description' => 'required',
+            'skills' => 'required',
+            'industry' => 'required',
+            'company_id' => 'required',
+            'summary_keywords' => 'required'
+        ]);
+        
+        $jobId = $requestArray['job_id'];
+        unset($requestArray['job_id']);
+        unset($requestArray['_token']);
+        $message = "Job successfully updated!";
+        $status = 1;
+        $job = $this->svc->updateJob(Job::find($jobId), $requestArray);
+
+        if ($job == null) {
+            $message = "Failed to add updated!";
+            $status = 0;
+        }
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
     public function delete_job()

@@ -7,6 +7,8 @@ use App\Models\Employees\Employee;
 use App\Models\Comments\Comment;
 use App\Models\Posts\Post;
 use App\Models\Tasks\Task;
+use App\Models\Users\UserCompany;
+use App\Models\Users\User;
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Auth;
@@ -116,69 +118,188 @@ class ClientService
         return $comment;
     }
 
-    //Working version
-    public function getUrgencyScore($array)
-    {
-        $scoreArray = array();
+    public function getAllEmployees($array) {
+        $employeesArray = array();
 
-        foreach ($array as $company) {
-            $score = 0;
-
-            $companyID = $company['id'];
-            $companySize = $company['no_employees'];
-            $numTasks = Task::where('company_id', $companyID)->count();
-
-            $oneweek = Carbon::now()->addDays(7)->format('Y-m-d H:i:s');
-            $now = Carbon::now()->format('Y-m-d H:i:s');
-
-            $weekTasks = Task::where('company_id', $companyID)
-                        ->whereDate('date_reminder', '>=', $now)
-                        ->whereDate('date_reminder', '<=', $oneweek)->count();
-
-            $score = ($companySize * 0.2) + ($numTasks * 0.3) + ($weekTasks * 0.5);
-            $scoreArray[$companyID] = $score;
+        $allEmployees = Employee::all();
+        foreach ($allEmployees as $employee) {
+            $company_id = $employee['company_id'];
+            $thisEmployee = $employee['name'] . ": " . $employee['telephone'];
+            if (!isset($employeesArray[$company_id])) {
+                $newArr = array();
+                array_push($newArr, $thisEmployee);
+                $employeesArray[$company_id] = $newArr;
+            } else {
+                $thisArr = $employeesArray[$company_id];
+                array_push($thisArr, $thisEmployee);
+                $employeesArray[$company_id] = $thisArr;
+            }
         }
-        asort($scoreArray);
-        return $scoreArray;
+        return $employeesArray;
     }
 
-    //Recalcuate for company size
-    // public function getUrgencyScore($array) {
+    public function getUrgency($array) {
+        $sizeArray = array('0'=>0.6, '1-5'=>0.5, '6-20'=>0.4, '21-100'=>0.3, '101-500'=>0.2, '>501'=>0.1);
+
+        $alltasks = Task::all();
+        $tasksArray = array();
+
+        foreach ($alltasks as $task) {
+            $company_id = $task['company_id'];
+            $duedate = $task['date_reminder'];
+            if (!isset($tasksArray[$company_id]) || strtotime($duedate) <= $tasksArray[$company_id]) {
+                $tasksArray[$company_id] = strtotime($duedate);
+            }
+        }
+
+        foreach ($array as $company) {
+            $id = $company['id'];
+            $companySize = $company['no_employees'];
+            if ($companySize == null) {
+                $companySize = 0;
+            }
+            if (!isset($tasksArray[$id])) {
+                $tasksArray[$id] = $sizeArray[$companySize];
+            } else {
+                $date = $tasksArray[$id];
+                $tasksArray[$id] = $date + $sizeArray[$companySize];
+            }
+        }
+        asort($tasksArray);
+        
+        $urgencyArray = array();
+        foreach ($tasksArray as $id=>$res) {
+            if ($res < 1) {
+                $urgencyArray[$id] = "None";
+            } else {
+                $date = date('Y-m-d', $res);
+                $decimal = $res - (int) $res;
+                $dec = round($decimal, 2);
+                $urgencyArray[$id] = $date . " " . $dec;
+            }
+        }
+        return $urgencyArray;
+    }
+
+    public function getLastUpdate($array)
+    {
+        $updateArray = array();
+
+        $employees = Employee::all();
+        $posts = Post::all();
+        $collaborators = UserCompany::all();
+        $tasks = Task::all();
+
+        foreach ($array as $company) {
+            $company_id = $company['id'];
+            $last_update = $company['updated_at'];
+            $updateArray[$company_id] = $last_update->format('Y-m-d H:i:s');
+
+            foreach ($employees as $employee) {
+                $employee_company = $employee['company_id'];
+                if ($employee_company == $company_id) {
+                    $maxUpdate = $updateArray[$company_id];
+                    $employeesUpdate = $employee['updated_at'];
+                    if (strtotime($employeesUpdate) > strtotime($maxUpdate)) {
+                        $updateArray[$company_id] = $employeesUpdate->format('Y-m-d H:i:s');
+                    }
+                }
+            }
+
+            foreach ($posts as $post) {
+                $post_company = $post['company_id'];
+                if ($post_company == $company_id) {
+                    $maxUpdate = $updateArray[$company_id];
+                    $postUpdate = $post['updated_at'];
+                    if (strtotime($postUpdate) > strtotime($maxUpdate)) {
+                        $updateArray[$company_id] = $postUpdate->format('Y-m-d H:i:s');
+                    }
+                }
+            }
+
+            foreach ($collaborators as $collaborator) {
+                $collaborator_company = $collaborator['company_id'];
+                if ($collaborator_company == $company_id) {
+                    $maxUpdate = $updateArray[$company_id];
+                    $collaboratorsUpdates = $collaborator['updated_at'];
+                    if (strtotime($collaboratorsUpdates) > strtotime($maxUpdate)) {
+                        $updateArray[$company_id] = $collaboratorsUpdates->format('Y-m-d H:i:s');
+                    }
+                }
+            }
+
+            foreach ($tasks as $task) {
+                $task_company = $task['company_id'];
+                if ($task_company == $company_id) {
+                    $maxUpdate = $updateArray[$company_id];
+                    $tasksUpdate = $task['updated_at'];
+                    if (strtotime($tasksUpdate) > strtotime($maxUpdate)) {
+                        $updateArray[$company_id] = $tasksUpdate->format('Y-m-d H:i:s');
+                    }
+                }
+            }
+        }
+        return $updateArray;
+    }
+    
+    public function getAllCollaborators($array) {
+
+        $allCollaborators = array();
+
+        $userCompany = UserCompany::join('users', 'users.id', '=', 'user_id')->get();
+        
+        $i = 0;
+        foreach ($array as $company) {
+            $company_id = $company['id'];
+            
+            foreach ($userCompany as $user) {
+               
+                $cid = $user['company_id'];
+                if ($cid == $company_id) {
+                    $name = $user['name'];
+                    $profilePic = $user['profile_pic'];
+                    $array = array($company_id, $name, $profilePic);
+                    $allCollaborators[$i] = $array;
+                }
+                $i = $i + 1;
+            }
+        }
+        return $allCollaborators;
+    }
+}
+
+    // //Improved version
+    // public function getUrgencyScore($array)
+    // {
     //     $scoreArray = array();
 
+    //     $oneweek = Carbon::now()->addDays(7)->format('Y-m-d 00:00:00');
+    //     $now = Carbon::now()->format('Y-m-d 00:00:00');
+
+    //     $alltasks = Task::all();
+        
     //     foreach ($array as $company) {
     //         $score = 0;
 
     //         $companyID = $company['id'];
-    //         $size = $company['no_employees'];
+    //         $companySize = $company['no_employees'];
 
-    //         if ($size <= 20) {
-    //             $companySize = 1;
-    //         } else if ($size > 20 && $size <= 50) {
-    //             $companySize = 2;
-    //         } else if ($size > 50 && $size <= 200) {
-    //             $companySize = 3;
-    //         } else if ($size > 200 && $size <= 500) {
-    //             $companySize = 4;
-    //         } else if ($size > 500 && $size <= 2000) {
-    //             $companySize = 5;
-    //         } else {
-    //             $companySize = 6;
+    //         $numTasks = 0;
+    //         $weekTasks = 0;
+    //         foreach ($alltasks as $thistask) {
+    //             $task_company = $thistask['company_id'];
+    //             if ($task_company == $companyID) {
+    //                 $numTasks = $numTasks + 1;
+    //                 $date_reminder = strtotime($thistask['date_reminder']);
+    //                 if ($date_reminder >= strtotime($now) && $date_reminder <= strtotime($oneweek)) {
+    //                     $weekTasks = $weekTasks + 1;
+    //                 }
+    //             }
     //         }
-
-    //         $numTasks = Task::where('company_id', $companyID)->count();
-
-    //         $oneweek = Carbon::now()->addDays(7)->format('Y-m-d H:i:s');
-    //         $now = Carbon::now()->format('Y-m-d H:i:s');
-
-    //         $weekTasks = Task::where('company_id', $companyID)
-    //                     ->whereDate('date_reminder', '>=', $now)
-    //                     ->whereDate('date_reminder', '<=', $oneweek)->count();
-
+            
     //         $score = ($companySize * 0.2) + ($numTasks * 0.3) + ($weekTasks * 0.5);
     //         $scoreArray[$companyID] = $score;
     //     }
     //     asort($scoreArray);
     //     return $scoreArray;
     // }
-}

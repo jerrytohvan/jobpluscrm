@@ -287,6 +287,12 @@ Route::group(['middleware' => ['auth']], function () {
     'uses' => '\App\Models\Jobs\JobController@add_jobs'
     ]);
 
+    //added
+    Route::post('/jobs/update', [
+      'as' => 'update.job',
+      'uses' => '\App\Models\Jobs\JobController@update_job'
+    ]);
+
     Route::post('/jobs/delete', [
       'as' => 'delete.job',
     'uses' => '\App\Models\Jobs\JobController@delete_job'
