@@ -45,8 +45,9 @@
                                       <th style="width: 25%">Accounts</th>
                                       <th>Collaborators</th>
                                       <th>Industry</th>
-                                      <th>Score</th>
                                       <th style="width: 15%">Action</th>
+                                      <th>Due Date</th>
+                                      <th>Urgency Score</th>
                                       <th>Last Update</th>
                                   </tr>
                               </thead>
@@ -55,12 +56,13 @@
                                 <tr role="row" class="{{ (($data->id % 2) == 1) ? 'odd':'even'}}">
                                   <td>{{ $data->name }}</td>
                                   <td>
-                                    @php
-                                      $accounts = $data->employees;
-                                    @endphp
                                     <ul style="list-style: none; padding: 0;">
-                                    @foreach($accounts as $account)
-                                          <li> <b> {{ $account->name . ": " }} </b> {{ $account->handphone }} </li>
+                                    @foreach($allEmployees as $companyID=>$companyEmployees)
+                                      @if ($companyID == $data->id)
+                                        @foreach ($companyEmployees as $employee)
+                                          <li> <b> {{ $employee }} </li>
+                                        @endforeach
+                                      @endif
                                     @endforeach
                                     <ul>
                                   </td>
@@ -78,17 +80,22 @@
                                   <td>
                                     {{ $data -> industry }}
                                   </td>
-                                  @foreach ($score as $companyId=>$thisScore)
-                                    @if ($companyId == $data->id)
-                                      <td>
-                                        {{ $thisScore }}
-                                      </td>
-                                    @endif
-                                  @endforeach
                                   <td>
                                       <a href="{{ route('view.company', ['company' => $data->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
                                       <a onclick="deleteClient( {{ $data->id}} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
                                   </td>
+
+                                  @foreach ($urgency as $companyId=>$thisUrgency)
+                                    @if ($companyId == $data->id)
+                                      <td>
+                                        {{ $thisUrgency }}
+                                      </td>
+                                      <td>
+                                        {{ $thisUrgency }}
+                                      </td>
+                                    @endif
+                                  @endforeach
+
                                   @foreach ($lastUpdate as $companyId=>$thisUpdate)
                                     @if ($companyId == $data->id)
                                       <td>
@@ -161,7 +168,7 @@ $(document).ready(function() {
           'copy','csv','print',{
                 text: 'Sort by Urgency',
                 action: function () {
-                  this.column(4).order('desc').draw();
+                  this.column(6).order('asc').draw();
                 }
             }
         ],
@@ -169,7 +176,7 @@ $(document).ready(function() {
         initComplete: function () {
           this.api().columns([3]).every( function () {
                 var column = this;
-                var select = $('<br>Industry:<select><option value=""></option></select>')
+                var select = $('<br>Industry:<select><option value="">All</option></select>')
                     .appendTo('#datatable_wrapper .dataTables_filter')
                     .on( 'change', function () {
                         var val = $.fn.dataTable.util.escapeRegex(
@@ -182,10 +189,23 @@ $(document).ready(function() {
                     } );
 
                 column.data().unique().sort().each( function ( d, j ) {
+                  if (d != "") {
                     select.append( '<option value="'+d+'">'+d+'</option>' )
+                  }
                 } );
             } );
-        }
+        },
+        "columnDefs": [
+            {
+                "render": function ( data, type, row ) {
+                    return data.substring(0,10);
+                },
+                "targets": 5
+            },
+            { "targets": [6],
+              "visible": false,
+            }
+        ]
     } );
 } );
 
@@ -197,7 +217,6 @@ function deleteClient(companyId) {
 function submitForm() {
     $('#delete_form').submit();
 }
-
 
 function loadNotification(){
       var message = "{{ Session::get('message') }}";
@@ -212,7 +231,6 @@ function loadNotification(){
           });
       }
   }
-
 
 </script>
 <!-- Datatables -->
@@ -233,7 +251,6 @@ function loadNotification(){
 <script src="{{ asset('js/pnotify.js') }}"></script>
 <script src="{{ asset('js/pnotify.buttons.js') }}"></script>
 <script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
-
 
 <!-- Flot - , pice, time, stack, resize -->
 <script src="{{ asset('js/jquery.flot.js') }}"></script>
