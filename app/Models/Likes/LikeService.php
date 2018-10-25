@@ -2,6 +2,7 @@
 
 namespace App\Models\Likes;
 
+use Auth;
 use Illuminate\Http\Request;
 use App\Models\Likes\Like;
 
@@ -17,7 +18,7 @@ class LikeService
   public function storeLike($array)
   {
       return Like::Create([
-        'user_id' => $array['user_id'],
+        'user_id' => Auth::user()->id,
         'post_id' => $array['post_id'],
         'comment_id' => $array['comment_id']
       ]);

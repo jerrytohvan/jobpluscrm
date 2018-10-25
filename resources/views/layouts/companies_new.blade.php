@@ -34,6 +34,7 @@
         <div class="x_panel">
           <div class="x_title">
             <h2>Add a Company<small>Fill in the particulars below</small></h2>
+            <div class="clearfix"></div>
           </div>
           <div class="x_content">
             <br />
@@ -73,18 +74,25 @@
                   <input type="url" id="website"  name="website"  class="form-control col-md-7 col-xs-12">
                 </div>
               </div>
+
               <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_employees">No of Employees
-                </label>
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_employees">No of Employees </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input type="number" id="no_employees"  name="no_employees"  class="form-control col-md-7 col-xs-12">
-                </div>
+                  <select class="select2_single form-control" id="no_employees" name="no_employees" tabindex="-1">
+                        <option value></option>
+                        <option value="1-5">1-5</option>
+                        <option value="6-20">6-20</option>
+                        <option value="21-100">21-100</option>
+                        <option value="101-500">101-500</option>
+                        <option value=">501">>501</option>
+                      </select>
+                  </div>
               </div>
 
               <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry *</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                    <select class="select2_single form-control" required="required" id="industry" name="industry" tabindex="-1">
+                  <select class="select2_single form-control" required="required" id="industry" name="industry" tabindex="-1">
                     <option value="">Select an Industry</option>
                     <option value="Accounting / Audit / Tax Services">Accounting / Audit / Tax Services</option>
                     <option value="Advertising / Marketing / Promotion / PR">Advertising / Marketing / Promotion / PR</option>
@@ -152,30 +160,30 @@
               </div>
 
               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lead_source">Lead Source *</label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lead_source">Lead Source</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <select class="select2_single form-control" id="lead_source" name="lead_source" tabindex="-1">
                       <option></option>
                       <!-- http://www.themarketingscore.com/blog/bid/317180/18-Possible-Lead-Sources-Your-Organization-Needs-to-Measure -->
-                      <option value="Blogging">Blogging</option>
-                      <option value="Premium Content">Premium Content</option>
-                      <option value="Organic Search">Organic Search</option>
-                      <option value="Email Marketing">Email Marketing</option>
-                      <option value="Digital Advertising">Digital Advertising</option>
-                      <option value="Media Coverage">Media Coverage</option>
-                      <option value="Social Media">Social Media</option>
-                      <option value="Website">Website</option>
-                      <option value="Direct Marketing">Direct Marketing</option>
-                      <option value="Traditional Advertising">Traditional Advertising</option>
-                      <option value="Sponsorships">Sponsorships</option>
                       <option value="Affiliate / Partner Programs">Affiliate / Partner Programs</option>
+                      <option value="Blogging">Blogging</option>
+                      <option value="Digital Advertising">Digital Advertising</option>
+                      <option value="Direct Marketing">Direct Marketing</option>
+                      <option value="Email Marketing">Email Marketing</option>
                       <option value="Events / Shows">Events / Shows</option>
                       <option value="Inbound Phone Calls">Inbound Phone Calls</option>
-                      <option value="Outbound Sales">Outbound Sales</option>
-                      <option value="Referrals">Referrals</option>
-                      <option value="Speaking Engagements">Speaking Engagements</option>
-                      <option value="Traditional / Offline Networking:">Traditional / Offline Networking:</option>
+                      <option value="Media Coverage">Media Coverage</option>
+                      <option value="Organic Search">Organic Search</option>
                       <option value="Other">Other</option>
+                      <option value="Outbound Sales">Outbound Sales</option>
+                      <option value="Premium Content">Premium Content</option>
+                      <option value="Referrals">Referrals</option>
+                      <option value="Social Media">Social Media</option>
+                      <option value="Speaking Engagements">Speaking Engagements</option>
+                      <option value="Sponsorships">Sponsorships</option>
+                      <option value="Traditional / Offline Networking:">Traditional / Offline Networking:</option>
+                      <option value="Traditional Advertising">Traditional Advertising</option>
+                      <option value="Website">Website</option>
                     </select>
                   </div>
               </div>

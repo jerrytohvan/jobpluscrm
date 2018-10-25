@@ -225,7 +225,8 @@
 <!-- pdfmake -->
 <script src="{{ asset('js/pdfmake.min.js') }}"></script>
 <script src="{{ asset('js/vfs_fonts.js') }}"></script>
-
+<!-- Parsley -->
+<script src="{{ asset('js/parsley.min.js') }}"></script>
 <!-- bootstrap-wysiwyg -->
 <script src="{{ asset('js/pnotify.js') }}"></script>
 <script src="{{ asset('js/pnotify.buttons.js') }}"></script>
