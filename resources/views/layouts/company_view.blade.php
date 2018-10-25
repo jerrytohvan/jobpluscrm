@@ -138,36 +138,46 @@ html {
                                   <span class="value text-success"> {{  date_format($company->updated_at, 'jS F Y h:i A') }}</span>
                                </li>
                                <li class="hidden-phone">
-                                  <span class="name"> Total Transactions </span>
-                                  <span class="value text-success"> 0 </span>
+                                  <span class="name"> Collaborators </span>
+                                  <a id="collaborators_button" >
+                                    <span class="glyphicon glyphicon-pencil gi-1">Edit</span>
+                                   </a>
+                                  <ul class="list-inline">
+                                    @if(!empty($collaborators))
+                                      @foreach($collaborators as $profile)
+
+                                      <div class="img__wrap">
+                                        <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
+                                          <div class="img__description_layer">
+                                            <p class="img__description">{{ $profile->name }}</p>
+                                          </div>
+                                        </div>
+
+                                      @endforeach
+                                    @endif
+
+                                    </li>
+                                  </ul>
+
                                </li>
                             </ul>
+
+                            <div>
+                              <!-- start vue -->
+                              <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <h3 class="text-center title-color">Company's Tasks</h3>
+                                   <div class="well" id="app">
+                                     <task-draggable :tasks-open="{{ $tasksOpen }}" :tasks-on-going="{{ $tasksOnGoing }}" :tasks-closed="{{ $tasksClosed }}"></task-draggable>
+                                   </div> <!-- end app -->
+                               </div>
+                              </div>
+                              <!-- end vue -->
+                            </div>
 
                             <div class="row" style="padding-bottom: 2em;">
                               <div class="col-md-6 col-sm-12 col-xs-12">
                                     <div>
-                                      <div class="x_title">
-                                        <h2>Collaborators</h2>
-                                      <div class="clearfix"></div>
-                                      </div>
-                                      <ul class="list-inline">
-                                        @if(!empty($collaborators))
-                                          @foreach($collaborators as $profile)
-                                        <li>
-                                          <div class="img__wrap">
-                                            <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
-                                              <div class="img__description_layer">
-                                                <p class="img__description">{{ $profile->name }}</p>
-                                              </div>
-                                            </div>
-                                        </li>
-                                          @endforeach
-                                        @endif
-                                          <a id="collaborators_button" >
-                                            <span class="glyphicon glyphicon-pencil gi-1x"></span>
-                                           </a>
-                                        </li>
-                                      </ul>
 
                                     </div>
                                   </div>
@@ -182,124 +192,59 @@ html {
                                  <div class="clearfix"></div>
                               </div>
 
-                              <div class="x_content">
-                                 <div class="" role="tabpanel" data-example-id="togglable-tabs">
-                                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                       <li role="presentation" class="active"><a href="#tab_account" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Contacts</a>
-                                       </li>
-                                       <li role="presentation" class=""><a href="#new_account" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Add Contact</a>
-                                       </li>
-                                    </ul>
-                                    <div id="myTabContent" class="tab-content">
-                                       <div role="tabpanel" class="tab-pane fade active in" id="tab_account" aria-labelledby="home-tab">
-                                         <div class="table-responsive">
-                                          <table id="datatable" class="account_table table table-striped table-bordered">
-                                             <thead>
-                                                <tr>
-                                                   <th>Contact Name</th>
-                                                   <th>Title</th>
-                                                   <th>Email</th>
-                                                   <th>Handphone No.</th>
-                                                   <th>Telephone No.</th>
-                                                   <th>Company</th>
-                                                   <th  style="width: 20%">Actions</th>
-                                                </tr>
-                                             </thead>
-                                             <tbody>
-                                                @foreach ($accounts as $account)
-                                                <tr>
-                                                   <td>{{ $account->name }}</td>
-                                                   <td>{{ $account->title }}</td>
-                                                   <td>{{ $account->email }}</td>
-                                                   <td>{{ $account->handphone }}</td>
-                                                   <td>{{ $account->telephone == null ? "-" : $account->telephone }}</td>
-                                                   <td >{{ $account == null ? "-" : $account->company == null ? "-":$account->company->name }}</td>
-                                                   <td>
-                                                      <a id="account_button" data-id="{{ $account->id }}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i>Edit</a>
-                                                      <a onclick="deleteAccount( {{ $account->id }} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a>
-                                                   </td>
-                                                </tr>
-                                                @endforeach
-                                             </tbody>
-                                          </table>
-                                        </div>
+                              <div>
+                                <div class="x_title">
+                                <h2>Contacts</h2>
+                                   <ul class="nav navbar-right panel_toolbox">
+                                      <li>
+                                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                      </li>
 
-                                       </div>
-                                       <div role="tabpanel" class="tab-pane fade" id="new_account" aria-labelledby="profile-tab">
-                                          {{  Form::open(['route' => 'add.new.account','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
-                                          <div class="form-group">
-                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name"> Name <span class="required">*</span>
-                                             </label>
-                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12">
-                                             </div>
-                                          </div>
-                                          <div class="form-group">
-                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
-                                             <div class="col-md-6 col-sm-9 col-xs-12">
-                                                <select class="select2_single form-control" name="title" id="title" required="required" data-parsley-required-message="Please select a title" tabindex="-1">
-                                                   <option value=''>Select a Job Level Title</option>
-                                                   <option value='HR Executive'>HR Executive</option>
-                                                   <option value='HR Manager'>HR Manager</option>
-                                                   <option value='HR Director'>HR Director</option>
-                                                   <option value='Office Administrator'>Office Administrator</option>
-                                                   <option value='Office Manager'>Office Manager</option>
-                                                   <option value='Director'>Director</option>
-                                                   <option value='CEO'>CEO</option>
-                                                   <option value='General Manager'>General Manager</option>
-                                                   <option value='Hiring Manager'>Hiring Manager</option>
-                                                   <option value='unknown'>unknown</option>
-                                                </select>
-                                             </div>
-                                          </div>
-                                          <div class="form-group">
-                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
-                                             </label>
-                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
-                                             </div>
-                                          </div>
-                                          <div class="form-group">
-                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="handphone">Handphone No <span class="required">*</span>
-                                             </label>
-                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="handphone" name="handphone" required="required" data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
-                                             </div>
-                                          </div>
-                                          <div class="form-group">
-                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone">Telephone No
-                                             </label>
-                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="telephone" name="telephone"  data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
-                                             </div>
-                                          </div>
-                                          <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
-                                          <div class="ln_solid"></div>
-                                          <div class="form-group">
-                                             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                                <button class="btn btn-primary" type="reset">Reset</button>
-                                                {{ Form::submit('Submit', ['class'=>'btn btn-success']) }}
-                                             </div>
-                                          </div>
-                                          {!! Form::close() !!}
-                                       </div>
+                                      <li>
+                                        <a class="close-link"><i class="fa fa-close"></i></a>
+                                      </li>
+                                   </ul>
+                                   <div class="clearfix"></div>
+                                </div>
+                                  <div class="x_content">
+                                    <div class="table-responsive">
+                                     <table id="datatable" class="account_table table table-striped table-bordered">
+                                       <button type="button" class="btn btn-default btn-sm" id="new-contact-button">New Contact</button>
+                                        <thead>
+                                           <tr>
+                                              <th>Contact Name</th>
+                                              <th>Title</th>
+                                              <th>Email</th>
+                                              <th>Handphone No.</th>
+                                              <th>Telephone No.</th>
+                                              <th>Company</th>
+                                              <th  style="width: 20%">Actions</th>
+                                           </tr>
+                                        </thead>
+                                        <tbody>
+                                           @foreach ($accounts as $account)
+                                           <tr>
+                                              <td>{{ $account->name }}</td>
+                                              <td>{{ $account->title }}</td>
+                                              <td>{{ $account->email }}</td>
+                                              <td>{{ $account->handphone }}</td>
+                                              <td>{{ $account->telephone == null ? "-" : $account->telephone }}</td>
+                                              <td >{{ $account == null ? "-" : $account->company == null ? "-":$account->company->name }}</td>
+                                              <td>
+                                                 <a id="account_button" data-id="{{ $account->id }}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i>Edit</a>
+                                                 <a onclick="deleteAccount( {{ $account->id }} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a>
+                                              </td>
+                                           </tr>
+                                           @endforeach
+                                        </tbody>
+                                     </table>
                                     </div>
-                                 </div>
+                                  </div>
+
                               </div>
                             </div>
 
-                    <div>
-                      <!-- start vue -->
-                      <div class="row">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                          <h3 class="text-center title-color">Company's Tasks</h3>
-                           <div class="well" id="app">
-                             <task-draggable :tasks-open="{{ $tasksOpen }}" :tasks-on-going="{{ $tasksOnGoing }}" :tasks-closed="{{ $tasksClosed }}"></task-draggable>
-                           </div> <!-- end app -->
-                       </div>
-                      </div>
-                      <!-- end vue -->
-                    </div>
+
 
                   <div>
                     <div class="x_title">
@@ -595,7 +540,7 @@ html {
                      <input type="number" id="no_employees"  name="no_employees" required="required"  class="form-control col-md-7 col-xs-12" value="{{ $company->no_employees }}">
                   </div>
                </div>
-               
+
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry *</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
@@ -671,25 +616,25 @@ html {
                      <select class="select2_single form-control" required="required" id="lead_source" name="lead_source" tabindex="-1">
                         <option value="{{  $company->lead_source }}">{{  $company->lead_source }}</option>
                         <!-- http://www.themarketingscore.com/blog/bid/317180/18-Possible-Lead-Sources-Your-Organization-Needs-to-Measure -->
-                        <option value="Blogging">Blogging</option>
-                        <option value="Premium Content">Premium Content</option>
-                        <option value="Organic Search">Organic Search</option>
-                        <option value="Email Marketing">Email Marketing</option>
-                        <option value="Digital Advertising">Digital Advertising</option>
-                        <option value="Media Coverage">Media Coverage</option>
-                        <option value="Social Media">Social Media</option>
-                        <option value="Website">Website</option>
-                        <option value="Direct Marketing">Direct Marketing</option>
-                        <option value="Traditional Advertising">Traditional Advertising</option>
-                        <option value="Sponsorships">Sponsorships</option>
                         <option value="Affiliate / Partner Programs">Affiliate / Partner Programs</option>
+                        <option value="Blogging">Blogging</option>
+                        <option value="Digital Advertising">Digital Advertising</option>
+                        <option value="Direct Marketing">Direct Marketing</option>
+                        <option value="Email Marketing">Email Marketing</option>
                         <option value="Events / Shows">Events / Shows</option>
                         <option value="Inbound Phone Calls">Inbound Phone Calls</option>
-                        <option value="Outbound Sales">Outbound Sales</option>
-                        <option value="Referrals">Referrals</option>
-                        <option value="Speaking Engagements">Speaking Engagements</option>
-                        <option value="Traditional / Offline Networking:">Traditional / Offline Networking:</option>
+                        <option value="Media Coverage">Media Coverage</option>
+                        <option value="Organic Search">Organic Search</option>
                         <option value="Other">Other</option>
+                        <option value="Outbound Sales">Outbound Sales</option>
+                        <option value="Premium Content">Premium Content</option>
+                        <option value="Referrals">Referrals</option>
+                        <option value="Social Media">Social Media</option>
+                        <option value="Speaking Engagements">Speaking Engagements</option>
+                        <option value="Sponsorships">Sponsorships</option>
+                        <option value="Traditional / Offline Networking:">Traditional / Offline Networking:</option>
+                        <option value="Traditional Advertising">Traditional Advertising</option>
+                        <option value="Website">Website</option>
                      </select>
                   </div>
                </div>
@@ -833,7 +778,7 @@ html {
       </div>
       <!-- /.modal-dialog -->
    </div>
-   
+
    <div class="modal fade" tabindex="-1" role="dialog" id="confirm-delete">
       <div class="modal-dialog">
          <div class="modal-content">
@@ -847,12 +792,12 @@ html {
                <input type="hidden" id="contact_id" name="contact_id" value="">
 
                {!! Form::close() !!}
-              
+
                <button type="button" class="btn btn-danger"  onclick="submitForm();" >Confirm Delete</button>
                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              
+
             </div>
-            
+
          </div>
          <!-- /.modal-content -->
       </div>
@@ -872,19 +817,332 @@ html {
                <input type="hidden" id="postId" name="postId" value="">
 
                {!! Form::close() !!}
-              
+
                <button type="button" class="btn btn-danger"  onclick="submitFormNote();" >Confirm Delete</button>
                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              
+
             </div>
-            
+
          </div>
          <!-- /.modal-content -->
       </div>
       <!-- /.modal-dialog -->
 	 </div>
-	 
-	 
+
+   <div class="modal fade" tabindex="-1" role="dialog" id="edit-contacts"> -->
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title">Edit Company</h4>
+            </div>
+            <div class="modal-body">
+              {{  Form::open(['route' => 'add.new.account','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
+              <div class="form-group">
+                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name"> Name <span class="required">*</span>
+                 </label>
+                 <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12">
+                 </div>
+              </div>
+              <div class="form-group">
+                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
+                 <div class="col-md-6 col-sm-9 col-xs-12">
+                    <select class="select2_single form-control" name="title" id="title" required="required" data-parsley-required-message="Please select a title" tabindex="-1">
+                       <option value=''>Select a Job Level Title</option>
+                       <option value='HR Executive'>HR Executive</option>
+                       <option value='HR Manager'>HR Manager</option>
+                       <option value='HR Director'>HR Director</option>
+                       <option value='Office Administrator'>Office Administrator</option>
+                       <option value='Office Manager'>Office Manager</option>
+                       <option value='Director'>Director</option>
+                       <option value='CEO'>CEO</option>
+                       <option value='General Manager'>General Manager</option>
+                       <option value='Hiring Manager'>Hiring Manager</option>
+                       <option value='unknown'>unknown</option>
+                    </select>
+                 </div>
+              </div>
+              <div class="form-group">
+                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
+                 </label>
+                 <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
+                 </div>
+              </div>
+              <div class="form-group">
+                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="handphone">Handphone No <span class="required">*</span>
+                 </label>
+                 <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="handphone" name="handphone" required="required" data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
+                 </div>
+              </div>
+              <div class="form-group">
+                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone">Telephone No
+                 </label>
+                 <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="telephone" name="telephone"  data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
+                 </div>
+              </div>
+              <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
+              <div class="ln_solid"></div>
+              <div class="form-group">
+                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <button class="btn btn-primary" type="reset">Reset</button>
+                    {{ Form::submit('Submit', ['class'=>'btn btn-success']) }}
+                 </div>
+              </div>
+              {!! Form::close() !!}
+              </div>
+              </div>
+              </div>
+              </div>
+              </div>
+
+
+
+              <div>
+              <div class="x_title">
+              <h2>Job Lists</h2>
+              <ul class="nav navbar-right panel_toolbox">
+              <li>
+              <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+
+              <li>
+              <a class="close-link"><i class="fa fa-close"></i></a>
+              </li>
+              </ul>
+              <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+              <div class="table-responsive">
+              <table id="datatable_job" class="table table-striped table-bordered dataTables">
+              <thead>
+              <tr>
+              <th style="width: 10%">Title</th>
+              <th style="width: 20%">Description</th>
+              <th style="width: 5%">Skills</th>
+              <th style="width: 5%">Industry</th>
+              <th style="width: 15%">Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              @foreach($jobs as $job)
+              <tr role="row" class="{{ (($job->id % 2) == 1) ? 'odd':'even'}}">
+              <td>{{ $job->job_title }}</td>
+              <td class="ellipsis">{{ $job->job_description }}</td>
+              <td class="ellipsis">{{ $job->skills }}</td>
+              <td>{{ $job->industry == '' ? '-' : $job->industry }}</td>
+              <td>
+              </td>
+              </tr>
+              @endforeach
+              </tbody>
+              </table>
+              </div>
+              </div>
+              </div>
+
+              <div class="row">
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+              <div class="x_title">
+              <h2>Recent Activities on Company</h2>
+              <div class="clearfix"></div>
+              </div>
+              <div class="content x_content">
+              <ul class="list-unstyled msg_list">
+              @foreach ($activities as $activity)
+              <li>
+              <a>
+              <span class="image">
+              <img src="{{ $activity[0]->profile_pic == null ?  Gravatar::src(Auth::user()->email) : $activity[0]->profile_pic }}" alt="img">
+              </span>
+              <span>
+              <span>{{ $activity[0]->name }}</span>
+              <span class="time">{{ $activity[2] }}</span>
+              </span>
+              <span class="message">
+              {{ $activity[3] }}
+              </span>
+              </a>
+              </li>
+              @endforeach
+
+              </ul>
+              </div>
+              </div>
+              </div>
+              </div>
+
+              <!-- recent activities -> notes -->
+              <div class="row">
+
+              <h3>Company Notes</h3>
+              <div class="x_panel"> <!-- panel -->
+              {{  Form::open(['route' => ['new.company.post', $company->id],'method'=>'post']) }}
+              <div class="form-group">
+              {!! Form::text('body', null, ['class' => 'form-control', 'id' => 'new-post', 'rows' => '5', 'placeholder' => 'Your Notes']) !!}
+              </div>
+              {{ Form::submit('Add Note', ['class'=>'btn btn-primary']) }}
+              {!! Form::close() !!}  {{  Form::open(['route' => 'add.new.account','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
+                <div class="form-group">
+                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name"> Name <span class="required">*</span>
+                   </label>
+                   <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12">
+                   </div>
+                </div>
+                <div class="form-group">
+                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
+                   <div class="col-md-6 col-sm-9 col-xs-12">
+                      <select class="select2_single form-control" name="title" id="title" required="required" data-parsley-required-message="Please select a title" tabindex="-1">
+                         <option value=''>Select a Job Level Title</option>
+                         <option value='HR Executive'>HR Executive</option>
+                         <option value='HR Manager'>HR Manager</option>
+                         <option value='HR Director'>HR Director</option>
+                         <option value='Office Administrator'>Office Administrator</option>
+                         <option value='Office Manager'>Office Manager</option>
+                         <option value='Director'>Director</option>
+                         <option value='CEO'>CEO</option>
+                         <option value='General Manager'>General Manager</option>
+                         <option value='Hiring Manager'>Hiring Manager</option>
+                         <option value='unknown'>unknown</option>
+                      </select>
+                   </div>
+                </div>
+                <div class="form-group">
+                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
+                   </label>
+                   <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
+                   </div>
+                </div>
+                <div class="form-group">
+                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="handphone">Handphone No <span class="required">*</span>
+                   </label>
+                   <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="text" id="handphone" name="handphone" required="required" data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
+                   </div>
+                </div>
+                <div class="form-group">
+                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone">Telephone No
+                   </label>
+                   <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="text" id="telephone" name="telephone"  data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
+                   </div>
+                </div>
+                <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                   <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                      <button class="btn btn-primary" type="reset">Reset</button>
+                      {{ Form::submit('Submit', ['class'=>'btn btn-success']) }}
+                   </div>
+                </div>
+                {!! Form::close() !!}
+              </div>
+              </div>
+              </div>
+              </div>
+              </div>
+
+
+
+              <div>
+              <div class="x_title">
+              <h2>Job Lists</h2>
+              <ul class="nav navbar-right panel_toolbox">
+              <li>
+              <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+
+              <li>
+              <a class="close-link"><i class="fa fa-close"></i></a>
+              </li>
+              </ul>
+              <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+              <div class="table-responsive">
+              <table id="datatable_job" class="table table-striped table-bordered dataTables">
+              <thead>
+              <tr>
+              <th style="width: 10%">Title</th>
+              <th style="width: 20%">Description</th>
+              <th style="width: 5%">Skills</th>
+              <th style="width: 5%">Industry</th>
+              <th style="width: 15%">Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              @foreach($jobs as $job)
+              <tr role="row" class="{{ (($job->id % 2) == 1) ? 'odd':'even'}}">
+              <td>{{ $job->job_title }}</td>
+              <td class="ellipsis">{{ $job->job_description }}</td>
+              <td class="ellipsis">{{ $job->skills }}</td>
+              <td>{{ $job->industry == '' ? '-' : $job->industry }}</td>
+              <td>
+              </td>
+              </tr>
+              @endforeach
+              </tbody>
+              </table>
+              </div>
+              </div>
+              </div>
+
+              <div class="row">
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+              <div class="x_title">
+              <h2>Recent Activities on Company</h2>
+              <div class="clearfix"></div>
+              </div>
+              <div class="content x_content">
+              <ul class="list-unstyled msg_list">
+              @foreach ($activities as $activity)
+              <li>
+              <a>
+              <span class="image">
+              <img src="{{ $activity[0]->profile_pic == null ?  Gravatar::src(Auth::user()->email) : $activity[0]->profile_pic }}" alt="img">
+              </span>
+              <span>
+              <span>{{ $activity[0]->name }}</span>
+              <span class="time">{{ $activity[2] }}</span>
+              </span>
+              <span class="message">
+              {{ $activity[3] }}
+              </span>
+              </a>
+              </li>
+              @endforeach
+
+              </ul>
+              </div>
+              </div>
+              </div>
+              </div>
+
+              <!-- recent activities -> notes -->
+              <div class="row">
+
+              <h3>Company Notes</h3>
+              <div class="x_panel"> <!-- panel -->
+              {{  Form::open(['route' => ['new.company.post', $company->id],'method'=>'post']) }}
+              <div class="form-group">
+              {!! Form::text('body', null, ['class' => 'form-control', 'id' => 'new-post', 'rows' => '5', 'placeholder' => 'Your Notes']) !!}
+              </div>
+              {{ Form::submit('Add Note', ['class'=>'btn btn-primary']) }}
+              {!! Form::close() !!}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 @endsection
 
@@ -1089,6 +1347,13 @@ $(document).ready(function () {
   $(document).ready(function () {
     $('.ui-pnotify').remove();
       loadNotification();
+  });
+
+  $(document).ready(function () {
+    $("#new-contact-button").click(function () {
+        $('#edit-contacts').modal('show');
+      });
+
   });
 
 

@@ -20,4 +20,21 @@ class JobService
       'company_id' => $array['company']
       ]);
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  Job $job
+     * @param  Array  $array
+     * @return \Illuminate\Http\Response
+     */
+    public function updateJob($job, $array)
+    {
+        foreach ($array as $key => $value) {
+            $job->$key = $value;
+        }
+        $job->save();
+    
+        return $job;
+    }    
 }
