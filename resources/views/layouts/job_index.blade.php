@@ -40,6 +40,7 @@
                            <table id="datatable" class="table table-striped table-bordered dataTables"  >
                              <thead>
                                   <tr>
+                                      <th style="width: 15%">Client Company</th>
                                       <th style="width: 10%">Job Title</th>
                                       <th style="width: 25%">Description</th>
                                       <th>Skills & Qualifications</th>
@@ -50,6 +51,11 @@
                               <tbody>
                               @foreach($jobs as $job)
                                 <tr role="row" class="{{ (($job->id % 2) == 1) ? 'odd':'even'}}">
+                                  @foreach($companies as $company)
+                                    @if ($company->id == $job->company_id)
+                                    <td>{{ $company->name }}</td>
+                                    @endif
+                                  @endforeach
                                   <td>{{ $job->job_title }}</td>
                                   <td>{{ $job->job_description}}</td>
                                   <td>{{ $job->skills }}</td>
@@ -68,7 +74,6 @@
 
       </div>
    </div>
-
 
 <div class="modal fade" tabindex="-1" role="dialog" id="edit-job">
       <div class="modal-dialog">
@@ -104,12 +109,15 @@
                   </div>
                </div>
 
-               <!-- Not required field -->
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry *</label> 
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <select class="select2_single form-control" required="required" id="industry" name="industry" tabindex="-1">
-                        <option value="{{ $job->industry }}">{{  $job->industry }}</option>
+                        @foreach($jobs as $job)
+                          @if ($company->id == $job->company_id)
+                            <option value="{{ $job->industry }}">{{  $job->industry }}</option>  
+                          @endif  
+                        @endforeach
                         <option value="Accounting / Audit / Tax Services">Accounting / Audit / Tax Services</option>
                         <option value="Advertising / Marketing / Promotion / PR">Advertising / Marketing / Promotion / PR</option>
                         <option value="Aerospace / Aviation / Airline">Aerospace / Aviation / Airline</option>
@@ -174,8 +182,6 @@
                   </div>
                </div>
 
-              
-
                <!-- Not required field -->
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="years_experience">Year of Experience 
@@ -190,24 +196,23 @@
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <select class="select2_single form-control"  required="required" id="company_id" name="company_id" tabindex="-1"
                       @foreach($companies as $company)
-                        @if ($company->id == $job->company_id)
-                        <option value="{{ $company->id }}" selected>{{ $company->name }}</option>
-                        @else
-                        <option value="{{ $company->id }}">{{ $company->name }}</option>
-                        @endif
+                        @foreach($jobs as $job)
+                          @if ($company->id == $job->company_id)
+                          <option value="{{ $company->id }}" selected>{{ $company->name }}</option>
+                          @else
+                          <option value="{{ $company->id }}">{{ $company->name }}</option>
+                          @endif
+                        @endforeach 
                       @endforeach
                     </select>
                   </div>
               </div>
-
-
               
               <div class="form-group">
               <div class="control-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for"keywords">Summary Keywords<br/><small>Press enter for each keyword</small></label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                   <input id="tags_1" type="text" class="tags" required="required" name="summary_keywords" id="keywords" style="display: none;">
-                  <!-- <input id="tags_1" type="text" class="tags" required="required" value="" style="display: none;"> -->
                 </div>
               </div>
             </div>        
@@ -226,7 +231,6 @@
       </div>
       <!-- /.modal-dialog -->
 	  </div>
-
 
    <div class="modal fade" tabindex="-1" role="dialog" id="delete-job">
     <div class="modal-dialog">
@@ -306,9 +310,6 @@
 <script src="{{ asset('js/pnotify.js') }}"></script>
 <script src="{{ asset('js/pnotify.buttons.js') }}"></script>
 <script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
-<script src="{{ asset('js/pnotify.js') }}"></script>
-<script src="{{ asset('js/pnotify.buttons.js') }}"></script>
-<script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
 <script>
 $(document).ready(function() {
     $('#datatable').DataTable();
@@ -323,7 +324,7 @@ function editjob(job) {
   $('#skills').val(job.skills);
   $('#industry').val(job.industry);
   $('#years_experience').val(job.years_experience);
-  $('.tags').importTags(job.summary_keywords); //able to retrieve right tags but can't update db. 
+  $('.tags').importTags(job.summary_keywords); 
   $('#company_id').val(job.company_id);
 
   $('#edit-job').modal('show');
