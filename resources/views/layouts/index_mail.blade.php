@@ -337,6 +337,11 @@
         </div>
         <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
       </div>
+      <div class="btn-group">
+        <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+        <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+      </div>
+    </div>
 
         {{  Form::open(['route' =>'sendemail', 'method'=>'post','id'=>'submit-email','files'=> true,'enctype'=>'multipart/form-data']) }}
 
@@ -362,17 +367,9 @@
 
 
 
-
-
-      <div class="btn-group">
-        <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
-        <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
-      </div>
-    </div>
-
     <div class="form-group">
     <label for="toEmail">TO * :</label>
-    <input type="email" id="toEmail" class="form-control parsley-error" name="toEmail" data-parsley-trigger="change" required="required">
+    <input type="text" id="toEmail" class="form-control parsley-error" name="toEmail" data-parsley-trigger="change" required="required">
     </div>
 
 
@@ -381,16 +378,8 @@
     <input type="email" id="ccEmail" class="form-control" name="ccEmail" data-parsley-trigger="change" >
     </div>
 
-    <div class="form-group">
-
 
     <div class="form-group">
-    <label for="ccEmail">CC  :</label>
-    <input type="email" id="ccEmail" class="form-control" name="ccEmail" data-parsley-trigger="change" >
-    </div>
-
-    <div class="form-group">
-
     <label for="subject">Subject * :</label>
     <input type="text" id="subject" class="form-control parsley-error" name="subject" data-parsley-trigger="change" required="required">
     </div>

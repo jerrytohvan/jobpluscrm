@@ -26,7 +26,7 @@ class MailController extends Controller
             'ccEmail'=>$request->ccEmail
 
           );
-            Mail::send([], $data, function ($message) use ($data) {
+            Mail::send([], [], function ($message) use ($data) {
                 $message->from('admin@jobplus.sg','JobPlus');
                 $message->to($data['toEmail']);
                 if ($data['ccEmail'] != null) {
