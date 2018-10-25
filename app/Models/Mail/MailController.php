@@ -8,6 +8,8 @@ use Mail;
 use App\Models\Clients\Company;
 use App\Models\Tasks\Task;
 use App\Models\Users\User;
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class MailController extends Controller
 {
@@ -16,20 +18,35 @@ class MailController extends Controller
         return view('/layouts/index_mail');
     }
 
+
       public function sendemail(Request $request)
       {
+        //retrieve all request from email blade
+        $arraReq = request()->all();
+
+        $this->validate($request, [
+          'toEmail'=>'required|email',
+          'toEmail.*' => 'email',
+          'ccEmail.*' => 'email',
+        ]);
+        // comma deliminated arrays "toEmail"
+        $toEmail = explode(",",$arraReq['toEmail']);
+
+
+        // error_log(print_r($toSplit ,true));
+        // comma deliminated arrays "toEmail"
+        $ccEmail = explode(",",$arraReq['ccEmail']);
           $data = array(
-            'toEmail' =>$request->toEmail,
+            'toEmail' =>$toEmail,
             'subject'=>$request->subject,
             'emailMessage' =>$request->emailMessage,
             'emailAttachment'=>$request->emailAttachment,
-            'ccEmail'=>$request->ccEmail
-
+            'ccEmail'=>$ccEmail
           );
             Mail::send([], [], function ($message) use ($data) {
                 $message->from('admin@jobplus.sg','JobPlus');
                 $message->to($data['toEmail']);
-                if ($data['ccEmail'] != null) {
+                if (!$data['ccEmail']) {
                     $message->cc($data['ccEmail']);
                 }
                 $message->subject($data['subject']);
@@ -137,7 +154,7 @@ class MailController extends Controller
     public function sendTasksEmail($data)
     {
       $sent = false;
-      error_log(print_r("satrt", true));
+      error_log(print_r("start", true));
           Mail::send([], $data, function ($message) use ($data) {
               $message->from('admin@jobplus.sg','JobPlus');
               $message->to($data['toEmail']);
