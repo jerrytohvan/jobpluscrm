@@ -204,7 +204,7 @@ class TaskController extends Controller
             });
             $users = User::all();
             // $tasks = Task::whereUserId($id)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhere('assigned_id', $id)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhereIn('company_id', $collaboratorsIn)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orderBy('task', 'asc')->get();
-            $tasks = Task::whereUserId($id)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhere('assigned_id', $id)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhereIn('company_id', $collaboratorsIn)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orderBy('date_reminder', 'asc')->get();
+            $tasks = Task::whereUserId($id)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhere('assigned_id', $id)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhereIn('company_id', $collaboratorsIn)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orderBy('date_reminder', 'desc')->get();
             $tasksOpen = $tasks->map(function ($value, $key) use ($companies, $users) {
                 // $value['company'] = Company::find($value['company_id'])->name;
                 $value['company'] = $companies->filter(function ($company) use ($value) {
