@@ -183,7 +183,8 @@ class MLService
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $exists = Storage::disk('s3')->exists('/resume/'. $fileName);
         if ($exists) {
-            $docObj = new DocxConversion($fileDir);
+            $file = fopen($fileDir, 'r');
+            $docObj = new DocxConversion($fileDir, $fileName, $type);
             $docText = $docObj->convertToText();
             if ($type == "pdf" && !$docText) {
                 $parser = new Parser();
@@ -314,7 +315,7 @@ class MLService
             }
         }
 
-
+        dd($points);
         $retrieveIndex = array_map(function ($row) {
             return $row[0];
         }, $points);
@@ -354,6 +355,7 @@ class MLService
 
             $keywordsMatch[] = array_unique(array_merge($titlesArray, $descArray, $skillsArray, $summaryArray));
         }
+
         return [$matchingJobs,$points, $accuracy, $keywordsMatch, $keywords];
     }
 
