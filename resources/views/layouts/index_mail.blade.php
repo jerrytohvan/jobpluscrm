@@ -60,11 +60,6 @@
                 <a href="#">
                   </div>
 
-                  @if($errors->any())
-                @foreach($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
-                @endif
           <!--        <div class="mail_list">
                     <div class="left">
                       <i class="fa fa-circle"></i> <i class="fa fa-edit"></i>
@@ -376,12 +371,12 @@
 
       <div class="form-group">
       <label for="toEmail">TO  :</label>
-      <input type="text" id="toEmail" class="form-control parseley-error" data-parsley-trigger="change" name="toEmail" required="required" >
+      <input type="email" id="toEmail" multiple pattern="^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},*[\W]*)+$"  class="form-control parseley-error" data-parsley-trigger="change" name="toEmail" required="required" >
     </div>
 
     <div class="form-group">
     <label for="ccEmail">CC  :</label>
-    <input type="text" id="ccEmail" class="form-control" name="ccEmail" data-parsley-trigger="change" >
+    <input type="email" id="ccEmail" multiple pattern="^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},*[\W]*)+$" class="form-control" name="ccEmail" data-parsley-trigger="change" >
     </div>
 
 
@@ -413,30 +408,9 @@ $(function() {
     $('#submit-email').submit();
   });
 });
-<script language="javascript">
-function checkEmail(email) {
-var regExp = /(^[a-z]([a-z_\.]*)@([a-z_\.]*)([.][a-z]{3})$)|(^[a-z]([a-z_\.]*)@([a-z_\.]*)(\.[a-z]{3})(\.[a-z]{2})*$)/i;
-return regExp.test(email);
-}
 
-function checkEmails(){
-	var emails = document.getElementById("toEmail").value;
-	var emailArray = emails.split(",");
-var hasErrors=false;
-var errorMessage="";
-	for(i = 0; i <= (emailArray.length - 1); i++){
-		if(checkEmail(emailArray[i])){
-			//Do what ever with the email.
-		}else{
-			hasErrors=true;
-			errorMessage+="invalid email: " + emailArray[i]+"\n\r";
-		}
-	}
-	if(hasErrors){
-		alert(errorMessage);
-	}
-}
-</script>
+
+
 
 
 

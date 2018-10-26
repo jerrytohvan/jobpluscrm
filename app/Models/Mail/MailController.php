@@ -23,19 +23,13 @@ class MailController extends Controller
       {
         //retrieve all request from email blade
         $arraReq = request()->all();
+        error_log(print_r($arraReq ,true));
 
-        $this->validate($request, [
-          'toEmail'=>'required|email',
-          'toEmail.*' => 'email',
-          'ccEmail.*' => 'email',
-        ]);
         // comma deliminated arrays "toEmail"
         $toEmail = explode(",",$arraReq['toEmail']);
-
-
-        // error_log(print_r($toSplit ,true));
         // comma deliminated arrays "toEmail"
         $ccEmail = explode(",",$arraReq['ccEmail']);
+        // email data packet
           $data = array(
             'toEmail' =>$toEmail,
             'subject'=>$request->subject,
@@ -43,10 +37,12 @@ class MailController extends Controller
             'emailAttachment'=>$request->emailAttachment,
             'ccEmail'=>$ccEmail
           );
-            Mail::send([], [], function ($message) use ($data) {
+          // sending the email itself
+            Mail::send([], $data, function ($message) use ($data) {
                 $message->from('admin@jobplus.sg','JobPlus');
                 $message->to($data['toEmail']);
-                if (!$data['ccEmail']) {
+                //check if there are cc email addresses
+                if (!empty($data['ccEmail'])) {
                     $message->cc($data['ccEmail']);
                 }
                 $message->subject($data['subject']);
@@ -57,12 +53,12 @@ class MailController extends Controller
                           'mime'=>$data['emailAttachment']->getMimeType())
                       );
                  }
-
+                 // text of the actual email
                 $message->setBody($data['emailMessage']);
-                error_log(print_r("sending", true));
+            //    error_log(print_r("sending", true));
             });
 
-        error_log(print_r("sent", true));
+        //error_log(print_r("sent", true));
         return view('layouts.index_mail', compact('message'));
     }
 
