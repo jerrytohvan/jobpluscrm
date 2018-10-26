@@ -286,11 +286,31 @@ Route::group(['middleware' => ['auth']], function () {
       'as' => 'add.job',
     'uses' => '\App\Models\Jobs\JobController@add_jobs'
     ]);
-    
+
+    //added
+    Route::post('/jobs/update', [
+      'as' => 'update.job',
+      'uses' => '\App\Models\Jobs\JobController@update_job'
+    ]);
+
+    Route::post('/jobs/delete', [
+      'as' => 'delete.job',
+    'uses' => '\App\Models\Jobs\JobController@delete_job'
+    ]);
 
 
+
+    Route::get('/tasks/dummyTask',[
+      'as' => 'dummy.index',
+      'uses' => '\App\Models\Tasks\TaskController@topfew']);
     // Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
     Route::get('/tasks/show', '\App\Models\Tasks\TaskController@showTaskList');
+
+    Route::post('/tasks/dummyTask', [
+      'as' => 'get.dummy',
+      'uses' => '\App\Models\Tasks\TaskController@topfew'
+    ]);
+
 });
 Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
 // Route::get('/telegram', [
@@ -432,9 +452,51 @@ Route::get('oauth', [
   'uses' => 'gCalendarController@oauth']);
 
   // email Routes
+
+    // Route::post('sendemail', 'MailController@sendemail');
+    Route::post('displayemail', 'MailController@displayemail');
+    Route::post('/mail', [
+        'as' => 'sendemail',
+      'uses' => '\App\Models\Mail\MailController@sendemail'
+      ]);
+
+
+// metrics routes
+Route::get('/dashboard/newLeadsComparison',[
+  'as' => 'newLeadsComparison',
+  'uses' => '\App\Http\Controllers\MetricsController@newLeadsComparison'
+  ]);
+
+  Route::get('/dashboard/taskCompletedComparison',[
+    'as' => 'taskCompletedComparison',
+    'uses' => '\App\Http\Controllers\MetricsController@taskCompletedComparison'
+    ]);
+
+  Route::get('/dashboard/tasksOverdue',[
+      'as' => 'tasksOverdue',
+      'uses' => '\App\Http\Controllers\MetricsController@tasksOverdue'
+      ]);
+
+      Route::get('/dashboard/taskThisWeek',[
+          'as' => 'taskThisWeek',
+          'uses' => '\App\Http\Controllers\MetricsController@taskThisWeek'
+          ]);
+
+
+
+
+// Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
+
   // Route::post('sendemail', 'MailController@sendemail');
   Route::post('displayemail', 'MailController@displayemail');
   Route::post('/mail', [
       'as' => 'sendemail',
     'uses' => '\App\Models\Mail\MailController@sendemail'
     ]);
+
+    Route::post('processTaskForEmail', [
+        'as' => 'processTaskForEmail',
+      'uses' => '\App\Models\Mail\MailController@processTaskForEmail'
+      ]);
+
+      
