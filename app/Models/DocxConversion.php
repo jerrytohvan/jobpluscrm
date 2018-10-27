@@ -6,15 +6,18 @@ class DocxConversion
 {
     private $filename;
 
-    public function __construct($filePath)
+    public function __construct($filePath, $filename, $type)
     {
-        $this->filename = $filePath;
+        $this->filepath = $filePath;
+        $this->filename = basename($filename, $type);
     }
 
     private function read_doc()
     {
-        if (file_exists($this->filename)) {
-            if (($fh = fopen($this->filename, 'r')) !== false) {
+        //            // $file = $this->attachSvc->retrieveFile('/resume/'.$fileName);
+
+        if (Storage::disk('s3')->exists('/resume/'. $this->filepath)) {
+            if (($fh = fopen($this->filepath, 'r')) !== false) {
                 $headers = fread($fh, 0xA00);
                 // 1 = (ord(n)*1) ; Document has from 0 to 255 characters
                 $n1 = (ord($headers[0x21C]) - 1);
@@ -40,8 +43,10 @@ class DocxConversion
     {
         $striped_content = '';
         $content = '';
+        $newfile = 'temporary/' . $this->filename . 'zip';//do random hashing
+        $temp = copy($this->filepath, $newfile);
+        $zip = zip_open($newfile);            //here should return 0
 
-        $zip = zip_open($this->filename);
         if (!$zip || is_numeric($zip)) {
             return false;
         }
@@ -61,6 +66,7 @@ class DocxConversion
         }// end while
 
         zip_close($zip);
+        unlink($newfile);
 
         $content = str_replace('</w:r></w:p></w:tc><w:tc>', " ", $content);
         $content = str_replace('</w:r></w:p>', "\r\n", $content);
@@ -117,13 +123,13 @@ class DocxConversion
 
     public function convertToText()
     {
-        $file_headers = @get_headers($this->filename);
+        $file_headers = @get_headers($this->filepath);
         if ($file_headers[0] == 'HTTP/1.0 404 Not Found') {
-            return ("The file $this->filename does not exist");
+            return ("The file $this->filepath does not exist");
         } elseif ($file_headers[0] == 'HTTP/1.0 302 Found' && $file_headers[7] == 'HTTP/1.0 404 Not Found') {
-            return("The file $this->filename does not exist, and I got redirected to a custom 404 page..");
+            return("The file $this->filepath does not exist, and I got redirected to a custom 404 page..");
         }
-        $fileArray = pathinfo($this->filename);
+        $fileArray = pathinfo($this->filepath);
         $file_ext  = $fileArray['extension'];
         if ($file_ext == "doc" || $file_ext == "docx" || $file_ext == "xlsx" || $file_ext == "pptx") {
             if ($file_ext == "doc") {

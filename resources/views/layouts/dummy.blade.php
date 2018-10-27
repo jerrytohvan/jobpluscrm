@@ -74,35 +74,8 @@ $(document).ready(function() {
       loadNotification();
 } );
 
-function loadNotification(){
-  var message = "@php if(session()->has('message')){ echo session()->get('message'); }else { echo $message; } @endphp";
-  var status = "@php if(session()->has('status')){ echo  session()->get('status'); }else { echo $status; } @endphp";
 
-  if(message != "" && status != ""){
-    new PNotify({
-        title: (status == 1 ? "Success!" : "Failed!"),
-        text: message,
-        type: (status == 1 ? "success" : "error"),
-        styling: 'bootstrap3'
-    });
-  }
-}
 
-function deleteCandidate(candidateId) {
-  $('#candidate_id').val(candidateId);
-  $('#confirm-delete').modal('show');
-}
-
-function submitForm() {
-    $('#delete_form').submit();
-}
-// var elems = document.getElementsByClassName('confirmation');
-// var confirmIt = function (e) {
-//     if (!confirm('Are you sure?')) e.preventDefault();
-// };
-// for (var i = 0, l = elems.length; i < l; i++) {
-//     elems[i].addEventListener('click', confirmIt, false);
-// }
 
 
 </script>
