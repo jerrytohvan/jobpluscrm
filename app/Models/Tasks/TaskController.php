@@ -62,7 +62,7 @@ class TaskController extends Controller
             $var = json_decode($content, true);
             //dun touch tis codes
             $emailSend = $this->mTc->processTaskForEmail($var);
-            //$teleSend = $this->teleSvc->send($var);
+            $teleSend = $this->teleSvc->send($var);
         } catch (Exception $e) {
             error_log(print_r($e->getMessage(), true));
         }
@@ -182,17 +182,24 @@ class TaskController extends Controller
     //error_log(print_r( $tasks,true));
     public function topfew()
     {
+        $dateFrom = null;
+        $dateTo = null;
         $requestArray = request()->all();
-        $dateFrom = Date($requestArray['from']);
-        // $dateTo = Date($requestArray['to']);
-        if ($dateFrom == null && $dateTo == null) {
+        if (sizeof($requestArray) != 0) {
+            $dateFrom = Date($requestArray['from']);
+            $dateTo = Date($requestArray['to']);
+        }
+
+        if ($dateFrom != null && $dateTo != null) {
             $companies = Company::all();
             $id = Auth::user()->id;
             $user = User::all();
             $collaboratorsIn = Auth::user()->companies->map(function ($value, $key) {
                 return $value->id;
             });
-            $tasks = Task::whereUserId($id)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhere('assigned_id', $id)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhereIn('company_id', $collaboratorsIn)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orderBy('task', 'asc')->get();
+            $users = User::all();
+            // $tasks = Task::whereUserId($id)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhere('assigned_id', $id)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhereIn('company_id', $collaboratorsIn)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orderBy('task', 'asc')->get();
+            $tasks = Task::whereUserId($id)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhere('assigned_id', $id)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhereIn('company_id', $collaboratorsIn)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orderBy('date_reminder', 'desc')->get();
             $tasksOpen = $tasks->map(function ($value, $key) use ($companies, $users) {
                 // $value['company'] = Company::find($value['company_id'])->name;
                 $value['company'] = $companies->filter(function ($company) use ($value) {

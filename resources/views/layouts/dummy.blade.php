@@ -26,6 +26,30 @@
                   <h2>Dummy Task</h2>
               <div class="clearfix"></div>
                </div>
+
+               {{  Form::open(['route' => 'get.dummy','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'modal_form_id', 'enctype'=>'multipart/form-data']) }}
+
+                <div class="form-group">
+                  <label class="control-label col-md-1 col-sm-1 col-xs-12" for="from">From
+                  </label>
+                  <div class="col-md-2 col-sm-2 col-xs-12">
+                      <input type="date" class="form-control col-md-2 col-xs-12" id="from" name="from"/>
+                  </div>
+
+                  <label class="control-label col-md-1 col-sm-1 col-xs-12" for="to">To
+                  </label>
+                  <div class="col-md-2 col-sm-2 col-xs-12">
+                      <input type="date" class="form-control col-md-2 col-xs-12" id="to" name="to"/>
+                  </div>
+
+                  <div class="col-md-2 col-sm-2 col-xs-12">
+                    <button type="button" class="btn btn-primary"  onclick="submitform();" >Search</button>
+                  </div>
+                </div>
+
+                
+                {!! Form::close() !!}
+
                <div class="x_content">
                   <div class="table-responsive">
                      <table id="datatable" class="table table-striped table-bordered dataTables"  >
@@ -74,6 +98,13 @@ $(document).ready(function() {
       loadNotification();
 } );
 
+<<<<<<< HEAD
+=======
+function submitform()
+{
+  $('#modal_form_id').submit();
+}
+>>>>>>> 00dc579b65519915fb34b69989be9615f5df651f
 
 
 
