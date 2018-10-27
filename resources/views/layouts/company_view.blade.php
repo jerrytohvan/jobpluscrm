@@ -365,7 +365,6 @@ html {
                             <!-- recent activities -> notes -->
 
                           </div>
-
                           <!-- start project-detail sidebar -->
                           <div class="col-md-3 col-sm-3 col-xs-9">
                              <section class="panel">
@@ -467,6 +466,7 @@ html {
                               <!-- end project-detail sidebar -->
 
                         </div>
+
                       </div>
                     </div>
                   </div>
@@ -496,7 +496,7 @@ html {
        </div><!-- /.modal-dialog -->
    </div><!-- /.modal -->
 
-   <div class="modal fade" tabindex="-1" role="dialog" id="edit-modal"> -->
+   <div class="modal fade" tabindex="-1" role="dialog" id="edit-modal">
       <div class="modal-dialog">
          <div class="modal-content">
             <div class="modal-header">
@@ -898,251 +898,14 @@ html {
               </div>
               </div>
               </div>
-
-
-
-              <div>
-              <div class="x_title">
-              <h2>Job Lists</h2>
-              <ul class="nav navbar-right panel_toolbox">
-              <li>
-              <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-              </li>
-
-              <li>
-              <a class="close-link"><i class="fa fa-close"></i></a>
-              </li>
-              </ul>
-              <div class="clearfix"></div>
-              </div>
-              <div class="x_content">
-              <div class="table-responsive">
-              <table id="datatable_job" class="table table-striped table-bordered dataTables">
-              <thead>
-              <tr>
-              <th style="width: 10%">Title</th>
-              <th style="width: 20%">Description</th>
-              <th style="width: 5%">Skills</th>
-              <th style="width: 5%">Industry</th>
-              <th style="width: 15%">Action</th>
-              </tr>
-              </thead>
-              <tbody>
-              @foreach($jobs as $job)
-              <tr role="row" class="{{ (($job->id % 2) == 1) ? 'odd':'even'}}">
-              <td>{{ $job->job_title }}</td>
-              <td class="ellipsis">{{ $job->job_description }}</td>
-              <td class="ellipsis">{{ $job->skills }}</td>
-              <td>{{ $job->industry == '' ? '-' : $job->industry }}</td>
-              <td>
-              </td>
-              </tr>
-              @endforeach
-              </tbody>
-              </table>
-              </div>
-              </div>
-              </div>
-
-              <div class="row">
-              <div class="col-md-12 col-xs-12">
-              <div class="x_panel">
-              <div class="x_title">
-              <h2>Recent Activities on Company</h2>
-              <div class="clearfix"></div>
-              </div>
-              <div class="content x_content">
-              <ul class="list-unstyled msg_list">
-              @foreach ($activities as $activity)
-              <li>
-              <a>
-              <span class="image">
-              <img src="{{ $activity[0]->profile_pic == null ?  Gravatar::src(Auth::user()->email) : $activity[0]->profile_pic }}" alt="img">
-              </span>
-              <span>
-              <span>{{ $activity[0]->name }}</span>
-              <span class="time">{{ $activity[2] }}</span>
-              </span>
-              <span class="message">
-              {{ $activity[3] }}
-              </span>
-              </a>
-              </li>
-              @endforeach
-
-              </ul>
-              </div>
-              </div>
-              </div>
-              </div>
-
               <!-- recent activities -> notes -->
-              <div class="row">
-
-              <h3>Company Notes</h3>
-              <div class="x_panel"> <!-- panel -->
-              {{  Form::open(['route' => ['new.company.post', $company->id],'method'=>'post']) }}
-              <div class="form-group">
-              {!! Form::text('body', null, ['class' => 'form-control', 'id' => 'new-post', 'rows' => '5', 'placeholder' => 'Your Notes']) !!}
-              </div>
-              {{ Form::submit('Add Note', ['class'=>'btn btn-primary']) }}
-              {!! Form::close() !!}  {{  Form::open(['route' => 'add.new.account','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
-                <div class="form-group">
-                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name"> Name <span class="required">*</span>
-                   </label>
-                   <div class="col-md-6 col-sm-6 col-xs-12">
-                      <input type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12">
-                   </div>
-                </div>
-                <div class="form-group">
-                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
-                   <div class="col-md-6 col-sm-9 col-xs-12">
-                      <select class="select2_single form-control" name="title" id="title" required="required" data-parsley-required-message="Please select a title" tabindex="-1">
-                         <option value=''>Select a Job Level Title</option>
-                         <option value='HR Executive'>HR Executive</option>
-                         <option value='HR Manager'>HR Manager</option>
-                         <option value='HR Director'>HR Director</option>
-                         <option value='Office Administrator'>Office Administrator</option>
-                         <option value='Office Manager'>Office Manager</option>
-                         <option value='Director'>Director</option>
-                         <option value='CEO'>CEO</option>
-                         <option value='General Manager'>General Manager</option>
-                         <option value='Hiring Manager'>Hiring Manager</option>
-                         <option value='unknown'>unknown</option>
-                      </select>
-                   </div>
-                </div>
-                <div class="form-group">
-                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
-                   </label>
-                   <div class="col-md-6 col-sm-6 col-xs-12">
-                      <input type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
-                   </div>
-                </div>
-                <div class="form-group">
-                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="handphone">Handphone No <span class="required">*</span>
-                   </label>
-                   <div class="col-md-6 col-sm-6 col-xs-12">
-                      <input type="text" id="handphone" name="handphone" required="required" data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
-                   </div>
-                </div>
-                <div class="form-group">
-                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone">Telephone No
-                   </label>
-                   <div class="col-md-6 col-sm-6 col-xs-12">
-                      <input type="text" id="telephone" name="telephone"  data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
-                   </div>
-                </div>
-                <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
-                <div class="ln_solid"></div>
-                <div class="form-group">
-                   <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                      <button class="btn btn-primary" type="reset">Reset</button>
-                      {{ Form::submit('Submit', ['class'=>'btn btn-success']) }}
-                   </div>
-                </div>
-                {!! Form::close() !!}
-              </div>
-              </div>
-              </div>
-              </div>
-              </div>
-
-
-
-              <div>
-              <div class="x_title">
-              <h2>Job Lists</h2>
-              <ul class="nav navbar-right panel_toolbox">
-              <li>
-              <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-              </li>
-
-              <li>
-              <a class="close-link"><i class="fa fa-close"></i></a>
-              </li>
-              </ul>
-              <div class="clearfix"></div>
-              </div>
-              <div class="x_content">
-              <div class="table-responsive">
-              <table id="datatable_job" class="table table-striped table-bordered dataTables">
-              <thead>
-              <tr>
-              <th style="width: 10%">Title</th>
-              <th style="width: 20%">Description</th>
-              <th style="width: 5%">Skills</th>
-              <th style="width: 5%">Industry</th>
-              <th style="width: 15%">Action</th>
-              </tr>
-              </thead>
-              <tbody>
-              @foreach($jobs as $job)
-              <tr role="row" class="{{ (($job->id % 2) == 1) ? 'odd':'even'}}">
-              <td>{{ $job->job_title }}</td>
-              <td class="ellipsis">{{ $job->job_description }}</td>
-              <td class="ellipsis">{{ $job->skills }}</td>
-              <td>{{ $job->industry == '' ? '-' : $job->industry }}</td>
-              <td>
-              </td>
-              </tr>
-              @endforeach
-              </tbody>
-              </table>
-              </div>
-              </div>
-              </div>
-
-              <div class="row">
-              <div class="col-md-12 col-xs-12">
-              <div class="x_panel">
-              <div class="x_title">
-              <h2>Recent Activities on Company</h2>
-              <div class="clearfix"></div>
-              </div>
-              <div class="content x_content">
-              <ul class="list-unstyled msg_list">
-              @foreach ($activities as $activity)
-              <li>
-              <a>
-              <span class="image">
-              <img src="{{ $activity[0]->profile_pic == null ?  Gravatar::src(Auth::user()->email) : $activity[0]->profile_pic }}" alt="img">
-              </span>
-              <span>
-              <span>{{ $activity[0]->name }}</span>
-              <span class="time">{{ $activity[2] }}</span>
-              </span>
-              <span class="message">
-              {{ $activity[3] }}
-              </span>
-              </a>
-              </li>
-              @endforeach
-
-              </ul>
-              </div>
-              </div>
-              </div>
-              </div>
-
-              <!-- recent activities -> notes -->
-              <div class="row">
-
-              <h3>Company Notes</h3>
-              <div class="x_panel"> <!-- panel -->
-              {{  Form::open(['route' => ['new.company.post', $company->id],'method'=>'post']) }}
-              <div class="form-group">
-              {!! Form::text('body', null, ['class' => 'form-control', 'id' => 'new-post', 'rows' => '5', 'placeholder' => 'Your Notes']) !!}
-              </div>
-              {{ Form::submit('Add Note', ['class'=>'btn btn-primary']) }}
-              {!! Form::close() !!}
-            </div>
           </div>
+        </div>
+    </div>
         </div>
       </div>
     </div>
   </div>
-
 </div>
 @endsection
 
