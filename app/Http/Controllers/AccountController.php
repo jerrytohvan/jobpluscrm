@@ -233,8 +233,7 @@ class AccountController extends Controller
         $overdueTasksThisWeek =$this->overdueTaskThisWeek();
         // overdue last week
         $overdueTaskLastWeek = 0;
-        $taskOverdueLastWeek = Task::where('status', '<', 2)->where('date_reminder', '<=', $sevenDaysAgoDate)->where('date_reminder', '>=', $sevenDaysAgoDate)->get();
-
+        $taskOverdueLastWeek = Task::where('status', '<', 2)->where('date_reminder', '<=', $sevenDaysAgoDate)->where('date_reminder', '>=', $fourteenDaysAgoDate)->get();
         foreach ($taskOverdueLastWeek as $task) {
             $overdueTaskLastWeek++;
         }
@@ -249,10 +248,10 @@ class AccountController extends Controller
             }
         } elseif ($overdueTaskLastWeek >= $overdueTasksThisWeek) {
             //increase
-            return -$overdueTasksThisWeek/$overdueTaskLastWeek;
+            return -$overdueTasksThisWeek/$overdueTaskLastWeek *100;
         } else {
             //decrease
-            return $overdueTasksThisWeek/$overdueTaskLastWeek;
+            return $overdueTasksThisWeek/$overdueTaskLastWeek *100;
         }
     }
 

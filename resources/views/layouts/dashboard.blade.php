@@ -7,38 +7,7 @@
 <link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
 <link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
 <link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
-<style>
-/* .ui-pnotify.custom .ui-pnotify-container {
-background-color: #32213A !important;
-background-image: none !important;
-border: none !important;
--moz-border-radius: 10px;
--webkit-border-radius: 10px;
-border-radius: 10px;
-}
-.ui-pnotify.custom .ui-pnotify-title, .ui-pnotify.custom .ui-pnotify-text {
-font-family: Arial, Helvetica, sans-serif !important;
-text-shadow: 2px 2px 3px black !important;
-font-size: 10pt !important;
-color: #FFF !important;
-padding-left: 50px !important;
-line-height: 1 !important;
-text-rendering: geometricPrecision !important;
-}
-.ui-pnotify.custom .ui-pnotify-title {
-font-weight: bold;
-}
-.ui-pnotify.custom .ui-pnotify-icon {
-float: left;
-}
-.ui-pnotify.custom .fa {
-margin: 3px;
-width: 33px;
-height: 33px;
-font-size: 33px;
-color: #FF0;
-} */
-</style>
+
 @endpush
 
 @section('content')
@@ -133,15 +102,9 @@ $(document).ready(function() {
       new PNotify({
           title: "Welcome to JobPlusPlus",
           text: `<strong>Here's your latest announcement:</strong><br/>` + announcement,
-          // addclass: 'custom',
+          addclass: 'dark',
           styling: 'bootstrap3',
-          type:'info',
-          nonblock: {
-              nonblock: true
-          },
-          buttons: {
-             show_on_nonblock: true
-          },
+          
           desktop: {
            desktop: true
        }
