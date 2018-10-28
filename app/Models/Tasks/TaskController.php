@@ -56,13 +56,13 @@ class TaskController extends Controller
         $client = new Client();
 
         try {
-            $res = $client->request('GET', 'http://localhost:3000/mailData');
+            $res = $client->request('GET', 'https://dbscript.herokuapp.com/');
             $content = $res->getBody()->getContents();
             error_log(print_r($content, true));
             $var = json_decode($content, true);
             //dun touch tis codes
             $emailSend = $this->mTc->processTaskForEmail($var);
-            $teleSend = $this->teleSvc->send($var);
+            //$teleSend = $this->teleSvc->send($var);
         } catch (Exception $e) {
             error_log(print_r($e->getMessage(), true));
         }
