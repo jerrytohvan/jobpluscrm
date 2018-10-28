@@ -38,8 +38,8 @@
     overflow:auto;
 }
 .gi-1x{
-  top: -5px;
-  font-size: 1.5em;
+  top: 5px;
+  font-size: 1.25em;
 }
 
 /* quick reset and base styles */
@@ -64,17 +64,15 @@ html {
   position: absolute;
   top: 2em;
   bottom: 0;
-  left: 0;
+  left: 7.5em;
   right: 0;
   background: rgba(36, 62, 206, 0.6);
   color: black;
   visibility: hidden;
   opacity: 0;
   display: flex;
-  align-items: center;
+  align-items: left;
   justify-content: center;
-
-  /* transition effect. not necessary */
   transition: opacity .2s, visibility .2s;
 }
 
@@ -102,6 +100,7 @@ html {
     white-space: normal;
     word-break: break-all;
 }
+
 </style>
 @endpush
 
@@ -126,10 +125,108 @@ html {
                         </div>
 
                         <div class="x_content">
-
+                          <!-- start project-detail sidebar -->
+                          <div class="col-md-3 col-sm-3 col-xs-12">
+                             <section class="panel">
+                                <div class="x_title">
+                                   <h2>Company Description</h2>
+                                   <div class="clearfix"></div>
+                                </div>
+                                <div class="col-md-12">
+                                   <iframe width="100%"
+                                      height="auto"
+                                      frameborder="0" style="border:0"
+                                      src="{{ 'https://www.google.com/maps/embed/v1/place?key=AIzaSyCLy0Kyf98R9LIPXmkrGL-Tqic6-_yVErI&q=' . $company->address }}" allowfullscreen>
+                                   </iframe>
+                                </div>
+                                <div class="panel-body">
+                                   <div class="project_detail">
+                                      <p class="title">Address</p>
+                                      <p>{{ $company->address }}</p>
+                                      <p class="title">Email</p>
+                                      <p>{{ $company->email }}</p>
+                                      <p class="title">Telephone No.</p>
+                                      <p>{{ $company->telephone_no }}</p>
+                                      <p class="title">Industry</p>
+                                      <p>{{ $company->industry == '' ? '-': $company->industry }}</p>
+                                      <p class="title">Website</p>
+                                      <p>
+                                         @if($company->website == '')
+                                         -
+                                         @else
+                                         <a href="{{ 'http://' . $company->website }}" target="_blank">{{ $company->website }}</a>
+                                         @endif
+                                      </p>
+                                      <p class="title">No. of Employees</p>
+                                      <p>{{ $company->no_employees == '' ? '-': $company->no_employees }}</p>
+                                   </div>
+                                   <br>
+                                   <div class="text-center mtop20">
+                                      <a class="edit btn btn-sm btn-warning">Edit Company Profile</a>
+                                   </div>
+                                   <br>
+                                   <h5>Company files</h5>
+                                   <ul class="list-unstyled project_files">
+                                      @if(!empty($companyFiles))
+                                      @foreach($companyFiles as $file)
+                                      <div id="hover_button">
+                                         <li >
+                                            <a href="{{ route('get.file', ['file'=> $file->id])}}"><i class="
+                                               @php
+                                               switch ($file->file_type) {
+                                               case 'jpg':
+                                               case 'jpeg':
+                                               case 'png':
+                                               echo 'fa fa-picture-o';
+                                               break;
+                                               case 'pdf':
+                                               echo 'fa fa-file-pdf-o';
+                                               break;
+                                               case 'xls':
+                                               case 'xlsx':
+                                               case 'xltm':
+                                               case 'xlsm':
+                                               case 'csv':
+                                               echo 'fa fa-file-excel-o';
+                                               break;
+                                               case 'ppt':
+                                               case 'pptx':
+                                               echo 'fa fa-file-powerpoint-o';
+                                               break;
+                                               case 'doc':
+                                               case 'docx':
+                                               echo 'fa fa-file-word-o';
+                                               break;
+                                               case 'zip':
+                                               case 'rar':
+                                               case '7z':
+                                               echo 'fa fa-file-archive-o';
+                                               break;
+                                               default:
+                                               echo 'fa fa-folder';
+                                               }
+                                               @endphp"></i>{{ $file->file_name }}</a>
+                                            <a id="delete_button" href="{{ route('remove.company.file',['file' => $file->id]) }}"><i style="color: red" class="fa fa-remove"></i></a>
+                                         </li>
+                                      </div>
+                                      @endforeach
+                                      @endif
+                                   </ul>
+                                   <br>
+                                   <div class="text-center mtop20">
+                                      {{  Form::open(['route' => 'update.company.file','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'file_uploader', 'enctype'=>'multipart/form-data']) }}
+                                      <input id="file_upload" name="file_upload" type="file"  data-parsley-filemaxmegabytes="2" data-parsley-trigger="change" data-parsley-filemimetypes="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf,image/jpeg, image/pipeg, image/png, image/bmp, image/webp, application/x-7z-compressed, image/gif,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.presentationml.slide,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain,application/zip,application/x-rar-compressed, application/vnd.ms-excel,application/vnd.ms-powerpoint	" />
+                                      <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
+                                      <a href="" id="upload_link" class="btn btn-sm btn-primary">Add file</a>
+                                      </form>
+                                   </div>
+                                </div>
+                             </section>
+                          </div>
+                              <!-- end project-detail sidebar -->
                           <div class="col-md-9 col-sm-9 col-xs-12">
                             <ul class="stats-overview">
-                               <li>
+                              <li>
                                   <span class="name"> Date Create </span>
                                   <span class="value text-success"> {{ date_format($company->created_at, 'jS F Y h:i A') }} </span>
                                </li>
@@ -137,11 +234,14 @@ html {
                                   <span class="name"> Date Updated </span>
                                   <span class="value text-success"> {{  date_format($company->updated_at, 'jS F Y h:i A') }}</span>
                                </li>
-                               <li class="hidden-phone">
-                                  <span class="name"> Collaborators </span>
+                               <li >
+                               <div class="row">
+                                 <div class="col-md-12 col-sm-12 col-xs-12">
+                                <span class="name"> Collaborators </span>
                                   <a id="collaborators_button" >
-                                    <span class="glyphicon glyphicon-pencil gi-1">Edit</span>
+                                    <span class="glyphicon glyphicon-plus-sign gi-1x"></span>
                                    </a>
+
                                   <ul class="list-inline">
                                     @if(!empty($collaborators))
                                       @foreach($collaborators as $profile)
@@ -155,9 +255,45 @@ html {
 
                                       @endforeach
                                     @endif
-
-                                    </li>
                                   </ul>
+                                </div>
+                                </div>
+                                </li>
+
+
+                                    <!-- <div class="row" style="padding-bottom: 2em;">
+                                      <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div>
+                                              <div class="x_title">
+                                                <h2>Collaborators</h2>
+                                              <div class="clearfix"></div>
+                                              </div>
+                                              <ul class="list-inline">
+                                                @if(!empty($collaborators))
+                                                  @foreach($collaborators as $profile)
+                                                <li>
+                                                  <div class="img__wrap">
+                                                    <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
+                                                      <div class="img__description_layer">
+                                                        <p class="img__description">{{ $profile->name }}</p>
+                                                      </div>
+                                                    </div>
+                                                </li>
+                                                  @endforeach
+                                                @endif
+                                                  <a id="collaborators_button" >
+                                                    <span class="glyphicon glyphicon-plus-sign gi-1x"></span>
+                                                   </a>
+                                                </li>
+                                              </ul>
+
+                                            </div>
+                                          </div>
+                                    </div> -->
+
+
+
+
 
                                </li>
                             </ul>
@@ -194,22 +330,15 @@ html {
 
                               <div>
                                 <div class="x_title">
+                                  <div>
                                 <h2>Contacts</h2>
-                                   <ul class="nav navbar-right panel_toolbox">
-                                      <li>
-                                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                      </li>
-
-                                      <li>
-                                        <a class="close-link"><i class="fa fa-close"></i></a>
-                                      </li>
-                                   </ul>
+                                <button type="button" class="btn btn-default btn-sm" id="new-contact-button"  style="float: right; background: #32213A; color: white;">New Contact</button>
+</div>
                                    <div class="clearfix"></div>
                                 </div>
                                   <div class="x_content">
                                     <div class="table-responsive">
                                      <table id="datatable" class="account_table table table-striped table-bordered">
-                                       <button type="button" class="btn btn-default btn-sm" id="new-contact-button">New Contact</button>
                                         <thead>
                                            <tr>
                                               <th>Contact Name</th>
@@ -249,15 +378,6 @@ html {
                   <div>
                     <div class="x_title">
                        <h2>Job Lists</h2>
-                       <ul class="nav navbar-right panel_toolbox">
-                          <li>
-                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                          </li>
-
-                          <li>
-                            <a class="close-link"><i class="fa fa-close"></i></a>
-                          </li>
-                       </ul>
                        <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -365,105 +485,7 @@ html {
                             <!-- recent activities -> notes -->
 
                           </div>
-                          <!-- start project-detail sidebar -->
-                          <div class="col-md-3 col-sm-3 col-xs-9">
-                             <section class="panel">
-                                <div class="x_title">
-                                   <h2>Company Description</h2>
-                                   <div class="clearfix"></div>
-                                </div>
-                                <div class="col-md-12">
-                                   <iframe width="100%"
-                                      height="auto"
-                                      frameborder="0" style="border:0"
-                                      src="{{ 'https://www.google.com/maps/embed/v1/place?key=AIzaSyCLy0Kyf98R9LIPXmkrGL-Tqic6-_yVErI&q=' . $company->address }}" allowfullscreen>
-                                   </iframe>
-                                </div>
-                                <div class="panel-body">
-                                   <div class="project_detail">
-                                      <p class="title">Address</p>
-                                      <p>{{ $company->address }}</p>
-                                      <p class="title">Email</p>
-                                      <p>{{ $company->email }}</p>
-                                      <p class="title">Telephone No.</p>
-                                      <p>{{ $company->telephone_no }}</p>
-                                      <p class="title">Industry</p>
-                                      <p>{{ $company->industry == '' ? '-': $company->industry }}</p>
-                                      <p class="title">Website</p>
-                                      <p>
-                                         @if($company->website == '')
-                                         -
-                                         @else
-                                         <a href="{{ 'http://' . $company->website }}" target="_blank">{{ $company->website }}</a>
-                                         @endif
-                                      </p>
-                                      <p class="title">No. of Employees</p>
-                                      <p>{{ $company->no_employees == '' ? '-': $company->no_employees }}</p>
-                                   </div>
-                                   <br>
-                                   <div class="text-center mtop20">
-                                      <a class="edit btn btn-sm btn-warning">Edit Company Profile</a>
-                                   </div>
-                                   <br>
-                                   <h5>Company files</h5>
-                                   <ul class="list-unstyled project_files">
-                                      @if(!empty($companyFiles))
-                                      @foreach($companyFiles as $file)
-                                      <div id="hover_button">
-                                         <li >
-                                            <a href="{{ route('get.file', ['file'=> $file->id])}}"><i class="
-                                               @php
-                                               switch ($file->file_type) {
-                                               case 'jpg':
-                                               case 'jpeg':
-                                               case 'png':
-                                               echo 'fa fa-picture-o';
-                                               break;
-                                               case 'pdf':
-                                               echo 'fa fa-file-pdf-o';
-                                               break;
-                                               case 'xls':
-                                               case 'xlsx':
-                                               case 'xltm':
-                                               case 'xlsm':
-                                               case 'csv':
-                                               echo 'fa fa-file-excel-o';
-                                               break;
-                                               case 'ppt':
-                                               case 'pptx':
-                                               echo 'fa fa-file-powerpoint-o';
-                                               break;
-                                               case 'doc':
-                                               case 'docx':
-                                               echo 'fa fa-file-word-o';
-                                               break;
-                                               case 'zip':
-                                               case 'rar':
-                                               case '7z':
-                                               echo 'fa fa-file-archive-o';
-                                               break;
-                                               default:
-                                               echo 'fa fa-folder';
-                                               }
-                                               @endphp"></i>{{ $file->file_name }}</a>
-                                            <a id="delete_button" href="{{ route('remove.company.file',['file' => $file->id]) }}"><i style="color: red" class="fa fa-remove"></i></a>
-                                         </li>
-                                      </div>
-                                      @endforeach
-                                      @endif
-                                   </ul>
-                                   <br>
-                                   <div class="text-center mtop20">
-                                      {{  Form::open(['route' => 'update.company.file','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'file_uploader', 'enctype'=>'multipart/form-data']) }}
-                                      <input id="file_upload" name="file_upload" type="file"  data-parsley-filemaxmegabytes="2" data-parsley-trigger="change" data-parsley-filemimetypes="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf,image/jpeg, image/pipeg, image/png, image/bmp, image/webp, application/x-7z-compressed, image/gif,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.presentationml.slide,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain,application/zip,application/x-rar-compressed, application/vnd.ms-excel,application/vnd.ms-powerpoint	" />
-                                      <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
-                                      <a href="" id="upload_link" class="btn btn-sm btn-primary">Add file</a>
-                                      </form>
-                                   </div>
-                                </div>
-                             </section>
-                          </div>
-                              <!-- end project-detail sidebar -->
+
 
                         </div>
 
@@ -472,7 +494,6 @@ html {
                   </div>
 
    </div>
-
            <div class="modal fade" tabindex="-1" role="dialog" id="edit-note">
                <div class="modal-dialog">
                    <div class="modal-content">
