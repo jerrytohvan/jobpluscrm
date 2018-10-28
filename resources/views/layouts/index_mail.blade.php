@@ -59,6 +59,7 @@
                 <button id="compose" class="btn btn-sm btn-success btn-block" type="button">COMPOSE</button>
                 <a href="#">
                   </div>
+
           <!--        <div class="mail_list">
                     <div class="left">
                       <i class="fa fa-circle"></i> <i class="fa fa-edit"></i>
@@ -343,9 +344,12 @@
       </div>
     </div>
 
+
+
+
         {{  Form::open(['route' =>'sendemail', 'method'=>'post','id'=>'submit-email','files'=> true,'enctype'=>'multipart/form-data']) }}
 
-        {{  Form::open(['route' =>'sendemail', 'method'=>'post','id'=>'submit-email','enctype'=>'multipart/form-data']) }}
+        <!-- {{  Form::open(['route' =>'sendemail', 'method'=>'post','id'=>'submit-email','enctype'=>'multipart/form-data']) }} -->
 
 
 
@@ -365,17 +369,14 @@
         {!! Form::file('emailAttachment', null, ['class' => 'form-control']) !!}
       </div>
 
-
-
-    <div class="form-group">
-    <label for="toEmail">TO * :</label>
-    <input type="text" id="toEmail" class="form-control parsley-error" name="toEmail" data-parsley-trigger="change" required="required">
+      <div class="form-group">
+      <label for="toEmail">TO  :</label>
+      <input type="email" id="toEmail" multiple pattern="^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},*[\W]*)+$"  class="form-control parseley-error" data-parsley-trigger="change" name="toEmail" required="required" >
     </div>
-
 
     <div class="form-group">
     <label for="ccEmail">CC  :</label>
-    <input type="email" id="ccEmail" class="form-control" name="ccEmail" data-parsley-trigger="change" >
+    <input type="email" id="ccEmail" multiple pattern="^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},*[\W]*)+$" class="form-control" name="ccEmail" data-parsley-trigger="change" >
     </div>
 
 
@@ -407,7 +408,16 @@ $(function() {
     $('#submit-email').submit();
   });
 });
+
+
+
+
+
+
+
 </script>
 <script src="{{ asset('js/jquery.hotkeys.js') }}"></script>
 <script src="{{ asset('js/prettify.js') }}"></script>
+
+
 @endpush

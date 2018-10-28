@@ -7,14 +7,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\ActivityLog\ActivityLogService;
+use App\Models\Attachments\AttachmentService;
 
 class UserController extends Controller
 {
-    public function __construct(UserService $userSvc, ActivityLogService $actService)
+    public function __construct(UserService $userSvc, ActivityLogService $actService, AttachmentService $attService)
     {
         $this->middleware('auth');
         $this->svc = $userSvc;
         $this->actSvc = $actService;
+        $this->attSvc = $attService;
     }
 
     public function index()
@@ -65,12 +67,14 @@ class UserController extends Controller
         if (request()->hasFile('photo')) {
             $photo = request()->file('photo');
             $ext = $photo->getClientOriginalExtension();
-            $memberPic = "member_". $id . "." . $ext;
-            $url = "images/profile_pic/" . $memberPic;
+            $userPic = "user_" . $id;
+            $hashedPic = md5($userPic) . "." . $ext;
+            $url = "images/" . $hashedPic;
             $user->profile_pic = $url;
 
-            $path = public_path()."//images//profile_pic//";
-            $photo->move($path, $memberPic);
+            $uploadPic =  $this->attSvc->uploadFile($url, $photo);
+            // $path = public_path()."//images//profile_pic//";
+            // $photo->move($path, $memberPic);
         }
         $user->save();
 
