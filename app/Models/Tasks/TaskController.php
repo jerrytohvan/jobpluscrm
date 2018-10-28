@@ -62,7 +62,7 @@ class TaskController extends Controller
             $var = json_decode($content, true);
             //dun touch tis codes
             $emailSend = $this->mTc->processTaskForEmail($var);
-            //$teleSend = $this->teleSvc->send($var);
+            $teleSend = $this->teleSvc->send($var);
         } catch (Exception $e) {
             error_log(print_r($e->getMessage(), true));
         }
