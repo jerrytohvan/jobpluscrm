@@ -8,6 +8,8 @@ use Mail;
 use App\Models\Clients\Company;
 use App\Models\Tasks\Task;
 use App\Models\Users\User;
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class MailController extends Controller
 {
@@ -16,20 +18,31 @@ class MailController extends Controller
         return view('/layouts/index_mail');
     }
 
+
       public function sendemail(Request $request)
       {
+        //retrieve all request from email blade
+        $arraReq = request()->all();
+        error_log(print_r($arraReq ,true));
+
+        // comma deliminated arrays "toEmail"
+        $toEmail = explode(",",$arraReq['toEmail']);
+        // comma deliminated arrays "toEmail"
+        $ccEmail = explode(",",$arraReq['ccEmail']);
+        // email data packet
           $data = array(
-            'toEmail' =>$request->toEmail,
+            'toEmail' =>$toEmail,
             'subject'=>$request->subject,
             'emailMessage' =>$request->emailMessage,
             'emailAttachment'=>$request->emailAttachment,
-            'ccEmail'=>$request->ccEmail
-
+            'ccEmail'=>$ccEmail
           );
-            Mail::send([], [], function ($message) use ($data) {
+          // sending the email itself
+            Mail::send([], $data, function ($message) use ($data) {
                 $message->from('admin@jobplus.sg','JobPlus');
                 $message->to($data['toEmail']);
-                if ($data['ccEmail'] != null) {
+                //check if there are cc email addresses
+                if (!empty($data['ccEmail'])) {
                     $message->cc($data['ccEmail']);
                 }
                 $message->subject($data['subject']);
@@ -40,12 +53,12 @@ class MailController extends Controller
                           'mime'=>$data['emailAttachment']->getMimeType())
                       );
                  }
-
+                 // text of the actual email
                 $message->setBody($data['emailMessage']);
-                error_log(print_r("sending", true));
+            //    error_log(print_r("sending", true));
             });
 
-        error_log(print_r("sent", true));
+        //error_log(print_r("sent", true));
         return view('layouts.index_mail', compact('message'));
     }
 
@@ -137,7 +150,7 @@ class MailController extends Controller
     public function sendTasksEmail($data)
     {
       $sent = false;
-      error_log(print_r("satrt", true));
+      error_log(print_r("start", true));
           Mail::send([], $data, function ($message) use ($data) {
               $message->from('admin@jobplus.sg','JobPlus');
               $message->to($data['toEmail']);
