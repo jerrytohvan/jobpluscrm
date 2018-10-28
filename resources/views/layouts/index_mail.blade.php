@@ -365,17 +365,17 @@
       </div>
 
       <div class="form-group">
-        {!! Form::label('emailAttachment', 'Upload Attachment:') !!}
+        {!! Form::label('emailAttachment', 'Upload Attachment:(only 1 at a time)') !!}
         {!! Form::file('emailAttachment', null, ['class' => 'form-control']) !!}
       </div>
 
       <div class="form-group">
-      <label for="toEmail">TO  :</label>
+      <label for="toEmail">TO*: (comma seperated email addresses)</label>
       <input type="email" id="toEmail" multiple pattern="^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},*[\W]*)+$"  class="form-control parseley-error" data-parsley-trigger="change" name="toEmail" required="required" >
     </div>
 
     <div class="form-group">
-    <label for="ccEmail">CC  :</label>
+    <label for="ccEmail">CC: (comma seperated email addresses)</label>
     <input type="email" id="ccEmail" multiple pattern="^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},*[\W]*)+$" class="form-control" name="ccEmail" data-parsley-trigger="change" >
     </div>
 
