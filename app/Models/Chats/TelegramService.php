@@ -12,7 +12,6 @@ class TelegramService
 {
     public function send($array) {
         $apiToken = "634750556:AAGSwjVz0FjbzQrwoHNtZTxk18-i5WsJWPI";
-
         $companyArr = array();
         $companies = Company::all();
         foreach ($companies as $company) {
@@ -25,7 +24,7 @@ class TelegramService
         for ($i=0; $i<sizeof($userids); $i++) {
             $userid = $userids[$i];
             $user_teleid = User::where('id', $userid)->pluck('tele_id')->first();
-
+            error_log(print_r($user_teleid, true));
             $messageArr = $array[1][$i];
             $message = "Task(s) to be done:\n\n";
 

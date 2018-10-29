@@ -35,7 +35,8 @@ class ClientService
       'no_employees' => $array['no_employees'] == "" ? 0 :$array['no_employees'],
       'industry' => $array['industry'],
       'lead_source' => $array['lead_source'],
-      'description' => $array['description']
+      'description' => $array['description'],
+      'user_id' => Auth::user()->id
       ]);
     }
     public function getAllCompany()
@@ -50,6 +51,23 @@ class ClientService
     public function getAllLeads()
     {
         return Company::whereClient(0)->orderBy('name', 'asc')->take(1000)->get();
+    }
+    public function getSpecificUserCompany(){
+         return Company::whereUserId(Auth::user()->id)->orderBy('name','asc')->get();
+    }
+
+    public function getSpecificUserClients(){
+        $userCompanyIds = UserCompany::whereUserId(Auth::user()->id)->pluck('company_id')->toArray();
+        $ids = Company::whereUserId(Auth::user()->id)->whereClient(1)->pluck('id')->toArray();
+        $mergedIds = array_merge($userCompanyIds,$ids);
+        return Company::whereIn('id',$mergedIds)->whereClient(1)->orderBy('name', 'asc')->take(1000)->get();
+    }
+
+    public function getSpecificUserLeads(){
+        $userCompanyIds = UserCompany::whereUserId(Auth::user()->id)->pluck('company_id')->toArray();
+        $ids = Company::whereUserId(Auth::user()->id)->whereClient(1)->pluck('id')->toArray();
+        $mergedIds = array_merge($userCompanyIds,$ids);
+        return Company::whereIn('id',$mergedIds)->whereClient(0)->orderBy('name', 'asc')->take(1000)->get();
     }
 
     /**
