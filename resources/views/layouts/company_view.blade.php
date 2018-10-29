@@ -552,7 +552,7 @@ html {
                           </div>
                        </div>
                        <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="website">Website
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="website">Website *
                           </label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
                              <input type="url" id="website"  name="website"  class="form-control col-md-7 col-xs-12" value="{{ $company->website }}">
@@ -562,7 +562,16 @@ html {
                           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_employees">No of Employees *
                           </label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
-                             <input type="number" id="no_employees"  name="no_employees" required="required"  class="form-control col-md-7 col-xs-12" value="{{ $company->no_employees }}">
+                            
+                              <select class="select2_single form-control" id="no_employees" name="no_employees" tabindex="-1">
+                                  <option value="{{ $company-> no_employees}}">{{$company-> no_employees}}</option>
+                                  <option value="1-5">1-5</option>
+                                  <option value="6-20">6-20</option>
+                                  <option value="21-100">21-100</option>
+                                  <option value="101-500">101-500</option>
+                                  <option value=">501">>501</option>
+                              </select>
+
                           </div>
                        </div>
 
@@ -682,6 +691,7 @@ html {
               </div>
               <!-- /.modal-dialog -->
            </div>
+
            <div class="modal fade" tabindex="-1" role="dialog" id="edit-account">
               <div class="modal-dialog">
                  <div class="modal-content">
@@ -701,7 +711,7 @@ html {
                        <div class="form-group">
                           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
                           <div class="col-md-6 col-sm-9 col-xs-12">
-                             <input type="title" id="title" name="title" required="required" class="form-control col-md-7 col-xs-12">
+                             <input type="text" id="title" name="title" required="required" value="{{$account->title}}" class="form-control col-md-7 col-xs-12">
                           </div>
                        </div>
                        <div class="form-group">
@@ -865,12 +875,14 @@ html {
                             <input type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12">
                          </div>
                       </div>
+
                       <div class="form-group">
                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
                          <div class="col-md-6 col-sm-9 col-xs-12">
-                            <input type="title" id="title" name="title" required="required" class="form-control col-md-7 col-xs-12">
+                             <input type="text" id="title" name="title" required="required" class="form-control col-md-7 col-xs-12">
                          </div>
                       </div>
+
                       <div class="form-group">
                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
                          </label>

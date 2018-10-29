@@ -328,7 +328,7 @@ class ClientController extends Controller
             $message = "Failed to add updated!";
             $status = 0;
         }
-        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+        return redirect()->back()->with(['message' => $message, 'status' => $status, 'company' => $company]);
     }
 
     public function convertToClient(Company $company)
