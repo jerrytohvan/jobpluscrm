@@ -32,7 +32,7 @@
                        <thead>
                          <tr>
                            <th>Name</th>
-                           <th>Title</th>
+                           <th>Job Title</th>
                            <th>Email</th>
                            <th>Handphone No.</th>
                            <th>Telephone No.</th>

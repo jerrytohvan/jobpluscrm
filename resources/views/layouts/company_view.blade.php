@@ -38,8 +38,8 @@
     overflow:auto;
 }
 .gi-1x{
-  top: -5px;
-  font-size: 1.5em;
+  top: 5px;
+  font-size: 1.25em;
 }
 
 /* quick reset and base styles */
@@ -64,17 +64,15 @@ html {
   position: absolute;
   top: 2em;
   bottom: 0;
-  left: 0;
+  left: 7.5em;
   right: 0;
   background: rgba(36, 62, 206, 0.6);
   color: black;
   visibility: hidden;
   opacity: 0;
   display: flex;
-  align-items: center;
+  align-items: left;
   justify-content: center;
-
-  /* transition effect. not necessary */
   transition: opacity .2s, visibility .2s;
 }
 
@@ -102,6 +100,7 @@ html {
     white-space: normal;
     word-break: break-all;
 }
+
 </style>
 @endpush
 
@@ -126,10 +125,9 @@ html {
                         </div>
 
                         <div class="x_content">
-
                           <div class="col-md-9 col-sm-9 col-xs-12">
                             <ul class="stats-overview">
-                               <li>
+                              <li>
                                   <span class="name"> Date Create </span>
                                   <span class="value text-success"> {{ date_format($company->created_at, 'jS F Y h:i A') }} </span>
                                </li>
@@ -137,37 +135,86 @@ html {
                                   <span class="name"> Date Updated </span>
                                   <span class="value text-success"> {{  date_format($company->updated_at, 'jS F Y h:i A') }}</span>
                                </li>
-                               <li class="hidden-phone">
-                                  <span class="name"> Total Transactions </span>
-                                  <span class="value text-success"> 0 </span>
+                               <li >
+                               <div class="row">
+                                 <div class="col-md-12 col-sm-12 col-xs-12">
+                                <span class="name"> Collaborators </span>
+                                  <a id="collaborators_button" >
+                                    <span class="glyphicon glyphicon-plus-sign gi-1x"></span>
+                                   </a>
+
+                                  <ul class="list-inline">
+                                    @if(!empty($collaborators))
+                                      @foreach($collaborators as $profile)
+
+                                      <div class="img__wrap">
+                                        <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
+                                          <div class="img__description_layer">
+                                            <p class="img__description">{{ $profile->name }}</p>
+                                          </div>
+                                        </div>
+
+                                      @endforeach
+                                    @endif
+                                  </ul>
+                                </div>
+                                </div>
+                                </li>
+
+
+                                    <!-- <div class="row" style="padding-bottom: 2em;">
+                                      <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div>
+                                              <div class="x_title">
+                                                <h2>Collaborators</h2>
+                                              <div class="clearfix"></div>
+                                              </div>
+                                              <ul class="list-inline">
+                                                @if(!empty($collaborators))
+                                                  @foreach($collaborators as $profile)
+                                                <li>
+                                                  <div class="img__wrap">
+                                                    <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
+                                                      <div class="img__description_layer">
+                                                        <p class="img__description">{{ $profile->name }}</p>
+                                                      </div>
+                                                    </div>
+                                                </li>
+                                                  @endforeach
+                                                @endif
+                                                  <a id="collaborators_button" >
+                                                    <span class="glyphicon glyphicon-plus-sign gi-1x"></span>
+                                                   </a>
+                                                </li>
+                                              </ul>
+
+                                            </div>
+                                          </div>
+                                    </div> -->
+
+
+
+
+
                                </li>
                             </ul>
+
+                            <div>
+                              <!-- start vue -->
+                              <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <h3 class="text-center title-color">Company's Tasks</h3>
+                                   <div class="well" id="app">
+                                     <task-draggable :tasks-open="{{ $tasksOpen }}" :tasks-on-going="{{ $tasksOnGoing }}" :tasks-closed="{{ $tasksClosed }}"></task-draggable>
+                                   </div> <!-- end app -->
+                               </div>
+                              </div>
+                              <!-- end vue -->
+                            </div>
 
                             <div class="row" style="padding-bottom: 2em;">
                               <div class="col-md-6 col-sm-12 col-xs-12">
                                     <div>
-                                      <div class="x_title">
-                                        <h2>Collaborators</h2>
-                                      <div class="clearfix"></div>
-                                      </div>
-                                      <ul class="list-inline">
-                                        @if(!empty($collaborators))
-                                          @foreach($collaborators as $profile)
-                                        <li>
-                                          <div class="img__wrap">
-                                            <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
-                                              <div class="img__description_layer">
-                                                <p class="img__description">{{ $profile->name }}</p>
-                                              </div>
-                                            </div>
-                                        </li>
-                                          @endforeach
-                                        @endif
-                                          <a id="collaborators_button" >
-                                            <span class="glyphicon glyphicon-pencil gi-1x"></span>
-                                           </a>
-                                        </li>
-                                      </ul>
 
                                     </div>
                                   </div>
@@ -182,137 +229,56 @@ html {
                                  <div class="clearfix"></div>
                               </div>
 
-                              <div class="x_content">
-                                 <div class="" role="tabpanel" data-example-id="togglable-tabs">
-                                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                       <li role="presentation" class="active"><a href="#tab_account" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Contacts</a>
-                                       </li>
-                                       <li role="presentation" class=""><a href="#new_account" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Add Contact</a>
-                                       </li>
-                                    </ul>
-                                    <div id="myTabContent" class="tab-content">
-                                       <div role="tabpanel" class="tab-pane fade active in" id="tab_account" aria-labelledby="home-tab">
-                                         <div class="table-responsive">
-                                          <table id="datatable" class="account_table table table-striped table-bordered">
-                                             <thead>
-                                                <tr>
-                                                   <th>Contact Name</th>
-                                                   <th>Title</th>
-                                                   <th>Email</th>
-                                                   <th>Handphone No.</th>
-                                                   <th>Telephone No.</th>
-                                                   <th>Company</th>
-                                                   <th  style="width: 20%">Actions</th>
-                                                </tr>
-                                             </thead>
-                                             <tbody>
-                                                @foreach ($accounts as $account)
-                                                <tr>
-                                                   <td>{{ $account->name }}</td>
-                                                   <td>{{ $account->title }}</td>
-                                                   <td>{{ $account->email }}</td>
-                                                   <td>{{ $account->handphone }}</td>
-                                                   <td>{{ $account->telephone == null ? "-" : $account->telephone }}</td>
-                                                   <td >{{ $account == null ? "-" : $account->company == null ? "-":$account->company->name }}</td>
-                                                   <td>
-                                                      <a id="account_button" data-id="{{ $account->id }}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i>Edit</a>
-                                                      <a onclick="deleteAccount( {{ $account->id }} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a>
-                                                   </td>
-                                                </tr>
-                                                @endforeach
-                                             </tbody>
-                                          </table>
-                                        </div>
-
-                                       </div>
-                                       <div role="tabpanel" class="tab-pane fade" id="new_account" aria-labelledby="profile-tab">
-                                          {{  Form::open(['route' => 'add.new.account','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
-                                          <div class="form-group">
-                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name"> Name <span class="required">*</span>
-                                             </label>
-                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12">
-                                             </div>
-                                          </div>
-                                          <div class="form-group">
-                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
-                                             <div class="col-md-6 col-sm-9 col-xs-12">
-                                                <select class="select2_single form-control" name="title" id="title" required="required" data-parsley-required-message="Please select a title" tabindex="-1">
-                                                   <option value=''>Select a Job Level Title</option>
-                                                   <option value='HR Executive'>HR Executive</option>
-                                                   <option value='HR Manager'>HR Manager</option>
-                                                   <option value='HR Director'>HR Director</option>
-                                                   <option value='Office Administrator'>Office Administrator</option>
-                                                   <option value='Office Manager'>Office Manager</option>
-                                                   <option value='Director'>Director</option>
-                                                   <option value='CEO'>CEO</option>
-                                                   <option value='General Manager'>General Manager</option>
-                                                   <option value='Hiring Manager'>Hiring Manager</option>
-                                                   <option value='unknown'>unknown</option>
-                                                </select>
-                                             </div>
-                                          </div>
-                                          <div class="form-group">
-                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
-                                             </label>
-                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
-                                             </div>
-                                          </div>
-                                          <div class="form-group">
-                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="handphone">Handphone No <span class="required">*</span>
-                                             </label>
-                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="handphone" name="handphone" required="required" data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
-                                             </div>
-                                          </div>
-                                          <div class="form-group">
-                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone">Telephone No
-                                             </label>
-                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="telephone" name="telephone"  data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
-                                             </div>
-                                          </div>
-                                          <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
-                                          <div class="ln_solid"></div>
-                                          <div class="form-group">
-                                             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                                <button class="btn btn-primary" type="reset">Reset</button>
-                                                {{ Form::submit('Submit', ['class'=>'btn btn-success']) }}
-                                             </div>
-                                          </div>
-                                          {!! Form::close() !!}
-                                       </div>
+                              <div>
+                                <div class="x_title">
+                                  <div>
+                                <h2>Contacts</h2>
+                                <button type="button" class="btn btn-default btn-sm" id="new-contact-button"  style="float: right; background: #32213A; color: white;">New Contact</button>
+</div>
+                                   <div class="clearfix"></div>
+                                </div>
+                                  <div class="x_content">
+                                    <div class="table-responsive">
+                                     <table id="datatable" class="account_table table table-striped table-bordered">
+                                        <thead>
+                                           <tr>
+                                              <th>Contact Name</th>
+                                              <th>Title</th>
+                                              <th>Email</th>
+                                              <th>Handphone No.</th>
+                                              <th>Telephone No.</th>
+                                              <th>Company</th>
+                                              <th  style="width: 20%">Actions</th>
+                                           </tr>
+                                        </thead>
+                                        <tbody>
+                                           @foreach ($accounts as $account)
+                                           <tr>
+                                              <td>{{ $account->name }}</td>
+                                              <td>{{ $account->title }}</td>
+                                              <td>{{ $account->email }}</td>
+                                              <td>{{ $account->handphone }}</td>
+                                              <td>{{ $account->telephone == null ? "-" : $account->telephone }}</td>
+                                              <td >{{ $account == null ? "-" : $account->company == null ? "-":$account->company->name }}</td>
+                                              <td>
+                                                 <a id="account_button" data-id="{{ $account->id }}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i>Edit</a>
+                                                 <a onclick="deleteAccount( {{ $account->id }} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a>
+                                              </td>
+                                           </tr>
+                                           @endforeach
+                                        </tbody>
+                                     </table>
                                     </div>
-                                 </div>
+                                  </div>
+
                               </div>
                             </div>
 
-                    <div>
-                      <!-- start vue -->
-                      <div class="row">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                          <h3 class="text-center title-color">Company's Tasks</h3>
-                           <div class="well" id="app">
-                             <task-draggable :tasks-open="{{ $tasksOpen }}" :tasks-on-going="{{ $tasksOnGoing }}" :tasks-closed="{{ $tasksClosed }}"></task-draggable>
-                           </div> <!-- end app -->
-                       </div>
-                      </div>
-                      <!-- end vue -->
-                    </div>
+
 
                   <div>
                     <div class="x_title">
                        <h2>Job Lists</h2>
-                       <ul class="nav navbar-right panel_toolbox">
-                          <li>
-                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                          </li>
-
-                          <li>
-                            <a class="close-link"><i class="fa fa-close"></i></a>
-                          </li>
-                       </ul>
                        <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -421,461 +387,539 @@ html {
 
                           </div>
 
-                          <!-- start project-detail sidebar -->
-                          <div class="col-md-3 col-sm-3 col-xs-9">
-                             <section class="panel">
-                                <div class="x_title">
-                                   <h2>Company Description</h2>
-                                   <div class="clearfix"></div>
-                                </div>
-                                <div class="col-md-12">
-                                   <iframe width="100%"
-                                      height="auto"
-                                      frameborder="0" style="border:0"
-                                      src="{{ 'https://www.google.com/maps/embed/v1/place?key=AIzaSyCLy0Kyf98R9LIPXmkrGL-Tqic6-_yVErI&q=' . $company->address }}" allowfullscreen>
-                                   </iframe>
-                                </div>
-                                <div class="panel-body">
-                                   <div class="project_detail">
-                                      <p class="title">Address</p>
-                                      <p>{{ $company->address }}</p>
-                                      <p class="title">Email</p>
-                                      <p>{{ $company->email }}</p>
-                                      <p class="title">Telephone No.</p>
-                                      <p>{{ $company->telephone_no }}</p>
-                                      <p class="title">Fax No.</p>
-                                      <p>{{ $company->fax == '' ? '-': $company->fax }}</p>
-                                      <p class="title">Industry</p>
-                                      <p>{{ $company->industry == '' ? '-': $company->industry }}</p>
-                                      <p class="title">Website</p>
-                                      <p>
-                                         @if($company->website == '')
-                                         -
-                                         @else
-                                         <a href="{{ 'http://' . $company->website }}" target="_blank">{{ $company->website }}</a>
-                                         @endif
-                                      </p>
-                                      <p class="title">No. of Employees</p>
-                                      <p>{{ $company->no_employees == '' ? '-': $company->no_employees }}</p>
-                                   </div>
-                                   <br>
-                                   <div class="text-center mtop20">
-                                      <a class="edit btn btn-sm btn-warning">Edit Company Profile</a>
-                                   </div>
-                                   <br>
-                                   <h5>Company files</h5>
-                                   <ul class="list-unstyled project_files">
-                                      @if(!empty($companyFiles))
-                                      @foreach($companyFiles as $file)
-                                      <div id="hover_button">
-                                         <li >
-                                            <a href="{{ route('get.file', ['file'=> $file->id])}}"><i class="
-                                               @php
-                                               switch ($file->file_type) {
-                                               case 'jpg':
-                                               case 'jpeg':
-                                               case 'png':
-                                               echo 'fa fa-picture-o';
-                                               break;
-                                               case 'pdf':
-                                               echo 'fa fa-file-pdf-o';
-                                               break;
-                                               case 'xls':
-                                               case 'xlsx':
-                                               case 'xltm':
-                                               case 'xlsm':
-                                               case 'csv':
-                                               echo 'fa fa-file-excel-o';
-                                               break;
-                                               case 'ppt':
-                                               case 'pptx':
-                                               echo 'fa fa-file-powerpoint-o';
-                                               break;
-                                               case 'doc':
-                                               case 'docx':
-                                               echo 'fa fa-file-word-o';
-                                               break;
-                                               case 'zip':
-                                               case 'rar':
-                                               case '7z':
-                                               echo 'fa fa-file-archive-o';
-                                               break;
-                                               default:
-                                               echo 'fa fa-folder';
-                                               }
-                                               @endphp"></i>{{ $file->file_name }}</a>
-                                            <a id="delete_button" href="{{ route('remove.company.file',['file' => $file->id]) }}"><i style="color: red" class="fa fa-remove"></i></a>
-                                         </li>
-                                      </div>
-                                      @endforeach
-                                      @endif
-                                   </ul>
-                                   <br>
-                                   <div class="text-center mtop20">
-                                      {{  Form::open(['route' => 'update.company.file','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'file_uploader', 'enctype'=>'multipart/form-data']) }}
-                                      <input id="file_upload" name="file_upload" type="file"  data-parsley-filemaxmegabytes="2" data-parsley-trigger="change" data-parsley-filemimetypes="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf,image/jpeg, image/pipeg, image/png, image/bmp, image/webp, application/x-7z-compressed, image/gif,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.presentationml.slide,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain,application/zip,application/x-rar-compressed, application/vnd.ms-excel,application/vnd.ms-powerpoint	" />
-                                      <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
-                                      <a href="" id="upload_link" class="btn btn-sm btn-primary">Add file</a>
-                                      </form>
-                                   </div>
-                                </div>
-                             </section>
-                          </div>
-                              <!-- end project-detail sidebar -->
+                            <!-- start project-detail sidebar -->
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                               <section class="panel">
+                                  <div class="x_title">
+                                     <h2>Company Description</h2>
+                                     <div class="clearfix"></div>
+                                  </div>
+                                  <div class="col-md-12">
+                                     <iframe width="100%"
+                                        height="auto"
+                                        frameborder="0" style="border:0"
+                                        src="{{ 'https://www.google.com/maps/embed/v1/place?key=AIzaSyCLy0Kyf98R9LIPXmkrGL-Tqic6-_yVErI&q=' . $company->address }}" allowfullscreen>
+                                     </iframe>
+                                  </div>
+                                  <div class="panel-body">
+                                     <div class="project_detail">
+                                        <p class="title">Address</p>
+                                        <p>{{ $company->address }}</p>
+                                        <p class="title">Email</p>
+                                        <p>{{ $company->email }}</p>
+                                        <p class="title">Telephone No.</p>
+                                        <p>{{ $company->telephone_no }}</p>
+                                        <p class="title">Industry</p>
+                                        <p>{{ $company->industry == '' ? '-': $company->industry }}</p>
+                                        <p class="title">Website</p>
+                                        <p>
+                                           @if($company->website == '')
+                                           -
+                                           @else
+                                           <a href="{{ 'http://' . $company->website }}" target="_blank">{{ $company->website }}</a>
+                                           @endif
+                                        </p>
+                                        <p class="title">No. of Employees</p>
+                                        <p>{{ $company->no_employees == '' ? '-': $company->no_employees }}</p>
+                                     </div>
+                                     <br>
+                                     <div class="text-center mtop20">
+                                        <a class="edit btn btn-sm btn-warning">Edit Company Profile</a>
+                                     </div>
+                                     <br>
+                                     <h5>Company files</h5>
+                                     <ul class="list-unstyled project_files">
+                                        @if(!empty($companyFiles))
+                                        @foreach($companyFiles as $file)
+                                        <div id="hover_button">
+                                           <li >
+                                              <a href="{{ route('get.file', ['file'=> $file->id])}}"><i class="
+                                                 @php
+                                                 switch ($file->file_type) {
+                                                 case 'jpg':
+                                                 case 'jpeg':
+                                                 case 'png':
+                                                 echo 'fa fa-picture-o';
+                                                 break;
+                                                 case 'pdf':
+                                                 echo 'fa fa-file-pdf-o';
+                                                 break;
+                                                 case 'xls':
+                                                 case 'xlsx':
+                                                 case 'xltm':
+                                                 case 'xlsm':
+                                                 case 'csv':
+                                                 echo 'fa fa-file-excel-o';
+                                                 break;
+                                                 case 'ppt':
+                                                 case 'pptx':
+                                                 echo 'fa fa-file-powerpoint-o';
+                                                 break;
+                                                 case 'doc':
+                                                 case 'docx':
+                                                 echo 'fa fa-file-word-o';
+                                                 break;
+                                                 case 'zip':
+                                                 case 'rar':
+                                                 case '7z':
+                                                 echo 'fa fa-file-archive-o';
+                                                 break;
+                                                 default:
+                                                 echo 'fa fa-folder';
+                                                 }
+                                                 @endphp"></i>{{ $file->file_name }}</a>
+                                              <a id="delete_button" href="{{ route('remove.company.file',['file' => $file->id]) }}"><i style="color: red" class="fa fa-remove"></i></a>
+                                           </li>
+                                        </div>
+                                        @endforeach
+                                        @endif
+                                     </ul>
+                                     <br>
+                                     <div class="text-center mtop20">
+                                        {{  Form::open(['route' => 'update.company.file','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'file_uploader', 'enctype'=>'multipart/form-data']) }}
+                                        <input id="file_upload" name="file_upload" type="file"  data-parsley-filemaxmegabytes="2" data-parsley-trigger="change" data-parsley-filemimetypes="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf,image/jpeg, image/pipeg, image/png, image/bmp, image/webp, application/x-7z-compressed, image/gif,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.presentationml.slide,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain,application/zip,application/x-rar-compressed, application/vnd.ms-excel,application/vnd.ms-powerpoint	" />
+                                        <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
+                                        <a href="" id="upload_link" class="btn btn-sm btn-primary">Add file</a>
+                                        </form>
+                                     </div>
+                                  </div>
+                               </section>
+                            </div>
+                                <!-- end project-detail sidebar -->
 
                         </div>
+
                       </div>
                     </div>
                   </div>
 
    </div>
-
-   <div class="modal fade" tabindex="-1" role="dialog" id="edit-note">
-       <div class="modal-dialog">
-           <div class="modal-content">
-               <div class="modal-header">
-                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                   <h4 class="modal-title">Edit Note</h4>
-               </div>
-               <div class="modal-body">
-                   <form>
-                       <div class="form-group">
-                           <label for="post-body">Edit Note</label>
-                           <textarea class="form-control" name="post-body" id="post-body" rows="5"></textarea>
+           <div class="modal fade" tabindex="-1" role="dialog" id="edit-note">
+               <div class="modal-dialog">
+                   <div class="modal-content">
+                       <div class="modal-header">
+                           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                           <h4 class="modal-title">Edit Note</h4>
                        </div>
-                   </form>
-               </div>
-               <div class="modal-footer">
-                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                   <button type="button" class="btn btn-primary" id="modal-note-save">Save changes</button>
-               </div>
-           </div><!-- /.modal-content -->
-       </div><!-- /.modal-dialog -->
-   </div><!-- /.modal -->
+                       <div class="modal-body">
+                           <form>
+                               <div class="form-group">
+                                   <label for="post-body">Edit Note</label>
+                                   <textarea class="form-control" name="post-body" id="post-body" rows="5"></textarea>
+                               </div>
+                           </form>
+                       </div>
+                       <div class="modal-footer">
+                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                           <button type="button" class="btn btn-primary" id="modal-note-save">Save changes</button>
+                       </div>
+                   </div><!-- /.modal-content -->
+               </div><!-- /.modal-dialog -->
+           </div><!-- /.modal -->
 
-   <div class="modal fade" tabindex="-1" role="dialog" id="edit-modal"> -->
-      <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-               <h4 class="modal-title">Edit Company</h4>
-            </div>
-            <div class="modal-body">
-               {{  Form::open(['route' => 'update.company','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'modal_form_id']) }}
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="address">Address <span class="required">*</span>
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="text" id="address" name="address" required="required" class="form-control col-md-7 col-xs-12" value="{{ $company->address }}">
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="emai">Email <span class="required">*</span>
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12" value="{{ $company->email }}">
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone_no">Telephone No <span class="required">*</span>
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="text" id="telephone_no" name="telephone_no" required="required" data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12" value="{{ $company->telephone_no }}">
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fax_no">Fax No
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="text" id="fax_no" name="fax_no"  data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12" value="{{ $company->fax_no }}">
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="website">Website
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="url" id="website"  name="website"  class="form-control col-md-7 col-xs-12" value="{{ $company->website }}">
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_employees">No of Employees
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="number" id="no_employees"  name="no_employees"  class="form-control col-md-7 col-xs-12" value="{{ $company->no_employees }}">
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry</label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <select class="select2_single form-control" required="required" id="industry" name="industry" tabindex="-1">
-                        <option value="{{ $company->industry }}">{{  $company->industry }}</option>
-                        <option value="Aerospace industry">Aerospace industry</option>
-                        <option value="Agriculture">Agriculture</option>
-                        <option value="Fishing industry">Fishing industry</option>
-                        <option value="Timber industry">Timber industry</option>
-                        <option value="Tobacco industry">Tobacco industry</option>
-                        <option value="Chemical industry">Chemical industry</option>
-                        <option value="Pharmaceutical industry">Pharmaceutical industry</option>
-                        <option value="Computer industry">Computer industry</option>
-                        <option value="Software industry">Software industry</option>
-                        <option value="Technology industry">Technology industry</option>
-                        <option value="Construction industry">Construction industry</option>
-                        <option value="Real estate industry">Real estate industry</option>
-                        <option value="Public utilities industry">Public utilities industry</option>
-                        <option value="Defense industry">Defense industry</option>
-                        <option value="Arms industry">Arms industry</option>
-                        <option value="Education industry">Education industry</option>
-                        <option value="Energy industry">Energy industry</option>
-                        <option value="Electrical power industry">Electrical power industry</option>
-                        <option value="Petroleum industry">Petroleum industry</option>
-                        <option value="Entertainment industry">Entertainment industry</option>
-                        <option value="Financial services industry">Financial services industry</option>
-                        <option value="Insurance industry">Insurance industry</option>
-                        <option value="Food industry">Food industry</option>
-                        <option value="Fruit production">Fruit production</option>
-                        <option value="Health care industry">Health care industry</option>
-                        <option value="Hospitality industry">Hospitality industry</option>
-                        <option value="Information industry">Information industry</option>
-                        <option value="Manufacturing">Manufacturing</option>
-                        <option value="Electronics industry">Electronics industry</option>
-                        <option value="Pulp and paper industry">Pulp and paper industry</option>
-                        <option value="Steel industry">Steel industry</option>
-                        <option value="Shipbuilding industry">Shipbuilding industry</option>
-                        <option value="Mass Media Broadcasting">Mass Media Broadcasting</option>
-                        <option value="Film industry">Film industry</option>
-                        <option value="Music industry">Music industry</option>
-                        <option value="News media">News media</option>
-                        <option value="Publishing">Publishing</option>
-                        <option value="World Wide Web">World Wide Web</option>
-                        <option value="Mining">Mining</option>
-                        <option value="Telecommunications industry">Telecommunications industry</option>
-                        <option value="Transport industry">Transport industry</option>
-                        <option value="Water industry">Water industry</option>
-                        <option value="Other">Other</option>
-                     </select>
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lead_source">Lead Source</label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <select class="select2_single form-control" required="required" id="lead_source" name="lead_source" tabindex="-1">
-                        <option value="{{  $company->lead_source }}">{{  $company->lead_source }}</option>
-                        <!-- http://www.themarketingscore.com/blog/bid/317180/18-Possible-Lead-Sources-Your-Organization-Needs-to-Measure -->
-                        <option value="Blogging">Blogging</option>
-                        <option value="Premium Content">Premium Content</option>
-                        <option value="Organic Search">Organic Search</option>
-                        <option value="Email Marketing">Email Marketing</option>
-                        <option value="Digital Advertising">Digital Advertising</option>
-                        <option value="Media Coverage">Media Coverage</option>
-                        <option value="Social Media">Social Media</option>
-                        <option value="Website">Website</option>
-                        <option value="Direct Marketing">Direct Marketing</option>
-                        <option value="Traditional Advertising">Traditional Advertising</option>
-                        <option value="Sponsorships">Sponsorships</option>
-                        <option value="Affiliate / Partner Programs">Affiliate / Partner Programs</option>
-                        <option value="Events / Shows">Events / Shows</option>
-                        <option value="Inbound Phone Calls">Inbound Phone Calls</option>
-                        <option value="Outbound Sales">Outbound Sales</option>
-                        <option value="Referrals">Referrals</option>
-                        <option value="Speaking Engagements">Speaking Engagements</option>
-                        <option value="Traditional / Offline Networking:">Traditional / Offline Networking:</option>
-                        <option value="Other">Other</option>
-                     </select>
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="description">Description</label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <textarea class="resizable_textarea form-control" value="{{ $company->description }}" name="description" id="description" placeholder="Type here" style="z-index: auto; position: relative; line-height: 20px; font-size: 14px; transition: none; background:transparent!important; margin: 0px 8px 0px 0px; "></textarea>
-                  </div>
-               </div>
-               <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
-               {{ csrf_field() }}
-               </form>
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-               <button type="button" class="btn btn-primary"  onclick="submitform();" >Update Profile</button>
-            </div>
-         </div>
-         <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-   </div>
-   <div class="modal fade" tabindex="-1" role="dialog" id="edit-account">
-      <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-               <h4 class="modal-title">Edit Account</h4>
-            </div>
-            <div class="modal-body">
-               {{  Form::open(['route' => 'update.account','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'account_form']) }}
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Account Name <span class="required">*</span>
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input disabled type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12">
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
-                  <div class="col-md-6 col-sm-9 col-xs-12">
-                     <select class="select2_single form-control" name="title" id="title" required="required" data-parsley-required-message="Please select a title" tabindex="-1">
-                        <option value=''>Select a Job Level Title</option>
-                        <option value='Entry/Junior'>Entry/Junior</option>
-                        <option value='Intermediate'>Intermediate</option>
-                        <option value='Senior'>Senior</option>
-                        <option value='Lead'>Lead</option>
-                     </select>
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="handphone">Handphone No <span class="required">*</span>
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="text" id="handphone" name="handphone" required="required" data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone">Telephone No
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="text" id="telephone" name="telephone"  data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
-                  </div>
-               </div>
-               <div class="ln_solid"></div>
-               <input type="hidden" id="employee_id" name="employee_id" value="">
+           <div class="modal fade" tabindex="-1" role="dialog" id="edit-modal">
+              <div class="modal-dialog">
+                 <div class="modal-content">
+                    <div class="modal-header">
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                       <h4 class="modal-title">Edit Company</h4>
+                    </div>
+                    <div class="modal-body">
+                       {{  Form::open(['route' => 'update.company','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'modal_form_id']) }}
+                       <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="address">Address <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input type="text" id="address" name="address" required="required" class="form-control col-md-7 col-xs-12" value="{{ $company->address }}">
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="emai">Email <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12" value="{{ $company->email }}">
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone_no">Telephone No <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input type="text" id="telephone_no" name="telephone_no" required="required" data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12" value="{{ $company->telephone_no }}">
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="website">Website
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input type="url" id="website"  name="website"  class="form-control col-md-7 col-xs-12" value="{{ $company->website }}">
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_employees">No of Employees *
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input type="number" id="no_employees"  name="no_employees" required="required"  class="form-control col-md-7 col-xs-12" value="{{ $company->no_employees }}">
+                          </div>
+                       </div>
 
-               {!! Form::close() !!}
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-               <button type="button" class="btn btn-primary"  onclick="updateAccountForm();" >Update Account</button>
-            </div>
-         </div>
-         <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-   </div>
-   <div class="modal fade" tabindex="-1" role="dialog" id="edit-collaborators">
-      <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-               <h4 class="modal-title">Edit Collaborators</h4>
-            </div>
-            <div class="modal-body">
-              <div class="table-responsive">
-               <table id="datatable" class="account_table table table-striped table-bordered">
-                  <thead>
-                     <tr>
-                        <th>Name</th>
-                        <th  style="width: 5%">Actions</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                    @foreach($collaborators as $profile)
-                    <tr>
-                    <td>{{ $profile->name }}</td>
-                    <td><a href="{{ route('detach.user',['company'=> $company->id, 'user'=> $profile->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Remove</a></td>
-                  </tr>
-                    @endforeach
-                  </tbody>
-                </table>
+                       <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry *</label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select class="select2_single form-control" required="required" id="industry" name="industry" tabindex="-1">
+                            <option value="">Select an Industry</option>
+                            <option value="Accounting / Audit / Tax Services">Accounting / Audit / Tax Services</option>
+                            <option value="Advertising / Marketing / Promotion / PR">Advertising / Marketing / Promotion / PR</option>
+                            <option value="Aerospace / Aviation / Airline">Aerospace / Aviation / Airline</option>
+                            <option value="Agricultural / Plantation / Poultry / Fisheries">Agricultural / Plantation / Poultry / Fisheries</option>
+                            <option value="Apparel">Apparel</option>
+                            <option value="Architectural Services / Interior Designing">Architectural Services / Interior Designing</option>
+                            <option value="Arts / Design / Fashion">Arts / Design / Fashion</option>
+                            <option value="Automobile / Automotive Ancillary / Vehicle">Automobile / Automotive Ancillary / Vehicle</option>
+                            <option value="Banking / Financial Services">Banking / Financial Services</option>
+                            <option value="BioTechnology / Pharmaceutical / Clinical research">BioTechnology / Pharmaceutical / Clinical research</option>
+                            <option value="Call Center / IT-Enabled Services / BPO">Call Center / IT-Enabled Services / BPO</option>
+                            <option value="Chemical / Fertilizers / Pesticides">Chemical / Fertilizers / Pesticides</option>
+                            <option value="Computer / Information Technology (Hardware)">Computer / Information Technology (Hardware)</option>
+                            <option value="Computer / Information Technology (Software)">Computer / Information Technology (Software)</option>
+                            <option value="Construction / Building / Engineering">Construction / Building / Engineering</option>
+                            <option value="Consulting (Business &amp; Management)">Consulting (Business &amp; Management)</option>
+                            <option value="Consulting (IT, Science, Engineering &amp; Technical)">Consulting (IT, Science, Engineering &amp; Technical)</option>
+                            <option value="Consumer Products / FMCG">Consumer Products / FMCG</option>
+                            <option value="Education">Education</option>
+                            <option value="Electrical &amp; Electronics">Electrical &amp; Electronics</option>
+                            <option value="Entertainment / Media">Entertainment / Media</option>
+                            <option value="Environment / Health / Safety">Environment / Health / Safety</option>
+                            <option value="Exhibitions / Event management / MICE">Exhibitions / Event management / MICE</option>
+                            <option value="Food &amp; Beverage / Catering / Restaurant">Food &amp; Beverage / Catering / Restaurant</option>
+                            <option value="Gems / Jewellery">Gems / Jewellery</option>
+                            <option value="General &amp; Wholesale Trading">General &amp; Wholesale Trading</option>
+                            <option value="Government / Defence">Government / Defence</option>
+                            <option value="Grooming / Beauty / Fitness">Grooming / Beauty / Fitness</option>
+                            <option value="Healthcare / Medical">Healthcare / Medical</option>
+                            <option value="Heavy Industrial / Machinery / Equipment">Heavy Industrial / Machinery / Equipment</option>
+                            <option value="Hotel / Hospitality">Hotel / Hospitality</option>
+                            <option value="Human Resources Management / Consulting">Human Resources Management / Consulting</option>
+                            <option value="Insurance">Insurance</option>
+                            <option value="Journalism">Journalism</option>
+                            <option value="Law / Legal">Law / Legal</option>
+                            <option value="Library / Museum">Library / Museum</option>
+                            <option value="Manufacturing / Production">Manufacturing / Production</option>
+                            <option value="Marine / Aquaculture">Marine / Aquaculture</option>
+                            <option value="Mining">Mining</option>
+                            <option value="Non-Profit Organisation / Social Services / NGO">Non-Profit Organisation / Social Services / NGO</option>
+                            <option value="Oil / Gas / Petroleum">Oil / Gas / Petroleum</option>
+                            <option value="Others">Others</option>
+                            <option value="Polymer / Plastic / Rubber / Tyres">Polymer / Plastic / Rubber / Tyres</option>
+                            <option value="Printing / Publishing">Printing / Publishing</option>
+                            <option value="Property / Real Estate">Property / Real Estate</option>
+                            <option value="R&amp;D">R&amp;D</option>
+                            <option value="Repair &amp; Maintenance Services">Repair &amp; Maintenance Services</option>
+                            <option value="Retail / Merchandise">Retail / Merchandise</option>
+                            <option value="Science &amp; Technology">Science &amp; Technology</option>
+                            <option value="Security / Law Enforcement">Security / Law Enforcement</option>
+                            <option value="Semiconductor / Wafer Fabrication">Semiconductor / Wafer Fabrication</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Stockbroking / Securities">Stockbroking / Securities</option>
+                            <option value="Telecommunication">Telecommunication</option>
+                            <option value="Textiles / Garmen">Textiles / Garment</option>
+                            <option value="Tobacco">Tobacco</option>
+                            <option value="Transportation / Logistics">Transportation / Logistics</option>
+                            <option value="Travel / Tourism">Travel / Tourism</option>
+                            <option value="Utilities / Power">Utilities / Power</option>
+                            <option value="Wood / Fibre / Paper">Wood / Fibre / Paper</option>
+
+                            </select>
+                          </div>
+                      </div>
+                       <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lead_source">Lead Source</label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                             <select class="select2_single form-control" required="required" id="lead_source" name="lead_source" tabindex="-1">
+                                <option value="{{  $company->lead_source }}">{{  $company->lead_source }}</option>
+                                <!-- http://www.themarketingscore.com/blog/bid/317180/18-Possible-Lead-Sources-Your-Organization-Needs-to-Measure -->
+                                <option value="Affiliate / Partner Programs">Affiliate / Partner Programs</option>
+                                <option value="Blogging">Blogging</option>
+                                <option value="Digital Advertising">Digital Advertising</option>
+                                <option value="Direct Marketing">Direct Marketing</option>
+                                <option value="Email Marketing">Email Marketing</option>
+                                <option value="Events / Shows">Events / Shows</option>
+                                <option value="Inbound Phone Calls">Inbound Phone Calls</option>
+                                <option value="Media Coverage">Media Coverage</option>
+                                <option value="Organic Search">Organic Search</option>
+                                <option value="Other">Other</option>
+                                <option value="Outbound Sales">Outbound Sales</option>
+                                <option value="Premium Content">Premium Content</option>
+                                <option value="Referrals">Referrals</option>
+                                <option value="Social Media">Social Media</option>
+                                <option value="Speaking Engagements">Speaking Engagements</option>
+                                <option value="Sponsorships">Sponsorships</option>
+                                <option value="Traditional / Offline Networking:">Traditional / Offline Networking:</option>
+                                <option value="Traditional Advertising">Traditional Advertising</option>
+                                <option value="Website">Website</option>
+                             </select>
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="description">Description</label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                             <textarea class="resizable_textarea form-control" value="{{ $company->description }}" name="description" id="description" placeholder="Type here" style="z-index: auto; position: relative; line-height: 20px; font-size: 14px; transition: none; background:transparent!important; margin: 0px 8px 0px 0px; "></textarea>
+                          </div>
+                       </div>
+                       <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
+                       {{ csrf_field() }}
+                       </form>
+                    </div>
+                    <div class="modal-footer">
+                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                       <button type="button" class="btn btn-primary"  onclick="submitform();" >Update Profile</button>
+                    </div>
+                 </div>
+                 <!-- /.modal-content -->
               </div>
-              <div>
-                {{  Form::open(['route' => 'attach.user','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'attach_user']) }}
-                <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Select User</label>
-                                        <div class="col-md-9 col-sm-9 col-xs-12">
-                                          <select class="select2_single form-control" name="user_id" required="required" tabindex="-1">
-                                            <option value="">Select a User</option>
+              <!-- /.modal-dialog -->
+           </div>
+           <div class="modal fade" tabindex="-1" role="dialog" id="edit-account">
+              <div class="modal-dialog">
+                 <div class="modal-content">
+                    <div class="modal-header">
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                       <h4 class="modal-title">Edit Account</h4>
+                    </div>
+                    <div class="modal-body">
+                       {{  Form::open(['route' => 'update.account','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'account_form']) }}
+                       <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Account Name <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input disabled type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
+                          <div class="col-md-6 col-sm-9 col-xs-12">
+                             <select class="select2_single form-control" name="title" id="title" required="required" data-parsley-required-message="Please select a title" tabindex="-1">
+                                <option value=''>Select a Job Level Title</option>
+                                <option value='Entry/Junior'>Entry/Junior</option>
+                                <option value='Intermediate'>Intermediate</option>
+                                <option value='Senior'>Senior</option>
+                                <option value='Lead'>Lead</option>
+                             </select>
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="handphone">Handphone No <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input type="text" id="handphone" name="handphone" required="required" data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone">Telephone No
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input type="text" id="telephone" name="telephone"  data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
+                          </div>
+                       </div>
+                       <div class="ln_solid"></div>
+                       <input type="hidden" id="employee_id" name="employee_id" value="">
 
-                                            @foreach($users as $user)
-                                              @if(!in_array($user->id, $collaboratorsId))
-                                              <option value="{{ $user-> id}}">{{$user->name}}</option>
-                                              @endif
-                                            @endforeach
-                                          </select>
-                                        </div>
-                                      </div>
-                <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
-                <div class="modal-footer">
-                <button type="submit" class="btn btn-sm btn-primary">Save</a>
+                       {!! Form::close() !!}
+                    </div>
+                    <div class="modal-footer">
+                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                       <button type="button" class="btn btn-primary"  onclick="updateAccountForm();" >Update Account</button>
+                    </div>
+                 </div>
+                 <!-- /.modal-content -->
               </div>
-                </form>
+              <!-- /.modal-dialog -->
+           </div>
+           <div class="modal fade" tabindex="-1" role="dialog" id="edit-collaborators">
+              <div class="modal-dialog">
+                 <div class="modal-content">
+                    <div class="modal-header">
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                       <h4 class="modal-title">Edit Collaborators</h4>
+                    </div>
+                    <div class="modal-body">
+                      <div class="table-responsive">
+                       <table id="datatable" class="account_table table table-striped table-bordered">
+                          <thead>
+                             <tr>
+                                <th>Name</th>
+                                <th  style="width: 5%">Actions</th>
+                             </tr>
+                          </thead>
+                          <tbody>
+                            @foreach($collaborators as $profile)
+                            <tr>
+                            <td>{{ $profile->name }}</td>
+                            <td><a href="{{ route('detach.user',['company'=> $company->id, 'user'=> $profile->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Remove</a></td>
+                          </tr>
+                            @endforeach
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        {{  Form::open(['route' => 'attach.user','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'attach_user']) }}
+                        <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Select User</label>
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                  <select class="select2_single form-control" name="user_id" required="required" tabindex="-1">
+                                                    <option value="">Select a User</option>
+
+                                                    @foreach($users as $user)
+                                                      @if(!in_array($user->id, $collaboratorsId))
+                                                      <option value="{{ $user-> id}}">{{$user->name}}</option>
+                                                      @endif
+                                                    @endforeach
+                                                  </select>
+                                                </div>
+                                              </div>
+                        <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
+                        <div class="modal-footer">
+                        <button type="submit" class="btn btn-sm btn-primary">Save</a>
+                      </div>
+                        </form>
+                      </div>
+                    </div>
+                    <!-- <div class="modal-footer">
+                       <button  type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                       <button type="button" class="btn btn-primary"  onclick="" >Save</button>
+                    </div> -->
+                 </div>
+                 <!-- /.modal-content -->
               </div>
-            </div>
-            <!-- <div class="modal-footer">
-               <button  type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-               <button type="button" class="btn btn-primary"  onclick="" >Save</button>
-            </div> -->
-         </div>
-         <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-   </div>
-   
-   <div class="modal fade" tabindex="-1" role="dialog" id="confirm-delete">
-      <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-               <h4 class="modal-title">Delete Contact</h4>
-            </div>
-            <div class="modal-body">
-               {{  Form::open(['route' => 'delete.account','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'delete_form']) }}
-               <p>Are you sure you want to delete this contact? This action cannot be undone.</P>
-               <input type="hidden" id="contact_id" name="contact_id" value="">
+              <!-- /.modal-dialog -->
+           </div>
 
-               {!! Form::close() !!}
-              
-               <button type="button" class="btn btn-danger"  onclick="submitForm();" >Confirm Delete</button>
-               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              
-            </div>
-            
-         </div>
-         <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-	 </div>
+           <div class="modal fade" tabindex="-1" role="dialog" id="confirm-delete">
+              <div class="modal-dialog">
+                 <div class="modal-content">
+                    <div class="modal-header">
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                       <h4 class="modal-title">Delete Contact</h4>
+                    </div>
+                    <div class="modal-body">
+                       {{  Form::open(['route' => 'delete.account','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'delete_form']) }}
+                       <p>Are you sure you want to delete this contact? This action cannot be undone.</P>
+                       <input type="hidden" id="contact_id" name="contact_id" value="">
 
-     <div class="modal fade" tabindex="-1" role="dialog" id="confirm-deleteNote">
-      <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-               <h4 class="modal-title">Delete Note</h4>
-            </div>
-            <div class="modal-body">
-               {{  Form::open(['route' => 'delete.note','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'delete_formNote']) }}
-               <p>Are you sure you want to delete this note? This action cannot be undone.</P>
-               <input type="hidden" id="postId" name="postId" value="">
+                       {!! Form::close() !!}
 
-               {!! Form::close() !!}
-              
-               <button type="button" class="btn btn-danger"  onclick="submitFormNote();" >Confirm Delete</button>
-               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              
-            </div>
-            
-         </div>
-         <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-	 </div>
-	 
-	 
-</div>
+                       <button type="button" class="btn btn-danger"  onclick="submitForm();" >Confirm Delete</button>
+                       <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+                    </div>
+
+                 </div>
+                 <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+        	 </div>
+
+             <div class="modal fade" tabindex="-1" role="dialog" id="confirm-deleteNote">
+              <div class="modal-dialog">
+                 <div class="modal-content">
+                    <div class="modal-header">
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                       <h4 class="modal-title">Delete Note</h4>
+                    </div>
+                    <div class="modal-body">
+                       {{  Form::open(['route' => 'delete.note','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'delete_formNote']) }}
+                       <p>Are you sure you want to delete this note? This action cannot be undone.</P>
+                       <input type="hidden" id="postId" name="postId" value="">
+
+                       {!! Form::close() !!}
+
+                       <button type="button" class="btn btn-danger"  onclick="submitFormNote();" >Confirm Delete</button>
+                       <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+                    </div>
+
+                 </div>
+                 <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+        	 </div>
+
+           <div class="modal fade" tabindex="-1" role="dialog" id="edit-contacts"> -->
+              <div class="modal-dialog">
+                 <div class="modal-content">
+                    <div class="modal-header">
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                       <h4 class="modal-title">Edit Company</h4>
+                    </div>
+                    <div class="modal-body">
+                      {{  Form::open(['route' => 'add.new.account','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
+                      <div class="form-group">
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name"> Name <span class="required">*</span>
+                         </label>
+                         <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12">
+                         </div>
+                      </div>
+                      <div class="form-group">
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
+                         <div class="col-md-6 col-sm-9 col-xs-12">
+                            <select class="select2_single form-control" name="title" id="title" required="required" data-parsley-required-message="Please select a title" tabindex="-1">
+                               <option value=''>Select a Job Level Title</option>
+                               <option value='HR Executive'>HR Executive</option>
+                               <option value='HR Manager'>HR Manager</option>
+                               <option value='HR Director'>HR Director</option>
+                               <option value='Office Administrator'>Office Administrator</option>
+                               <option value='Office Manager'>Office Manager</option>
+                               <option value='Director'>Director</option>
+                               <option value='CEO'>CEO</option>
+                               <option value='General Manager'>General Manager</option>
+                               <option value='Hiring Manager'>Hiring Manager</option>
+                               <option value='unknown'>unknown</option>
+                            </select>
+                         </div>
+                      </div>
+                      <div class="form-group">
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
+                         </label>
+                         <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
+                         </div>
+                      </div>
+                      <div class="form-group">
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="handphone">Handphone No <span class="required">*</span>
+                         </label>
+                         <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="text" id="handphone" name="handphone" required="required" data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
+                         </div>
+                      </div>
+                      <div class="form-group">
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone">Telephone No
+                         </label>
+                         <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="text" id="telephone" name="telephone"  data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
+                         </div>
+                      </div>
+                      <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <button class="btn btn-primary" type="reset">Reset</button>
+                            {{ Form::submit('Submit', ['class'=>'btn btn-success']) }}
+                         </div>
+                      </div>
+                      {!! Form::close() !!}
+                      </div>
+                      </div>
+                      </div>
+                      </div>
+  </div>
+              <!-- recent activities -> notes -->
 @endsection
 
 @section('bottom_content')
@@ -1028,7 +1072,6 @@ $(document).ready(function () {
         company_id:$('#comapany-id').val(),
         email: $('#email').val(),
         telephone_no: $('#telephone_no').val(),
-        fax_no: $('#fax_no').val(),
         address: $('#address').val(),
         industry: $('#industry').val(),
         website: $('#website').val(),
@@ -1080,6 +1123,13 @@ $(document).ready(function () {
   $(document).ready(function () {
     $('.ui-pnotify').remove();
       loadNotification();
+  });
+
+  $(document).ready(function () {
+    $("#new-contact-button").click(function () {
+        $('#edit-contacts').modal('show');
+      });
+
   });
 
 

@@ -17,7 +17,6 @@
 <script>
 $(window).load(function() {
   $('.right_col').hide();
-
   $("#fakeLoader").fakeLoader({
     timeToHide:9999999999, //Time in milliseconds for fakeLoader disappear
      zIndex:99999, // Default zIndex
@@ -100,7 +99,6 @@ $(window).load(function() {
                     <div class="clearfix"></div>
 
                     <div  id="table-list">
-
                     </div>
                   </div>
                 </div>
@@ -125,7 +123,6 @@ $(window).load(function() {
 
   var initCharts = function() {
     var charts = $('.chart');
-
     $(document).ajaxComplete(function(e) {
       e.preventDefault();
       console.log('charts loaded');
@@ -163,17 +160,29 @@ $(window).load(function() {
             var $wrapper = $('<div class="col-md-12 col-sm-12 col-xs-12 widget_tally_box">');
             var $xpannel = $('<div class="x_panel ui-ribbon-container">');
             var $ribbon = $('<div class="ui-ribbon-wrapper">');
-            $ribbon.prepend($('<div class="ui-ribbon">'+ Math.round(data[1][i].reduce((a, b) => a + b, 0)) +' Points</div>'));
+            // $ribbon.prepend($('<div class="ui-ribbon">'+ Math.round(data[1][i].reduce((a, b) => a + b, 0)) +' Points</div>'));
+
+            // <div class="bs-example" data-example-id="simple-jumbotron">
+            //       <div class="jumbotron">
+            //         <h1>Number</h1>
+            //         <p>Keyword(s) Matched</p>
+            //       </div>
+            //     </div>
+            // '<span class="chart" data-percent="' + Math.round(data[2][i]) + '"><span class="percent">' + Math.round(data[2][i]) + '</span></span>'
+
             $xpannel.prepend(
               $('<div class="x_content">' +
               '<div style="text-align: center; margin-bottom: 17px">' +
-              '<span class="chart" data-percent="' + Math.round(data[2][i]) + '"><span class="percent">' + Math.round(data[2][i]) + '</span></span>'
               + '</div>' + '<h3 class="name_title">' + data[0][i].job_title + '</h3>' +
+              '<div class="bs-example" data-example-id="simple-jumbotron"><div class="jumbotron"><h1>' +
+                Math.round(data[1][i]) +
+                '</h1><p>Keyword(s) Matched</p></div></div>'
+              +
               '<p>' + data[0][i].industry + '</p>'
              + '<div class="divider"></div>' +
-             '<h4 class="name_title">Skills:</h4><br/>'+
-              + '<p>' + data[0][i].job_description+ '</p>' + '<div class="divider"></div>' + '<p>'
-             + data[0][i].skills+ '</p>' + '<div class="divider"></div>' + '<p>' + "Keywords match: " + blkstr.join(", ") + '</p>' + '</div>'));
+             '<h4 class="name_title">Job Description</h4><br/>'+
+              + '<p>' + data[0][i].job_description+ '</p>' + '<div class="divider"></div>' + '<h4 class="name_title">Job Skills</h4><br/><p>'
+             + data[0][i].skills+ '</p>' + '<div class="divider"></div><h4 class="name_title">Resume Skills Keyword(s) matched</h4><br/>' + '<p>'  + blkstr.join(", ") + '</p>' + '</div>'));
              $xpannel.prepend($('<div class="x_title">' + '<h2>#' + (count+1) + '</h2>' + '<div class="clearfix"></div>' + '</div>'));
              $xpannel.prepend($ribbon);
              $wrapper.prepend($xpannel);

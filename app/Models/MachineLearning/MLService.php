@@ -13,13 +13,14 @@ use App\Models\DocxConversion;
 use App\Models\MachineLearning\StoreSampleData;
 use App\Models\Jobs\Job;
 use App\Models\Clients\Company;
-
+use Illuminate\Contracts\Filesystem\Filesystem;
+use  App\Models\Attachments\AttachmentService;
 
 use Smalot\PdfParser\Parser;
 
 class MLService
 {
-    public function __construct()
+    public function __construct(AttachmentService $attachSvc)
     {
         ini_set('max_execution_time', 0);
         $this->api = new TextRankFacade();
@@ -31,10 +32,15 @@ class MLService
         $this->stanfordStopwords =  file(public_path('/stanford_nl_stopwords.txt'));
 
         $this->skillwords =  array_chunk(file(public_path('/skill_words.txt'), FILE_IGNORE_NEW_LINES), 100, true);
+
         // Remove line breaks and spaces from stopwords
         $this->stanfordStopwords = array_map(function ($x) {
             return trim(strtolower($x));
         }, $this->stanfordStopwords);
+
+        $this->s3 = Storage::disk('s3');
+        $this->url = 'https://s3.' . env('AWS_DEFAULT_REGION') . '.amazonaws.com/' . env('AWS_BUCKET') . '/';
+        $this->attachSvc = $attachSvc;
     }
 
     public function setDataIntoDB($fileDir)
@@ -42,16 +48,67 @@ class MLService
         $begin = memory_get_usage();
         $maxId = Company::max('id');
         $minId = Company::min('id');
-        $industriesRandom =   ["Aerospace industry", "Agriculture",
-        "Fishing industry","Timber industry","Tobacco industry","Chemical industry",
-        "Pharmaceutical industry","Computer industry","Software industry",
-        "Technology industry", "Construction industry", "Real estate industry",
-        "Public utilities industry", "Defense industry", "Arms industry", "Education industry",
-        "Energy industry", "Electrical power industry", "Petroleum industry", "Entertainment industry",
-        "Financial services industry", "Insurance industry", "Food industry", "Fruit production", "Health care industry",
-        "Hospitality industry","Information industry", "Manufacturing","Electronics industry", "Pulp and paper industry",
-        "Steel industry", "Shipbuilding industry", "Mass Media Broadcasting", "Film industry", "Music industry", "News media", "Publishing",
-        "World Wide Web", "Mining", "Telecommunications industry", "Transport industry", "Water industry","Other"];
+        $industriesRandom =   [
+          "Accounting / Audit / Tax Services",
+          "Advertising / Marketing / Promotion / PR",
+        "Aerospace / Aviation / Airline",
+        "Agricultural / Plantation / Poultry / Fisheries",
+        "Apparel",
+        "Architectural Services / Interior Designing",
+        "Arts / Design / Fashion",
+        "Automobile / Automotive Ancillary / Vehicle",
+        "Banking / Financial Services",
+        "BioTechnology / Pharmaceutical / Clinical research",
+        "Call Center / IT-Enabled Services / BPO",
+        "Chemical / Fertilizers / Pesticides",
+        "Computer / Information Technology (Hardware)",
+         "Computer / Information Technology (Software)",
+          "Construction / Building / Engineering",
+          "Consulting (Business &amp; Management)",
+        "Consulting (IT, Science, Engineering &amp; Technical)",
+         "Consumer Products / FMCG",
+          "Education",
+           "Electrical &amp; Electronics",
+        "Entertainment / Media",
+        "Environment / Health / Safety",
+         "Exhibitions / Event management / MICE",
+         "Food &amp; Beverage / Catering / Restaurant",
+          "Gems / Jewellery",
+        "General &amp; Wholesale Trading",
+        "Government / Defence",
+         "Grooming / Beauty / Fitness",
+         "Healthcare / Medical",
+          "Heavy Industrial / Machinery / Equipment",
+        "Hotel / Hospitality",
+        "Human Resources Management / Consulting",
+         "Insurance",
+         "Journalism",
+          "Law / Legal",
+           "Library / Museum",
+            "Manufacturing / Production",
+        "Marine / Aquaculture",
+         "Mining",
+          "Non-Profit Organisation / Social Services / NGO",
+           "Oil / Gas / Petroleum",
+           "Polymer / Plastic / Rubber / Tyres",
+          "Printing / Publishing",
+          "Property / Real Estate",
+          "R&amp;D",
+          "Repair &amp; Maintenance Services",
+          "Retail / Merchandise",
+          "Science &amp; Technology",
+          "Security / Law Enforcement",
+          "Semiconductor / Wafer Fabrication",
+          "Sports",
+          "Stockbroking / Securities",
+          "Telecommunication",
+          "Textiles / Garmen",
+          "Tobacco",
+          "Transportation / Logistics",
+          "Travel / Tourism",
+          "Utilities / Power",
+          "Wood / Fibre / Paper",
+           "Other"];
         if (($handle = fopen($fileDir, 'r')) !== false) {
             $header = fgetcsv($handle);
             while (($data = fgetcsv($handle)) !== false) {
@@ -116,17 +173,20 @@ class MLService
             $fileDir = realpath($_SERVER["DOCUMENT_ROOT"])."/storage/".$fileName;
         } elseif ($type == 2) {
             // $fileDir = realpath($_SERVER["DOCUMENT_ROOT"])."/storage/app/resumes/".$fileName;
-            $fileDir = storage_path() ."/app/resumes/".$fileName;
-            // "/Users/jerrytohvan/jobpluscrm/storage/app/resumes/c3794237ff59bbef2279246cd532f470.docx"
+            $fileDir = $this->url . 'resume/' . $fileName;
+            // $file = fopen($fileDir, 'rb');
+            // dd($file);
         } else {
             $fileDir = realpath($_SERVER["DOCUMENT_ROOT"])."/public/".$fileName;
         }
         $path = parse_url($fileDir, PHP_URL_PATH);
         $type = pathinfo($path, PATHINFO_EXTENSION);
-        if (file_exists($fileDir)) {
-            $docObj = new DocxConversion($fileDir);
+        $exists = Storage::disk('s3')->exists('/resume/'. $fileName);
+        if ($exists) {
+            $file = fopen($fileDir, 'r');
+            $docObj = new DocxConversion($fileDir, $fileName, $type);
             $docText = $docObj->convertToText();
-            if (!$docText && $type == "pdf") {
+            if ($type == "pdf" && !$docText) {
                 $parser = new Parser();
                 $pdf = $parser->parseFile($fileDir);
                 $text = $pdf->getText();
@@ -165,10 +225,14 @@ class MLService
 
     public function cmp($a, $b)
     {
-        if (array_sum($a[1]) == array_sum($b[1])) {
+        // if (array_sum($a[1]) == array_sum($b[1])) {
+        //     return 0;
+        // }
+        // return (array_sum($a[1]) > array_sum($b[1])) ? -1 : 1;
+        if ($a[3] == $b[3]) {
             return 0;
         }
-        return (array_sum($a[1]) > array_sum($b[1])) ? -1 : 1;
+        return ($a[3] > $b[3]) ? -1 : 1;
     }
 
     public function potentialMaxPoints($portionArray, $pointsArray, $keywordsTotal)
@@ -189,14 +253,13 @@ class MLService
         //ADD ON FILTER BY JOB INDUSTRY
         if ($industry!= null) {
             $chunks = Job::where('industry', '=', $industry)->get()->chunk(100);
-            // dd($chunks[0][0]);
         } else {
-            $chunks = Job::all()->paginate(1000)->chunk(100);
+            $chunks = Job::all()->chunk(100);
         }
 
-        $index = 0;
         //collect top 10 job points
         $points = [];
+        $keywordSize = count($keywords);
         foreach ($chunks as $jobs) {
             foreach ($jobs as $job) {
                 //algorithm
@@ -209,56 +272,29 @@ class MLService
                     $summary[$key] = trim($value);
                 }
 
-                $titlePortion = 0.1;
-                $descPortion = 0.2;
-                $skillsPortion = 0.3;
-                $expPortion = 0.1;
-                $summaryPortion = 0.3;
-
-                //will same words from each factor and keywords be counted twice?
-                $titlePoint = count(array_intersect($job_title, $keywords)) * $titlePortion;
-                $descPoint = count(array_intersect($job_description, $keywords)) * $descPortion;
-                $skillsPoint = count(array_intersect($skills, $keywords)) * $skillsPortion;
-                $expPoint = ($years_of_exp <=  (int)end($keywords) ? 1 : 0) * $expPortion;
-                $summaryKeywordsPoint = count(array_intersect($summary, $keywords)) * $summaryPortion;
-
-                $maxPoint = Self::potentialMaxPoints(
-                    [$titlePortion, $descPortion, $skillsPortion, $expPortion, $summaryPortion],
-                    [$titlePoint, $descPoint, $skillsPoint,$expPoint, $summaryKeywordsPoint],
-                    sizeof($keywords)
-                );
-                $accuracy =  $maxPoint != 0 ? [$job->id, ($titlePoint + $descPoint + $skillsPoint + $expPoint + $summaryKeywordsPoint)/$maxPoint] : 0;
-                $points = Self::returnWithMaxPoints($points, array($index,[$titlePoint,$descPoint, $skillsPoint,$expPoint, $summaryKeywordsPoint], $accuracy));
-                $index++;
-                // unset($job);
+                $keywordsMatched = array_intersect($keywords, array_unique(array_merge($job_title, $job_description, $skills, $summary)));
+                $accuracy =  count($keywordsMatched)/$keywordSize * 100;
+                $points = Self::returnWithMaxPoints($points, array($job->id, $accuracy,$keywordsMatched,count($keywordsMatched)));
             }
         }
 
-        // unset($chunks);
-        // $retrieveIndex = array_map(function ($row) {
-        //     return $row[3];
-        // }, $points);
-        $retrieveIndex = array_map(function ($row) {
-            return $row[2][0];
-        }, $points);
+        // dd($points);
 
-        $points = array_map(function ($row) {
-            return $row[1];
+        $retrieveIndex = array_map(function ($row) {
+            return $row[0];
         }, $points);
 
         $accuracy =   array_map(function ($row) {
-            return $row[2];
+            return $row[1];
         }, $points);
 
+        $points = array_map(function ($row) {
+            return $row[3];
+        }, $points);
 
         //array of keywords match of the top 10 selection
         $keywordsMatch = [];
         $matchingJobs = Job::whereIn('id', $retrieveIndex)->get();
-
-        // $matchingJobs =  $chunks->filter(function ($job, $value) use ($retrieveIndex) {
-        //     return in_array($job->id, $retrieveIndex);
-        // });
-        // dd($matchingJobs);
 
         foreach ($matchingJobs as $jobs) {
             $job_title =  Self::extract_keywords($jobs->job_title);
@@ -276,6 +312,11 @@ class MLService
 
             $keywordsMatch[] = array_unique(array_merge($titlesArray, $descArray, $skillsArray, $summaryArray));
         }
+
         return [$matchingJobs,$points, $accuracy, $keywordsMatch, $keywords];
+    }
+
+    public function updateJobMatch()
+    {
     }
 }

@@ -7,50 +7,57 @@
 <link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
 <link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
 <link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
+
 @endpush
 
 @section('content')
 <!-- page content -->
 <div class="right_col" role="main">
   <!-- top tiles -->
-  <!-- <div class="row tile_count">
-    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-      <span class="count_top"><i class="fa fa-user"></i> Total Users</span>
-      <div class="count">0</div>
-      <span class="count_bottom"><i class="green">4% </i> From last Week</span>
+  <div class="row tile_count">
+    <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
+      <span class="count_top"><i class="fa fa-clock-o"></i> Task(s) Overdue </span>
+      <div class="count">{{$tasksOverdue}}</div>
+      <span class="count_bottom">
+        @if(is_string($overdueComparison))
+        <i><i>
+
+        @elseif ($overdueComparison < 0)
+        <i class="green"><i class="fa fa-sort-desc">
+          @elseif($overdueComparison > 0)
+        <i class="red"><i class="fa fa-sort-asc">
+        @endif  </i> {{ is_string($overdueComparison) || $overdueComparison > 0  ? $overdueComparison: $overdueComparison  * -1 }}%</i> From Last Week</span>
     </div>
-    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-      <span class="count_top"><i class="fa fa-clock-o"></i> Average Time to link</span>
-      <div class="count">0</div>
-      <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span>
+
+    <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
+     <span class="count_top"><i class="fa fa-clock-o"></i> Completed Task(s) YTD</span>
+     <div class="count"> {{$totalTaskCompletedThisYear }}</div>
+     <span class="count_bottom">
+       <!-- <i class="green"><i class="fa fa-sort-desc"></i></i> -->
+     </span>
+   </div>
+    <!-- <div class="col-md-2 col-sm-2 col-xs-6 tile_stats_count">
+      <span class="count_top"><i class="fa fa-user"></i> New Companies This Week</span>
+      <div class="count">{{$leadsThisWeek}}</div>
+      <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>>{{$leadsComparison}}%</i> From last Week</span>
+    </div> -->
+
+     <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
+      <span class="count_top"><i class="fa fa-user"></i> Total Companies YTD</span>
+      <div class="count"> {{$companiesYTD}}</div>
+      <!-- <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i></i></span> -->
     </div>
-    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-      <span class="count_top"><i class="fa fa-user"></i> Total Males</span>
-      <div class="count green">0</div>
-      <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
-    </div>
-    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-      <span class="count_top"><i class="fa fa-user"></i> Total Females</span>
-      <div class="count">0</div>
-      <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
-    </div>
-    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-      <span class="count_top"><i class="fa fa-user"></i> Total Companies</span>
-      <div class="count">0</div>
-      <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
-    </div>
-    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+    <!-- <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
       <span class="count_top"><i class="fa fa-user"></i> Total Connections</span>
-      <div class="count">0</div>
+      <div class="count">5</div>
       <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
     </div>
-  </div> -->
-  <!-- /top tiles -->
+  </div>  -->
+  <!-- /top tiles-->
 
     <!-- start vue -->
     <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
-        <h3 class="text-center title-color">Your Tasks</h3>
          <div class="well" id="app">
            <task-draggable :tasks-open="{{ $tasksOpen }}" :tasks-on-going="{{ $tasksOnGoing }}" :tasks-closed="{{ $tasksClosed }}"></task-draggable>
          </div> <!-- end app -->
@@ -61,7 +68,7 @@
 
   <!-- start of table  -->
   <!-- page content -->
-
+</div>
 
          <div class="clearfix"></div>
 
@@ -89,7 +96,36 @@
 <script>
 $(document).ready(function() {
     $('.ui-pnotify').remove();
+    var announcement = "{{ $announcementMsg }}";
+
+    if( announcement != ""){
+      new PNotify({
+          title: "Welcome to JobPlusPlus",
+          text: `<strong>Here's your latest announcement:</strong><br/>` + announcement,
+          addclass: 'dark',
+          styling: 'bootstrap3',
+          
+          desktop: {
+           desktop: true
+       }
+   });
+    }
 } );
 
+
+function loadNotification(){
+  var message = "{{ $message }}";
+  var status = "{{ $status }}";
+
+  if(message != "" && status != ""){
+    new PNotify({
+        title: (status == 1 ? "Success!" : "Failed!"),
+        text: message,
+        type: (status == 1 ? "success" : "error"),
+        styling: 'bootstrap3'
+    });
+  }
+
+}
 </script>
 @endpush

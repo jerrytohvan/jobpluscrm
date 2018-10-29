@@ -56,13 +56,13 @@ class TaskController extends Controller
         $client = new Client();
 
         try {
-            $res = $client->request('GET', 'http://localhost:3000/mailData');
+            $res = $client->request('GET', 'https://dbscript.herokuapp.com/mailData');
             $content = $res->getBody()->getContents();
             error_log(print_r($content, true));
             $var = json_decode($content, true);
             //dun touch tis codes
-            // $emailSend = $this->mTc->processTaskForEmail($var);
-            //$teleSend = $this->teleSvc->send($var);
+            $emailSend = $this->mTc->processTaskForEmail($var);
+            $teleSend = $this->tSvc->send($var);
         } catch (Exception $e) {
             error_log(print_r($e->getMessage(), true));
         }
@@ -168,11 +168,6 @@ class TaskController extends Controller
         // return $task;
     }
 
-    public function breakdownReport()
-    {
-        $now = Carbon::now();
-    }
-
     public function closeTask($id)
     {
         $task = Task::find('id', $id);
@@ -267,7 +262,7 @@ class TaskController extends Controller
             });
             $tasks = Task::whereUserId($id)->whereBetween('date_reminder', [$today,$tmr])->orWhere('assigned_id', $id)->whereBetween('date_reminder', [$today,$tmr])->orWhereIn('company_id', $collaboratorsIn)->whereBetween('date_reminder', [$today,$tmr])->orderBy('date_reminder', 'desc')->Limit(5)->get();
 
-//retrieve all company and users
+            //retrieve all company and users
             $companies = Company::all();
             $users = User::all();
             $tasksOpen = $tasks->map(function ($value, $key) use ($companies, $users) {
@@ -321,11 +316,8 @@ class TaskController extends Controller
             $message = "hi";
             $status = "200";
 
-
             return view('layouts.dummy', compact('tasksOpen', 'message', 'status'));
-
         }
-
     }
 
     public function updateToDoList($id)

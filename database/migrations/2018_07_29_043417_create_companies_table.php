@@ -20,7 +20,7 @@ class CreateCompaniesTable extends Migration
             $table->string('email');
             $table->string('telephone_no');
             $table->string('website')->nullable();
-            $table->integer('no_employees')->default(0);
+            $table->string('no_employees')->nullable();
             $table->string('industry')->nullable();
             $table->string('lead_source')->nullable();
             $table->boolean('client')->default(false);//0 as lead,1 as client

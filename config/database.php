@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'pgsql'),
+    'default' => env('DB_CONNECTION', 'pgsql_production'),
 
     /*
     |--------------------------------------------------------------------------
@@ -53,24 +53,25 @@ return [
             'port' => '5432',
             'database' => 'jobplus',
             'username' => 'postgres',
-            'password' => 'yiyao',
+            'password' => 'root',
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
-            'sslmode' => 'allow',
+            // 'sslmode' => 'allow',
         ],
         'pgsql_production' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST'),
-            'port' => env('DB_PORT'),
-            'database' => env('DB_DATABASE'),
-            'username' => env('DB_USERNAME'),
-            'password' => env('DB_PASSWORD'),
+            'port' =>   env('DB_PORT'),
+            'database' =>   env('DB_DATABASE'),
+            'username' =>  env('DB_USERNAME'),
+            'password' =>  env('DB_PASSWORD'),
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
             'sslmode' => 'prefer',
         ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'host' => env('DB_HOST', 'localhost'),
@@ -81,7 +82,18 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
         ],
-
+/*
+             'postgres' => [
+            'driver'   => 'pgsql',
+            'host'     => $db['host'],
+            'database' => substr($db["path"], 1),
+            'username' => $db['user'],
+            'password' => isset($db['pass']) ? $db['pass'] : '',
+            'charset'  => 'utf8',
+            'prefix'   => '',
+            'schema'   => 'public',
+        ],
+*/
 
     ],
 

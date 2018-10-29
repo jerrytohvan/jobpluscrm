@@ -10,7 +10,7 @@ use App\Models\Clients\Company;
 use App\Models\Employees\Employee;
 use App\Models\Clients\CompanyService;
 use App\Models\Attachments\Attachment;
-//use Illuminate\Support\Facades\Auth;
+use App\Models\Attachments\AttachmentService;
 use App\Models\Clients\ClientService;
 use App\Models\Users\UserService;
 use App\Models\ActivityLog\ActivityLogService;
@@ -21,11 +21,13 @@ use App\Models\Posts\Post;
 use App\Models\Tasks\Task;
 use App\Models\Tasks\TaskService;
 use App\Models\Users\UserCompany;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Auth;
 
 class ClientController extends Controller
 {
-    public function __construct(UserService $userSvc, ClientService $clientSvc, CompanyService $compService, ActivityLogService $actService, CandidateService $canSvc , TaskService $taskSvc)
+    public function __construct(UserService $userSvc, ClientService $clientSvc, CompanyService $compService, ActivityLogService $actService, CandidateService $canSvc, TaskService $taskSvc, AttachmentService $attachSvc)
     {
         $this->svc = $clientSvc;
         $this->compSvc = $compService;
@@ -33,6 +35,7 @@ class ClientController extends Controller
         $this->userSvc = $userSvc;
         $this->canSvc = $canSvc;
         $this->taskSvc = $taskSvc;
+        $this->attachSvc = $attachSvc;
     }
     public function index_candidates_full_list()
     {
@@ -190,7 +193,7 @@ class ClientController extends Controller
         // dd($activities);
         $collaborators = $company->collaborators;
         $collaboratorsId = $collaborators->pluck('id')->toArray();
-        $users = User::all();
+        $users = User::orderBy('name','asc')->get();
         $notes = $company->posts;
         $jobs = Job::whereCompanyId($company->id)->take(20)->get();
 
@@ -253,7 +256,7 @@ class ClientController extends Controller
         // } else if (sizeof($coTasks) > 0) {
         //     return $coTasks;
         // }
-        
+
         return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes', 'jobs', 'tasksOpen', 'tasksOnGoing', 'tasksClosed'));
     }
     public function showCompanyPost(Company $company, $message=null, $status=null)
@@ -307,10 +310,9 @@ class ClientController extends Controller
             $original_name = $file->getClientOriginalName();
             $ext = pathinfo($original_name, PATHINFO_EXTENSION);
             $company =  Company::find(request()->input('company_id'));
-            //add image & file compressor
             $hashed_name = md5($original_name. time()) . "." . $ext;
-            $file->move($path, $hashed_name);
-            $storedFile = $this->compSvc->addCompanyFiles($hashed_name, $original_name, $company);
+            $this->attachSvc->uploadFile('/attachments/'. $hashed_name, $file);
+            $storedFile = $this->compSvc->addCompanyFiles('/attachments/'. $hashed_name, $original_name, $company);
             if ($storedFile != null) {
                 $status = 1;
                 $message = "File is successfully added!";
@@ -327,10 +329,9 @@ class ClientController extends Controller
     public function getFile(Attachment $file)
     {
         try {
-            $path = storage_path() . "/app/attachments/" . $file->hashed_name;
-
-            if (Auth::user()&& file_exists($path)) {
-                return response()->download($path, $file->file_name);
+            $exists = Storage::disk('s3')->exists($file->hashed_name);
+            if (Auth::user()&& $exists) {
+                return $this->attachSvc->downloadFile($file->hashed_name, $file->file_name);
             } else {
                 return redirect()->back()->with(['message' => "ERROR, Something happened, file not found", 'status' => 0]);
             }
@@ -342,9 +343,9 @@ class ClientController extends Controller
     public function getResume(Attachment $file)
     {
         try {
-            $path = storage_path() . "/app/resumes/" . $file->hashed_name;
-            if (Auth::user() && file_exists($path)) {
-                return response()->download($path, $file->file_name);
+            $exists = Storage::disk('s3')->exists('/resume/'. $file->hashed_name);
+            if (Auth::user() && $exists) {
+                return $this->attachSvc->downloadFile('/resume/' . $file->hashed_name, $file->file_name);
             } else {
                 return redirect()->back()->with(['message' => "Error, Something happened, file not found", 'status' => 0]);
             }
@@ -356,8 +357,9 @@ class ClientController extends Controller
     public function removeFileFromCompany(Attachment $file)
     {
         $company = $file->attachable;
-        $status = $this->compSvc->removeFile($file);
+        $status = $this->attachSvc->deleteFile($file->hashed_name);
         if ($status) {
+            $file->delete();
             $message = "File successfully removed!";
         } else {
             $message = "Oops! File can't be removed!";

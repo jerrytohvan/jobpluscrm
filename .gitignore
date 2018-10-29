@@ -6,7 +6,7 @@
 # [2] : Folder config file.
 # [3] : Recycle Bin used on file shares.
 
-.env
+#.env
 .idea
 .DS_Store
 .sass-cache
@@ -35,5 +35,5 @@ npm-debug.log*
 
 build/
 vendor/
-config/
+#config/
 node_modules/

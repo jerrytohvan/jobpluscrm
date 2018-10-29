@@ -98,10 +98,13 @@ $(document).ready(function() {
       loadNotification();
 } );
 
+<<<<<<< HEAD
+=======
 function submitform()
 {
   $('#modal_form_id').submit();
 }
+>>>>>>> 00dc579b65519915fb34b69989be9615f5df651f
 
 
 

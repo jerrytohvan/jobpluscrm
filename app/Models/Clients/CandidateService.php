@@ -6,9 +6,15 @@ use Illuminate\Http\Request;
 use App\Models\Clients\Candidate;
 use App\Models\Attachments\Attachment;
 use Illuminate\Support\Facades\Auth;
+use  App\Models\Attachments\AttachmentService;
 
 class CandidateService
 {
+    public function __construct(AttachmentService $attachSvc)
+    {
+        $this->attachSvc = $attachSvc;
+    }
+
     public function getAllCandidates()
     {
         return Candidate::all()->sortBy('name');
@@ -66,7 +72,8 @@ class CandidateService
             $hashed_name = md5($original_name. time()) . "." . $ext;
             $filenameArray = explode('.', $hashed_name);
             $path =  storage_path() ."/app/resumes";
-            $file->move($path, $hashed_name);
+            // $file->move($path, $hashed_name);
+            $savedFile = $this->attachSvc->uploadFile('resume/'. $hashed_name, $file);
             $candidate = Candidate::Create([
                   'name' => $array['name'],
                   'email' => $array['email'],
@@ -93,10 +100,9 @@ class CandidateService
     public function removeFile(Attachment $file)
     {
         try {
-            $path = storage_path() . "/app/resumes/" . $file->hashed_name;
-            if (Auth::user() && file_exists($path)) {
+            $status = $this->attachSvc->deleteFile('/resume/'.$file->hashed_name);
+            if (Auth::user() && $status) {
                 $file->delete();
-                unlink($path);
                 return 1;
             } else {
                 return 0;

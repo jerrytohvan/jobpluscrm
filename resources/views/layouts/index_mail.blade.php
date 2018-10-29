@@ -8,12 +8,13 @@
 
 @section('content')
 <!-- page content -->
+
 <div class="right_col" role="main">
-  <div class="">
+  <div class="clearfix">
 
     <div class="page-title">
       <div class="title_left">
-        <h3>Inbox Design <small>Some examples to get you started</small></h3>
+        <h3>Mail</h3><small>Click Button to send a mail </small></h3>
       </div>
 
       <div class="title_right">
@@ -30,11 +31,11 @@
 
     <div class="clearfix"></div>
 
-    <div class="row">
+     <div class="row">
       <div class="col-md-12">
         <div class="x_panel">
           <div class="x_title">
-            <h2>Inbox Design<small>User Mail</small></h2>
+            <h2>New Mail<small></small></h2>
             <ul class="nav navbar-right panel_toolbox">
               <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
               </li>
@@ -57,7 +58,9 @@
               <div class="col-sm-3 mail_list_column">
                 <button id="compose" class="btn btn-sm btn-success btn-block" type="button">COMPOSE</button>
                 <a href="#">
-                  <div class="mail_list">
+                  </div>
+
+          <!--        <div class="mail_list">
                     <div class="left">
                       <i class="fa fa-circle"></i> <i class="fa fa-edit"></i>
                     </div>
@@ -144,10 +147,10 @@
                     </div>
                   </div>
                 </a>
-              </div>
+              </div> -->
               <!-- /MAIL LIST -->
 
-              <!-- CONTENT MAIL -->
+              <!-- CONTENT MAIL
               <div class="col-sm-9 mail_view">
                 <div class="inbox-body">
                   <div class="mail_heading row">
@@ -251,7 +254,8 @@
                 </div>
 
               </div>
-              <!-- /CONTENT MAIL -->
+               /CONTENT MAIL -->
+
             </div>
           </div>
         </div>
@@ -262,10 +266,9 @@
 <!-- /page content -->
 @endsection
 
-
 @section('bottom_content')
 <!-- compose -->
-< >
+
 
 <div class="compose col-md-6 col-xs-12">
   <div class="compose-header">
@@ -335,8 +338,19 @@
         </div>
         <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
       </div>
+      <div class="btn-group">
+        <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+        <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+      </div>
+    </div>
 
-        {{  Form::open(['route' =>'sendemail', 'method'=>'post','id'=>'submit-email','enctype'=>'multipart/form-data']) }}
+
+
+
+        {{  Form::open(['route' =>'sendemail', 'method'=>'post','id'=>'submit-email','files'=> true,'enctype'=>'multipart/form-data']) }}
+
+        <!-- {{  Form::open(['route' =>'sendemail', 'method'=>'post','id'=>'submit-email','enctype'=>'multipart/form-data']) }} -->
+
 
 
 
@@ -351,29 +365,20 @@
       </div>
 
       <div class="form-group">
-              <h2 label for="emailAttachment">Upload your files</h2>
-          <input type="file" id="emailAttachment" name="emailAttachment"  data-parsley-filemaxmegabytes="50" data-parsley-trigger="change" >
+        {!! Form::label('emailAttachment', 'Upload Attachment:') !!}
+        {!! Form::file('emailAttachment', null, ['class' => 'form-control']) !!}
       </div>
 
-
-
-
-
-      <div class="btn-group">
-        <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
-        <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
-      </div>
-    </div>
-
-    <div class="form-group">
-    <label for="toEmail">TO * :</label>
-    <input type="email" id="toEmail" class="form-control parsley-error" name="toEmail" data-parsley-trigger="change" required="required">
+      <div class="form-group">
+      <label for="toEmail">TO  :</label>
+      <input type="email" id="toEmail" multiple pattern="^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},*[\W]*)+$"  class="form-control parseley-error" data-parsley-trigger="change" name="toEmail" required="required" >
     </div>
 
     <div class="form-group">
     <label for="ccEmail">CC  :</label>
-    <input type="email" id="ccEmail" class="form-control" name="ccEmail" data-parsley-trigger="change" >
+    <input type="email" id="ccEmail" multiple pattern="^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},*[\W]*)+$" class="form-control" name="ccEmail" data-parsley-trigger="change" >
     </div>
+
 
     <div class="form-group">
     <label for="subject">Subject * :</label>
@@ -391,6 +396,7 @@
 </div>
 
 
+
 <!-- /compose -->
 @endsection
 
@@ -402,7 +408,16 @@ $(function() {
     $('#submit-email').submit();
   });
 });
+
+
+
+
+
+
+
 </script>
 <script src="{{ asset('js/jquery.hotkeys.js') }}"></script>
 <script src="{{ asset('js/prettify.js') }}"></script>
+
+
 @endpush
