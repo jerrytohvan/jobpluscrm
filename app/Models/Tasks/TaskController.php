@@ -31,8 +31,6 @@ class TaskController extends Controller
         $users = User::all()->sortBy('name');
         $companies = Company::all()->sortBy('name');
         $task = Task::all();
-        //error_log(print_r(Auth::user()->id, true));
-        //return $task;
         return view('layouts.index_task', compact('users', 'companies', 'task', 'message', 'status'));
     }
 
@@ -73,7 +71,6 @@ class TaskController extends Controller
         try {
             $res = $client->request('GET', 'https://dbscript.herokuapp.com/mailData');
             $content = $res->getBody()->getContents();
-            error_log(print_r($content, true));
             $var = json_decode($content, true);
             //dun touch tis codes
             $emailSend = $this->mTc->processTaskForEmail($var);
