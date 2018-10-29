@@ -65,7 +65,7 @@ class ClientService
 
     public function getSpecificUserLeads(){
         $userCompanyIds = UserCompany::whereUserId(Auth::user()->id)->pluck('company_id')->toArray();
-        $ids = Company::whereUserId(Auth::user()->id)->whereClient(1)->pluck('id')->toArray();
+        $ids = Company::whereUserId(Auth::user()->id)->whereClient(0)->pluck('id')->toArray();
         $mergedIds = array_merge($userCompanyIds,$ids);
         return Company::whereIn('id',$mergedIds)->whereClient(0)->orderBy('name', 'asc')->take(1000)->get();
     }
