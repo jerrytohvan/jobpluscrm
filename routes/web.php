@@ -114,14 +114,14 @@ Route::group(['middleware' => ['auth']], function () {
         ]);
 
     Route::get('/companies/clients', [
-'as' => 'companies.clients',
-'uses' => '\App\Models\Clients\ClientController@index_companies_clients'
-]);
+      'as' => 'companies.clients',
+      'uses' => '\App\Models\Clients\ClientController@index_companies_clients'
+    ]);
 
     Route::get('/companies/leads', [
-'as' => 'companies.leads',
-'uses' => '\App\Models\Clients\ClientController@index_companies_leads'
-]);
+      'as' => 'companies.leads',
+      'uses' => '\App\Models\Clients\ClientController@index_companies_leads'
+    ]);
     Route::get('/convert/{company}', [
     'as' => 'convert.lead',
     'uses' => '\App\Models\Clients\ClientController@convertToClient'
@@ -264,6 +264,14 @@ Route::group(['middleware' => ['auth']], function () {
       'as' =>'add.tasks',
       'uses' => '\App\Models\Tasks\TaskController@createTask'
     ]);
+
+    //added for new task in company view 
+    Route::post('/task/addtask', [
+      'as' =>'add.new.tasks',
+      'uses' => '\App\Models\Tasks\TaskController@createTaskInCompanyView'
+    ]);
+
+
     Route::get('/smart-match', [
       'as' => 'index.smart.match',
     'uses' => '\App\Models\MachineLearning\SmartMatchController@index'

@@ -203,7 +203,11 @@ html {
                               <!-- start vue -->
                               <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
-                                  <h3 class="text-center title-color">Company's Tasks</h3>
+                                  <h3 class="text-center title-color">Company's Tasks
+                                  <button type="button" class="btn btn-default btn-sm" id="new-task-button"  style="float: right; background: #32213A; color: white;">New Task</button>
+                                  </h3>
+                
+
                                    <div class="well" id="app">
                                      <task-draggable :tasks-open="{{ $tasksOpen }}" :tasks-on-going="{{ $tasksOnGoing }}" :tasks-closed="{{ $tasksClosed }}"></task-draggable>
                                    </div> <!-- end app -->
@@ -697,13 +701,7 @@ html {
                        <div class="form-group">
                           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
                           <div class="col-md-6 col-sm-9 col-xs-12">
-                             <select class="select2_single form-control" name="title" id="title" required="required" data-parsley-required-message="Please select a title" tabindex="-1">
-                                <option value=''>Select a Job Level Title</option>
-                                <option value='Entry/Junior'>Entry/Junior</option>
-                                <option value='Intermediate'>Intermediate</option>
-                                <option value='Senior'>Senior</option>
-                                <option value='Lead'>Lead</option>
-                             </select>
+                             <input type="title" id="title" name="title" required="required" class="form-control col-md-7 col-xs-12">
                           </div>
                        </div>
                        <div class="form-group">
@@ -741,6 +739,7 @@ html {
               </div>
               <!-- /.modal-dialog -->
            </div>
+
            <div class="modal fade" tabindex="-1" role="dialog" id="edit-collaborators">
               <div class="modal-dialog">
                  <div class="modal-content">
@@ -770,19 +769,19 @@ html {
                       <div>
                         {{  Form::open(['route' => 'attach.user','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'attach_user']) }}
                         <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Select User</label>
-                                                <div class="col-md-9 col-sm-9 col-xs-12">
-                                                  <select class="select2_single form-control" name="user_id" required="required" tabindex="-1">
-                                                    <option value="">Select a User</option>
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Select User</label>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <select class="select2_single form-control" name="user_id" required="required" tabindex="-1">
+                              <option value="">Select a User</option>
 
-                                                    @foreach($users as $user)
-                                                      @if(!in_array($user->id, $collaboratorsId))
-                                                      <option value="{{ $user-> id}}">{{$user->name}}</option>
-                                                      @endif
-                                                    @endforeach
-                                                  </select>
-                                                </div>
-                                              </div>
+                              @foreach($users as $user)
+                                @if(!in_array($user->id, $collaboratorsId))
+                                <option value="{{ $user-> id}}">{{$user->name}}</option>
+                                @endif
+                              @endforeach
+                            </select>
+                          </div>
+                        </div>
                         <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
                         <div class="modal-footer">
                         <button type="submit" class="btn btn-sm btn-primary">Save</a>
@@ -855,7 +854,7 @@ html {
                  <div class="modal-content">
                     <div class="modal-header">
                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                       <h4 class="modal-title">Edit Company</h4>
+                       <h4 class="modal-title">New Contact</h4>
                     </div>
                     <div class="modal-body">
                       {{  Form::open(['route' => 'add.new.account','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
@@ -869,19 +868,7 @@ html {
                       <div class="form-group">
                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
                          <div class="col-md-6 col-sm-9 col-xs-12">
-                            <select class="select2_single form-control" name="title" id="title" required="required" data-parsley-required-message="Please select a title" tabindex="-1">
-                               <option value=''>Select a Job Level Title</option>
-                               <option value='HR Executive'>HR Executive</option>
-                               <option value='HR Manager'>HR Manager</option>
-                               <option value='HR Director'>HR Director</option>
-                               <option value='Office Administrator'>Office Administrator</option>
-                               <option value='Office Manager'>Office Manager</option>
-                               <option value='Director'>Director</option>
-                               <option value='CEO'>CEO</option>
-                               <option value='General Manager'>General Manager</option>
-                               <option value='Hiring Manager'>Hiring Manager</option>
-                               <option value='unknown'>unknown</option>
-                            </select>
+                            <input type="title" id="title" name="title" required="required" class="form-control col-md-7 col-xs-12">
                          </div>
                       </div>
                       <div class="form-group">
@@ -918,6 +905,69 @@ html {
                       </div>
                       </div>
                       </div>
+
+              <!-- for new task button -->
+              <div class="modal fade" tabindex="-1" role="dialog" id="edit-tasks">
+              <div class="modal-dialog">
+                 <div class="modal-content">
+                    <div class="modal-header">
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                       <h4 class="modal-title">Add Task</h4>
+                    </div>
+                    <div class="modal-body">
+                      {{  Form::open(['route' => 'add.new.tasks','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
+                  
+                      <div class="form-group">
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Task <span class="required">*</span>
+                         </label>
+                         <div class="col-md-6 col-sm-6 col-xs-12">
+                           <input type="text" id="task" name = "title" required="required" class="form-control col-md-7 col-xs-12">
+                         </div>
+                       </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="assigned_id">Assign Consultant</label>
+                        <div class="col-md-6 col-sm-9 col-xs-12">
+                          <select class="select2_single form-control" name="assigned_id" id="assigned_id" tabindex="-1">
+                          <option value='0'>Select a Personel</option>
+                            @foreach($users as $user)
+                            <option value='{{ $user->id }}'>{{ $user->name }}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                      </div>
+
+                      <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}" class="form-control col-md-7 col-xs-12">
+
+                      <div class="form-group">
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Due Date <span class="required">*</span>
+                         </label>
+                           <div class="col-md-6 col-sm-6 col-xs-12">
+                               <div class="control-group">
+                                 <div class="controls">
+                                   <div class="input-prepend input-group" >
+                                     <!-- <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span> -->
+                                     <input type="date" name="date_reminder" id="date_reminder" required="required" class="form-control" value="" />
+                                   </div>
+                                 </div>
+                               </div>
+                            </div>
+                        </div>
+
+                      
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <button class="btn btn-primary" type="reset">Reset</button>
+                            {{ Form::submit('Submit', ['class'=>'btn btn-success']) }}
+                         </div>
+                      </div>
+                      {!! Form::close() !!}
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <!-- end of new task button -->
   </div>
               <!-- recent activities -> notes -->
 @endsection
@@ -1100,7 +1150,7 @@ $(document).ready(function () {
             telephone = '';
            }
 
-           $('#account_form').find('input[name=name]').val(name);
+            $('#account_form').find('input[name=name]').val(name);
             $('#account_form').find('#title option[value=""]').text(title);
             $('#account_form').find('#title option[value=""]').val(title);
 
@@ -1132,6 +1182,13 @@ $(document).ready(function () {
 
   });
 
+  // new task button
+  $(document).ready(function () {
+    $("#new-task-button").click(function () {
+        $('#edit-tasks').modal('show');
+      });
+
+  });
 
   function loadNotification(){
     var message = "@php if(session()->has('message')){ echo session()->get('message'); }else { echo $message; } @endphp";
@@ -1145,8 +1202,6 @@ $(document).ready(function () {
           styling: 'bootstrap3'
       });
     }
-
-
   }
 
   var urlEdit = `{{ route('edit.note') }}`;
