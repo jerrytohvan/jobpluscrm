@@ -200,6 +200,50 @@ html {
                             </ul>
 
                             <div>
+                              <div class="x_title">
+                                <div>
+                              <h2>Contacts</h2>
+                              <button type="button" class="btn btn-default btn-sm" id="new-contact-button"  style="float: right; background: #32213A; color: white;">New Contact</button>
+</div>
+                                 <div class="clearfix"></div>
+                              </div>
+                                <div class="x_content">
+                                  <div class="table-responsive">
+                                   <table id="datatable" class="account_table table table-striped table-bordered">
+                                      <thead>
+                                         <tr>
+                                            <th>Contact Name</th>
+                                            <th>Title</th>
+                                            <th>Email</th>
+                                            <th>Handphone No.</th>
+                                            <th>Telephone No.</th>
+                                            <th>Company</th>
+                                            <th  style="width: 20%">Actions</th>
+                                         </tr>
+                                      </thead>
+                                      <tbody>
+                                         @foreach ($accounts as $account)
+                                         <tr>
+                                            <td>{{ $account->name }}</td>
+                                            <td>{{ $account->title }}</td>
+                                            <td>{{ $account->email }}</td>
+                                            <td>{{ $account->handphone }}</td>
+                                            <td>{{ $account->telephone == null ? "-" : $account->telephone }}</td>
+                                            <td >{{ $account == null ? "-" : $account->company == null ? "-":$account->company->name }}</td>
+                                            <td>
+                                               <a id="account_button" data-id="{{ $account->id }}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i>Edit</a>
+                                               <a onclick="deleteAccount( {{ $account->id }} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a>
+                                            </td>
+                                         </tr>
+                                         @endforeach
+                                      </tbody>
+                                   </table>
+                                  </div>
+                                </div>
+
+                            </div>
+
+                            <div>
                               <!-- start vue -->
                               <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -229,49 +273,7 @@ html {
                                  <div class="clearfix"></div>
                               </div>
 
-                              <div>
-                                <div class="x_title">
-                                  <div>
-                                <h2>Contacts</h2>
-                                <button type="button" class="btn btn-default btn-sm" id="new-contact-button"  style="float: right; background: #32213A; color: white;">New Contact</button>
-</div>
-                                   <div class="clearfix"></div>
-                                </div>
-                                  <div class="x_content">
-                                    <div class="table-responsive">
-                                     <table id="datatable" class="account_table table table-striped table-bordered">
-                                        <thead>
-                                           <tr>
-                                              <th>Contact Name</th>
-                                              <th>Title</th>
-                                              <th>Email</th>
-                                              <th>Handphone No.</th>
-                                              <th>Telephone No.</th>
-                                              <th>Company</th>
-                                              <th  style="width: 20%">Actions</th>
-                                           </tr>
-                                        </thead>
-                                        <tbody>
-                                           @foreach ($accounts as $account)
-                                           <tr>
-                                              <td>{{ $account->name }}</td>
-                                              <td>{{ $account->title }}</td>
-                                              <td>{{ $account->email }}</td>
-                                              <td>{{ $account->handphone }}</td>
-                                              <td>{{ $account->telephone == null ? "-" : $account->telephone }}</td>
-                                              <td >{{ $account == null ? "-" : $account->company == null ? "-":$account->company->name }}</td>
-                                              <td>
-                                                 <a id="account_button" data-id="{{ $account->id }}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i>Edit</a>
-                                                 <a onclick="deleteAccount( {{ $account->id }} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a>
-                                              </td>
-                                           </tr>
-                                           @endforeach
-                                        </tbody>
-                                     </table>
-                                    </div>
-                                  </div>
 
-                              </div>
                             </div>
 
 
@@ -863,25 +865,15 @@ html {
                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name"> Name <span class="required">*</span>
                          </label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12">
+                            <input type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12" >
                          </div>
                       </div>
                       <div class="form-group">
-                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span>
+                         </label>
                          <div class="col-md-6 col-sm-9 col-xs-12">
-                            <select class="select2_single form-control" name="title" id="title" required="required" data-parsley-required-message="Please select a title" tabindex="-1">
-                               <option value=''>Select a Job Level Title</option>
-                               <option value='HR Executive'>HR Executive</option>
-                               <option value='HR Manager'>HR Manager</option>
-                               <option value='HR Director'>HR Director</option>
-                               <option value='Office Administrator'>Office Administrator</option>
-                               <option value='Office Manager'>Office Manager</option>
-                               <option value='Director'>Director</option>
-                               <option value='CEO'>CEO</option>
-                               <option value='General Manager'>General Manager</option>
-                               <option value='Hiring Manager'>Hiring Manager</option>
-                               <option value='unknown'>unknown</option>
-                            </select>
+                            <input type="text" name="title" id="title" required="required" class="form-control col-md-7 col-xs-12" data-parsley-required-message="Please enter a title" tabindex="-1">
+
                          </div>
                       </div>
                       <div class="form-group">
