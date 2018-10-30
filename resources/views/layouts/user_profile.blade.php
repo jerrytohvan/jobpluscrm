@@ -37,7 +37,7 @@
                       <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                      <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                      <div class="col-md-3 col-sm-3 col-xs-12">
                         <div class="profile_img">
                           <div id="crop-avatar">
                             <!-- Current avatar -->
@@ -66,7 +66,7 @@
 
 
                       </div>
-                      <div class="col-md-6 col-xs-12">
+                      <div class="col-md-9 col-sm-9 col-xs-12">
                                   <div class="x_panel">
                                     <div class="x_title">
                                       <h2>Recent Activities by User</h2>
@@ -79,6 +79,7 @@
                                           <a>
 
                                             <span>
+                                              <span><strong>You ({{ $user->name }})</strong></span>
                                               <span class="time">{{ $activity[0] }}</span>
                                             </span>
                                             <span class="message">
@@ -306,7 +307,7 @@
                             <h4 class="modal-title">Instruction</h4>
                         </div>
                         <div class="modal-body">
-                          
+
                           <font color="red">
                             To get your Telegram Chat ID:<br>
                             1) Open your Telegram app<br>

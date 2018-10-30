@@ -11,80 +11,29 @@ use App\Models\Users\UserCompany;
 use App\Models\Clients\Company;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use App\Models\Clients;
+use App\Models\Tasks\TaskService;
+use App\models\clients;
 
 class AccountController extends Controller
 {
     //points to auth::
-    public function __construct()
+    public function __construct(TaskService $taskSvc)
     {
+        $this->svc = $taskSvc;
         $this->middleware('auth');
     }
     // index
     public function index()
     {
-        $id = Auth::user()->id;
-        $collaboratorsIn = Auth::user()->companies->map(function ($value, $key) {
-            return $value->id;
-        });
-        $tasks = Task::orderBy('order')->whereUserId($id)->orWhere('assigned_id', $id)->orWhereIn('company_id', $collaboratorsIn)->get();
-
-        //retrieve all company and users
-        $companies = Company::all();
-        $users = User::all();
-        $tasksOpen = $tasks->map(function ($value, $key) use ($companies,$users) {
-            // $value['company'] = Company::find($value['company_id'])->name;
-            $value['company'] =  $companies->filter(function ($company) use ($value) {
-                return $company->id == $value['company_id'];
-            })->first()->name;
-
-            // $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name : "";
-            $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
-                return $user->id == $value['assigned_id'];
-            })->first()->name :  "";
-            $dateNow =  date_create(date("Y-m-d H:i:s"));
-            $dateAfter =  date_create(date($value['date_reminder']));
-            $dateDiff = date_diff($dateNow, $dateAfter);
-            $dateString = Self::constructStringFromDateTime($dateDiff);
-            $value['date_string'] = $dateString;
-            return $value;
-        })->filter(function ($task, $key) {
-            return $task->status == 0;
-        })->values();
-
-        $tasksOnGoing = $tasks->map(function ($value, $key) use ($companies,$users) {
-            $value['company'] =  $companies->filter(function ($company) use ($value) {
-                return $company->id == $value['company_id'];
-            })->first()->name;
-            $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
-                return $user->id == $value['assigned_id'];
-            })->first()->name :  "";
-            $dateNow =  date_create(date("Y-m-d H:i:s"));
-            $dateAfter =  date_create(date($value['date_reminder']));
-            $dateDiff = date_diff($dateNow, $dateAfter);
-            $dateString = Self::constructStringFromDateTime($dateDiff);
-            $value['date_string'] = $dateString;
-            return $value;
-        })->filter(function ($task, $key) {
-            return $task->status == 1;
-        })->values();
-
-        $tasksClosed = $tasks->map(function ($value, $key) use ($companies,$users) {
-            $value['company'] =  $companies->filter(function ($company) use ($value) {
-                return $company->id == $value['company_id'];
-            })->first()->name;
-            $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
-                return $user->id == $value['assigned_id'];
-            })->first()->name:  "";
-            $dateNow =  date_create(date("Y-m-d H:i:s"));
-            $dateAfter =  date_create(date($value['date_reminder']));
-            $dateDiff = date_diff($dateNow, $dateAfter);
-            $dateString = Self::constructStringFromDateTime($dateDiff);
-            $value['date_string'] = $dateString;
-            return $value;
-        })->filter(function ($task, $key) {
-            return $task->status == 2;
-        })->values();
+        if (empty(request()->input('dateInserted'))) {
+            $fromDate = Carbon::now('Asia/Singapore')->format('Y-m-d 00:00:00');
+            $toDate = Carbon::tomorrow('Asia/Singapore')->format('Y-m-d 00:00:00');
+            $tasksArray =   $this->svc->topfew(request()->all(), $fromDate, $toDate);
+        } else {
+            $fromDate =  request()->input('from');
+            $toDate = request()->input('to');
+            $tasksArray =   $this->svc->topfew(request()->all(), $fromDate, $toDate);
+        }
         $tasksOverdue = $this->tasksOverdue();
         $leadsComparison = $this->newLeadsComparison();
         $taskComparison = $this->taskCompletedComparison();
@@ -94,16 +43,18 @@ class AccountController extends Controller
         $totalTaskCompletedThisYear = $this->totalTaskCompletedThisYear();
         $companiesYTD = $this->companiesYTD();
 
-        //construct message for last announcement
         $lastestAnnouncement = Post::whereCompanyId(null)->latest('created_at')->first();
         $announcementMsg= "";
         if ($lastestAnnouncement!=null) {
             $announcementMsg= '"' . $lastestAnnouncement->content . '"' . ' - by ' . $lastestAnnouncement->user->name;
         }
+        $tasksOpen = $tasksArray[0];
+        $tasksOnGoing = $tasksArray[1];
+        $tasksClosed = $tasksArray[2];
 
         $message = "";
         $status = 0;
-        return view('layouts.dashboard', compact('tasksOpen', 'tasksOnGoing', 'tasksClosed', 'tasksOverdue', 'leadsComparison', 'taskComparison', 'taskThisWeek', 'leadsThisWeek', 'overdueComparison', 'totalTaskCompletedThisYear', 'companiesYTD', 'announcementMsg', 'message', 'status'));
+        return view('layouts.dashboard', compact('fromDate', 'toDate', 'tasksOpen', 'tasksOnGoing', 'tasksClosed', 'tasksOverdue', 'leadsComparison', 'taskComparison', 'taskThisWeek', 'leadsThisWeek', 'overdueComparison', 'totalTaskCompletedThisYear', 'companiesYTD', 'announcementMsg', 'message', 'status'));
     }
 
     public function index_data_presentation()
@@ -116,57 +67,9 @@ class AccountController extends Controller
         return view('layouts.settings');
     }
 
-    public function constructStringFromDateTime($date)
-    {
-        if ($date->invert) {
-            return "Pass due date";
-        }
-        $string = "Due in ";
-        if ($date->y != 0) {
-            $string .= $date->y;
-            if ($date->y == '1') {
-                $string .= " year";
-            } else {
-                $string .= " years";
-            }
-        } elseif ($date->m != 0) {
-            $string .= $date->m;
-            if ($date->m == 1) {
-                $string .= " month";
-            } else {
-                $string .= " months";
-            }
-        } elseif ($date->d != '0') {
-            $string .= $date->d;
-            if ($date->d == '1') {
-                $string .= " day";
-            } else {
-                $string .= " days";
-            }
-        } elseif ($date->h != '0') {
-            $string .= $date->h;
-            if ($date->h == '1') {
-                $string .= " hour";
-            } else {
-                $string .= " hours";
-            }
-        } elseif ($date->i != '0') {
-            $string .= $date->i;
-            if ($date->i == '1') {
-                $string .= " minute";
-            } else {
-                $string .= " minutes";
-            }
-        } elseif ($date->s != '0') {
-            $string .= $date->s;
-            if ($date->s == '1') {
-                $string .= " second";
-            } else {
-                $string .= " seconds";
-            }
-        }
-        return $string;
-    }
+    //error_log(print_r( $tasks,true));
+
+
 
 
     // AFTER THIS IS THE METRIC CONTROLLER PLEASE DO NOT DELETE
@@ -207,12 +110,12 @@ class AccountController extends Controller
     {
         $overdueTasks=null;
         $now = $this->todayDate();
-      if (Auth::user()->admin == true){
-        $overdueTasks = Task::where('status', '<', 2)->where('date_reminder', '<=', $now)->get();
-      }else{
-        $overdueTasks = Task::whereUserId(Auth::user()->id)->where('status', '<', 2)->where('date_reminder', '<=', $now)->get();
+        if (Auth::user()->admin == true) {
+            $overdueTasks = Task::where('status', '<', 2)->where('date_reminder', '<=', $now)->get();
+        } else {
+            $overdueTasks = Task::whereUserId(Auth::user()->id)->where('status', '<', 2)->where('date_reminder', '<=', $now)->get();
         }
-      return sizeof($overdueTasks);
+        return sizeof($overdueTasks);
     }
     // overdue last week only
     public function overdueTaskThisWeek()
@@ -220,13 +123,13 @@ class AccountController extends Controller
         $now = $this->todayDate();
         $sevenDaysAgoDate = $this->thisWeek();
 
-          if (Auth::user()->admin == true){
-        $overdueTasksThisWeek = Task::where('status', '<', 2)->where('date_reminder', '<=', $now)->where('date_reminder', '>=', $sevenDaysAgoDate)->get();
-        return sizeof($overdueTasksThisWeek);
-      }else{
-        $overdueTasksThisWeek = Task::whereUserId(Auth::user()->id)->where('status', '<', 2)->where('date_reminder', '<=', $now)->where('date_reminder', '>=', $sevenDaysAgoDate)->get();
-        return sizeof($overdueTasksThisWeek);
-      }
+        if (Auth::user()->admin == true) {
+            $overdueTasksThisWeek = Task::where('status', '<', 2)->where('date_reminder', '<=', $now)->where('date_reminder', '>=', $sevenDaysAgoDate)->get();
+            return sizeof($overdueTasksThisWeek);
+        } else {
+            $overdueTasksThisWeek = Task::whereUserId(Auth::user()->id)->where('status', '<', 2)->where('date_reminder', '<=', $now)->where('date_reminder', '>=', $sevenDaysAgoDate)->get();
+            return sizeof($overdueTasksThisWeek);
+        }
     }
     // overdue comparison
     public function overdueComparison()
@@ -238,11 +141,11 @@ class AccountController extends Controller
         $overdueTasksThisWeek =$this->overdueTaskThisWeek();
         // overdue last week
         $overdueTaskLastWeek = 0;
-        if(Auth::user()->admin == true){
-        $taskOverdueLastWeek = Task::where('status', '<', 2)->where('date_reminder', '<=', $sevenDaysAgoDate)->where('date_reminder', '>=', $fourteenDaysAgoDate)->get();
-      }else{
-        $taskOverdueLastWeek = Task::whereUserId(Auth::user()->id)->where('status', '<', 2)->where('date_reminder', '<=', $sevenDaysAgoDate)->where('date_reminder', '>=', $fourteenDaysAgoDate)->get();
-      }
+        if (Auth::user()->admin == true) {
+            $taskOverdueLastWeek = Task::where('status', '<', 2)->where('date_reminder', '<=', $sevenDaysAgoDate)->where('date_reminder', '>=', $fourteenDaysAgoDate)->get();
+        } else {
+            $taskOverdueLastWeek = Task::whereUserId(Auth::user()->id)->where('status', '<', 2)->where('date_reminder', '<=', $sevenDaysAgoDate)->where('date_reminder', '>=', $fourteenDaysAgoDate)->get();
+        }
         foreach ($taskOverdueLastWeek as $task) {
             $overdueTaskLastWeek++;
         }
@@ -304,14 +207,12 @@ class AccountController extends Controller
     {
         $todayDate = $this->todayDateEnd();
         $firstDayOfYear = Date('Y-m-d', strtotime('first day of january this year'));
-          if (Auth::user()->admin == true){
-        $completedTaskForYear = Task::whereStatus(2)->where('updated_at', '<=', $todayDate)->where('updated_at', '>=', $firstDayOfYear)->get();
-        return sizeof($completedTaskForYear);
-      }else{
-        $completedTaskForYear = Task::whereUserId(Auth::user()->id)->whereStatus(2)->where('updated_at', '<=', $todayDate)->where('updated_at', '>=', $firstDayOfYear)->get();
-        return sizeof($completedTaskForYear);
-      }
-      return null;
+        if (Auth::user()->admin == true) {
+            $completedTaskForYear = Task::whereStatus(2)->where('updated_at', '<=', $todayDate)->where('updated_at', '>=', $firstDayOfYear)->get();
+        } else {
+            $completedTaskForYear = Task::whereUserId(Auth::user()->id)->whereStatus(2)->where('updated_at', '<=', $todayDate)->where('updated_at', '>=', $firstDayOfYear)->get();
+        }
+      return sizeof($completedTaskForYear);
     }
 
 
@@ -353,16 +254,16 @@ class AccountController extends Controller
         return $companyPercentageChange;
     }
 
-        public function companiesYTD()
-        {
-              $todayDate = $this->todayDate();
-              $firstDayOfYear = Date('Y-m-d', strtotime('first day of january this year'));
-              $companiesCreatedYTD =null;
-          if (Auth::user()->admin == true){
-              $companiesCreatedYTD =Company::where('created_at', '<=', $todayDate)->where('created_at', '>=', $firstDayOfYear)->get();
-          }else{
-             $companiesCreatedYTD = Company::whereUserId(Auth::user()->id)->where('created_at', '<=', $todayDate)->where('created_at', '>=', $firstDayOfYear)->get();
-          }
-          return sizeof($companiesCreatedYTD);
+    public function companiesYTD()
+    {
+        $todayDate = $this->todayDate();
+        $firstDayOfYear = Date('Y-m-d', strtotime('first day of january this year'));
+        $companiesCreatedYTD =null;
+        if (Auth::user()->admin == true) {
+            $companiesCreatedYTD =Company::where('created_at', '<=', $todayDate)->where('created_at', '>=', $firstDayOfYear)->get();
+        } else {
+            $companiesCreatedYTD = Company::whereUserId(Auth::user()->id)->where('created_at', '<=', $todayDate)->where('created_at', '>=', $firstDayOfYear)->get();
         }
+        return sizeof($companiesCreatedYTD);
+    }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Models\Tasks;
 
-
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 

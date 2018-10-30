@@ -39,28 +39,26 @@ class ClientController extends Controller
     {
         $message = "";
         $status = "";
-        if(Auth::user()->admin == true){
+        if (Auth::user()->admin == true) {
             $candidates = $this->canSvc->getAllCandidates();
-        return view('layouts.candidates_fulllist', compact('message', 'status', 'candidates'));
-        }else{
+            return view('layouts.candidates_fulllist', compact('message', 'status', 'candidates'));
+        } else {
             $candidates = $this->canSvc->getSpecificCandidates();
-        return view('layouts.candidates_fulllist', compact('message', 'status', 'candidates'));
+            return view('layouts.candidates_fulllist', compact('message', 'status', 'candidates'));
         }
-        
     }
 
     public function index_candidates_new()
     {
         $message = "";
         $status = "";
-        if(Auth::user()->admin == true){
+        if (Auth::user()->admin == true) {
             $companies = $this->svc->getAllCompany();
-        return view('layouts.candidates_new', compact('message', 'status', 'companies'));
-        }else{
+            return view('layouts.candidates_new', compact('message', 'status', 'companies'));
+        } else {
             $companies = $this->svc->getSpecificUserCompany();
-        return view('layouts.candidates_new', compact('message', 'status', 'companies'));
+            return view('layouts.candidates_new', compact('message', 'status', 'companies'));
         }
-        
     }
     public function public_add_candidate()
     {
@@ -73,20 +71,19 @@ class ClientController extends Controller
             $companies = $this->svc->getSpecificUserCompany();
             return view('layouts.public_add_candidate', compact('message', 'status', 'companies'));
         }
-
     }
 
     public function index_companies_clients()
     {
-		$employees = Employee::all();
-		$tasks = Task::all();
+        $employees = Employee::all();
+        $tasks = Task::all();
         if (Auth::user()->admin == true) {
-			$array = $this->svc->getAllClients();
-			$allEmployees = $this->svc->getAllEmployees($array, $employees);
-			// $score = $this->svc->getUrgencyScore($array);
-			$urgency = $this->svc->getUrgency($array, $tasks);
-			$lastUpdate = $this->svc->getLastUpdate($array, $employees, $tasks);
-			$allCollaborators = $this->svc->getAllCollaborators($array);
+            $array = $this->svc->getAllClients();
+            $allEmployees = $this->svc->getAllEmployees($array, $employees);
+            // $score = $this->svc->getUrgencyScore($array);
+            $urgency = $this->svc->getUrgency($array, $tasks);
+            $lastUpdate = $this->svc->getLastUpdate($array, $employees, $tasks);
+            $allCollaborators = $this->svc->getAllCollaborators($array);
             return view('layouts.companies_clients', compact('status', 'companies', 'array', 'allEmployees', 'urgency', 'lastUpdate', 'allCollaborators'));
         } else {
             $array = $this->svc->getSpecificUserClients();
@@ -96,7 +93,6 @@ class ClientController extends Controller
             $allCollaborators = $this->svc->getAllCollaborators($array);
             return view('layouts.companies_clients', compact('status', 'companies', 'array', 'allEmployees', 'urgency', 'lastUpdate', 'allCollaborators'));
         }
-
     }
 
     public function index_companies_leads()
@@ -110,7 +106,6 @@ class ClientController extends Controller
             $array = $this->svc->getSpecificUserLeads();
             return view('layouts.companies_leads', compact('array', 'status', 'message'));
         }
-
     }
 
     public function index_companies_new()
@@ -124,7 +119,6 @@ class ClientController extends Controller
             $companies = $this->svc->getSpecificUserCompany();
             return view('layouts.companies_new', compact('message', 'status', 'companies'));
         }
-
     }
     public function add_new_company()
     {
@@ -137,7 +131,6 @@ class ClientController extends Controller
             $status = 0;
         }
         return $this->showCompany($company);
-
     }
 
     public function add_new_candidate()
@@ -228,7 +221,7 @@ class ClientController extends Controller
     {
         $message = request()->input('message');
         $status = request()->input('status');
-        
+
         $accounts = $company->employees;
         $companyFiles = $company->files;
         $activities = $this->actSvc->getActivitiesByCompany($company);

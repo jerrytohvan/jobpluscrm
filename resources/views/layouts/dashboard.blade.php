@@ -56,7 +56,31 @@
   <!-- /top tiles-->
 
     <!-- start vue -->
+    {{  Form::open(['route' => 'dashboard','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'modal_form_id', 'enctype'=>'multipart/form-data']) }}
+    <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="form-group">
+      <label class="control-label col-md-1 col-sm-1 col-xs-12" for="from">From
+      </label>
+      <div class="col-md-2 col-sm-2 col-xs-12">
+          <input type="date" class="form-control col-md-2 col-xs-12" id="from" name="from" value="{{ date('Y-m-d',strtotime($fromDate)) }}"/>
+      </div>
+
+      <label class="control-label col-md-1 col-sm-1 col-xs-12" for="to">To
+      </label>
+      <div class="col-md-2 col-sm-2 col-xs-12">
+          <input type="date" class="form-control col-md-2 col-xs-12" id="to" name="to" value="{{ date('Y-m-d',strtotime($toDate)) }}"/>
+      </div>
+
+      <div class="col-md-2 col-sm-2 col-xs-12">
+        <input type="hidden" name="dateInserted" value="1"/>
+        <button type="button" class="btn btn-primary"  onclick="submitform();" >Search</button>
+      </div>
+    </div>
+  </div>
+  {!! Form::close() !!}
+
     <div class="row">
+
       <div class="col-md-12 col-sm-12 col-xs-12">
          <div class="well" id="app">
            <task-draggable :tasks-open="{{ $tasksOpen }}" :tasks-on-going="{{ $tasksOnGoing }}" :tasks-closed="{{ $tasksClosed }}"></task-draggable>
@@ -66,9 +90,9 @@
     <!-- end vue -->
 
 
-  <!-- start of table  -->
-  <!-- page content -->
-</div>
+      <!-- start of table  -->
+      <!-- page content -->
+    </div>
 
          <div class="clearfix"></div>
 
@@ -104,7 +128,7 @@ $(document).ready(function() {
           text: `<strong>Here's your latest announcement:</strong><br/>` + announcement,
           addclass: 'dark',
           styling: 'bootstrap3',
-          
+
           desktop: {
            desktop: true
        }
@@ -126,6 +150,10 @@ function loadNotification(){
     });
   }
 
+}
+function submitform()
+{
+  $('#modal_form_id').submit();
 }
 </script>
 @endpush
