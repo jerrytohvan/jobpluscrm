@@ -27,6 +27,7 @@ class CreateCandidatesTable extends Migration
             $table->string('telephone')->nullable();
             $table->text('summary_keywords')->nullable();
             $table->date('birthdate')->nullable();
+            $table->integer('user_id')->default(0);
             $table->timestamps();
         });
     }

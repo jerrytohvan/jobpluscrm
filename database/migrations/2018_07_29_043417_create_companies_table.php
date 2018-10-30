@@ -25,6 +25,7 @@ class CreateCompaniesTable extends Migration
             $table->string('lead_source')->nullable();
             $table->boolean('client')->default(false);//0 as lead,1 as client
             $table->text('description')->nullable();
+            $table->integer('user_id')->default(0);
             $table->timestamps();
         });
     }

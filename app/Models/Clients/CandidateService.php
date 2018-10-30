@@ -20,6 +20,9 @@ class CandidateService
         return Candidate::all()->sortBy('name');
     }
 
+    public function getSpecificCandidates(){
+        return Candidate::whereUserId(Auth::user()->id)->orderBy('name','asc')->get();
+    }
 
     /**
      * Update the specified resource in storage.
@@ -83,7 +86,8 @@ class CandidateService
                   'telephone' => $array['telephone'],
                   'industry' => $array['industry'],
                   'summary_keywords' => empty($array['keywords']) ? "" : $array['keywords'],
-                  'birthdate' => $array['birthdate']
+                  'birthdate' => $array['birthdate'],
+                  'user_id' => Auth::user()->id
               ]);
             $file = new Attachment([
                 'file_name' => $original_name,
