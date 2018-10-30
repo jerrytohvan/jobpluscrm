@@ -24,21 +24,14 @@ class AccountController extends Controller
     // index
     public function index()
     {
-        $id = Auth::user()->id;
-        $collaboratorsIn = Auth::user()->companies->map(function ($value, $key) {
-            return $value->id;
-        });
-
         if (empty(request()->input('dateInserted'))) {
             $fromDate = Carbon::now('Asia/Singapore')->format('Y-m-d 00:00:00');
             $toDate = Carbon::tomorrow('Asia/Singapore')->format('Y-m-d 00:00:00');
             $tasksArray =   $this->svc->topfew(request()->all(), $fromDate, $toDate);
-            // dd($toDate);
         } else {
             $fromDate =  request()->input('from');
             $toDate = request()->input('to');
             $tasksArray =   $this->svc->topfew(request()->all(), $fromDate, $toDate);
-            // dd($toDate);
         }
         $tasksOverdue = $this->tasksOverdue();
         $leadsComparison = $this->newLeadsComparison();
@@ -49,7 +42,6 @@ class AccountController extends Controller
         $totalTaskCompletedThisYear = $this->totalTaskCompletedThisYear();
         $companiesYTD = $this->companiesYTD();
 
-        //construct message for last announcement
         $lastestAnnouncement = Post::whereCompanyId(null)->latest('created_at')->first();
         $announcementMsg= "";
         if ($lastestAnnouncement!=null) {
