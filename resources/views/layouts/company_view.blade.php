@@ -166,11 +166,11 @@ html {
 
                             <div>
                               <div class="x_title">
-                                <div>
+                              <div>
                               <h2>Contacts</h2>
                               <button type="button" class="btn btn-default btn-sm" id="new-contact-button"  style="float: right; background: #32213A; color: white;">New Contact</button>
-</div>
-                                 <div class="clearfix"></div>
+                            </div>
+                            <div class="clearfix"></div>
                               </div>
                                 <div class="x_content">
                                   <div class="table-responsive">
@@ -913,6 +913,8 @@ html {
                          </div>
                        </div>
 
+                      <!-- only admin can see this option -->
+                      @if(Auth::user()->admin == 1)
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="assigned_id">Assign Consultant</label>
                         <div class="col-md-6 col-sm-9 col-xs-12">
@@ -924,6 +926,7 @@ html {
                           </select>
                         </div>
                       </div>
+                      @endif
 
                       <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}" class="form-control col-md-7 col-xs-12">
 

@@ -56,18 +56,26 @@ class TaskController extends Controller
         return view('layouts.index_task', compact('status', 'message', 'users', 'companies'));
     }
 
-
     public function createTaskInCompanyView()
     {
         $message = "Failed to add task!";
         $status = 0;
-        $users = User::all();
-        $companies = Company::all();
-        if ($this->svc->storeTask(request()->all())) {
-            $message = "Task successfully added!";
-            $status = 1;
+        if(Auth::user()->admin == true){
+            $users = User::all();
+            $companies = Company::all();
+            if ($this->svc->storeTask(request()->all())) {
+                $message = "Task successfully added!";
+                $status = 1;
+            }
+            return redirect()->back()->with(['message' => $message, 'status' => $status,  'users' => $users, 'companies' => $companies]);
+        }else{
+            $companies = Company::whereUserId(Auth::user()->id)->get();
+            if ($this->svc->storeTask(request()->all())) {
+                $message = "Task successfully added!";
+                $status = 1;
+            }
+            return redirect()->back()->with(['message' => $message, 'status' => $status, 'companies' => $companies]);
         }
-        return redirect()->back()->with(['message' => $message, 'status' => $status,  'users' => $users, 'companies' => $companies]);
     }
 
 
