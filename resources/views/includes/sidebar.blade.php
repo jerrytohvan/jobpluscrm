@@ -40,7 +40,7 @@
               <li>
                 <a><i class="fa fa-users"></i> Manage Admin <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                  <li><a href="{{ route('admin.list') }}"></i>Admins</a>
+                  <li><a href="{{ route('admin.list') }}"></i>User List</a>
                   <li><a href="{{ route('index.register') }}">Add User/Admin</a></li>
                     </ul>
               </li>
