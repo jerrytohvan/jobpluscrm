@@ -80,6 +80,9 @@
             <li>
               <a href="{{ route('dummy.index') }}"><i class="fa fa-clock-o"></i>Dummy</a>
             </li>
+            <li>
+              <a href="{{ route('social.wall') }}"><i class="fa fa-comments-o"></i>Announcements </a>
+            </li>
           <!--  <li>
               <a href="{{ route('index.calendar') }}"><i class="fa fa-calendar"></i>Calendar</a>
             </li>
