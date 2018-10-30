@@ -11,6 +11,7 @@ use App\Models\Users\UserCompany;
 use App\Models\Clients\Company;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\Clients;
 
 class AccountController extends Controller
 {
@@ -172,12 +173,13 @@ class AccountController extends Controller
     // AFTER THIS IS THE METRIC CONTROLLER PLEASE DO NOT DELETE
     // AFTER THIS IS THE METRIC CONTROLLER PLEASE DO NOT DELETE
 
-    // today's date
+    // today's date end
     public function todayDateEnd()
     {
         $todayDateEnd = Carbon::now('Asia/Singapore')->format('Y-m-d 23:59:59');
         return $todayDateEnd;
     }
+    //today's date
     public function todayDate()
     {
         $todayDate = Carbon::now('Asia/Singapore')->format('Y-m-d');
@@ -338,12 +340,19 @@ class AccountController extends Controller
         }
         return $companyPercentageChange;
     }
-    public function companiesYTD()
-    {
-        $todayDate = $this->todayDate();
-        $firstDayOfYear = Date('Y-m-d', strtotime('first day of january this year'));
-        $companiesCreatedYTD =Company::where('created_at', '<=', $todayDate)->where('created_at', '>=', $firstDayOfYear)->get();
-        $companiesYTD = sizeof($companiesCreatedYTD);
-        return $companiesYTD;
-    }
+
+        public function companiesYTD()
+        {
+              $todayDate = $this->todayDate();
+              $firstDayOfYear = Date('Y-m-d', strtotime('first day of january this year'));
+
+          if (Auth::user()->admin == true){
+              $companiesCreatedYTD =Company::where('created_at', '<=', $todayDate)->where('created_at', '>=', $firstDayOfYear)->get();
+              return sizeof($companiesCreatedYTD);
+          }else{
+               $companiesCreatedYTD = Company::whereUserId(Auth::user()->id)->where('created_at', '<=', $todayDate)->where('created_at', '>=', $firstDayOfYear)->orderBy('name','asc')->get();
+              return sizeof($companiesCreatedYTD);
+          }
+          return null;
+        }
 }
