@@ -205,25 +205,28 @@ class AccountController extends Controller
     //overdue task
     public function tasksOverdue()
     {
+        $overdueTasks=null;
         $now = $this->todayDate();
-        $tasksOverdueCounter = 0;
+      if (Auth::user()->admin == true){
         $overdueTasks = Task::where('status', '<', 2)->where('date_reminder', '<=', $now)->get();
-        // count task overdue
-        $tasksOverdueCounter = sizeof($overdueTasks);
-        return $tasksOverdueCounter;
+      }else{
+        $overdueTasks = Task::whereUserId(Auth::user()->id)->where('status', '<', 2)->where('date_reminder', '<=', $now)->get();
+        }
+      return sizeof($overdueTasks);
     }
     // overdue last week only
     public function overdueTaskThisWeek()
     {
         $now = $this->todayDate();
         $sevenDaysAgoDate = $this->thisWeek();
-        $tasksOverdueCounter= 0;
+
+          if (Auth::user()->admin == true){
         $overdueTasksThisWeek = Task::where('status', '<', 2)->where('date_reminder', '<=', $now)->where('date_reminder', '>=', $sevenDaysAgoDate)->get();
-        // count task overdue
-        foreach ($overdueTasksThisWeek as $task) {
-            $tasksOverdueCounter++;
-        }
-        return $tasksOverdueCounter;
+        return sizeof($overdueTasksThisWeek);
+      }else{
+        $overdueTasksThisWeek = Task::whereUserId(Auth::user()->id)->where('status', '<', 2)->where('date_reminder', '<=', $now)->where('date_reminder', '>=', $sevenDaysAgoDate)->get();
+        return sizeof($overdueTasksThisWeek);
+      }
     }
     // overdue comparison
     public function overdueComparison()
@@ -235,7 +238,11 @@ class AccountController extends Controller
         $overdueTasksThisWeek =$this->overdueTaskThisWeek();
         // overdue last week
         $overdueTaskLastWeek = 0;
+        if(Auth::user()->admin == true){
         $taskOverdueLastWeek = Task::where('status', '<', 2)->where('date_reminder', '<=', $sevenDaysAgoDate)->where('date_reminder', '>=', $fourteenDaysAgoDate)->get();
+      }else{
+        $taskOverdueLastWeek = Task::whereUserId(Auth::user()->id)->where('status', '<', 2)->where('date_reminder', '<=', $sevenDaysAgoDate)->where('date_reminder', '>=', $fourteenDaysAgoDate)->get();
+      }
         foreach ($taskOverdueLastWeek as $task) {
             $overdueTaskLastWeek++;
         }
@@ -297,9 +304,14 @@ class AccountController extends Controller
     {
         $todayDate = $this->todayDateEnd();
         $firstDayOfYear = Date('Y-m-d', strtotime('first day of january this year'));
+          if (Auth::user()->admin == true){
         $completedTaskForYear = Task::whereStatus(2)->where('updated_at', '<=', $todayDate)->where('updated_at', '>=', $firstDayOfYear)->get();
-        $counter = sizeof($completedTaskForYear);
-        return $counter;
+        return sizeof($completedTaskForYear);
+      }else{
+        $completedTaskForYear = Task::whereUserId(Auth::user()->id)->whereStatus(2)->where('updated_at', '<=', $todayDate)->where('updated_at', '>=', $firstDayOfYear)->get();
+        return sizeof($completedTaskForYear);
+      }
+      return null;
     }
 
 
@@ -345,14 +357,12 @@ class AccountController extends Controller
         {
               $todayDate = $this->todayDate();
               $firstDayOfYear = Date('Y-m-d', strtotime('first day of january this year'));
-
+              $companiesCreatedYTD =null;
           if (Auth::user()->admin == true){
               $companiesCreatedYTD =Company::where('created_at', '<=', $todayDate)->where('created_at', '>=', $firstDayOfYear)->get();
-              return sizeof($companiesCreatedYTD);
           }else{
-               $companiesCreatedYTD = Company::whereUserId(Auth::user()->id)->where('created_at', '<=', $todayDate)->where('created_at', '>=', $firstDayOfYear)->orderBy('name','asc')->get();
-              return sizeof($companiesCreatedYTD);
+             $companiesCreatedYTD = Company::whereUserId(Auth::user()->id)->where('created_at', '<=', $todayDate)->where('created_at', '>=', $firstDayOfYear)->get();
           }
-          return null;
+          return sizeof($companiesCreatedYTD);
         }
 }
