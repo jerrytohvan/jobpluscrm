@@ -697,12 +697,12 @@ html {
                  <div class="modal-content">
                     <div class="modal-header">
                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                       <h4 class="modal-title">Edit Account</h4>
+                       <h4 class="modal-title">Edit Contact</h4>
                     </div>
                     <div class="modal-body">
                        {{  Form::open(['route' => 'update.account','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'account_form']) }}
                        <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Account Name <span class="required">*</span>
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span class="required">*</span>
                           </label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
                              <input disabled type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12">
@@ -711,7 +711,7 @@ html {
                        <div class="form-group">
                           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
                           <div class="col-md-6 col-sm-9 col-xs-12">
-                             <input type="text" id="title" name="title" required="required" value="{{$account->title}}" class="form-control col-md-7 col-xs-12">
+                            <input type="text" id="title" name="title" required="required" class="form-control col-md-7 col-xs-12">
                           </div>
                        </div>
                        <div class="form-group">
@@ -1162,9 +1162,8 @@ $(document).ready(function () {
             telephone = '';
            }
 
-            $('#account_form').find('input[name=name]').val(name);
-            $('#account_form').find('#title option[value=""]').text(title);
-            $('#account_form').find('#title option[value=""]').val(title);
+          $('#account_form').find('input[name=name]').val(name);
+          $('#account_form').find('input[name=title]').val(title);
 
            $('#account_form').find('input[name=email]').val(email);
            $('#account_form').find('input[name=handphone]').val(handphone);
@@ -1188,7 +1187,7 @@ $(document).ready(function () {
   });
 
   $(document).ready(function () {
-    $("#new-contact-button").click(function () {
+    $("#new-contact-button").click(function () {        
         $('#edit-contacts').modal('show');
       });
 
