@@ -7,6 +7,7 @@ use App\Models\Clients\Company;
 use App\Models\Users\UserCompany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class UserService
 {
@@ -34,10 +35,16 @@ class UserService
         $user->save();
         return $user;
     }
+    
     public function attachUserWithCompany(User $user, Company $company)
     {
         $user->companies()->attach($company->id);
-        if (UserCompany::whereUserId($user->id)->whereCompanyId($company->id)->first()) {
+        $userCompany = UserCompany::whereUserId($user->id)->whereCompanyId($company->id)->first();
+        $now = Carbon::now()->format('Y-m-d h:i:s');
+        $userCompany->created_at = $now;
+        $userCompany->updated_at = $now;
+        $userCompany->save();
+        if ($userCompany) {
             return 1;
         }
         return 0;

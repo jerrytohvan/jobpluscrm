@@ -162,6 +162,7 @@ $(document).ready(function() {
     loadNotification();
 
     $('#datatable').DataTable( {
+      "order": [[ 7, "desc" ]],
       dom: 'lBfrtip',
         select: true,
         buttons: [

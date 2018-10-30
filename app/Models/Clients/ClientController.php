@@ -78,19 +78,21 @@ class ClientController extends Controller
 
     public function index_companies_clients()
     {
+		$employees = Employee::all();
+		$tasks = Task::all();
         if (Auth::user()->admin == true) {
-            $array = $this->svc->getAllClients();
-            $allEmployees = $this->svc->getAllEmployees($array);
-            // $score = $this->svc->getUrgencyScore($array);
-            $urgency = $this->svc->getUrgency($array);
-            $lastUpdate = $this->svc->getLastUpdate($array);
-            $allCollaborators = $this->svc->getAllCollaborators($array);
+			$array = $this->svc->getAllClients();
+			$allEmployees = $this->svc->getAllEmployees($array, $employees);
+			// $score = $this->svc->getUrgencyScore($array);
+			$urgency = $this->svc->getUrgency($array, $tasks);
+			$lastUpdate = $this->svc->getLastUpdate($array, $employees, $tasks);
+			$allCollaborators = $this->svc->getAllCollaborators($array);
             return view('layouts.companies_clients', compact('status', 'companies', 'array', 'allEmployees', 'urgency', 'lastUpdate', 'allCollaborators'));
         } else {
             $array = $this->svc->getSpecificUserClients();
-            $allEmployees = $this->svc->getAllEmployees($array);
-            $urgency = $this->svc->getUrgency($array);
-            $lastUpdate = $this->svc->getLastUpdate($array);
+            $allEmployees = $this->svc->getAllEmployees($array, $employees);
+            $urgency = $this->svc->getUrgency($array, $tasks);
+            $lastUpdate = $this->svc->getLastUpdate($array, $employees, $tasks);
             $allCollaborators = $this->svc->getAllCollaborators($array);
             return view('layouts.companies_clients', compact('status', 'companies', 'array', 'allEmployees', 'urgency', 'lastUpdate', 'allCollaborators'));
         }
@@ -129,6 +131,7 @@ class ClientController extends Controller
         $message = "Company successfully added!";
         $status = 1;
         $company = $this->svc->addCompany(request()->all());
+        // $id = $company->id;
         if ($company == null) {
             $message = "Failed to add company!";
             $status = 0;
@@ -225,7 +228,7 @@ class ClientController extends Controller
     {
         $message = request()->input('message');
         $status = request()->input('status');
-
+        
         $accounts = $company->employees;
         $companyFiles = $company->files;
         $activities = $this->actSvc->getActivitiesByCompany($company);
@@ -326,7 +329,7 @@ class ClientController extends Controller
             $message = "Failed to add updated!";
             $status = 0;
         }
-        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+        return redirect()->back()->with(['message' => $message, 'status' => $status, 'company' => $company]);
     }
 
     public function convertToClient(Company $company)
