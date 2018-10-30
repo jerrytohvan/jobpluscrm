@@ -37,7 +37,7 @@ class TaskController extends Controller
         $userCIds = Task::whereUserId(Auth::user()->id)->pluck('company_id')->toArray();
         $assignedCIds = Task::whereAssignedId(Auth::user()->id)->pluck('company_id')->toArray();
         $allCIds = array_merge($userCIds,$assignedCIds);
-        $companies = Company::whereIn('id',$allCIds)->orderBy('name','asc')->get();
+        $companies = Company::whereIn('id',$allCIds)->orWhere('user_id',Auth::user()->id)->orderBy('name','asc')->get();
         return view('layouts.index_tasks_user', compact( 'companies',  'message', 'status'));
         }
         
