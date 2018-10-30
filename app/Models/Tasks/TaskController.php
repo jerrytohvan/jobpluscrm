@@ -149,7 +149,6 @@ class TaskController extends Controller
                 //return view('ur view',compact('createdTask','onGoingTask','closedCreatedTask','closedAssignedTask','expiredCreatedTask','expiredAssignedTask'));
             }
         }
-
     }
 
     public function closeTask($id)
@@ -173,7 +172,6 @@ class TaskController extends Controller
             $dateFrom = Date($requestArray['from']);
             $dateTo = Date($requestArray['to']);
         }
-
         if ($dateFrom != null && $dateTo != null) {
             $companies = Company::all();
             $id = Auth::user()->id;

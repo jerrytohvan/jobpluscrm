@@ -22,6 +22,10 @@ Route::post('/candidates-new', [
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', 'AccountController@index')->name('dashboard');
+    Route::post('/', [
+      'as' => 'dashboard',
+    'uses' => 'AccountController@index'
+      ]);
     Route::patch('/tasks/{id}', '\App\Models\Tasks\TaskService@updateTasksStatus');
     Route::patch('/tasks/remove/{id}', '\App\Models\Tasks\TaskService@destroyTask');
     Route::put('/tasks/updateAll', '\App\Models\Tasks\TaskService@updateTasksOrder');
@@ -265,7 +269,7 @@ Route::group(['middleware' => ['auth']], function () {
       'uses' => '\App\Models\Tasks\TaskController@createTask'
     ]);
 
-    //added for new task in company view 
+    //added for new task in company view
     Route::post('/task/addtask', [
       'as' =>'add.new.tasks',
       'uses' => '\App\Models\Tasks\TaskController@createTaskInCompanyView'
@@ -308,7 +312,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 
-    Route::get('/tasks/dummyTask',[
+    Route::get('/tasks/dummyTask', [
       'as' => 'dummy.index',
       'uses' => '\App\Models\Tasks\TaskController@topfew']);
     // Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
@@ -318,7 +322,6 @@ Route::group(['middleware' => ['auth']], function () {
       'as' => 'get.dummy',
       'uses' => '\App\Models\Tasks\TaskController@topfew'
     ]);
-
 });
 Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
 // Route::get('/telegram', [
@@ -470,22 +473,22 @@ Route::get('oauth', [
 
 
 // metrics routes
-Route::get('/dashboard/newLeadsComparison',[
+Route::get('/dashboard/newLeadsComparison', [
   'as' => 'newLeadsComparison',
   'uses' => '\App\Http\Controllers\MetricsController@newLeadsComparison'
   ]);
 
-  Route::get('/dashboard/taskCompletedComparison',[
+  Route::get('/dashboard/taskCompletedComparison', [
     'as' => 'taskCompletedComparison',
     'uses' => '\App\Http\Controllers\MetricsController@taskCompletedComparison'
     ]);
 
-  Route::get('/dashboard/tasksOverdue',[
+  Route::get('/dashboard/tasksOverdue', [
       'as' => 'tasksOverdue',
       'uses' => '\App\Http\Controllers\MetricsController@tasksOverdue'
       ]);
 
-      Route::get('/dashboard/taskThisWeek',[
+      Route::get('/dashboard/taskThisWeek', [
           'as' => 'taskThisWeek',
           'uses' => '\App\Http\Controllers\MetricsController@taskThisWeek'
           ]);
@@ -506,5 +509,3 @@ Route::get('/dashboard/newLeadsComparison',[
         'as' => 'processTaskForEmail',
       'uses' => '\App\Models\Mail\MailController@processTaskForEmail'
       ]);
-
-      
