@@ -12,6 +12,7 @@ use App\Models\Clients\Company;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\Tasks\TaskService;
+use App\models\clients;
 
 class AccountController extends Controller
 {
@@ -75,12 +76,13 @@ class AccountController extends Controller
     // AFTER THIS IS THE METRIC CONTROLLER PLEASE DO NOT DELETE
     // AFTER THIS IS THE METRIC CONTROLLER PLEASE DO NOT DELETE
 
-    // today's date
+    // today's date end
     public function todayDateEnd()
     {
         $todayDateEnd = Carbon::now('Asia/Singapore')->format('Y-m-d 23:59:59');
         return $todayDateEnd;
     }
+    //today's date
     public function todayDate()
     {
         $todayDate = Carbon::now('Asia/Singapore')->format('Y-m-d');
@@ -106,25 +108,28 @@ class AccountController extends Controller
     //overdue task
     public function tasksOverdue()
     {
+        $overdueTasks=null;
         $now = $this->todayDate();
-        $tasksOverdueCounter = 0;
-        $overdueTasks = Task::where('status', '<', 2)->where('date_reminder', '<=', $now)->get();
-        // count task overdue
-        $tasksOverdueCounter = sizeof($overdueTasks);
-        return $tasksOverdueCounter;
+        if (Auth::user()->admin == true) {
+            $overdueTasks = Task::where('status', '<', 2)->where('date_reminder', '<=', $now)->get();
+        } else {
+            $overdueTasks = Task::whereUserId(Auth::user()->id)->where('status', '<', 2)->where('date_reminder', '<=', $now)->get();
+        }
+        return sizeof($overdueTasks);
     }
     // overdue last week only
     public function overdueTaskThisWeek()
     {
         $now = $this->todayDate();
         $sevenDaysAgoDate = $this->thisWeek();
-        $tasksOverdueCounter= 0;
-        $overdueTasksThisWeek = Task::where('status', '<', 2)->where('date_reminder', '<=', $now)->where('date_reminder', '>=', $sevenDaysAgoDate)->get();
-        // count task overdue
-        foreach ($overdueTasksThisWeek as $task) {
-            $tasksOverdueCounter++;
+
+        if (Auth::user()->admin == true) {
+            $overdueTasksThisWeek = Task::where('status', '<', 2)->where('date_reminder', '<=', $now)->where('date_reminder', '>=', $sevenDaysAgoDate)->get();
+            return sizeof($overdueTasksThisWeek);
+        } else {
+            $overdueTasksThisWeek = Task::whereUserId(Auth::user()->id)->where('status', '<', 2)->where('date_reminder', '<=', $now)->where('date_reminder', '>=', $sevenDaysAgoDate)->get();
+            return sizeof($overdueTasksThisWeek);
         }
-        return $tasksOverdueCounter;
     }
     // overdue comparison
     public function overdueComparison()
@@ -136,7 +141,11 @@ class AccountController extends Controller
         $overdueTasksThisWeek =$this->overdueTaskThisWeek();
         // overdue last week
         $overdueTaskLastWeek = 0;
-        $taskOverdueLastWeek = Task::where('status', '<', 2)->where('date_reminder', '<=', $sevenDaysAgoDate)->where('date_reminder', '>=', $fourteenDaysAgoDate)->get();
+        if (Auth::user()->admin == true) {
+            $taskOverdueLastWeek = Task::where('status', '<', 2)->where('date_reminder', '<=', $sevenDaysAgoDate)->where('date_reminder', '>=', $fourteenDaysAgoDate)->get();
+        } else {
+            $taskOverdueLastWeek = Task::whereUserId(Auth::user()->id)->where('status', '<', 2)->where('date_reminder', '<=', $sevenDaysAgoDate)->where('date_reminder', '>=', $fourteenDaysAgoDate)->get();
+        }
         foreach ($taskOverdueLastWeek as $task) {
             $overdueTaskLastWeek++;
         }
@@ -198,9 +207,12 @@ class AccountController extends Controller
     {
         $todayDate = $this->todayDateEnd();
         $firstDayOfYear = Date('Y-m-d', strtotime('first day of january this year'));
-        $completedTaskForYear = Task::whereStatus(2)->where('updated_at', '<=', $todayDate)->where('updated_at', '>=', $firstDayOfYear)->get();
-        $counter = sizeof($completedTaskForYear);
-        return $counter;
+        if (Auth::user()->admin == true) {
+            $completedTaskForYear = Task::whereStatus(2)->where('updated_at', '<=', $todayDate)->where('updated_at', '>=', $firstDayOfYear)->get();
+        } else {
+            $completedTaskForYear = Task::whereUserId(Auth::user()->id)->whereStatus(2)->where('updated_at', '<=', $todayDate)->where('updated_at', '>=', $firstDayOfYear)->get();
+        }
+      return sizeof($completedTaskForYear);
     }
 
 
@@ -241,12 +253,17 @@ class AccountController extends Controller
         }
         return $companyPercentageChange;
     }
+
     public function companiesYTD()
     {
         $todayDate = $this->todayDate();
         $firstDayOfYear = Date('Y-m-d', strtotime('first day of january this year'));
-        $companiesCreatedYTD =Company::where('created_at', '<=', $todayDate)->where('created_at', '>=', $firstDayOfYear)->get();
-        $companiesYTD = sizeof($companiesCreatedYTD);
-        return $companiesYTD;
+        $companiesCreatedYTD =null;
+        if (Auth::user()->admin == true) {
+            $companiesCreatedYTD =Company::where('created_at', '<=', $todayDate)->where('created_at', '>=', $firstDayOfYear)->get();
+        } else {
+            $companiesCreatedYTD = Company::whereUserId(Auth::user()->id)->where('created_at', '<=', $todayDate)->where('created_at', '>=', $firstDayOfYear)->get();
+        }
+        return sizeof($companiesCreatedYTD);
     }
 }
