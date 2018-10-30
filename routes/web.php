@@ -309,19 +309,6 @@ Route::group(['middleware' => ['auth']], function () {
       'as' => 'delete.job',
     'uses' => '\App\Models\Jobs\JobController@delete_job'
     ]);
-
-
-
-    Route::get('/tasks/dummyTask', [
-      'as' => 'dummy.index',
-      'uses' => '\App\Models\Tasks\TaskController@topfew']);
-    // Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
-    Route::get('/tasks/show', '\App\Models\Tasks\TaskController@showTaskList');
-
-    Route::post('/tasks/dummyTask', [
-      'as' => 'get.dummy',
-      'uses' => '\App\Models\Tasks\TaskController@topfew'
-    ]);
 });
 Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
 // Route::get('/telegram', [

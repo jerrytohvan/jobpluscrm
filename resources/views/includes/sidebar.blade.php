@@ -72,13 +72,10 @@
               </ul>
             </li>
             <li>
-              <a href="{{ route('index.tasks') }}"><i class="fa fa-clock-o"></i>Tasks</a>
+            <a href="{{ route('index.tasks') }}"><i class="fa fa-clock-o"></i>Tasks</a>
             </li>
             <li>
               <a href="{{ route('index.mail') }}"><i class="fa fa-envelope-o"></i>Mail</a>
-            </li>
-            <li>
-              <a href="{{ route('dummy.index') }}"><i class="fa fa-clock-o"></i>Dummy</a>
             </li>
             <li>
               <a href="{{ route('social.wall') }}"><i class="fa fa-comments-o"></i>Announcements </a>
