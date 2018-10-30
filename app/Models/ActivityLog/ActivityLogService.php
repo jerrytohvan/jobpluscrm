@@ -13,6 +13,7 @@ use App\Models\Comments\Comment;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Posts\Post;
 use App\Models\Clients\Candidate;
+use App\Models\Users\UserCompany;
 
 class ActivityLogService
 {
@@ -26,9 +27,10 @@ class ActivityLogService
     public function getActivitiesByCompany(Company $company)
     {
         $construct = [];
-        $lastActivity = Activity::whereSubjectId($company->id)->orWhere('causer_id', $company->id)->orWhere('subject_type', Attachment::class)->orWhere('subject_type', Employee::class)->orWhere('subject_type', Task::class)->orWhere('subject_type', Company::class)->orderBy('created_at', 'desc')->take(10)->get();
+        $lastActivity = Activity::whereSubjectId($company->id)->orWhere('causer_id', $company->id)->orWhere('subject_type', Attachment::class)->orWhere('subject_type', Employee::class)->orWhere('subject_type', Task::class)->orWhere('subject_type', Company::class)->orWhere('subject_type', UserCompany::class)->orderBy('created_at', 'desc')->take(10)->get();
         foreach ($lastActivity as $activity) {
-            if ((
+            try {
+                if ((
               ($activity->subject_type == Company::class)||
               //filter attachment for company
               (isset($activity->getExtraProperty('attributes')['attachable_type']) && $activity->getExtraProperty('attributes')['attachable_type'] == Company::class && $activity->getExtraProperty('attributes')['attachable_id'] == $company->id) ||
@@ -36,49 +38,62 @@ class ActivityLogService
               (isset($activity->getExtraProperty('attributes')['company_id']) && $activity->getExtraProperty('attributes')['company_id'] == $company->id)
               )
               && $activity->causer_type != null) {
-                $subjectO = new $activity->causer_type;
-                $objectO = new $activity->subject_type;
-                $subject = $subjectO::find($activity->causer_id);
-                $object = $objectO::find($activity->subject_id);
-                $action = $activity->description;
+                    $subjectO = new $activity->causer_type;
+                    $objectO = new $activity->subject_type;
+                    $subject = $subjectO::find($activity->causer_id);
+                    $object = $objectO::find($activity->subject_id);
+                    $action = $activity->description;
 
-                $dateNow =  date_create(date("Y-m-d H:i:s"));
-                $dateBefore =  date_create(date($activity->created_at));
-                $dateDiff = date_diff($dateBefore, $dateNow);
-                $dateString = Self::constructStringFromDateTime($dateDiff);
+                    $dateNow =  date_create(date("Y-m-d H:i:s"));
+                    $dateBefore =  date_create(date($activity->created_at));
+                    $dateDiff = date_diff($dateBefore, $dateNow);
+                    $dateString = Self::constructStringFromDateTime($dateDiff);
 
-                if (Attachment::class == $activity->subject_type) {
-                    $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity);
-                } elseif (Task::class == $activity->subject_type) {
-                    $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity);
-                    $name = isset($object) ? $object->name  : User::find($activity->getExtraProperty('attributes')['user_id'])->name;
-                    $status = $activity->changes()->all()['attributes']['status'];
-                    if ($action == "updated") {
-                        if ($status == 0) {
-                            $status = " as an open task";
-                        } elseif ($status == 1) {
-                            $status = " as an on-going task";
+                    if (Attachment::class == $activity->subject_type) {
+                        $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity);
+                    } elseif (Task::class == $activity->subject_type) {
+                        //detach user company
+
+                        $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity);
+                        $name = isset($object) ? $object->name  : User::find($activity->getExtraProperty('attributes')['user_id'])->name;
+                        $status = $activity->changes()->all()['attributes']['status'];
+                        if ($action == "updated") {
+                            if ($status == 0) {
+                                $status = " as an open task";
+                            } elseif ($status == 1) {
+                                $status = " as an on-going task";
+                            } else {
+                                $status = " as a closed task";
+                            }
                         } else {
-                            $status = " as a closed task";
+                            $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity);
+                        }
+                        $company = Company::find($activity->changes()->all()['attributes']['company_id']);
+                        $sentence .= "a task for " . $company->name . $status . ".";
+                    } elseif (UserCompany::class == $activity->subject_type) {
+                        //NAME updated
+                        $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity) . " a user";
+                        if ($action == "updated") {
+                            $sentence .= " to the company.";
+                        } else {
+                            $sentence .= " from the company.";
                         }
                     } else {
-                        $status = "";
-                    }
-                    $company = Company::find($activity->changes()->all()['attributes']['company_id']);
-                    $sentence .= "a task for " . $company->name . $status . ".";
-                } else {
-                    $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity);
-                    //filter object is company, user, social wall, post, tasks
-                    $name = isset($object->name) ? $object->name  : $activity->changes()->all()['attributes']['name'];
+                        $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity);
+                        //filter object is company, user, social wall, post, tasks
+                        $name = isset($object->name) ? $object->name  : $activity->changes()->all()['attributes']['name'];
 
-                    if (Company::class == $activity->subject_type) {
-                        $sentence .= "company's " . $name . " data.";
-                    } elseif (Employee::class == $activity->subject_type) {
-                        //accounts added to the company
-                        $sentence .= $name . " as an account for company " . $company->name . ".";
+                        if (Company::class == $activity->subject_type) {
+                            $sentence .= "company's " . $name . " data.";
+                        } elseif (Employee::class == $activity->subject_type) {
+                            //accounts added to the company
+                            $sentence .= $name . " as an account for company " . $company->name . ".";
+                        }
                     }
+                    $construct[] = [$subject, $object, $dateString, $sentence];
                 }
-                $construct[] = [$subject, $object, $dateString, $sentence];
+            } catch (Exception $e) {
+                $construct[] = ['EXCEPTION', 'EXCEPTION' , null , 'Something happened! Caught exception: ' . $e->getMessage() . "\n"];
             }
         }
         return $construct;
@@ -89,15 +104,19 @@ class ActivityLogService
         $construct = [];
         $lastActivity = Activity::whereSubjectId($user->id)->orWhere('causer_id', $user->id)->orderBy('created_at', 'desc')->get();
         foreach ($lastActivity as $activity) {
-            if ($activity->causer_type != null && ($user->id != $activity->subject_id || ($activity->causer_id ==  $activity->subject_id))) {
-                $dateNow =  date_create(date("Y-m-d H:i:s"));
-                $dateBefore =  date_create(date($activity->created_at));
-                $dateDiff = date_diff($dateBefore, $dateNow);
-                $dateString = Self::constructStringFromDateTime($dateDiff);
-                $sentence =  Self::constructSentenceForUser($activity->description, $activity);
-                if ($sentence!=null) {
-                    $construct[] = [$dateString, $sentence];
+            try {
+                if ($activity->causer_type != null && ($user->id != $activity->subject_id || ($activity->causer_id ==  $activity->subject_id))) {
+                    $dateNow =  date_create(date("Y-m-d H:i:s"));
+                    $dateBefore =  date_create(date($activity->created_at));
+                    $dateDiff = date_diff($dateBefore, $dateNow);
+                    $dateString = Self::constructStringFromDateTime($dateDiff);
+                    $sentence =  Self::constructSentenceForUser($activity->description, $activity);
+                    if ($sentence!=null) {
+                        $construct[] = [$dateString, $sentence];
+                    }
                 }
+            } catch (Exception $e) {
+                $construct[] = ['EXCEPTION' , 'Something happened! Caught exception: ' .$e->getMessage() .  "\n"];
             }
         }
         return $construct;
@@ -112,32 +131,32 @@ class ActivityLogService
         if (Company::class == $activity->subject_type) {
             $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
             if (isset($activity->changes()->all()['attributes']) && ($activity->changes()->all()['attributes']['client'] == true) && (isset($activity->changes()->all()['old']) && $activity->changes()->all()['old']['client'] == false)) {
-                return "You converted company " . $objectName . " as a client.";
+                return "converted company " . $objectName . " as a client.";
             }
-            return "You " .$action . " " . $objectName . "'s data.";
+            return $action . " " . $objectName . "'s data.";
         } elseif (Candidate::class == $activity->subject_type) {
             $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
-            return "You " .$action . " " . $objectName . " in the candidates list.";
+            return $action . " " . $objectName . " in the candidates list.";
         } elseif (Attachment::class == $activity->subject_type) {
             //escape resume added for resumes
             $type = $activity->getExtraProperty('attributes')['attachable_type'];
             if ($type != Candidate::class) {
                 $objectName = isset($object->filename) ? $object->filename : $activity->changes()->all()['attributes']['file_name'];
                 $company = Company::find($activity->changes()->all()['attributes']['attachable_id']);
-                return "You " .$action . " " . $objectName . " for company " . $company->name . ".";
+                return $action . " " . $objectName . " for company " . $company->name . ".";
             }
         } elseif (User::class == $activity->subject_type && $activity->causer_id == Auth::user()->id) {
             if ($activity->subject_id != $activity->causer_id) {
                 $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
-                return "You " . $action . " " . $objectName . "'s account as an admin.";
+                return $action . " " . $objectName . "'s account as an admin.";
             }
-            return "You " . $action . " your own profile.";
+            return  $action . " your own profile.";
         } elseif (Employee::class == $activity->subject_type) {
             $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
             $company = Company::find($activity->changes()->all()['attributes']['company_id']);
-            return "You " .$action . " " . $objectName . "'s account for company " . $company->name . ".";
+            return $action . " " . $objectName . "'s account for company " . $company->name . ".";
         } elseif (Post::class == $activity->subject_type) {
-            return "You " .$action . " a post on announcement board.";
+            return $action . " a post on announcement board.";
         } elseif (Task::class == $activity->subject_type) {
             $status = $activity->changes()->all()['attributes']['status'];
             if ($action == "updated") {
@@ -152,7 +171,7 @@ class ActivityLogService
                 $status = "";
             }
             $company = Company::find($activity->changes()->all()['attributes']['company_id']);
-            return "You " . $action . " a task for " . $company->name . $status . ".";
+            return  $action . " a task for " . $company->name . $status . ".";
         }
         return null;
     }
@@ -167,6 +186,15 @@ class ActivityLogService
         if ($action == "deleted") {
             if (isset($activity->getExtraProperty('attributes')['file_name'])) {
                 return " removed file " . $activity->getExtraProperty('attributes')['file_name'];
+            }
+            if ($activity->subject_type == UserCompany::class) {
+                return " removed ";
+            }
+        }
+
+        if ($action == "updated") {
+            if ($activity->subject_type == UserCompany::class) {
+                return " assigned ";
             }
         }
         return $action . " ";
@@ -198,9 +226,9 @@ class ActivityLogService
         } elseif ($date->h != '0') {
             $string .= $date->h;
             if ($date->h == '1') {
-                $string .= " day ago";
+                $string .= " hour ago";
             } else {
-                $string .= " days ago";
+                $string .= " hours ago";
             }
         } elseif ($date->i != '0') {
             $string .= $date->i;

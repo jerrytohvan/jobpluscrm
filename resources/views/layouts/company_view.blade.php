@@ -161,41 +161,6 @@ html {
                                 </div>
                                 </li>
 
-
-                                    <!-- <div class="row" style="padding-bottom: 2em;">
-                                      <div class="col-md-6 col-sm-12 col-xs-12">
-                                            <div>
-                                              <div class="x_title">
-                                                <h2>Collaborators</h2>
-                                              <div class="clearfix"></div>
-                                              </div>
-                                              <ul class="list-inline">
-                                                @if(!empty($collaborators))
-                                                  @foreach($collaborators as $profile)
-                                                <li>
-                                                  <div class="img__wrap">
-                                                    <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
-                                                      <div class="img__description_layer">
-                                                        <p class="img__description">{{ $profile->name }}</p>
-                                                      </div>
-                                                    </div>
-                                                </li>
-                                                  @endforeach
-                                                @endif
-                                                  <a id="collaborators_button" >
-                                                    <span class="glyphicon glyphicon-plus-sign gi-1x"></span>
-                                                   </a>
-                                                </li>
-                                              </ul>
-
-                                            </div>
-                                          </div>
-                                    </div> -->
-
-
-
-
-
                                </li>
                             </ul>
 
@@ -250,7 +215,7 @@ html {
                                   <h3 class="text-center title-color">Company's Tasks
                                   <button type="button" class="btn btn-default btn-sm" id="new-task-button"  style="float: right; background: #32213A; color: white;">New Task</button>
                                   </h3>
-                
+
 
                                    <div class="well" id="app">
                                      <task-draggable :tasks-open="{{ $tasksOpen }}" :tasks-on-going="{{ $tasksOnGoing }}" :tasks-closed="{{ $tasksClosed }}"></task-draggable>
@@ -317,7 +282,7 @@ html {
             </div>
 
               <div class="row">
-                <div class="col-md-12 col-xs-12">
+                <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="x_panel">
                               <div class="x_title">
                                 <h2>Recent Activities on Company</h2>
@@ -329,10 +294,10 @@ html {
                                   <li>
                                     <a>
                                       <span class="image">
-                                        <img src="{{ $activity[0]->profile_pic == null ?  Gravatar::src(Auth::user()->email) : $activity[0]->profile_pic }}" alt="img">
+                                        <!-- <img src="{{ $activity[0]->profile_pic == null ?  Gravatar::src(Auth::user()->email) : $activity[0]->profile_pic }}" alt="img"> -->
                                       </span>
                                       <span>
-                                        <span>{{ $activity[0]->name }}</span>
+                                        <span><strong>{{ $activity[0]->name }}</strong></span>
                                         <span class="time">{{ $activity[2] }}</span>
                                       </span>
                                       <span class="message">
@@ -373,8 +338,15 @@ html {
                                     <h4 class="heading">{{ $note->user->name }}</h4>
                                       <blockquote id="content-{{ $note->id }}" class="message">{{ $note->content }}</blockquote>
                                     @if(Auth::user()->id == $note->user->id)
-                                      <a data-id="{{ $note->id }}" data-content="{{ $note->content }}" class="edit-note" id="Edit-modal" href="#edit-note">Edit</a>
-                                      <a onclick="deleteNote( {{ $note->id }} )" class="confirmation">Delete</a>
+                                    <div class="pull-right">
+                                      <a data-id="{{ $note->id }}" data-content="{{ $note->content }}" class="edit-note" id="Edit-modal" href="#edit-note" style="padding-right: 2em;">
+                                        <span class="glyphicon glyphicon-pencil gi-1x"></span>
+                                      </a>
+
+                                      <a onclick="deleteNote( {{ $note->id }} )" class="confirmation">
+                                        <span class="glyphicon glyphicon-trash gi-1x"></span>
+                                      </a>
+                                    </div>
                                     @endif
                                     <br>
                                     <p class="url">
@@ -564,7 +536,7 @@ html {
                           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no_employees">No of Employees *
                           </label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
-                            
+
                               <select class="select2_single form-control" id="no_employees" name="no_employees" tabindex="-1">
                                   <option value="{{ $company-> no_employees}}">{{$company-> no_employees}}</option>
                                   <option value="1-5">1-5</option>
@@ -932,7 +904,7 @@ html {
                     </div>
                     <div class="modal-body">
                       {{  Form::open(['route' => 'add.new.tasks','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
-                  
+
                       <div class="form-group">
                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Task <span class="required">*</span>
                          </label>
@@ -970,7 +942,7 @@ html {
                             </div>
                         </div>
 
-                      
+
                       <div class="ln_solid"></div>
                       <div class="form-group">
                          <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
@@ -1191,7 +1163,7 @@ $(document).ready(function () {
   });
 
   $(document).ready(function () {
-    $("#new-contact-button").click(function () {        
+    $("#new-contact-button").click(function () {
         $('#edit-contacts').modal('show');
       });
 

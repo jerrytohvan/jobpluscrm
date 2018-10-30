@@ -35,7 +35,7 @@ class UserService
         $user->save();
         return $user;
     }
-    
+
     public function attachUserWithCompany(User $user, Company $company)
     {
         $user->companies()->attach($company->id);
@@ -51,7 +51,10 @@ class UserService
     }
     public function detachUserFromCompany(User $user, Company $company)
     {
-        if ($user->companies()->detach($company->id)) {
+        $findCompany = UserCompany::whereUserId($user->id)->whereCompanyId($company->id)->get();
+        // if ($user->companies()->detach($company->id)) {
+        if ($findCompany!=null) {
+            $findCompany->first()->delete();
             return 1;
         };
         return 0;
