@@ -42,7 +42,7 @@
                              <thead>
                                   <tr>
                                       <th style="width: 10%">Name</th>
-                                      <th style="width: 25%">Accounts</th>
+                                      <th style="width: 25%">Contacts</th>
                                       <th>Collaborators</th>
                                       <th>Industry</th>
                                       <th style="width: 15%">Action</th>
@@ -81,7 +81,7 @@
                                     {{ $data -> industry }}
                                   </td>
                                   <td>
-                                      <a href="{{ route('view.company', ['company' => $data->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                                      <a href="{{ route('view.company', ['company' => $data->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View / Edit </a>
                                       <a onclick="deleteClient( {{ $data->id}} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
                                   </td>
 

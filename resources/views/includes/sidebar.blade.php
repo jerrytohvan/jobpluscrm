@@ -46,9 +46,7 @@
               </li>
               @endif
 
-            <li>
-              <a href="{{ route('social.wall') }}"><i class="fa fa-comments-o"></i>Announcements </a>
-            </li>
+
             <li>
               <a><i class="fa fa-edit"></i> Companies <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu">
@@ -81,6 +79,9 @@
             </li>
             <li>
               <a href="{{ route('dummy.index') }}"><i class="fa fa-clock-o"></i>Dummy</a>
+            </li>
+            <li>
+              <a href="{{ route('social.wall') }}"><i class="fa fa-comments-o"></i>Announcements </a>
             </li>
           <!--  <li>
               <a href="{{ route('index.calendar') }}"><i class="fa fa-calendar"></i>Calendar</a>
