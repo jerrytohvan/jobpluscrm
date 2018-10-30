@@ -59,15 +59,17 @@ class ClientService
     public function getSpecificUserClients(){
         $userCompanyIds = UserCompany::whereUserId(Auth::user()->id)->pluck('company_id')->toArray();
         $ids = Company::whereUserId(Auth::user()->id)->whereClient(1)->pluck('id')->toArray();
-        $assignedIds = Task::whereAssignedId(Auth::user()->id)->pluck('id')->toArray();
+        $assignedIds = Task::whereAssignedId(Auth::user()->id)->pluck('company_id')->toArray();
+        dd( $assignedIds);
         $mergedIds = array_merge($userCompanyIds,$ids,$assignedIds);
+        
         return Company::whereIn('id',$mergedIds)->whereClient(1)->orderBy('name', 'asc')->take(1000)->get();
     }
 
     public function getSpecificUserLeads(){
         $userCompanyIds = UserCompany::whereUserId(Auth::user()->id)->pluck('company_id')->toArray();
         $ids = Company::whereUserId(Auth::user()->id)->whereClient(0)->pluck('id')->toArray();
-        $assignedIds = Task::whereAssignedId(Auth::user()->id)->pluck('id')->toArray();
+        $assignedIds = Task::whereAssignedId(Auth::user()->id)->pluck('company_id')->toArray();
         $mergedIds = array_merge($userCompanyIds,$ids,$assignedIds);
         return Company::whereIn('id',$mergedIds)->whereClient(0)->orderBy('name', 'asc')->take(1000)->get();
     }

@@ -31,7 +31,6 @@ class TaskController extends Controller
         if (Auth::user()->admin == true) {
             $users = User::all()->sortBy('name');
             $companies = Company::all()->sortBy('name');
-            //$task = Task::all();
             return view('layouts.index_task', compact('users', 'companies', 'message', 'status'));
         } else {
             $userCIds = Task::whereUserId(Auth::user()->id)->orWhere('assigned_id', Auth::user()->id)->orWhere('collaborator->Auth::user()->id')->pluck('company_id')->toArray();
