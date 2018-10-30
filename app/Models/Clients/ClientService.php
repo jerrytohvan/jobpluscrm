@@ -118,10 +118,9 @@ class ClientService
         return $comment;
     }
 
-    public function getAllEmployees($array) {
+    public function getAllEmployees($array, $allEmployees) {
         $employeesArray = array();
 
-        $allEmployees = Employee::all();
         foreach ($allEmployees as $employee) {
             $company_id = $employee['company_id'];
             $thisEmployee = $employee['name'] . ": " . $employee['telephone'];
@@ -138,10 +137,9 @@ class ClientService
         return $employeesArray;
     }
 
-    public function getUrgency($array) {
+    public function getUrgency($array, $alltasks) {
         $sizeArray = array('0'=>0.6, '1-5'=>0.5, '6-20'=>0.4, '21-100'=>0.3, '101-500'=>0.2, '>501'=>0.1);
 
-        $alltasks = Task::all();
         $tasksArray = array();
 
         foreach ($alltasks as $task) {
@@ -181,14 +179,12 @@ class ClientService
         return $urgencyArray;
     }
 
-    public function getLastUpdate($array)
+    public function getLastUpdate($array, $employees, $tasks)
     {
         $updateArray = array();
 
-        $employees = Employee::all();
         $posts = Post::all();
         $collaborators = UserCompany::all();
-        $tasks = Task::all();
 
         foreach ($array as $company) {
             $company_id = $company['id'];

@@ -62,11 +62,13 @@ class ClientController extends Controller
 
     public function index_companies_clients()
     {
+        $employees = Employee::all();
+        $tasks = Task::all();
         $array = $this->svc->getAllClients();
-        $allEmployees = $this->svc->getAllEmployees($array);
+        $allEmployees = $this->svc->getAllEmployees($array, $employees);
         // $score = $this->svc->getUrgencyScore($array);
-        $urgency = $this->svc->getUrgency($array);
-        $lastUpdate = $this->svc->getLastUpdate($array);
+        $urgency = $this->svc->getUrgency($array, $tasks);
+        $lastUpdate = $this->svc->getLastUpdate($array, $employees, $tasks);
         $allCollaborators = $this->svc->getAllCollaborators($array);
         return view('layouts.companies_clients', compact('status', 'companies', 'array', 'allEmployees', 'urgency', 'lastUpdate', 'allCollaborators'));
     }
