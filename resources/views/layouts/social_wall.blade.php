@@ -21,79 +21,92 @@
 
 <!-- SOCIAL WALL -->
 <div class="right_col" role="main">
-  <div class="row tile_count">
-    <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
-      <div class="count">Announcements</div>
-    </div>
-  </div>
+
 
   <section class="row new-post">
-    <!--Add profile img-->
-    <div class="col-md-2 col-md-offset-1">
-        <div class="x_panel">
-            <img class="center-block" src="https://secure.gravatar.com/avatar/ef76f4019c437fa1ea0b8345486ba571?s=80&r=g&d=identicon" style="width:129px; height:129px;"/>
-        </div>
-    </div>
-    <!-- /Add profile img -->
-
-      <div class="col-md-6">
-         <div class="x_panel"> <!-- panel -->
-          <header><h3>What do you have to say?</h3></header>
+    <div class="col-md-6 col-sm-12 col-xs-12 col-md-offset-3">
+          <header>
+          <div class="row tile_count">
+              <div class="tile_stats_count">
+                <div class="count">Announcements</div>
+              </div>
+            </div>
+          </header>
             {{  Form::open(['route' => 'new.post','method'=>'post']) }}
               <div class="form-group">
-                {!! Form::text('body', null, ['class' => 'form-control', 'id' => 'new-post', 'rows' => '5', 'placeholder' => 'Your Post']) !!}
+
+                {!! Form::text('body', null,  ['class' => 'form-control', 'id' => 'new-post', 'rows'=> '5' ,'cols'=> '14','placeholder' => 'Your Announcement']) !!}
               </div>
-              {{ Form::submit('Create Post', ['class'=>'btn btn-primary']) }}
+
+                <div class="pull-right">
+                {{ Form::submit('Send!', ['class'=>'btn btn-primary', 'style' =>'background: #32213A; color: white;']) }}
+            </div>
           {!! Form::close() !!}
-         </div> <!-- /panel -->
       </div>
   </section>
 
   <section class="row posts">
-      <div class="col-md-6 col-md-offset-3">
-          <header><h3>Past Announcements</h3></header>
-          @foreach($posts as $post)
-          <!-- panel for post -->
-           <div class="x_panel">
-              <article class="post" data-postid="{{ $post->id }}">
-                  <p>{{ $post->content }}</p>
-                  <div class="info">
-                      Posted by {{ $post->user->name }} on {{ $post->created_at }}
+
+
+        <div class="col-md-6 col-sm-12 col-xs-12  col-md-offset-3">
+                    <div class="x_content">
+                      <ul class="list-unstyled timeline">
+                        @foreach($posts as $post)
+
+                        <li class="post" data-postid="{{ $post->id }}">
+                          <div class="block">
+                            <div class="tags">
+                                  <img src="{{ (Auth::user()->profile_pic) }}" alt="Avatar" class="img-circle profile_img">
+                            </div>
+                            <div class="block_content">
+                              <h2 class="title">
+                                              <a>{{ $post->user->name }}</a>
+                                          </h2>
+                              <div class="byline">
+                                <span>{{  date("F j, Y \a\\t g:i a",strtotime($post->created_at))}}</span>
+                              </div>
+                              <p class="excerpt">
+                                {{ $post->content }}
+                              </p>
+                              <div class="interaction">
+                                    @php
+                                        $like_count = DB::table('likes')->where('post_id', $post->id)->count();
+                                    @endphp
+                                    <span style="font-size: 1.5em;">
+                                    @if ($like_count > 1)
+                                        {{$like_count}}
+                                    @elseif ($like_count > 0)
+                                        {{$like_count}}
+                                    @endif
+                                  </span> <a href="{{ route('like.post', ['post_id' => $post->id, 'isLike' => 'true']) }}">
+
+                                          @if(Auth::user()->likes()->where('post_id', $post->id)->first() != null &&
+                                              Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1)
+                                          <span class="fa fa-heart-o like" style="font-size: 1.5em;color:red; padding-right:1em;"></span></a>
+
+                                          @else
+                                          <span class="fa fa-heart-o like" style="font-size: 1.5em; padding-right:1em;"></span></a>
+
+                                          @endif
+
+
+                                  @if(Auth::user() == $post->user)
+                                  <span class="pull-right">
+                                    <a data-id="{{ $post->id }}" data-content="{{ $post->content }}" class="edit" id="Edit-modal"
+                                             href="#edit-modal"><span class="fa fa-edit" style="font-size: 1.5em;padding-right:1em;"></span></a>
+
+                                  <a onclick="deletePost( {{ $post->id }})" ><span class="fa fa-trash" style="font-size: 1.5em;"></span></a>
+</span>
+                                  @endif
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+
+@endforeach
+                    </div>
                   </div>
-
-                  <!-- Adding button  -->
-                  <div class="interaction">
-
-                        <!-- number of likes -->
-                        @php
-                            $like_count = DB::table('likes')->where('post_id', $post->id)->count();
-                        @endphp
-
-                        @if ($like_count > 1)
-                            {{$like_count}} Likes
-                        @elseif ($like_count > 0)
-                            {{$like_count}} Like
-                        @endif
-
-                      <button type="button" class="btn btn-default btn-xs fa fa-heart-o like"><a href="{{ route('like.post', ['post_id' => $post->id, 'isLike' => 'true']) }}">
-                        {{  Auth::user()->likes()->where('post_id', $post->id)->first() ?
-                            Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ?
-                            'You like this post' : 'Like' : 'Like'  }}</a></button>
-
-                      @if(Auth::user() == $post->user)
-                      <button type="button" class="btn btn-default btn-xs fa fa-edit"><a data-id="{{ $post->id }}" data-content="{{ $post->content }}" class="edit" id="Edit-modal"
-                                 href="#edit-modal">Edit</a></button>
-
-                      <button type="button" class="btn btn-default btn-xs fa fa-trash"><a onclick="deletePost( {{ $post->id }})" >Delete</a></button>
-                      @endif
-                  </div>
-                  <!-- /Adding button  -->
-
-              </article>
-            </div>
-            <!-- /panel for post -->
-          @endforeach
-      </div>
+                </div>
   </section>
 
   <div class="modal fade" tabindex="-1" role="dialog" id="edit-modal">
