@@ -129,13 +129,11 @@ class ClientController extends Controller
         $message = "Company successfully added!";
         $status = 1;
         $company = $this->svc->addCompany(request()->all());
-        // $id = $company->id;
         if ($company == null) {
             $message = "Failed to add company!";
             $status = 0;
         }
         return $this->showCompany($company);
-        //return view('layouts.companies_new', compact('status', 'message'));
 
     }
 

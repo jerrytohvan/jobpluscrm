@@ -50,14 +50,12 @@ class TaskController extends Controller
 
     public function display()
     {
-        // $task = Task::all();
         $client = new Client();
 
         try {
             $res = $client->request('GET', 'https://dbscript.herokuapp.com/mailData');
             $content = $res->getBody()->getContents();
             $var = json_decode($content, true);
-            //dun touch tis codes
             $emailSend = $this->mTc->processTaskForEmail($var);
             $teleSend = $this->tSvc->send($var);
         } catch (Exception $e) {
@@ -71,27 +69,6 @@ class TaskController extends Controller
         return $reminder;
     }
 
-
-    public function showToDoList()
-    {
-        $now = Carbon::now()->format('Y-m-d 00:00:00');
-        $task = Task::whereUserId(Auth::user()->id)->whereType(true)->whereStatus(1)->where('date_reminder', '>', $now)->orderBy('date_reminder', 'asc')->get();
-        $assigned = Task::whereAssignedId(Auth::user()->id)->whereType(true)->whereStatus(1)->where('date_reminder', '>', $now)->orderBy('date_reminder', 'asc')->get();
-
-        // foreach ($task as &$a1) {
-        //     array_push($total, $a1);
-        // }
-        // foreach ($assigned as &$a2) {
-        //     array_push($total, $a2);
-        // }
-
-        // $creator = array($task);
-        // $assignedTo = array($assigned);
-        // array_push($creator, $assignedTo);
-        //return $creator;
-
-        //return('to view',compact('task','assigned'))
-    }
 
     public function showTaskList($companyId)
     {
@@ -158,11 +135,6 @@ class TaskController extends Controller
             }
         }
 
-        //$qd = string($mnth) +" 00:00:00";
-        //error_log(print_r( typeof($mnth),true));
-        //return $qd;
-        // $task = Task::where('date_reminder', '<',$now)->get();
-        // return $task;
     }
 
     public function closeTask($id)
