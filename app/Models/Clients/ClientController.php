@@ -2,28 +2,26 @@
 
 namespace App\Models\Clients;
 
-use App\Http\Requests;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Users\User;
-use App\Models\Clients\Company;
-use App\Models\Employees\Employee;
-use App\Models\Clients\CompanyService;
+use App\Models\ActivityLog\ActivityLogService;
 use App\Models\Attachments\Attachment;
 use App\Models\Attachments\AttachmentService;
-use App\Models\Clients\ClientService;
-use App\Models\Users\UserService;
-use App\Models\ActivityLog\ActivityLogService;
 use App\Models\Clients\CandidateService;
-use App\Models\Jobs\Job;
+use App\Models\Clients\ClientService;
+use App\Models\Clients\Company;
+use App\Models\Clients\CompanyService;
 use App\Models\Comments\Comment;
+use App\Models\Employees\Employee;
+use App\Models\Jobs\Job;
 use App\Models\Posts\Post;
 use App\Models\Tasks\Task;
 use App\Models\Tasks\TaskService;
+use App\Models\Users\User;
 use App\Models\Users\UserCompany;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Contracts\Filesystem\Filesystem;
+use App\Models\Users\UserService;
 use Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ClientController extends Controller
 {
@@ -41,63 +39,106 @@ class ClientController extends Controller
     {
         $message = "";
         $status = "";
-        $candidates = $this->canSvc->getAllCandidates();
+        if(Auth::user()->admin == true){
+            $candidates = $this->canSvc->getAllCandidates();
         return view('layouts.candidates_fulllist', compact('message', 'status', 'candidates'));
+        }else{
+            $candidates = $this->canSvc->getSpecificCandidates();
+        return view('layouts.candidates_fulllist', compact('message', 'status', 'candidates'));
+        }
+        
     }
 
     public function index_candidates_new()
     {
-        $companies = $this->svc->getAllCompany();
         $message = "";
         $status = "";
+        if(Auth::user()->admin == true){
+            $companies = $this->svc->getAllCompany();
         return view('layouts.candidates_new', compact('message', 'status', 'companies'));
+        }else{
+            $companies = $this->svc->getSpecificUserCompany();
+        return view('layouts.candidates_new', compact('message', 'status', 'companies'));
+        }
+        
     }
     public function public_add_candidate()
     {
-        $companies = $this->svc->getAllCompany();
         $message = "";
         $status = "";
-        return view('layouts.public_add_candidate', compact('message', 'status', 'companies'));
+        if (Auth::user()->admin == true) {
+            $companies = $this->svc->getAllCompany();
+            return view('layouts.public_add_candidate', compact('message', 'status', 'companies'));
+        } else {
+            $companies = $this->svc->getSpecificUserCompany();
+            return view('layouts.public_add_candidate', compact('message', 'status', 'companies'));
+        }
+
     }
 
     public function index_companies_clients()
     {
-        $employees = Employee::all();
-        $tasks = Task::all();
-        $array = $this->svc->getAllClients();
-        $allEmployees = $this->svc->getAllEmployees($array, $employees);
-        // $score = $this->svc->getUrgencyScore($array);
-        $urgency = $this->svc->getUrgency($array, $tasks);
-        $lastUpdate = $this->svc->getLastUpdate($array, $employees, $tasks);
-        $allCollaborators = $this->svc->getAllCollaborators($array);
-        return view('layouts.companies_clients', compact('status', 'companies', 'array', 'allEmployees', 'urgency', 'lastUpdate', 'allCollaborators'));
+		$employees = Employee::all();
+		$tasks = Task::all();
+        if (Auth::user()->admin == true) {
+			$array = $this->svc->getAllClients();
+			$allEmployees = $this->svc->getAllEmployees($array, $employees);
+			// $score = $this->svc->getUrgencyScore($array);
+			$urgency = $this->svc->getUrgency($array, $tasks);
+			$lastUpdate = $this->svc->getLastUpdate($array, $employees, $tasks);
+			$allCollaborators = $this->svc->getAllCollaborators($array);
+            return view('layouts.companies_clients', compact('status', 'companies', 'array', 'allEmployees', 'urgency', 'lastUpdate', 'allCollaborators'));
+        } else {
+            $array = $this->svc->getSpecificUserClients();
+            $allEmployees = $this->svc->getAllEmployees($array, $employees);
+            $urgency = $this->svc->getUrgency($array, $tasks);
+            $lastUpdate = $this->svc->getLastUpdate($array, $employees, $tasks);
+            $allCollaborators = $this->svc->getAllCollaborators($array);
+            return view('layouts.companies_clients', compact('status', 'companies', 'array', 'allEmployees', 'urgency', 'lastUpdate', 'allCollaborators'));
+        }
+
     }
 
     public function index_companies_leads()
     {
         $message = "";
         $status = "";
-        $array = $this->svc->getAllLeads();
-        return view('layouts.companies_leads', compact('array', 'status', 'message'));
+        if (Auth::user()->admin == true) {
+            $array = $this->svc->getAllLeads();
+            return view('layouts.companies_leads', compact('array', 'status', 'message'));
+        } else {
+            $array = $this->svc->getSpecificUserLeads();
+            return view('layouts.companies_leads', compact('array', 'status', 'message'));
+        }
+
     }
 
     public function index_companies_new()
     {
         $message = "";
         $status = "";
-        $companies = $this->svc->getAllCompany();
-        return view('layouts.companies_new', compact('message', 'status', 'companies'));
+        if (Auth::user()->admin == true) {
+            $companies = $this->svc->getAllCompany();
+            return view('layouts.companies_new', compact('message', 'status', 'companies'));
+        } else {
+            $companies = $this->svc->getSpecificUserCompany();
+            return view('layouts.companies_new', compact('message', 'status', 'companies'));
+        }
+
     }
     public function add_new_company()
     {
         $message = "Company successfully added!";
         $status = 1;
         $company = $this->svc->addCompany(request()->all());
+        // $id = $company->id;
         if ($company == null) {
             $message = "Failed to add company!";
             $status = 0;
         }
-        return view('layouts.companies_new', compact('status', 'message'));
+        return $this->showCompany($company);
+        //return view('layouts.companies_new', compact('status', 'message'));
+
     }
 
     public function add_new_candidate()
@@ -105,7 +146,7 @@ class ClientController extends Controller
         $message = "Failed to add candidate!";
         $status = 0;
         $resume = request()->file('resume');
-        if ($resume!=null) {
+        if ($resume != null) {
             $candidate = $this->canSvc->addCandidateFile(request()->all());
             if ($candidate != null) {
                 if (!empty(request()->input('type'))) {
@@ -125,10 +166,10 @@ class ClientController extends Controller
         $message = "Failed to add candidate!";
         $status = 0;
         $this->validate(request(), [
-        'name' => 'required',
-        'title' => 'required',
-        'email' => 'required'
-      ]);
+            'name' => 'required',
+            'title' => 'required',
+            'email' => 'required',
+        ]);
 
         if ($this->svc->addAccount(request()->all())) {
             $message = "Account successfully added!";
@@ -145,7 +186,7 @@ class ClientController extends Controller
         $message = "Failed to remove candidate!";
         $status = 0;
         $this->canSvc->destroyCandidate($candidate);
-        if (Candidate::find($id)==null) {
+        if (Candidate::find($id) == null) {
             $message = "Candidate successfully removed!";
             $status = 1;
         }
@@ -154,11 +195,11 @@ class ClientController extends Controller
 
     public function updateAccount()
     {
-        $requestArray =  request()->all();
+        $requestArray = request()->all();
         $employeeId = $requestArray['employee_id'];
         unset($requestArray['employee_id']);
         unset($requestArray['_token']);
-        $employee =  $this->svc->updateAccountProfile(Employee::find($employeeId), $requestArray);
+        $employee = $this->svc->updateAccountProfile(Employee::find($employeeId), $requestArray);
         if ($employee == null) {
             $message = "Failed to update account!";
             $status = 0;
@@ -174,7 +215,7 @@ class ClientController extends Controller
         $requestArray = request()->all();
         $employee_id = $requestArray['contact_id'];
         $employee = Employee::find($employee_id);
-        if ($employee ->delete()) {
+        if ($employee->delete()) {
             $message = "Employee successfully removed!";
             $status = 1;
         } else {
@@ -191,22 +232,21 @@ class ClientController extends Controller
 
         $accounts = $company->employees;
         $companyFiles = $company->files;
-        $activities =   $this->actSvc->getActivitiesByCompany($company);
+        $activities = $this->actSvc->getActivitiesByCompany($company);
         // dd($activities);
         $collaborators = $company->collaborators;
         $collaboratorsId = $collaborators->pluck('id')->toArray();
-        $users = User::orderBy('name','asc')->get();
+        $users = User::orderBy('name', 'asc')->get();
         $notes = $company->posts;
         $jobs = Job::whereCompanyId($company->id)->take(20)->get();
-
 
         $tasks = Task::orderBy('order')->whereCompanyId($company->id)->get();
 
         $tasksOpen = $tasks->map(function ($value, $key) {
             $value['company'] = Company::find($value['company_id'])->name;
             $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name : "";
-            $dateNow =  date_create(date("Y-m-d H:i:s"));
-            $dateAfter =  date_create(date($value['date_reminder']));
+            $dateNow = date_create(date("Y-m-d H:i:s"));
+            $dateAfter = date_create(date($value['date_reminder']));
             $dateDiff = date_diff($dateNow, $dateAfter);
             $dateString = Self::constructStringFromDateTime($dateDiff);
             $value['date_string'] = $dateString;
@@ -217,9 +257,9 @@ class ClientController extends Controller
 
         $tasksOnGoing = $tasks->map(function ($value, $key) {
             $value['company'] = Company::find($value['company_id'])->name;
-            $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name  : "";
-            $dateNow =  date_create(date("Y-m-d H:i:s"));
-            $dateAfter =  date_create(date($value['date_reminder']));
+            $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name : "";
+            $dateNow = date_create(date("Y-m-d H:i:s"));
+            $dateAfter = date_create(date($value['date_reminder']));
             $dateDiff = date_diff($dateNow, $dateAfter);
             $dateString = Self::constructStringFromDateTime($dateDiff);
             $value['date_string'] = $dateString;
@@ -230,9 +270,9 @@ class ClientController extends Controller
 
         $tasksClosed = $tasks->map(function ($value, $key) {
             $value['company'] = Company::find($value['company_id'])->name;
-            $value['assignee'] =!empty($value['assigned_id']) ? User::find($value['assigned_id'])->name  : "";
-            $dateNow =  date_create(date("Y-m-d H:i:s"));
-            $dateAfter =  date_create(date($value['date_reminder']));
+            $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name : "";
+            $dateNow = date_create(date("Y-m-d H:i:s"));
+            $dateAfter = date_create(date($value['date_reminder']));
             $dateDiff = date_diff($dateNow, $dateAfter);
             $dateString = Self::constructStringFromDateTime($dateDiff);
             $value['date_string'] = $dateString;
@@ -259,25 +299,25 @@ class ClientController extends Controller
         //     return $coTasks;
         // }
 
-        return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes', 'jobs', 'tasksOpen', 'tasksOnGoing', 'tasksClosed'));
+        return view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes', 'jobs', 'tasksOpen', 'tasksOnGoing', 'tasksClosed'));
     }
-    public function showCompanyPost(Company $company, $message=null, $status=null)
+    public function showCompanyPost(Company $company, $message = null, $status = null)
     {
         $accounts = $company->employees;
         $companyFiles = $company->files;
-        return  view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles'));
+        return view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles'));
     }
     public function addNote(Company $company)
     {
         $post = $this->svc->addPost($company, request()->input('body'));
-        $message = $post != null ? 'Note successfully added!': 'There was an error';
+        $message = $post != null ? 'Note successfully added!' : 'There was an error';
         $status = $post != null ? 1 : 0;
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
     public function updateCompany()
     {
-        $requestArray =  request()->all();
+        $requestArray = request()->all();
         $companyId = $requestArray['company_id'];
         unset($requestArray['company_id']);
         unset($requestArray['_token']);
@@ -290,12 +330,12 @@ class ClientController extends Controller
             $message = "Failed to add updated!";
             $status = 0;
         }
-        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+        return redirect()->back()->with(['message' => $message, 'status' => $status, 'company' => $company]);
     }
 
     public function convertToClient(Company $company)
     {
-        $message =  "Failed to update " . $company->name ." as client!";
+        $message = "Failed to update " . $company->name . " as client!";
         $status = 0;
         if ($this->svc->leadToClient($company)) {
             $message = $company->name . " company is successfully moved to client!";
@@ -308,13 +348,13 @@ class ClientController extends Controller
     {
         $file = request()->file('file_upload');
         if ($file != null) {
-            $path = storage_path()."/app/attachments";
+            $path = storage_path() . "/app/attachments";
             $original_name = $file->getClientOriginalName();
             $ext = pathinfo($original_name, PATHINFO_EXTENSION);
-            $company =  Company::find(request()->input('company_id'));
-            $hashed_name = md5($original_name. time()) . "." . $ext;
-            $this->attachSvc->uploadFile('/attachments/'. $hashed_name, $file);
-            $storedFile = $this->compSvc->addCompanyFiles('/attachments/'. $hashed_name, $original_name, $company);
+            $company = Company::find(request()->input('company_id'));
+            $hashed_name = md5($original_name . time()) . "." . $ext;
+            $this->attachSvc->uploadFile('/attachments/' . $hashed_name, $file);
+            $storedFile = $this->compSvc->addCompanyFiles('/attachments/' . $hashed_name, $original_name, $company);
             if ($storedFile != null) {
                 $status = 1;
                 $message = "File is successfully added!";
@@ -332,7 +372,7 @@ class ClientController extends Controller
     {
         try {
             $exists = Storage::disk('s3')->exists($file->hashed_name);
-            if (Auth::user()&& $exists) {
+            if (Auth::user() && $exists) {
                 return $this->attachSvc->downloadFile($file->hashed_name, $file->file_name);
             } else {
                 return redirect()->back()->with(['message' => "ERROR, Something happened, file not found", 'status' => 0]);
@@ -345,7 +385,7 @@ class ClientController extends Controller
     public function getResume(Attachment $file)
     {
         try {
-            $exists = Storage::disk('s3')->exists('/resume/'. $file->hashed_name);
+            $exists = Storage::disk('s3')->exists('/resume/' . $file->hashed_name);
             if (Auth::user() && $exists) {
                 return $this->attachSvc->downloadFile('/resume/' . $file->hashed_name, $file->file_name);
             } else {
@@ -377,7 +417,7 @@ class ClientController extends Controller
         $company = Company::where('id', $company_id)->first();
         $employee = Employee::where('company_id', $company_id);
         try {
-            $employee ->delete();
+            $employee->delete();
             $company->delete();
             $message = "Company's profile successfully removed!";
             $status = 1;
@@ -394,7 +434,7 @@ class ClientController extends Controller
         $user = User::find(request()->input('user_id'));
         $message = "Opps! User can't be added. ";
         $status = 0;
-        if ($this->userSvc->attachUserWithCompany($user, $company)==1) {
+        if ($this->userSvc->attachUserWithCompany($user, $company) == 1) {
             $message = "User successfully tagged.";
             $status = 1;
         }
@@ -405,7 +445,7 @@ class ClientController extends Controller
     {
         $message = "Opps! User can't be removed";
         $status = 0;
-        if ($this->userSvc->detachUserFromCompany($user, $company) ==1) {
+        if ($this->userSvc->detachUserFromCompany($user, $company) == 1) {
             $message = "User successfully removed";
             $status = 1;
         }
@@ -436,8 +476,8 @@ class ClientController extends Controller
     public function editNote(Request $request)
     {
         $this->validate($request, [
-          'content' => 'required'
-      ]);
+            'content' => 'required',
+        ]);
         $post = Post::find($request->id);
         if (Auth::user() != $post->user) {
             return redirect()->back();
