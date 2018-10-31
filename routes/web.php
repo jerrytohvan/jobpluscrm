@@ -48,6 +48,12 @@ Route::group(['middleware' => ['auth']], function () {
 'as' => 'edit.profile',
 'uses' => '\App\Models\Users\UserController@updateProfile'
 ]);
+
+Route::post('/change-pw', [
+  'as' => 'change.pwd',
+  'uses' => '\App\Http\Controllers\Auth\RegisterController@resetPwd'
+  ]);
+  
     Route::get('/add-admin', [
       'as' => 'index.register',
       'uses' => '\App\Http\Controllers\Auth\RegisterController@index'
