@@ -12,7 +12,7 @@ use App\Models\Clients\Company;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\Tasks\TaskService;
-use App\models\clients;
+use App\models\Clients;
 
 class AccountController extends Controller
 {
