@@ -12,7 +12,7 @@ use App\Models\Clients\Company;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\Tasks\TaskService;
-use App\models\clients;
+use App\models\Clients;
 
 class AccountController extends Controller
 {
@@ -109,11 +109,11 @@ class AccountController extends Controller
     public function tasksOverdue()
     {
         $overdueTasks=null;
-        $now = $this->todayDate();
+        $todayDateEnd = $this->todayDateEnd();
         if (Auth::user()->admin == true) {
-            $overdueTasks = Task::where('status', '<', 2)->where('date_reminder', '<=', $now)->get();
+            $overdueTasks = Task::where('status', '<', 2)->where('date_reminder', '<=', $todayDateEnd)->get();
         } else {
-            $overdueTasks = Task::whereUserId(Auth::user()->id)->where('status', '<', 2)->where('date_reminder', '<=', $now)->get();
+            $overdueTasks = Task::whereUserId(Auth::user()->id)->where('status', '<', 2)->where('date_reminder', '<=', $todayDateEnd)->get();
         }
         return sizeof($overdueTasks);
     }
@@ -222,13 +222,9 @@ class AccountController extends Controller
     {
         $todayDate = $this->todayDate();
         $sevenDaysAgoDate = $this->thisWeek();
-        $madeThisWeek = 0;
         // companies created last 7 days
         $companiesCreatedPreviousWeek = Company::where('created_at', '<=', $todayDate)->where('created_at', '>=', $sevenDaysAgoDate)->get();
-        foreach ($companiesCreatedPreviousWeek as $task) {
-            $madeThisWeek++;
-        }
-        return $madeThisWeek;
+        return sizeof($companiesCreatedPreviousWeek);
     }
     // companies compared with last 14 days ratio
     public function newLeadsComparison()
