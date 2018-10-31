@@ -275,7 +275,7 @@ class ClientService
                 $cid = $user['company_id'];
                 if ($cid == $company_id) {
                     $name = $user['name'];
-                     $profilePic = 'https://jobplusplus.s3.amazonaws.com/' . $user['profile_pic'
+                     $profilePic = 'https://jobplusplus.s3.amazonaws.com/' . $user['profile_pic'];
                     $array = array($company_id, $name, $profilePic);
                     $allCollaborators[$i] = $array;
                 }
