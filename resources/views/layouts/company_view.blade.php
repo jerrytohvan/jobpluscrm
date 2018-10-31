@@ -128,7 +128,7 @@ html {
                           <div class="col-md-9 col-sm-9 col-xs-12">
                             <ul class="stats-overview">
                               <li>
-                                  <span class="name"> Date Create </span>
+                                  <span class="name"> Date Created </span>
                                   <span class="value text-success"> {{ date_format($company->created_at, 'jS F Y h:i A') }} </span>
                                </li>
                                <li>

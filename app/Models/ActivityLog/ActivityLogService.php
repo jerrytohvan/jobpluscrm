@@ -27,11 +27,13 @@ class ActivityLogService
     public function getActivitiesByCompany(Company $company)
     {
         $construct = [];
-        $lastActivity = Activity::whereSubjectId($company->id)->orWhere('causer_id', $company->id)->orWhere('subject_type', Attachment::class)->orWhere('subject_type', Employee::class)->orWhere('subject_type', Task::class)->orWhere('subject_type', Company::class)->orWhere('subject_type', UserCompany::class)->orderBy('created_at', 'desc')->take(10)->get();
+        $lastActivity = Activity::whereSubjectId($company->id)->orWhere('subject_type', Attachment::class)->orWhere('subject_type', Employee::class)->orWhere('subject_type', Task::class)->orWhere('subject_type', Company::class)->orWhere('subject_type', UserCompany::class)->orderBy('created_at', 'desc')->get();
+
+        // $lastActivity = Activity::whereSubjectId($company->id)->orWhere('causer_id', $company->id)->orWhere('subject_type', Attachment::class)->orWhere('subject_type', Employee::class)->orWhere('subject_type', Task::class)->orWhere('subject_type', Company::class)->orWhere('subject_type', UserCompany::class)->orderBy('created_at', 'desc')->get();
         foreach ($lastActivity as $activity) {
             try {
                 if ((
-              ($activity->subject_type == Company::class)||
+              ($activity->subject_type == Company::class && $activity->subject_id == $company->id)||
               //filter attachment for company
               (isset($activity->getExtraProperty('attributes')['attachable_type']) && $activity->getExtraProperty('attributes')['attachable_type'] == Company::class && $activity->getExtraProperty('attributes')['attachable_id'] == $company->id) ||
               //filter anything related to company
@@ -129,6 +131,12 @@ class ActivityLogService
         $object = $objectO::find($activity->subject_id);
 
         if (Company::class == $activity->subject_type) {
+            $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
+            if (isset($activity->changes()->all()['attributes']) && ($activity->changes()->all()['attributes']['client'] == true) && (isset($activity->changes()->all()['old']) && $activity->changes()->all()['old']['client'] == false)) {
+                return "converted company " . $objectName . " as a client.";
+            }
+            return $action . " " . $objectName . "'s data.";
+        } elseif (Company::class == $activity->subject_type) {
             $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
             if (isset($activity->changes()->all()['attributes']) && ($activity->changes()->all()['attributes']['client'] == true) && (isset($activity->changes()->all()['old']) && $activity->changes()->all()['old']['client'] == false)) {
                 return "converted company " . $objectName . " as a client.";
