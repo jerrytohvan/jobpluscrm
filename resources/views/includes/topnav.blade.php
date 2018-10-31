@@ -8,8 +8,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="">
           <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            <!-- <img src="{{ Gravatar::src(Auth::user()->email) }}" alt="">{{ Auth::user()->name }} -->
-            <img src="{{ (Auth::user()->profile_pic) }}" alt="Avatar">
+            <img src="{{ 'https://jobplusplus.s3.amazonaws.com/' . (Auth::user()->profile_pic) }}" alt="Avatar">
             <span class=" fa fa-angle-down"></span>
           </a>
           <ul class="dropdown-menu dropdown-usermenu pull-right">

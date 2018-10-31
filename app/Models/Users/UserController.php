@@ -22,8 +22,10 @@ class UserController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $pic = $user['profile_pic'];
+        $user_pic = 'https://jobplusplus.s3.amazonaws.com/' . $pic;
         $activities = $this->actSvc->getActivitiesByUser($user);
-        return view('layouts.user_profile', compact('user', 'activities'));
+        return view('layouts.user_profile', compact('user', 'activities', 'user_pic'));
     }
     public function signUp(Request $request)
     {
@@ -56,6 +58,7 @@ class UserController extends Controller
     public function updateProfile()
     {
         $user = Auth::user();
+		$userOldPic = $user['profile_pic'];
         $id =  $user->id;
 
         $user->name = request()->input('name');
@@ -68,10 +71,11 @@ class UserController extends Controller
             $photo = request()->file('photo');
             $ext = $photo->getClientOriginalExtension();
             $userPic = "user_" . $id;
-            $hashedPic = md5($userPic) . "." . $ext;
+            $hashedPic = md5($userPic . time()) . "." . $ext;
             $url = "images/" . $hashedPic;
             $user->profile_pic = $url;
 
+			$this->attSvc->deleteFile($userOldPic);
             $uploadPic =  $this->attSvc->uploadFile($url, $photo);
             // $path = public_path()."//images//profile_pic//";
             // $photo->move($path, $memberPic);
