@@ -56,7 +56,7 @@
                         <li class="post" data-postid="{{ $post->id }}">
                           <div class="block">
                             <div class="tags">
-                                  <img src="{{ (Auth::user()->profile_pic) }}" alt="Avatar" class="img-circle profile_img">
+                                  <img src="{{ ($post->user->profile_pic) }}" alt="Avatar" class="img-circle profile_img">
                             </div>
                             <div class="block_content">
                               <h2 class="title">
