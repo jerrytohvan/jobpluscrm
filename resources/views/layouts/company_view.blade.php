@@ -148,7 +148,7 @@ html {
                                       @foreach($collaborators as $profile)
 
                                       <div class="img__wrap">
-                                        <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
+                                        <img src="{{ 'https://jobplusplus.s3.amazonaws.com/' . $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
                                           <div class="img__description_layer">
                                             <p class="img__description">{{ $profile->name }}</p>
                                           </div>
