@@ -41,11 +41,11 @@ class RegisterController extends Controller
         $this->middleware('web');
     }
 
-    public function adminlist() {
+    public function adminlist()
+    {
         $status = "";
         $message = "";
-        $currentUser = Auth::user();
-        $users = User::where('id','!=',$currentUser->id)->get();
+        $users = User::all();
         return view('layouts.admin_list', compact('message', 'status', 'users'));
     }
 
@@ -53,24 +53,23 @@ class RegisterController extends Controller
     {
         $message = "User successfully updated!";
         $status = 1;
-        
+
         $requestArray =  request()->all();
-        $id = $requestArray['user_id'];  
+        $id = $requestArray['user_id'];
 
         $validator = Validator::make($requestArray, [
             'name' => 'required',
             'email' => 'required',
             'handphone' => 'numeric'
         ]);
-        
-        if ($validator->fails())
-        {
+
+        if ($validator->fails()) {
             $errorArray = $validator->errors()->all();
-            $message = implode(" ",$errorArray);
+            $message = implode(" ", $errorArray);
             $status = 0;
             return redirect()->back()->with(['message' => $message, 'status' => $status]);
         } else {
-            $user = User::where('id',$id)->first();
+            $user = User::where('id', $id)->first();
             $user -> name = $requestArray['name'];
             $user -> email =  $requestArray['email'];
             $user -> handphone = $requestArray['handphone'];
@@ -84,10 +83,11 @@ class RegisterController extends Controller
         }
     }
 
-    public function resetAdmin() {
+    public function resetAdmin()
+    {
         $requestArray = request()->all();
-        $id = $requestArray['id'];  
-        $user = User::where('id',$id)->first();
+        $id = $requestArray['id'];
+        $user = User::where('id', $id)->first();
 
         $password = $requestArray['password'];
         $confirmpw = $requestArray['confirmpw'];
@@ -103,13 +103,13 @@ class RegisterController extends Controller
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
-    public function deleteAdmin() {
-        
+    public function deleteAdmin()
+    {
         $requestArray = request()->all();
-        $id = $requestArray['uid'];  
-        $user = User::where('id',$id)->delete();
+        $id = $requestArray['uid'];
+        $user = User::where('id', $id)->delete();
 
-        if ($user = User::where('id',$id)->first()==null) {
+        if ($user = User::where('id', $id)->first()==null) {
             $message = "User successfully deleted!";
             $status = 1;
         } else {
@@ -161,7 +161,7 @@ class RegisterController extends Controller
                 'profile_pic' => Gravatar::src($data['email'])
             ]);
             return view('layouts.register', compact('message', 'status'));
-        } catch(\Illuminate\Database\QueryException $exception){
+        } catch (\Illuminate\Database\QueryException $exception) {
             $status = 0;
             $message = "This user already exist";
             return view('layouts.register', compact('message', 'status'));
