@@ -130,7 +130,8 @@ class ClientController extends Controller
             $message = "Failed to add company!";
             $status = 0;
         }
-        return $this->showCompany($company);
+        $id = $company->id;
+        return redirect()->route('view.company',$id)->with(['message' => $message, 'status' => $status]);
     }
 
     public function add_new_candidate()
