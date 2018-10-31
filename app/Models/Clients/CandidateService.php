@@ -20,8 +20,9 @@ class CandidateService
         return Candidate::all()->sortBy('name');
     }
 
-    public function getSpecificCandidates(){
-        return Candidate::whereUserId(Auth::user()->id)->orderBy('name','asc')->get();
+    public function getSpecificCandidates()
+    {
+        return Candidate::whereUserId(Auth::user()->id)->orderBy('name', 'asc')->get();
     }
 
     /**
@@ -89,12 +90,12 @@ class CandidateService
                   'birthdate' => $array['birthdate'],
                   'user_id' => Auth::user()->id
               ]);
+
             $file = new Attachment([
                 'file_name' => $original_name,
                 'hashed_name' => $hashed_name,
                 'file_type' => end($filenameArray)
               ]);
-
             $candidate->files()->save($file);
             $file->attachable()->associate($candidate)->save();
             return $candidate;

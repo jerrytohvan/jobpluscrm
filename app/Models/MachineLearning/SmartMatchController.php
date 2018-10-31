@@ -65,7 +65,6 @@ class SmartMatchController extends Controller
     {
         $file = $candidate->files->first();
         $keywords = $this->svc->readEmployeeResume($file->hashed_name, 2);
-
         if (!empty($candidate->summary_keywords)) {
             $keywords = array_merge(explode(',', $candidate->summary_keywords), $keywords);
         }
