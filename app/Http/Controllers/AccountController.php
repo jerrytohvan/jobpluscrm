@@ -212,7 +212,7 @@ class AccountController extends Controller
         } else {
             $completedTaskForYear = Task::whereUserId(Auth::user()->id)->whereStatus(2)->where('updated_at', '<=', $todayDate)->where('updated_at', '>=', $firstDayOfYear)->get();
         }
-      return sizeof($completedTaskForYear);
+        return sizeof($completedTaskForYear);
     }
 
 
