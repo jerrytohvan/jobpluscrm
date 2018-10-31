@@ -36,7 +36,8 @@ class ClientService
       'industry' => $array['industry'],
       'lead_source' => $array['lead_source'],
       'description' => $array['description'],
-      'user_id' => Auth::user()->id
+      'user_id' => Auth::user()->id,
+      'uen' => $array['uen']
       ]);
     }
     public function getAllCompany()

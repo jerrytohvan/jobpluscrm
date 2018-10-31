@@ -22,6 +22,7 @@ use App\Models\Users\UserService;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use DateTime;
 
 class ClientController extends Controller
 {
@@ -220,13 +221,19 @@ class ClientController extends Controller
 
     public function showCompany(Company $company)
     {
+        date_default_timezone_set('Asia/Singapore');
         $message = request()->input('message');
         $status = request()->input('status');
 
         $accounts = $company->employees;
         $companyFiles = $company->files;
         $activities = $this->actSvc->getActivitiesByCompany($company);
-        // dd($activities);
+        $created_at = strtotime($company->created_at->addhours(8));
+        $updated_at = strtotime($company->updated_at->addhours(8));
+        $createdTime = new DateTime();
+        $updatedTime = new DateTIme();
+        $createdTime->setTimestamp($created_at);
+        $updatedTime->setTimestamp($updated_at);
         $collaborators = $company->collaborators;
         $collaboratorsId = $collaborators->pluck('id')->toArray();
         $users = User::orderBy('name', 'asc')->get();
@@ -292,7 +299,7 @@ class ClientController extends Controller
         //     return $coTasks;
         // }
 
-        return view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes', 'jobs', 'tasksOpen', 'tasksOnGoing', 'tasksClosed'));
+        return view('layouts.company_view', compact('createdTime','updatedTime','company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes', 'jobs', 'tasksOpen', 'tasksOnGoing', 'tasksClosed'));
     }
     public function showCompanyPost(Company $company, $message = null, $status = null)
     {
