@@ -132,7 +132,7 @@ class ClientController extends Controller
             $status = 0;
         }
         $id = $company->id;
-        return redirect()->route('view.company',$id)->with(['message' => $message, 'status' => $status]);
+        return redirect()->route('view.company', $id)->with(['message' => $message, 'status' => $status]);
     }
 
     public function add_new_candidate()
@@ -152,6 +152,7 @@ class ClientController extends Controller
                 }
             }
         }
+
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
@@ -299,7 +300,7 @@ class ClientController extends Controller
         //     return $coTasks;
         // }
 
-        return view('layouts.company_view', compact('createdTime','updatedTime','company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes', 'jobs', 'tasksOpen', 'tasksOnGoing', 'tasksClosed'));
+        return view('layouts.company_view', compact('createdTime', 'updatedTime', 'company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes', 'jobs', 'tasksOpen', 'tasksOnGoing', 'tasksClosed'));
     }
     public function showCompanyPost(Company $company, $message = null, $status = null)
     {
