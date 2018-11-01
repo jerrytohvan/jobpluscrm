@@ -60,11 +60,10 @@ class MailController extends Controller
             }
             // text of the actual email
             $message->setBody($data['emailMessage']);
-            //    error_log(print_r("sending", true));
         });
 
         //error_log(print_r("sent", true));
-        return view('layouts.index_mail', compact('message'));
+        return redirect()->back()->with(compact('message'));
     }
 
 
