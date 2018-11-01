@@ -1,5 +1,6 @@
 <?php
 namespace App\Models\Mail;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -19,44 +20,48 @@ class MailController extends Controller
     }
 
 
-      public function sendemail(Request $request)
-      {
+    public function sendemail(Request $request)
+    {
         //retrieve all request from email blade
         $arraReq = request()->all();
-        error_log(print_r($arraReq ,true));
+        error_log(print_r($arraReq, true));
 
         // comma deliminated arrays "toEmail"
-        $toEmail = explode(",",$arraReq['toEmail']);
+        $toEmail = explode(",", $arraReq['toEmail']);
         // comma deliminated arrays "toEmail"
-        $ccEmail = explode(",",$arraReq['ccEmail']);
+        $ccEmail=null;
+        if (!empty($arraReq['ccEmail'])) {
+            $ccEmail = explode(",", $arraReq['ccEmail']);
+        }
         // email data packet
-          $data = array(
+        $data = array(
             'toEmail' =>$toEmail,
             'subject'=>$request->subject,
             'emailMessage' =>$request->emailMessage,
             'emailAttachment'=>$request->emailAttachment,
             'ccEmail'=>$ccEmail
           );
-          // sending the email itself
-            Mail::send([], $data, function ($message) use ($data) {
-                $message->from('admin@jobplus.sg','JobPlus');
-                $message->to($data['toEmail']);
-                //check if there are cc email addresses
-                if (!empty($data['ccEmail'])) {
-                    $message->cc($data['ccEmail']);
-                }
-                $message->subject($data['subject']);
-                if (request()->file('emailAttachment') != null) {
-                      $message->attach($data['emailAttachment']->getRealPath(),
+        // sending the email itself
+        Mail::send([], $data, function ($message) use ($data) {
+            $message->from('admin@jobplus.sg', 'JobPlus');
+            $message->to($data['toEmail']);
+            //check if there are cc email addresses
+            if (!empty($data['ccEmail'])) {
+                $message->cc($data['ccEmail']);
+            }
+            $message->subject($data['subject']);
+            if (request()->file('emailAttachment') != null) {
+                $message->attach(
+                          $data['emailAttachment']->getRealPath(),
                       array(
                           'as'=>'emailAttachment.'. $data['emailAttachment']->getClientOriginalExtension(),
                           'mime'=>$data['emailAttachment']->getMimeType())
                       );
-                 }
-                 // text of the actual email
-                $message->setBody($data['emailMessage']);
+            }
+            // text of the actual email
+            $message->setBody($data['emailMessage']);
             //    error_log(print_r("sending", true));
-            });
+        });
 
         //error_log(print_r("sent", true));
         return view('layouts.index_mail', compact('message'));
@@ -95,7 +100,7 @@ class MailController extends Controller
     }
     public function showMail($id)
     {
-              // get the id
+        // get the id
         $message = Email::findOrFail($id);
         $m = $message->body;
         // show the view and pass the nerd to it
@@ -105,15 +110,15 @@ class MailController extends Controller
 
     // Backend Methods
     // process each task and send it as an email
-    public function processTaskForEmail(Array $array){
-
-      $companyArr = array();
-      $companies = Company::all();
-      foreach ($companies as $company) {
-          $id = $company['id'];
-          $name = $company['name'];
-          $companyArr[$id] = $name;
-    }
+    public function processTaskForEmail(array $array)
+    {
+        $companyArr = array();
+        $companies = Company::all();
+        foreach ($companies as $company) {
+            $id = $company['id'];
+            $name = $company['name'];
+            $companyArr[$id] = $name;
+        }
         // retrieve user ID's
         $userids = $array[0];
         for ($i=0; $i<sizeof($userids); $i++) {
@@ -143,23 +148,23 @@ class MailController extends Controller
                 'emailMessage' =>$message
               );
             // email is sent in this method
-               $this->sendTasksEmail($data);
-          }
+            $this->sendTasksEmail($data);
+        }
     }
     // send the tasks email out
     public function sendTasksEmail($data)
     {
-      $sent = false;
-      error_log(print_r("start", true));
-          Mail::send([], $data, function ($message) use ($data) {
-              $message->from('admin@jobplus.sg','JobPlus');
-              $message->to($data['toEmail']);
-              $message->subject($data['subject']);
-              $message->setBody($data['emailMessage']);
-              error_log(print_r("sending", true));
-          });
-      error_log(print_r("sent", true));
-      $sent = true;
-      return $sent;
+        $sent = false;
+        error_log(print_r("start", true));
+        Mail::send([], $data, function ($message) use ($data) {
+            $message->from('admin@jobplus.sg', 'JobPlus');
+            $message->to($data['toEmail']);
+            $message->subject($data['subject']);
+            $message->setBody($data['emailMessage']);
+            error_log(print_r("sending", true));
+        });
+        error_log(print_r("sent", true));
+        $sent = true;
+        return $sent;
     }
 }
