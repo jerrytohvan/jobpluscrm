@@ -512,6 +512,12 @@ html {
                           </div>
                        </div>
                        <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="uen">Company UEN</label>
+                         <div class="col-md-6 col-sm-6 col-xs-12">
+                           <input type="text" id="uen" name="uen" class="form-control col-md-7 col-xs-12">
+                         </div>
+                       </div>
+                       <div class="form-group">
                           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="emai">Email <span class="required">*</span>
                           </label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
@@ -1153,7 +1159,7 @@ $(document).ready(function () {
   $(document).ready(function () {
     $('.ui-pnotify').remove();
       loadNotification();
-      
+
       $("#collaborators_button").click(function () {
           $('#edit-collaborators').modal('show');
         });
@@ -1236,9 +1242,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function() {
-    
+
     $('#datatable_job').DataTable();
-    
+
 
 } );
 </script>
@@ -1261,4 +1267,3 @@ $(document).ready(function() {
 <script src="{{ asset('js/dataTables.scroller.min.js') }}"></script>
 
 @endpush
-
