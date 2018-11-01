@@ -12,7 +12,14 @@
         <div class="profile">
             <div class="profile_pic">
                 <!-- <img src="{{ Gravatar::src(Auth::user()->email) }}" alt="Avatar of {{ Auth::user()->name }}" class="img-circle profile_img"> -->
-                <img src="{{ 'https://jobplusplus.s3.amazonaws.com/' . (Auth::user()->profile_pic) }}" alt="Avatar" class="img-circle profile_img">
+                @php
+                $url = parse_url(Auth::user()->profile_pic);
+                @endphp
+                @if(!empty($url['scheme']))
+                <img src="{{ Auth::user()->profile_pic }}" alt="Avatar" class="img-circle profile_img">
+                @else
+                <img src="{{ 'https://s3.' . env('AWS_DEFAULT_REGION') . '.amazonaws.com/' . env('AWS_BUCKET') . Auth::user()->profile_pic }}" alt="Avatar" class="img-circle profile_img">
+                @endif
             </div>
 
             <div class="profile_info">
