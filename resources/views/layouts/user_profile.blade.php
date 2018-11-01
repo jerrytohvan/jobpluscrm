@@ -8,6 +8,10 @@
 <!-- <link href="{{ asset('css/ion.rangeSlider.skinFlat.css') }}" rel="stylesheet"> -->
 <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
 
+<!-- pnotify -->
+<link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
+<link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
 @endpush
 
 
@@ -41,8 +45,7 @@
                         <div class="profile_img">
                           <div id="crop-avatar">
                             <!-- Current avatar -->
-                            <!-- <img class="img-responsive avatar-view" src="{{ ($user->profile_pic != null ? $user->profile_pic : Gravatar::src(Auth::user()->email)) }}" alt="Avatar" title="Change the avatar"> -->
-                            <img class="img-responsive avatar-view" src="{{ ($user->profile_pic) }}" alt="Avatar" title="Change the avatar">
+                            <img class="img-responsive avatar-view" src="{{ $user_pic }}" alt="Avatar" title="Change the avatar">
                           </div>
                         </div>
                         <h3>{{ $user->name }}</h3>
@@ -63,7 +66,7 @@
 
                         <a class="edit btn btn-success" id="Edit-modal" href="#edit-modal"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
                         <br>
-
+                        <a class="changepw btn btn-success" id="changepw" href="#changepw-modal"><i class="fa fa-edit m-right-xs"></i>Change Password</a>
 
                       </div>
                       <div class="col-md-9 col-sm-9 col-xs-12">
@@ -298,6 +301,43 @@
                 </div><!-- /.modal-dialog -->
 
             </div><!-- /.modal -->
+			
+			<div class="modal fade" tabindex="-1" role="dialog" id="changepw-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Change Password</h4>
+                        </div>
+                        <div class="modal-body">
+                          {{  Form::open(['route' => 'change.pwd','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'modal_form_changepw', 'enctype'=>'multipart/form-data']) }}
+
+                                <div class="form-group">
+                                    <label for="current-password">Current Password</label>
+                                    <input id="current-password" class="form-control col-md-7 col-xs-12" required="required" type="password" name="current-password" value="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="new-password">New Password</label>
+                                    <input id="new-password" class="form-control col-md-7 col-xs-12" required="required" type="password" name="new-password" value="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="confirm-password">Confirm Password</label>
+                                    <input id="confirm-password" class="form-control col-md-7 col-xs-12" required="required" type="password" name="confirm-password" value="">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary"  onclick="submitChangePwform();" >Change Password</button>
+                            {!! Form::close() !!}
+                        </div>
+                    </div><!-- /.modal-content -->
+
+                </div><!-- /.modal-dialog -->
+
+            </div><!-- /.end of changepw modal -->
 
                 <div class="modal fade" tabindex="-1" role="dialog" id="show-instruction">
                 <div class="modal-dialog modal-sm">
@@ -345,6 +385,10 @@ function submitform()
   $('#modal_form_id').submit();
 }
 
+function submitChangePwform()
+{
+  $('#modal_form_changepw').submit();
+}
 
   //for modal
     var token = '{{ Session::token() }}';
@@ -359,9 +403,18 @@ function submitform()
     // var birth_date = $("input[name=birth_date]").val();
     console.log(postData);
     $(document).ready(function () {
+
+      $('.ui-pnotify').remove();
+          loadNotification();
+
+
       $(".edit").click(function () {
           id = $(this).data('id');
           $('#edit-modal').modal('show');
+        });
+
+      $(".changepw").click(function () {
+          $('#changepw-modal').modal('show');
         });
 
         //Pending for a more modern way to solve this
@@ -379,6 +432,20 @@ function submitform()
             });
           });
       });
+
+      function loadNotification(){
+        var message = "{{ Session::get('message') }}";
+        var status = "{{ Session::get('status') }}";
+
+        if(message != "" && status != ""){
+          new PNotify({
+              title: (status == 1 ? "Success!" : "Failed!"),
+              text: message,
+              type: (status == 1 ? "success" : "error"),
+              styling: 'bootstrap3'
+          });
+        }
+      }
 
       // $(function() {
       //   $('input[name="birthday"]').daterangepicker({
@@ -465,6 +532,11 @@ function submitform()
 
       }(jQuery, app));
 </script>
+
+<!-- bootstrap-wysiwyg -->
+<script src="{{ asset('js/pnotify.js') }}"></script>
+<script src="{{ asset('js/pnotify.buttons.js') }}"></script>
+<script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
 
 <!-- morris js -->
 <!-- <script src="{{ asset('js/raphael.min.js') }}"></script> -->

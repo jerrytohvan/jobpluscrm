@@ -39,7 +39,7 @@ class MLService
         }, $this->stanfordStopwords);
 
         $this->s3 = Storage::disk('s3');
-        $this->url = 'https://s3.' . env('AWS_DEFAULT_REGION') . '.amazonaws.com/' . env('AWS_BUCKET') . '/';
+        $this->url = 'https://s3.' . env('AWS_DEFAULT_REGION') . '.amazonaws.com/' . env('AWS_BUCKET') ;
         $this->attachSvc = $attachSvc;
     }
 
@@ -172,10 +172,7 @@ class MLService
         if ($type == 1) {
             $fileDir = realpath($_SERVER["DOCUMENT_ROOT"])."/storage/".$fileName;
         } elseif ($type == 2) {
-            // $fileDir = realpath($_SERVER["DOCUMENT_ROOT"])."/storage/app/resumes/".$fileName;
-            $fileDir = $this->url . 'resume/' . $fileName;
-            // $file = fopen($fileDir, 'rb');
-            // dd($file);
+            $fileDir = $this->url . '/resume/' . $fileName;
         } else {
             $fileDir = realpath($_SERVER["DOCUMENT_ROOT"])."/public/".$fileName;
         }

@@ -148,7 +148,7 @@ html {
                                       @foreach($collaborators as $profile)
 
                                       <div class="img__wrap">
-                                        <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
+                                        <img src="{{ 'https://jobplusplus.s3.amazonaws.com/' . $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
                                           <div class="img__description_layer">
                                             <p class="img__description">{{ $profile->name }}</p>
                                           </div>
@@ -174,7 +174,7 @@ html {
                               </div>
                                 <div class="x_content">
                                   <div class="table-responsive">
-                                   <table id="datatable" class="account_table table table-striped table-bordered">
+                                   <table id="datatable_contacts" class="account_table table table-striped table-bordered">
                                       <thead>
                                          <tr>
                                             <th>Contact Name</th>
@@ -182,7 +182,7 @@ html {
                                             <th>Email</th>
                                             <th>Handphone No.</th>
                                             <th>Telephone No.</th>
-                                            <th>Company</th>
+                                            <!-- <th>Company</th> -->
                                             <th  style="width: 20%">Actions</th>
                                          </tr>
                                       </thead>
@@ -194,7 +194,7 @@ html {
                                             <td>{{ $account->email }}</td>
                                             <td>{{ $account->handphone }}</td>
                                             <td>{{ $account->telephone == null ? "-" : $account->telephone }}</td>
-                                            <td >{{ $account == null ? "-" : $account->company == null ? "-":$account->company->name }}</td>
+                                           <!-- <td >{{ $account == null ? "-" : $account->company == null ? "-":$account->company->name }}</td> -->
                                             <td>
                                                <a id="account_button" data-id="{{ $account->id }}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i>Edit</a>
                                                <a onclick="deleteAccount( {{ $account->id }} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a>
@@ -733,7 +733,7 @@ html {
                     </div>
                     <div class="modal-body">
                       <div class="table-responsive">
-                       <table id="datatable" class="account_table table table-striped table-bordered">
+                       <table id="datatable_collaborator" class="account_table1 table table-striped table-bordered">
                           <thead>
                              <tr>
                                 <th>Name</th>
@@ -833,7 +833,7 @@ html {
               <!-- /.modal-dialog -->
         	 </div>
 
-           <div class="modal fade" tabindex="-1" role="dialog" id="edit-contacts"> -->
+           <div class="modal fade" tabindex="-1" role="dialog" id="edit-contacts">
               <div class="modal-dialog">
                  <div class="modal-content">
                     <div class="modal-header">
@@ -988,7 +988,6 @@ $(function(){
     });
 });
 
-
 $('#file_uploader').on('change','#file_upload' , function(){
     $('#file_uploader').submit();
  });
@@ -1125,11 +1124,8 @@ $(document).ready(function () {
            }
         });
       });
-  });
 
-
-  $(document).ready(function(){
-      $(".account_table").on('click','#account_button',function(){
+       $(".account_table").on('click','#account_button',function(){
            var currentRow=$(this).closest("tr");
 
            var name=currentRow.find("td:eq(0)").text();
@@ -1151,34 +1147,26 @@ $(document).ready(function () {
 
            $('#edit-account').modal('show');
       });
-
-
-      $("#collaborators_button").click(function () {
-          $('#edit-collaborators').modal('show');
-        });
   });
-
 
 
   $(document).ready(function () {
     $('.ui-pnotify').remove();
       loadNotification();
-  });
+      
+      $("#collaborators_button").click(function () {
+          $('#edit-collaborators').modal('show');
+        });
 
-  $(document).ready(function () {
-    $("#new-contact-button").click(function () {
+      $("#new-contact-button").click(function () {
         $('#edit-contacts').modal('show');
       });
 
-  });
-
-  // new task button
-  $(document).ready(function () {
-    $("#new-task-button").click(function () {
+      $("#new-task-button").click(function () {
         $('#edit-tasks').modal('show');
       });
-
   });
+
 
   function loadNotification(){
     var message = "@php if(session()->has('message')){ echo session()->get('message'); }else { echo $message; } @endphp";
@@ -1248,8 +1236,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function() {
-    $('#datatable').DataTable();
+    
     $('#datatable_job').DataTable();
+    
 
 } );
 </script>
@@ -1272,3 +1261,4 @@ $(document).ready(function() {
 <script src="{{ asset('js/dataTables.scroller.min.js') }}"></script>
 
 @endpush
+

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Hash;
 use App\Models\Users\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -98,6 +99,33 @@ class RegisterController extends Controller
             $status = 1;
         } else {
             $message = "Password does not match the confirm password.";
+            $status = 0;
+        }
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
+	
+	public function resetPwd() {
+        $requestArray = request()->all();
+        $user = Auth::user();
+
+        $userPwd = $user['password'];
+        $currentPwd = $requestArray['current-password'];
+
+        if (Hash::check($currentPwd, $userPwd)) {
+            $password = $requestArray['new-password'];
+            $confirmpw = $requestArray['confirm-password'];
+            
+            if ($password == $confirmpw) {
+                $user -> password = bcrypt($password);
+                $user -> save();
+                $message = "Pasword has been successfully updated!";
+                $status = 1;
+            } else {
+                $message = "Password does not match the confirm password.";
+                $status = 0;
+            }
+        } else {
+            $message = "Your current password is wrong.";
             $status = 0;
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
