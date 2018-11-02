@@ -58,7 +58,7 @@ class UserController extends Controller
     public function updateProfile()
     {
         $user = Auth::user();
-		$userOldPic = $user['profile_pic'];
+        $userOldPic = $user['profile_pic'];
         $id =  $user->id;
 
         $user->name = request()->input('name');
@@ -72,13 +72,10 @@ class UserController extends Controller
             $ext = $photo->getClientOriginalExtension();
             $userPic = "user_" . $id;
             $hashedPic = md5($userPic . time()) . "." . $ext;
-            $url = "images/" . $hashedPic;
+            $url =  '/images/'  . $hashedPic;
             $user->profile_pic = $url;
-
-			$this->attSvc->deleteFile($userOldPic);
+            $this->attSvc->deleteFile($userOldPic);
             $uploadPic =  $this->attSvc->uploadFile($url, $photo);
-            // $path = public_path()."//images//profile_pic//";
-            // $photo->move($path, $memberPic);
         }
         $user->save();
 
