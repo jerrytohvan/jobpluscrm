@@ -81,9 +81,9 @@
             <li>
             <a href="{{ route('index.tasks') }}"><i class="fa fa-clock-o"></i>Tasks</a>
             </li>
-            <!-- <li>
+            <li>
               <a href="{{ route('index.mail') }}"><i class="fa fa-envelope-o"></i>Mail</a>
-            </li> -->
+            </li>
             <li>
               <a href="{{ route('social.wall') }}"><i class="fa fa-comments-o"></i>Announcements </a>
             </li>
