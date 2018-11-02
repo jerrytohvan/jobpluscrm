@@ -216,7 +216,7 @@
               $('#new-email').modal('show');
             });
             $("#inbox").click(function () {
-              window.open("https://mail.google.com/mail/u/2/#inbox", "_blank");
+              window.open("https://mail.google.com/mail/u/?authuser={{Auth::user()->email}}", "_blank");
               });
       });
       </script>
