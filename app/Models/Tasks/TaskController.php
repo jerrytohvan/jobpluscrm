@@ -43,8 +43,6 @@ class TaskController extends Controller
 
     public function createTask()
     {
-        $users = User::all();
-        $companies = Company::all();
         $task = $this->svc->storeTask(request()->all());
         if ($task == null) {
             $message = "Failed to add task";
@@ -52,7 +50,17 @@ class TaskController extends Controller
         }
         $message = "Task successfully created!";
         $status = 1;
-        return view('layouts.index_task', compact('status', 'message', 'users', 'companies'));
+        if(Auth::user()->admin == true){
+            $users = User::all();
+            $companies = Company::all();
+            return view('layouts.index_task', compact('status', 'message', 'users', 'companies'));
+        }else{
+            $userCIds = Task::whereUserId(Auth::user()->id)->orWhere('assigned_id', Auth::user()->id)->orWhereNotNull('collaborator->Auth::user()->id')->pluck('company_id')->toArray();
+            $userCompanyIds = UserCompany::whereUserId(Auth::user()->id)->pluck('company_id')->toArray();
+            $allCIds = array_merge($userCIds, $userCompanyIds);
+            $companies = Company::whereIn('id', $allCIds)->orWhere('user_id', Auth::user()->id)->orderBy('name', 'asc')->get();
+            return view('layouts.index_tasks_user', compact('companies', 'message', 'status'));
+        }
     }
 
     public function createTaskInCompanyView()
