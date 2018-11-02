@@ -129,11 +129,11 @@ html {
                             <ul class="stats-overview">
                               <li>
                                   <span class="name"> Date Created </span>
-                                  <span class="value text-success"> {{ date_format($createdTime, 'jS F Y h:i A') }} </span>
+                                  <span class="value text-success" style="font-weight:normal"> {{ date_format($createdTime, 'jS F Y h:i A') }} </span>
                                </li>
                                <li>
                                   <span class="name"> Date Updated </span>
-                                  <span class="value text-success"> {{  date_format($updatedTime, 'jS F Y h:i A') }}</span>
+                                  <span class="value text-success"style="font-weight:normal"> {{  date_format($updatedTime, 'jS F Y h:i A') }}</span>
                                </li>
                                <li >
                                <div class="row">
