@@ -158,7 +158,7 @@ class MailController extends Controller
         Mail::send([], $data, function ($message) use ($data) {
             $message->from('admin@jobplus.sg', 'JobPlus');
             $message->to($data['toEmail']);
-            $message->subject($data['subject']);
+            $message->subject('Tasks to be done for today');
             $message->setBody($data['emailMessage']);
             error_log(print_r("sending", true));
         });

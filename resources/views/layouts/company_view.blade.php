@@ -119,7 +119,7 @@ html {
                   <div class="col-md-12 col-sm-12 col-xs-12">
                       <div class="x_panel">
                         <div class="x_title">
-                          <h2>{{ $company->name }} {{$company->uen}}</h2>
+                          <h2>{{ $company->name }}  &nbsp;&nbsp;&nbsp;&nbsp; <span>UEN</span> {{$company->uen}}</h2>
 
                           <div class="clearfix"></div>
                         </div>
@@ -129,11 +129,11 @@ html {
                             <ul class="stats-overview">
                               <li>
                                   <span class="name"> Date Created </span>
-                                  <span class="value text-success"> {{ date_format($createdTime, 'jS F Y h:i A') }} </span>
+                                  <span class="value text-success" style="font-weight:normal"> {{ date_format($createdTime, 'jS F Y h:i A') }} </span>
                                </li>
                                <li>
                                   <span class="name"> Date Updated </span>
-                                  <span class="value text-success"> {{  date_format($updatedTime, 'jS F Y h:i A') }}</span>
+                                  <span class="value text-success"style="font-weight:normal"> {{  date_format($updatedTime, 'jS F Y h:i A') }}</span>
                                </li>
                                <li >
                                <div class="row">
