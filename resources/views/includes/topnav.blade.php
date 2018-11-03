@@ -208,9 +208,7 @@
       });
 
 
-    $(document).ready(function () {
-        $('.ui-pnotify').remove();
-          loadNotification();
+  $(document).ready(function () {
 
           $("#newEmail").click(function () {
               $('#new-email').modal('show');
@@ -218,28 +216,8 @@
             $("#inbox").click(function () {
               window.open("https://mail.google.com/mail/u/2/#inbox", "_blank");
               });
-      });
+          });
+
       </script>
 
-
-
-      <script src="{{ asset('js/jquery.hotkeys.js') }}"></script>
-      <script src="{{ asset('js/prettify.js') }}"></script>
-    <script src="{{ asset('js/vue-app-compiled.js') }}"></script>
-    <script src="{{ asset('js/pnotify.js') }}"></script>
-    <script src="{{ asset('js/pnotify.buttons.js') }}"></script>
-    <script src="{{ asset('js/pnotify.nonblock.js') }}"></script>
-    <script src="{{ asset('js/echarts.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('js/buttons.bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/buttons.flash.min.js') }}"></script>
-    <script src="{{ asset('js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('js/dataTables.fixedHeader.min.js') }}"></script>
-    <script src="{{ asset('js/dataTables.keyTable.min.js') }}"></script>
-    <script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('js/responsive.bootstrap.js') }}"></script>
-    <script src="{{ asset('js/dataTables.scroller.min.js') }}"></script>
 @endpush
