@@ -24,10 +24,6 @@ class Company extends Model
     {
         return $this->hasMany('App\Models\Clients\Candidate');
     }
-    public function events()
-    {
-        return $this->hasMany('App\Models\Tasks\Task');
-    }
     public function comments()
     {
         return $this->hasMany('App\Models\Comments\Comment');
