@@ -13,6 +13,14 @@
 <link href="{{ asset('css/pnotify.css') }}" rel="stylesheet">
 <link href="{{ asset('css/pnotify.buttons.css') }}" rel="stylesheet">
 <link href="{{ asset('css/pnotify.nonblock.css') }}" rel="stylesheet">
+
+<style>
+
+.editor-wrapper {
+  min-height: 100px;
+}
+
+</style>
 @endpush
 
 
@@ -35,8 +43,8 @@
                                   <tr>
                                       <th style="width: 15%">Client Company</th>
                                       <th style="width: 10%">Job Title</th>
-                                      <th style="width: 25%">Description</th>
-                                      <th>Skills & Qualifications</th>
+                                      <!-- <th style="width: 25%">Description</th>
+                                      <th>Skills & Qualifications</th> -->
                                       <th style="width: 15%">Action</th>
 
                                   </tr>
@@ -50,9 +58,15 @@
                                     @endif
                                   @endforeach
                                   <td>{{ $job->job_title }}</td>
-                                  <td>{{ $job->job_description}}</td>
-                                  <td>{{ $job->skills }}</td>
+                                  <!-- <td>{{ $job->job_description}}</td>
+                                  <td>{{ $job->skills }}</td> -->
                                   <td>
+                                  @foreach($companies as $company)
+                                    @if ($company->id == $job->company_id)
+                                    <a onclick="viewjob( {{ $job }}, {{ $company }} )" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View </a>
+                                    @endif
+                                  @endforeach
+                                    
                                     <a onclick="editjob( {{ $job }} )" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i> Edit </a>
                                     <a onclick="deletejob( {{ $job }} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
                                   </td>
@@ -68,15 +82,42 @@
       </div>
    </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="edit-job">
+   <div class="modal fade" tabindex="-1" role="dialog" id="view-job">
       <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title" id="company_name1"></h4>
+            </div>
+            <div class="modal-body">
+				
+                <strong><p id="job_title1"></p></strong>
+                <strong>Description: </strong><p id="job_description1"></p>
+                <strong>Skills: </strong><p id="skills1"></p>
+                <strong>Summary Keywords: </strong><p id="tags1"></p>
+				        <input type="hidden" id="company_id1" name="company_id1" value="">
+                <!-- <input type="hidden" id="job_id1" name="job_id1" value=""> -->
+              
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+         <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+	  </div>
+	  <!-- End of view-job modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="edit-job">
+      <div class="modal-dialog modal-lg">
          <div class="modal-content">
             <div class="modal-header">
                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                <h4 class="modal-title">Edit Job</h4>
             </div>
             <div class="modal-body">
-               {{  Form::open(['route' => 'update.job','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'job_form']) }}
+            {{  Form::open(['route' => 'update.job','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'job_form']) }}
 
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="job_title">Job Title <span class="required">*</span>
@@ -86,21 +127,105 @@
                   </div>
                </div>
 
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="job_description">Job Description <span class="required">*</span>
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                    <textarea class="resizable_textarea form-control" required="required" name="job_description" id="job_description" style="z-index: auto; position: relative; line-height: 20px; font-size: 14px; transition: none; background:transparent!important; margin: 0px 8px 0px 0px; "></textarea>
-                  </div>
-               </div>
+                <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="job_description">Job Description:</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  
+                  <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-one">
+              
+                    <div class="btn-group">
+                      <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
+                      <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
+                      <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
+                      <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+                    </div>
 
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="skills">Skills <span class="required">*</span>
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <textarea class="resizable_textarea form-control" required="required" name="skills" id="skills" style="z-index: auto; position: relative; line-height: 20px; font-size: 14px; transition: none; background:transparent!important; margin: 0px 8px 0px 0px; "></textarea>
+                    <div class="btn-group">
+                      <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
+                      <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
+                      <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
+                      <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
+                    </div>
+
+                    <div class="btn-group">
+                      <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+                      <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+                      <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+                      <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
+                    </div>
+
+                    <div class="btn-group">
+                      <a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
+                      <div class="dropdown-menu input-append">
+                        <input class="span2" placeholder="URL" type="text" data-edit="createLink" />
+                        <button class="btn" type="button">Add</button>
+                      </div>
+                      <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
+                    </div>
+
+                    <div class="btn-group">
+                      <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+                      <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+                    </div>
                   </div>
-               </div>
+				  
+                  <div id="editor-one" class="editor-wrapper"></div>
+				  
+                  <textarea name="job_description" id="job_description" placeholder="Type job description here" style="display:none;"></textarea>
+                  <br />
+				 </div>
+			</div>
+			<!-- End of Description -->
+
+			<div class="form-group">
+             <label class="control-label  col-md-3 col-sm-3 col-xs-12" for="job_description">Skills & Qualifications:</label>
+			 <div class="col-md-6 col-sm-6 col-xs-12">
+                  
+                  <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-two">
+              
+                    <div class="btn-group">
+                      <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
+                      <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
+                      <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
+                      <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+                    </div>
+
+                    <div class="btn-group">
+                      <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
+                      <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
+                      <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
+                      <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
+                    </div>
+
+                    <div class="btn-group">
+                      <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+                      <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+                      <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+                      <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
+                    </div>
+
+                    <div class="btn-group">
+                      <a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
+                      <div class="dropdown-menu input-append">
+                        <input class="span2" placeholder="URL" type="text" data-edit="createLink" />
+                        <button class="btn" type="button">Add</button>
+                      </div>
+                      <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
+                    </div>
+
+                    <div class="btn-group">
+                      <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+                      <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+                    </div>
+                  </div>
+				  
+                  <div id="editor-two" class="editor-wrapper"></div>
+				  
+                  <textarea name="skills" id="skills" placeholder="Type skills here" style="display:none;"></textarea>
+                  <br />
+
+				 </div>
+			</div> <!-- End of Skills -->
 
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry *</label>
@@ -189,13 +314,7 @@
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <select class="select2_single form-control"  required="required" id="company_id" name="company_id" tabindex="-1"
                       @foreach($companies as $company)
-                        @foreach($jobs as $job)
-                          @if ($company->id == $job->company_id)
-                          <option value="{{ $company->id }}" selected>{{ $company->name }}</option>
-                          @else
                           <option value="{{ $company->id }}">{{ $company->name }}</option>
-                          @endif
-                        @endforeach
                       @endforeach
                     </select>
                   </div>
@@ -211,7 +330,7 @@
             </div>
 
                <div class="ln_solid"></div>
-               <input type="hidden" id="job_id" name="job_id" value="">
+               <input type="hidden" id="job_id" name="job_id">
 
                {!! Form::close() !!}
             </div>
@@ -312,18 +431,34 @@ $(document).ready(function() {
 function editjob(job) {
   $('#job_id').val(job.id);
   $('#job_title').val(job.job_title);
-  $('#job_description').val(job.job_description);
   $('#category').val(job.category);
-  $('#skills').val(job.skills);
   $('#industry').val(job.industry);
   $('#years_experience').val(job.years_experience);
   $('.tags').importTags(job.summary_keywords);
   $('#company_id').val(job.company_id);
 
+  $('#editor-one').html(job.job_description);
+  $('#job_description').val($('#editor-one').html());
+  $('#editor-two').html(job.skills);
+  $('#skills').val($('#editor-two').html());
+
   $('#edit-job').modal('show');
 }
 
+function viewjob(job, company) {
+  $('#company_name1').html(company.name);
+  $('#company_id1').html(job.company_id);
+  $('#job_title1').html(job.job_title);
+  $('#job_description1').html(job.job_description);
+  $('#skills1').html(job.skills);
+  $('#tags1').html(job.summary_keywords);
+
+   $('#view-job').modal('show');
+}
+
 function updateJob(){
+  $('#job_description').val($('#editor-one').html());
+  $('#skills').val($('#editor-two').html());
   $('#job_form').submit();
 }
 
@@ -354,6 +489,7 @@ function loadNotification(){
     });
   }
 }
+
 </script>
 
 @endpush
