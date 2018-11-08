@@ -73,9 +73,7 @@
 
          <div class="compose-header">
    New Message
-   <button type="button" class="close compose-close">
-     <span>×</span>
-   </button>
+  
  </div>
 
  <div class="compose-body">
