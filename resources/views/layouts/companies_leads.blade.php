@@ -62,7 +62,14 @@
                                   @foreach($collaborators as $profile)
                                 <li>
                                      <!-- <b> {{ $profile->name }} </b> -->
-                                    <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}" title="{{ $profile->name }}">
+                                    @php
+                                    $url = parse_url($profile->profile_pic);
+                                    @endphp
+                                    @if(!empty($url['scheme']))
+                                      <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
+                                    @else
+                                    <img src="{{ 'https://jobplusplus.s3.amazonaws.com/' . $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}" title="{{ $profile->name }}">
+                                    @endif
                                 </li>
                                   @endforeach
                                 @endif
