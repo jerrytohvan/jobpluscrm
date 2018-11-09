@@ -20,7 +20,7 @@
             @if(!empty($url['scheme']))
             <img src="{{ Auth::user()->profile_pic }}" alt="Avatar">
             @else
-            <img src="{{ 'https://s3.' . env('AWS_DEFAULT_REGION') . '.amazonaws.com/' . env('AWS_BUCKET') . Auth::user()->profile_pic }}" alt="Avatar">
+            <img src="{{ 'https://s3.' . env('AWS_DEFAULT_REGION') . '.amazonaws.com/' . env('AWS_BUCKET') . '/' . Auth::user()->profile_pic }}" alt="Avatar">
             @endif
 
             <span class=" fa fa-angle-down"></span>

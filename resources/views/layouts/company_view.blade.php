@@ -148,8 +148,15 @@ html {
                                       @foreach($collaborators as $profile)
 
                                       <div class="img__wrap">
+                                      @php
+                                      $url = parse_url($profile->profile_pic);
+                                      @endphp
+                                      @if(!empty($url['scheme']))
+                                        <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
+                                      @else
                                         <img src="{{ 'https://jobplusplus.s3.amazonaws.com/' . $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
-                                          <div class="img__description_layer">
+                                      @endif
+                                      <div class="img__description_layer">
                                             <p class="img__description">{{ $profile->name }}</p>
                                           </div>
                                         </div>

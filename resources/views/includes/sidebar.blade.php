@@ -15,11 +15,13 @@
                 @php
                 $url = parse_url(Auth::user()->profile_pic);
                 @endphp
+                <a href="{{ route('show.profile') }}">
                 @if(!empty($url['scheme']))
                 <img src="{{ Auth::user()->profile_pic }}" alt="Avatar" class="img-circle profile_img">
                 @else
-                <img src="{{ 'https://s3.' . env('AWS_DEFAULT_REGION') . '.amazonaws.com/' . env('AWS_BUCKET') . Auth::user()->profile_pic }}" alt="Avatar" class="img-circle profile_img">
+                <img src="{{ 'https://s3.' . env('AWS_DEFAULT_REGION') . '.amazonaws.com/' . env('AWS_BUCKET') . '/' . Auth::user()->profile_pic }}" alt="Avatar" class="img-circle profile_img">
                 @endif
+                </a>
             </div>
 
             <div class="profile_info">

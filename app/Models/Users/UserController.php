@@ -23,7 +23,12 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $pic = $user['profile_pic'];
-        $user_pic = 'https://jobplusplus.s3.amazonaws.com/' . $pic;
+        $url = parse_url($pic);
+        if (!empty($url['scheme'])) {
+            $user_pic = $pic;
+        } else {
+            $user_pic = 'https://jobplusplus.s3.amazonaws.com/' . $pic;
+        }
         $activities = $this->actSvc->getActivitiesByUser($user);
         return view('layouts.user_profile', compact('user', 'activities', 'user_pic'));
     }
