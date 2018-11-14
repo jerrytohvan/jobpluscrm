@@ -261,10 +261,10 @@ class MLService
             foreach ($jobs as $job) {
                 //algorithm
                 $job_title =  Self::extract_keywords($job->job_title);
-                $job_description = Self::extract_keywords($job->job_description);
-                $skills = Self::extract_keywords(preg_replace('/[0-9\W]/', ',', $job->skills));
+                $job_description = Self::extract_keywords(strip_tags($job->job_description));
+                $skills = Self::extract_keywords(preg_replace('/[0-9\W]/', ',', strip_tags($job->skills)));
                 $years_of_exp = $job->years_experience;
-                $summary = explode(",", $job->summary_keywords) ;
+                $summary = explode(",", $job->summary_keywords);
                 foreach ($summary as $key => $value) {
                     $summary[$key] = trim($value);
                 }

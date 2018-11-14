@@ -417,7 +417,7 @@ class ClientController extends Controller
         $company_id = $requestArray['company_id'];
         $company = Company::where('id', $company_id)->first();
         $employee = Employee::where('company_id', $company_id);
-        $tasks = Task::where('company_id',$company_id);
+        $tasks = Task::where('company_id', $company_id);
         try {
             $employee->delete();
             $company->delete();
@@ -433,13 +433,18 @@ class ClientController extends Controller
 
     public function attachToCompany()
     {
-        $company = Company::find(request()->input('company_id'));
-        $user = User::find(request()->input('user_id'));
-        $message = "Opps! User can't be added. ";
-        $status = 0;
-        if ($this->userSvc->attachUserWithCompany($user, $company) == 1) {
-            $message = "User successfully tagged.";
-            $status = 1;
+        try {
+            $company = Company::find(request()->input('company_id'));
+            $user = User::find(request()->input('user_id'));
+            $message = "Opps! User can't be added. ";
+            $status = 0;
+            if ($this->userSvc->attachUserWithCompany($user, $company) == 1) {
+                $message = "User successfully tagged.";
+                $status = 1;
+            }
+        } catch (Exception $e) {
+            $message = "Oops! User is already added!";
+            $status = 0;
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }

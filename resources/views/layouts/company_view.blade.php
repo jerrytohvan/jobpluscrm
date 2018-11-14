@@ -148,8 +148,15 @@ html {
                                       @foreach($collaborators as $profile)
 
                                       <div class="img__wrap">
+                                      @php
+                                      $url = parse_url($profile->profile_pic);
+                                      @endphp
+                                      @if(!empty($url['scheme']))
+                                        <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
+                                      @else
                                         <img src="{{ 'https://jobplusplus.s3.amazonaws.com/' . $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
-                                          <div class="img__description_layer">
+                                      @endif
+                                      <div class="img__description_layer">
                                             <p class="img__description">{{ $profile->name }}</p>
                                           </div>
                                         </div>
@@ -514,7 +521,7 @@ html {
                        <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="uen">Company UEN</label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
-                           <input type="text" id="uen" name="uen" class="form-control col-md-7 col-xs-12">
+                           <input type="text" id="uen" name="uen" value="{{ $company->uen }}" class="form-control col-md-7 col-xs-12">
                          </div>
                        </div>
                        <div class="form-group">
@@ -544,7 +551,6 @@ html {
                           <div class="col-md-6 col-sm-6 col-xs-12">
 
                               <select class="select2_single form-control" id="no_employees" name="no_employees" tabindex="-1">
-                                  <option value="{{ $company-> no_employees}}">{{$company-> no_employees}}</option>
                                   <option value="1-5">1-5</option>
                                   <option value="6-20">6-20</option>
                                   <option value="21-100">21-100</option>
@@ -628,7 +634,6 @@ html {
                           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lead_source">Lead Source</label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
                              <select class="select2_single form-control" required="required" id="lead_source" name="lead_source" tabindex="-1">
-                                <option value="{{  $company->lead_source }}">{{  $company->lead_source }}</option>
                                 <!-- http://www.themarketingscore.com/blog/bid/317180/18-Possible-Lead-Sources-Your-Organization-Needs-to-Measure -->
                                 <option value="Affiliate / Partner Programs">Affiliate / Partner Programs</option>
                                 <option value="Blogging">Blogging</option>
@@ -655,7 +660,7 @@ html {
                        <div class="form-group">
                           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="description">Description</label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
-                             <textarea class="resizable_textarea form-control" value="{{ $company->description }}" name="description" id="description" placeholder="Type here" style="z-index: auto; position: relative; line-height: 20px; font-size: 14px; transition: none; background:transparent!important; margin: 0px 8px 0px 0px; "></textarea>
+                             <textarea class="resizable_textarea form-control" name="description" id="description" placeholder="Type here" style="z-index: auto; position: relative; line-height: 20px; font-size: 14px; transition: none; background:transparent!important; margin: 0px 8px 0px 0px; ">{{ $company->description }}</textarea>
                           </div>
                        </div>
                        <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
@@ -685,7 +690,7 @@ html {
                           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span class="required">*</span>
                           </label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
-                             <input disabled type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12">
+                             <input type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12">
                           </div>
                        </div>
                        <div class="form-group">
@@ -1103,7 +1108,35 @@ function submitFormNote() {
 }
 
 $(document).ready(function () {
+
   $(".edit").click(function () {
+      var companyEmployees = "{{ $company->no_employees }}";
+      var emLen = document.getElementById("no_employees").length;
+      for (var i=0; i<emLen; i++) {
+        var emVal = document.getElementById("no_employees").options[i].text;
+        if (emVal == companyEmployees) {
+          document.getElementById("no_employees").options[i].selected = true;
+        }
+      }
+
+      var companyIndustry = "{{ $company->industry }}";
+      var inLen = document.getElementById("industry").length;
+      for (var i=0; i<inLen; i++) {
+        var inVal = document.getElementById("industry").options[i].text;
+        if (inVal == companyIndustry) {
+          document.getElementById("industry").options[i].selected = true;
+        }
+      }
+
+      var companyLead = "{{ $company->lead_source }}";
+      var leadLen = document.getElementById("lead_source").length;
+      for (var i=0; i<leadLen; i++) {
+        var leadVal = document.getElementById("lead_source").options[i].text;
+        if (leadVal == companyLead) {
+          document.getElementById("lead_source").options[i].selected = true;
+        }
+      }
+
       $('#edit-modal').modal('show');
     });
 

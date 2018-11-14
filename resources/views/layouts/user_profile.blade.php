@@ -254,33 +254,28 @@
                           {{  Form::open(['route' => 'edit.profile','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'modal_form_id', 'enctype'=>'multipart/form-data']) }}
 
                                 <div class="form-group">
-                                    <label for="name">Name</label>
+                                    <label for="name">Name <span class="required">*</span></label>
                                     <input id="name" class="form-control col-md-7 col-xs-12" required="required" type="text" name="name" value="{{ $user->name }}">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="email">Email</label>
+                                    <label for="email">Email <span class="required">*</span></label>
                                     <input id="email" class="form-control col-md-7 col-xs-12" required="required" type="email" name="email" value="{{ $user->email }}">
                                 </div>
 
-                                <!-- <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input id="password" class="form-control col-md-7 col-xs-12" required="required" type="password" name="password" value="{{ $user->password }}">
-                                </div> -->
-
                                 <div class="form-group">
-                                    <label for="handphone">Mobile</label>
+                                    <label for="handphone">Mobile <span class="required">*</span></label>
                                     <input id="handphone" class="form-control col-md-7 col-xs-12" required="required" type="text" name="handphone" value="{{ $user->handphone }}">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="tele_id">Telegram Chat ID</label>
-                                    <a href="#show-instruction" data-toggle="modal" data-target="#show-instruction">?</a>
+                                    <label for="tele_id">Telegram Chat ID <span class="required">*</span></label>
+                                    <a href="#show-instruction" data-toggle="modal" data-target="#show-instruction"><i class="fa fa-question-circle"></i></a>
                                     <input id="tele_id" class="form-control col-md-7 col-xs-12" required="required" type="text" name="tele_id" value="{{ $user->tele_id }}">
                                 </div>
 
                                 <div class="form-group">
-                                     <label for="birthday">Birth Date</label>
+                                     <label for="birthday">Birth Date <span class="required">*</span></label>
                                      <input type="date" class="form-control col-md-7 col-xs-12"  data-date-format="MM/DD/YYYY" required="required" id="birthday" name="birthday" value='{{ $user->birth_date }}' />
                                 </div>
 
