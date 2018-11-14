@@ -40,9 +40,9 @@
 
 					{!! BootForm::password('password', 'New Password', ['placeholder' => 'Password']) !!}
 
-					{!! BootForm::password('password_confirmation', 'Re-type new Password', ['placeholder' => 'Confirmation']) !!}
+					{!! BootForm::password('password_confirmation', 'Confirm New Password', ['placeholder' => 'Confirmation']) !!}
 
-					{!! BootForm::submit('Reset PAssword', ['class' => 'btn btn-default col-md-9']) !!}
+					{!! BootForm::submit('Reset Password', ['class' => 'btn btn-default col-md-9']) !!}
 
 					<div class="clearfix"></div>
 
