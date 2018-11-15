@@ -266,4 +266,23 @@ class TaskService
         }
         return $string;
     }
+
+    function removingAcc($id){
+        $tasks = Task::whereUserId($id)->orWhere('assigned_id', $id)->orWhereNotNull('collaborator',$id)->get();
+        foreach($tasks as $task){
+            if($task->user_id == $id){
+                $task->user_id = 1;
+                $task->save();
+            }
+            if($task->assigned_id == $id){
+                $task->assigned_id = 1;
+            }
+            
+            if($task->collaborator != null || sizeof($task->collaborator) > 0){
+                $nCollab = array_diff($task->collaborator,[$id]);
+                $task->collaborator = $nCollab;
+                $task->save();
+            }
+        }
+    }
 }

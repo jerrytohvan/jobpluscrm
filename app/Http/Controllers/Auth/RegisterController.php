@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Models\Tasks\TaskService;
+use App\Models\Likes\Like;
+use App\Models\Users\UserCompany;
+use App\Models\Posts\Post;
+use App\Models\Jobs\Job;
+use App\Models\Clients\Candidate;
+use App\Models\Clients\Company;
 use Thomaswelton\LaravelGravatar\Facades\Gravatar;
 
 class RegisterController extends Controller
@@ -37,9 +44,10 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(TaskService $taskService)
     {
         $this->middleware('web');
+        $this->taskSvc = $taskService;
     }
 
     public function adminlist()
@@ -136,6 +144,24 @@ class RegisterController extends Controller
         $requestArray = request()->all();
         $id = $requestArray['uid'];
         $user = User::where('id', $id)->delete();
+        $userCom = UserCompany::where('user_id',$id)->delete();
+        //$task = Task::whereUserId($id)->orWhere('assigned_id', $id)->orWhereNotNull('collaborator->$id')->delete();
+        $companies = Company::where('user_id',$id)->get();
+        foreach($companies as $company){
+            $jobs = Job::where('company_id',$company->id)->delete();
+            $company->user_id = 1;
+            $company->save();
+        }
+        $post = Post::where('user_id',$id)->delete();
+        $candidates = Candidate::where('user_id',$id)->get();
+        foreach($candidates as $candidate){
+            $candidate->user_id = 1;
+            $candidate->save();
+        }
+        $like = Like::where('user_id',$id)->delete();
+        
+        $this->taskSvc->removingAcc($id);
+        
 
         if ($user = User::where('id', $id)->first()==null) {
             $message = "User successfully deleted!";

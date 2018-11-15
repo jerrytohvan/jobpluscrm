@@ -418,10 +418,12 @@ class ClientController extends Controller
         $company = Company::where('id', $company_id)->first();
         $employee = Employee::where('company_id', $company_id);
         $tasks = Task::where('company_id', $company_id);
+        $jobs = Job::where('company_id', $company_id);
         try {
             $employee->delete();
             $company->delete();
             $tasks->delete();
+            $jobs->delete();
             $message = "Company's profile successfully removed!";
             $status = 1;
         } catch (Exception $e) {

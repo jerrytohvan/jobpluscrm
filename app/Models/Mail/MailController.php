@@ -7,10 +7,13 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\Storage;
 use Mail;
 use App\Models\Clients\Company;
+use App\Models\Clients\Candidate;
+use App\Models\Clients\Job;
 use App\Models\Tasks\Task;
 use App\Models\Users\User;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Validation\Validator;
+use Auth;
 
 class MailController extends Controller
 {
@@ -166,4 +169,47 @@ class MailController extends Controller
         $sent = true;
         return $sent;
     }
+
+    // public function sendCandidateDetails(Candidate $candidate ,Job $job)
+    // {
+    //     $companyArr = array();
+    //     if($candidate != null){
+    //         $company = $job->companies;
+    //         $company_email = $company->email;
+    //         $messageDesc = "We have found a suitable candidate that matches the job description.Following is the Resume attachment.";
+    //         $message .= "" .$company->name . ":\n" . $messageDesc ."\n". Auth::user();
+    //     }
+        
+    //     // retrieve user ID's
+    //     $userids = $array[0];
+    //     for ($i=0; $i<sizeof($userids); $i++) {
+    //         $userid = $userids[$i];
+    //         // person recieving the email is configured in this line
+    //         $user_email = User::where('id', $userid)->pluck('email')->first();
+    //         $messageArr = $array[1][$i];
+    //         $message = "Task(s) to be done:\n\n";
+    //         // Preoare message to be sent
+    //         for ($j=0; $j<sizeof($messageArr); $j++) {
+    //             $messageStr = $messageArr[$j];
+    //             $index = strrpos($messageStr, ",");
+    //             $companyId = substr($messageStr, 0, $index);
+    //             $companyName = $companyArr[$companyId];
+    //             $messageDesc = substr($messageStr, $index+1);
+
+    //             if ($j == 0) {
+    //                 $message .= "" .$companyName . ":\n" . $messageDesc;
+    //             } else {
+    //                 $message .= "\n\n" .$companyName . ":\n" . $messageDesc;
+    //             }
+    //         }
+    //         // configure email data packet to call the method
+    //         $data = array(
+    //             'toEmail' =>$user_email,
+    //             'subject'=>$messageDesc,
+    //             'emailMessage' =>$message
+    //           );
+    //         // email is sent in this method
+    //         $this->sendTasksEmail($data);
+    //     }
+    // }
 }
