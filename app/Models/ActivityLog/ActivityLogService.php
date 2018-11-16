@@ -178,7 +178,9 @@ class ActivityLogService
                 $status = "";
             }
             $company = Company::find($activity->changes()->all()['attributes']['company_id']);
-            return $action . " a task for " . $company->name . $status . ".";
+            if($company != null){
+                return $action . " a task for " . $company->name . $status . ".";
+            }
         }
         return null;
     }
