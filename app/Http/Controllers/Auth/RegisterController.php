@@ -145,7 +145,6 @@ class RegisterController extends Controller
         $id = $requestArray['uid'];
         $user = User::where('id', $id)->delete();
         $userCom = UserCompany::where('user_id',$id)->delete();
-        //$task = Task::whereUserId($id)->orWhere('assigned_id', $id)->orWhereNotNull('collaborator->$id')->delete();
         $companies = Company::where('user_id',$id)->get();
         foreach($companies as $company){
             $company->user_id = 1;
