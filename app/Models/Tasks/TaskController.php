@@ -50,11 +50,11 @@ class TaskController extends Controller
         }
         $message = "Task successfully created!";
         $status = 1;
-        if(Auth::user()->admin == true){
+        if (Auth::user()->admin == true) {
             $users = User::all();
             $companies = Company::all();
             return view('layouts.index_task', compact('status', 'message', 'users', 'companies'));
-        }else{
+        } else {
             $userCIds = Task::whereUserId(Auth::user()->id)->orWhere('assigned_id', Auth::user()->id)->orWhereNotNull('collaborator->Auth::user()->id')->pluck('company_id')->toArray();
             $userCompanyIds = UserCompany::whereUserId(Auth::user()->id)->pluck('company_id')->toArray();
             $allCIds = array_merge($userCIds, $userCompanyIds);
@@ -67,7 +67,7 @@ class TaskController extends Controller
     {
         $message = "Failed to add task!";
         $status = 0;
-        if(Auth::user()->admin == true){
+        if (Auth::user()->admin == true) {
             $users = User::all();
             $companies = Company::all();
             if ($this->svc->storeTask(request()->all())) {
@@ -75,7 +75,7 @@ class TaskController extends Controller
                 $status = 1;
             }
             return redirect()->back()->with(['message' => $message, 'status' => $status,  'users' => $users, 'companies' => $companies]);
-        }else{
+        } else {
             $companies = Company::whereUserId(Auth::user()->id)->get();
             if ($this->svc->storeTask(request()->all())) {
                 $message = "Task successfully added!";
@@ -193,5 +193,27 @@ class TaskController extends Controller
     public function deleteToDoList($id)
     {
         return $this->svc->destroyTask($id);
+    }
+    public function editTask()
+    {
+        $message = "Task update was unsuccessful! ";
+        $status = 0;
+        $task = Task::find(request()->input('task_id'));
+        if ($task!=null) {
+            if (request()->input('consultant') != null) {
+                $task->update([
+              'assigned_id' => request()->input('consultant')
+              ]);
+            }
+            $mod_date = date('Y-m-d H:i:s', strtotime(request()->input('date') . ' +1 day'));
+            $task->update([
+            'title' => request()->input('title'),
+            'date_reminder' =>  $mod_date,
+          ]);
+            $task->save();
+            $message = "Task succesfully updated!";
+            $status = 1;
+        }
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 }

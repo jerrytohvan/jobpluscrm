@@ -42,7 +42,7 @@ class AccountController extends Controller
         $overdueComparison = $this->overdueComparison();
         $totalTaskCompletedThisYear = $this->totalTaskCompletedThisYear();
         $companiesYTD = $this->companiesYTD();
-
+        $consultants = User::all();
         $lastestAnnouncement = Post::whereCompanyId(null)->latest('created_at')->first();
         $announcementMsg= "";
         if ($lastestAnnouncement!=null) {
@@ -54,7 +54,7 @@ class AccountController extends Controller
 
         $message = "";
         $status = 0;
-        return view('layouts.dashboard', compact('fromDate', 'toDate', 'tasksOpen', 'tasksOnGoing', 'tasksClosed', 'tasksOverdue', 'leadsComparison', 'taskComparison', 'taskThisWeek', 'leadsThisWeek', 'overdueComparison', 'totalTaskCompletedThisYear', 'companiesYTD', 'announcementMsg', 'message', 'status'));
+        return view('layouts.dashboard', compact('fromDate', 'toDate', 'tasksOpen', 'tasksOnGoing', 'tasksClosed', 'tasksOverdue', 'leadsComparison', 'taskComparison', 'taskThisWeek', 'leadsThisWeek', 'overdueComparison', 'totalTaskCompletedThisYear', 'companiesYTD', 'announcementMsg', 'message', 'status', 'consultants'));
     }
 
     public function index_data_presentation()

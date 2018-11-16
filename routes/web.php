@@ -49,11 +49,11 @@ Route::group(['middleware' => ['auth']], function () {
 'uses' => '\App\Models\Users\UserController@updateProfile'
 ]);
 
-Route::post('/change-pw', [
+    Route::post('/change-pw', [
   'as' => 'change.pwd',
   'uses' => '\App\Http\Controllers\Auth\RegisterController@resetPwd'
   ]);
-  
+
     Route::get('/add-admin', [
       'as' => 'index.register',
       'uses' => '\App\Http\Controllers\Auth\RegisterController@index'
@@ -268,6 +268,10 @@ Route::post('/change-pw', [
     Route::get('/task', [
       'as' => 'index.tasks',
     'uses' => '\App\Models\Tasks\TaskController@index'
+    ]);
+    Route::post('/task/edit', [
+      'as' => 'edit.task',
+    'uses' => '\App\Models\Tasks\TaskController@editTask'
     ]);
 
     Route::post('/task/add', [

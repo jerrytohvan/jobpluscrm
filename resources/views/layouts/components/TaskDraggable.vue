@@ -1,10 +1,10 @@
 <template>
-    <div class="row">
+      <div class="row">
         <div class="col-xs-12 col-md-4">
             <section class="list">
                 <header>Open Task</header>
                 <draggable class="drag-area" :list="tasksOpenNew" :options="{animation:200, group:'status'}" :element="'article'" @add="onAdd($event, 0)"  @change="update">
-                    <article class="cardOpen" v-for="(task, index) in tasksOpenNew" :key="task.id" :data-id="task.id">
+                    <article class="cardOpen" v-for="(task, index) in tasksOpenNew" :key="task.id" :data-id="task.id" >
                       <a class="remove-item" @click="removeItem(task.id,index,0)">x</a>
                         <header style="font-size:14px;color:#FFFFFF;">
                             {{ task.title }}
@@ -18,7 +18,9 @@
                           <li>
                               <p style="font-size:8px;color:#FFFFFF;">Company: {{ task.company }}</p>
                           </li>
+
                         </ul>
+                        <a onclick="editTask(this)" :data-id="task.id" :data-title="task.title" :data-desc="task.description" :data-date="task.date" :data-company="task.company" :data-assignee="task.assignee" :data-creator="task.creator"  class="btn btn-primary btn-xs edit-item"><i class="fa fa-pencil"></i></a>
                     </article>
                 </draggable>
             </section>
@@ -42,6 +44,7 @@
                               <p  style="font-size:8px;color:#FFFFFF;">Company: {{ task.company }}</p>
                           </li>
                         </ul>
+                        <a onclick="editTask(this)" :data-id="task.id" :data-title="task.title" :data-desc="task.description" :data-date="task.date" :data-company="task.company" :data-assignee="task.assignee" :data-creator="task.creator"  class="btn btn-primary btn-xs edit-item"><i class="fa fa-pencil"></i></a>
                     </article>
                 </draggable>
             </section>
@@ -65,11 +68,11 @@
                               <p  style="font-size:8px;color:#FFFFFF;">Company: {{ task.company }}</p>
                           </li>
                         </ul>
+                        <a onclick="editTask(this)" :data-id="task.id" :data-title="task.title" :data-desc="task.description" :data-date="task.date" :data-company="task.company" :data-assignee="task.assignee" :data-creator="task.creator"  class="btn btn-primary btn-xs edit-item"><i class="fa fa-pencil"></i></a>
                     </article>
                 </draggable>
             </section>
         </div>
-
     </div>
 </template>
 
@@ -85,7 +88,8 @@
       return {
         tasksOpenNew: this.tasksOpen,
         tasksOnGoingNew: this.tasksOnGoing,
-        tasksClosedNew: this.tasksClosed
+        tasksClosedNew: this.tasksClosed,
+        modalShow: false
       }
     },
     methods: {
@@ -166,7 +170,17 @@
         }
         // this.update();
       },
-
+      showModal() {
+        this.$root.$emit('bv::show::modal', 'modal1')
+      },
+      hideModal() {
+        this.$root.$emit('bv::hide::modal', 'modal1')
+      },
+      onHidden(evt) {
+        // Return focus to our Open Modal button
+        // See accessibility below for additional return-focus methods
+        this.$refs.btnShow.$el.focus()
+      }
     }
   }
 </script>
@@ -246,6 +260,22 @@
 
   .remove-item:hover {
     float: right;
+    color: #CA3C25;
+    opacity: 1;
+  }
+
+  .edit-item {
+    margin-left: 90%;
+    background: #32213A;
+    color: white;
+    opacity: 0.5;
+    font-size: 1em;
+  }
+
+  .edit-item:hover {
+    margin-left: 90%;
+    background: #32213A;
+
     color: #CA3C25;
     opacity: 1;
   }

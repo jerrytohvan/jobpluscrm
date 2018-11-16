@@ -161,6 +161,7 @@ class TaskService
                 $dateDiff = date_diff($dateNow, $dateAfter);
                 $dateString = Self::constructStringFromDateTime($dateDiff);
                 $value['date_string'] = $dateString;
+                $value['date'] = $value['date_reminder'];
                 $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
                     return $user->id == $value['user_id'];
                 })->first()->name : "";
@@ -181,6 +182,7 @@ class TaskService
                 $dateDiff = date_diff($dateNow, $dateAfter);
                 $dateString = Self::constructStringFromDateTime($dateDiff);
                 $value['date_string'] = $dateString;
+                $value['date'] = $value['date_reminder'];
                 $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
                     return $user->id == $value['user_id'];
                 })->first()->name : "";
@@ -201,6 +203,7 @@ class TaskService
                 $dateDiff = date_diff($dateNow, $dateAfter);
                 $dateString = Self::constructStringFromDateTime($dateDiff);
                 $value['date_string'] = $dateString;
+                $value['date'] = $value['date_reminder'];
                 $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
                     return $user->id == $value['user_id'];
                 })->first()->name : "";
@@ -267,19 +270,20 @@ class TaskService
         return $string;
     }
 
-    function removingAcc($id){
-        $tasks = Task::whereUserId($id)->orWhere('assigned_id', $id)->orWhereNotNull('collaborator',$id)->get();
-        foreach($tasks as $task){
-            if($task->user_id == $id){
+    public function removingAcc($id)
+    {
+        $tasks = Task::whereUserId($id)->orWhere('assigned_id', $id)->orWhereNotNull('collaborator', $id)->get();
+        foreach ($tasks as $task) {
+            if ($task->user_id == $id) {
                 $task->user_id = 1;
                 $task->save();
             }
-            if($task->assigned_id == $id){
+            if ($task->assigned_id == $id) {
                 $task->assigned_id = 1;
             }
-            
-            if($task->collaborator != null || sizeof($task->collaborator) > 0){
-                $nCollab = array_diff($task->collaborator,[$id]);
+
+            if ($task->collaborator != null || sizeof($task->collaborator) > 0) {
+                $nCollab = array_diff($task->collaborator, [$id]);
                 $task->collaborator = $nCollab;
                 $task->save();
             }
