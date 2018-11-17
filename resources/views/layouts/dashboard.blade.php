@@ -184,7 +184,7 @@
                    </div>
 
                    <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="date">Date</span>
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="date">Due Date</span>
                       </label>
                       <div class="col-md-6 col-sm-6 col-xs-12">
                          <input  type="date"  id="date" name="date" data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
@@ -195,7 +195,12 @@
                   <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Select User</label>
                     <div class="col-md-9 col-sm-9 col-xs-12">
-                      <select class="select2_single form-control" id="consultant" name="consultant" required="required" tabindex="-1">
+                      @if(Auth::user()->admin == true)
+                      <select class="select2_single form-control" id="consultant" name="consultant" required="required"  tabindex="-1">
+                      @else
+                      <select class="select2_single form-control" id="consultant" name="consultant" required="required" disabled tabindex="-1">
+
+                      @endif
                         <option id="assigned_user" value="">Select a User</option>
                         @foreach($consultants as $user)
                             <option value="{{ $user-> id }}">{{ $user->name }}</option>

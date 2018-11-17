@@ -1148,7 +1148,7 @@ $(document).ready(function () {
       processData: false,
       contentType: false,
       data:  {
-        company_id:$('#comapany-id').val(),
+        company_id:$('#company-id').val(),
         email: $('#email').val(),
         telephone_no: $('#telephone_no').val(),
         address: $('#address').val(),
