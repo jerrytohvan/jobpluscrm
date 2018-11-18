@@ -306,12 +306,12 @@ function editTask(e) {
   document.getElementById("date").valueAsDate = new Date(task_date);
 
   if(task_assignee === ""){
-    document.getElementById("assigned_user").value = '';
-    document.getElementById("assigned_user").text = 'Select a User';
+    document.getElementById("consultant").value = '';
+    document.getElementById("consultant").text = 'Select a User';
   }else{
     for (var i = 0; i < ar.length; i++) {
       if(ar[i].name == task_assignee){
-          document.getElementById("assigned_user").value = i;
+          document.getElementById("assigned_user").value = ar[i].id;
           document.getElementById("assigned_user").text = task_assignee;
       }
     }

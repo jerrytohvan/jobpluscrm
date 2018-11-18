@@ -57,8 +57,14 @@ class ActivityLogService
                             $company = Company::find($activity->changes()->all()['attributes']['company_id']);
                             $status = $activity->changes()->all()['attributes']['status'];
                             $prevStatus = $activity->getExtraProperty('old')['status'];
+                            $status = $activity->changes()->all()['attributes']['status'];
+                            $prevStatus = $activity->getExtraProperty('old')['status'];
+                            $title = $activity->changes()->all()['attributes']['title'];
+                            $oldTitle = $activity->getExtraProperty('old')['title'];
+                            $date = $activity->changes()->all()['attributes']['date_reminder'];
+                            $oldDate = $activity->getExtraProperty('old')['date_reminder'];
 
-                            if ($action == "created") {
+                            if ($action == "created" || ($action == "updated" && $status == $prevStatus  && ($title != $oldTitle || $date != $oldDate))) {
                                 if ($company != null) {
                                     $sentence =  $action . " a task for " . $company->name . ".";
                                 }
@@ -171,8 +177,13 @@ class ActivityLogService
         } elseif (Task::class == $activity->subject_type) {
             $status = $activity->changes()->all()['attributes']['status'];
             $prevStatus = $activity->getExtraProperty('old')['status'];
+            $title = $activity->changes()->all()['attributes']['title'];
+            $oldTitle = $activity->getExtraProperty('old')['title'];
+            $date = $activity->changes()->all()['attributes']['date_reminder'];
+            $oldDate = $activity->getExtraProperty('old')['date_reminder'];
+
             $company = Company::find($activity->changes()->all()['attributes']['company_id']);
-            if ($action == "created") {
+            if ($action == "created" || ($action == "updated" && $status == $prevStatus  && ($title != $oldTitle || $date != $oldDate))) {
                 if ($company != null) {
                     return $action . " a task for " . $company->name . ".";
                 }
