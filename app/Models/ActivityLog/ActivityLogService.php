@@ -48,16 +48,21 @@ class ActivityLogService
                     $dateBefore = date_create(date($activity->created_at));
                     $dateDiff = date_diff($dateBefore, $dateNow);
                     $dateString = Self::constructStringFromDateTime($dateDiff);
+                    $sentence = "";
+
                     if ($subject != null) {
                         if (Attachment::class == $activity->subject_type) {
                             $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity);
                         } elseif (Task::class == $activity->subject_type) {
-                            //detach user company
-
-                            $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity);
-                            $name = isset($object) ? $object->name : User::find($activity->getExtraProperty('attributes')['user_id'])->name;
+                            $company = Company::find($activity->changes()->all()['attributes']['company_id']);
                             $status = $activity->changes()->all()['attributes']['status'];
-                            if ($action == "updated") {
+                            $prevStatus = $activity->getExtraProperty('old')['status'];
+
+                            if ($action == "created") {
+                                if ($company != null) {
+                                    $sentence =  $action . " a task for " . $company->name . ".";
+                                }
+                            } elseif ($action == "updated" && $status != $prevStatus) {
                                 if ($status == 0) {
                                     $status = " as an open task";
                                 } elseif ($status == 1) {
@@ -65,11 +70,8 @@ class ActivityLogService
                                 } else {
                                     $status = " as a closed task";
                                 }
-                            } else {
-                                $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity);
+                                $sentence =  $action . " " .  $company->name  . "'s task " . $status . ".";
                             }
-                            $company = Company::find($activity->changes()->all()['attributes']['company_id']);
-                            $sentence .= "a task for " . $company->name . $status . ".";
                         } elseif (UserCompany::class == $activity->subject_type) {
                             //NAME updated
                             $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity) . " a user";
@@ -90,7 +92,9 @@ class ActivityLogService
                                 $sentence .= $name . " as an account for company " . $company->name . ".";
                             }
                         }
-                        $construct[] = [$subject, $object, $dateString, $sentence];
+                        if ($sentence != "") {
+                            $construct[] = [$subject, $object, $dateString, $sentence];
+                        }
                     }
                 }
             } catch (Exception $e) {
@@ -166,7 +170,13 @@ class ActivityLogService
             return $action . " a post on announcement board.";
         } elseif (Task::class == $activity->subject_type) {
             $status = $activity->changes()->all()['attributes']['status'];
-            if ($action == "updated") {
+            $prevStatus = $activity->getExtraProperty('old')['status'];
+            $company = Company::find($activity->changes()->all()['attributes']['company_id']);
+            if ($action == "created") {
+                if ($company != null) {
+                    return $action . " a task for " . $company->name . ".";
+                }
+            } elseif ($action == "updated" && $status != $prevStatus) {
                 if ($status == 0) {
                     $status = " as an open task";
                 } elseif ($status == 1) {
@@ -174,12 +184,9 @@ class ActivityLogService
                 } else {
                     $status = " as a closed task";
                 }
+                return $action . " " .  $company->name  . "'s task " . $status . ".";
             } else {
                 $status = "";
-            }
-            $company = Company::find($activity->changes()->all()['attributes']['company_id']);
-            if($company != null){
-                return $action . " a task for " . $company->name . $status . ".";
             }
         }
         return null;
