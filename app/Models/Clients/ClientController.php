@@ -251,6 +251,7 @@ class ClientController extends Controller
             $dateDiff = date_diff($dateNow, $dateAfter);
             $dateString = Self::constructStringFromDateTime($dateDiff);
             $value['date_string'] = $dateString;
+            $value['date'] = $value['date_reminder'];
             return $value;
         })->filter(function ($task, $key) {
             return $task->status == 0;
@@ -264,6 +265,8 @@ class ClientController extends Controller
             $dateDiff = date_diff($dateNow, $dateAfter);
             $dateString = Self::constructStringFromDateTime($dateDiff);
             $value['date_string'] = $dateString;
+            $value['date'] = $value['date_reminder'];
+
             return $value;
         })->filter(function ($task, $key) {
             return $task->status == 1;
@@ -277,6 +280,8 @@ class ClientController extends Controller
             $dateDiff = date_diff($dateNow, $dateAfter);
             $dateString = Self::constructStringFromDateTime($dateDiff);
             $value['date_string'] = $dateString;
+            $value['date'] = $value['date_reminder'];
+
             return $value;
         })->filter(function ($task, $key) {
             return $task->status == 2;
@@ -419,7 +424,7 @@ class ClientController extends Controller
         $employee = Employee::where('company_id', $company_id);
         $tasks = Task::where('company_id', $company_id);
         $jobs = Job::where('company_id', $company_id);
-        $employees = Employee::where('company_id',$company_id);
+        $employees = Employee::where('company_id', $company_id);
         try {
             $employee->delete();
             $company->delete();

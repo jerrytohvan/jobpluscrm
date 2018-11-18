@@ -970,6 +970,71 @@ html {
                   </div>
               </div>
               <!-- end of new task button -->
+
+                  <div class="modal fade" tabindex="-1" role="dialog" id="edit-task">
+                        <div class="modal-dialog">
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                 <h4 class="modal-title">Edit Task</h4>
+                              </div>
+                              <div class="modal-body">
+                                 {{  Form::open(['route' => 'edit.task','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'updateTask']) }}
+
+                                 <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Task Title <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                       <input type="text" id="title" name="title" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                 </div>
+
+                                 <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="date">Due Date</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                       <input  type="date"  id="task_date" name="date" data-parsley-minlength="6" data-parsley-pattern="^[\d\+\-\.\(\)\/\s]*$" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                 </div>
+
+
+                                <div class="form-group">
+                                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Select User</label>
+                                  <div class="col-md-9 col-sm-9 col-xs-12">
+                                    @if(Auth::user()->admin == true)
+                                    <select class="select2_single form-control" id="consultant" name="consultant" required="required"  tabindex="-1">
+                                    @else
+                                    <select class="select2_single form-control" id="consultant" name="consultant" required="required" disabled tabindex="-1">
+
+                                    @endif
+                                      <option id="assigned_user" value="">Select a User</option>
+                                      @foreach($users as $user)
+                                          <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                      @endforeach
+                                    </select>
+                                  </div>
+                                </div>
+
+                                 <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company">Company
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                       <input type="text" readonly id="company" name="company" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                 </div>
+                                 <div class="ln_solid"></div>
+                                 <input type="hidden" id="task_id" name="task_id" value="">
+                                 {!! Form::close() !!}
+                              </div>
+                              <div class="modal-footer">
+                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                 <button type="button" class="btn btn-primary"  onclick="updateTask();" >Update</button>
+                              </div>
+                           </div>
+                           <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                  	  </div>
   </div>
               <!-- recent activities -> notes -->
 @endsection
@@ -990,6 +1055,7 @@ html {
 var token = '{{ Session::token() }}';
 var urlEdit = "{{ route('update.company') }}";
 var postData = new FormData($("#modal_form_id")[0]);
+var ar = {!! json_encode($users) !!};
 
 // ======= START OF FILES =======
 $(function(){
@@ -1148,7 +1214,7 @@ $(document).ready(function () {
       processData: false,
       contentType: false,
       data:  {
-        company_id:$('#comapany-id').val(),
+        company_id:$('#company-id').val(),
         email: $('#email').val(),
         telephone_no: $('#telephone_no').val(),
         address: $('#address').val(),
@@ -1264,6 +1330,41 @@ $(document).ready(function () {
     });
 
 
+    function updateTask(){
+      $('#updateTask').submit();
+    }
+
+
+    function editTask(e) {
+      var task_id = e.getAttribute('data-id');
+      var task_title = e.getAttribute('data-title');
+      var task_desc = e.getAttribute('data-desc');
+      var task_date = e.getAttribute('data-date');
+      var task_company = e.getAttribute('data-company');
+      var task_assignee = e.getAttribute('data-assignee');
+      var task_creator = e.getAttribute('data-creator');
+
+      $('#updateTask').find('input[name=task_id]').val(task_id);
+      $('#updateTask').find('input[name=title]').val(task_title);
+      $('#updateTask').find('input[name=company]').val(task_company);
+      $('#updateTask').find('input[name=description]').val(task_desc);
+
+      document.getElementById("task_date").valueAsDate = new Date(task_date);
+
+      if(task_assignee === ""){
+        document.getElementById("assigned_user").value = '0';
+        document.getElementById("assigned_user").text = 'Select a User';
+      }else{
+        for (var i = 0; i < ar.length; i++) {
+          if(ar[i].name == task_assignee){
+              document.getElementById("assigned_user").value = ar[i].id;
+              document.getElementById("assigned_user").text = task_assignee;
+          }
+        }
+       }
+
+      $('#edit-task').modal('show');
+    }
     // var elems = document.getElementsByClassName('confirmation');
     // var confirmIt = function (e) {
     //     if (!confirm('Are you sure?')) e.preventDefault();
