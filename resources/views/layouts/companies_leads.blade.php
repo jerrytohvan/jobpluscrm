@@ -68,7 +68,7 @@
                                     @if(!empty($url['scheme']))
                                       <img src="{{ $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}">
                                     @else
-                                    <img src="{{ 'https://jobplusplus.s3.amazonaws.com/' . $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}" title="{{ $profile->name }}">
+                                    <img src="{{ 'https://s3.' . env('AWS_DEFAULT_REGION') . '.amazonaws.com/' . env('AWS_BUCKET') . '/' . $profile->profile_pic }}" class="avatar" alt="{{ $profile->name }}" title="{{ $profile->name }}">
                                     @endif
                                 </li>
                                   @endforeach

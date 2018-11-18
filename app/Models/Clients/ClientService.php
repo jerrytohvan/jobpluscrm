@@ -280,7 +280,7 @@ class ClientService
                     if (!empty($url['scheme'])) {
                         $profilePic = $profile;
                     } else {
-                        $profilePic = 'https://jobplusplus.s3.amazonaws.com/' . $user['profile_pic'];
+                        $profilePic = 'https://s3.' . env('AWS_DEFAULT_REGION') . '.amazonaws.com/' . env('AWS_BUCKET') . '/' . $user['profile_pic'];
                     }
                     $array = array($company_id, $name, $profilePic);
                     $allCollaborators[$i] = $array;
