@@ -6,6 +6,7 @@ use App\Models\Attachments\Attachment;
 use App\Models\Clients\Candidate;
 use App\Models\Clients\Company;
 use App\Models\Employees\Employee;
+use App\Models\Jobs\Job;
 use App\Models\Posts\Post;
 use App\Models\Tasks\Task;
 use App\Models\Users\User;
@@ -25,7 +26,7 @@ class ActivityLogService
     public function getActivitiesByCompany(Company $company)
     {
         $construct = [];
-        $lastActivity = Activity::whereSubjectId($company->id)->orWhere('subject_type', Attachment::class)->orWhere('subject_type', Employee::class)->orWhere('subject_type', Task::class)->orWhere('subject_type', Company::class)->orWhere('subject_type', UserCompany::class)->orderBy('created_at', 'desc')->get();
+        $lastActivity = Activity::whereSubjectId($company->id)->orWhere('subject_type', Attachment::class)->orWhere('subject_type', Employee::class)->orWhere('subject_type', Task::class)->orWhere('subject_type', Company::class)->orWhere('subject_type', UserCompany::class)->orWhere('subject_type', Job::class)->orderBy('created_at', 'desc')->get();
 
         // $lastActivity = Activity::whereSubjectId($company->id)->orWhere('causer_id', $company->id)->orWhere('subject_type', Attachment::class)->orWhere('subject_type', Employee::class)->orWhere('subject_type', Task::class)->orWhere('subject_type', Company::class)->orWhere('subject_type', UserCompany::class)->orderBy('created_at', 'desc')->get();
         foreach ($lastActivity as $activity) {
@@ -64,9 +65,9 @@ class ActivityLogService
                             $date = $activity->changes()->all()['attributes']['date_reminder'];
                             $oldDate = $activity->getExtraProperty('old')['date_reminder'];
 
-                            if ($action == "created" || ($action == "updated" && $status == $prevStatus  && ($title != $oldTitle || $date != $oldDate))) {
+                            if ($action == "created" || ($action == "updated" && $status == $prevStatus && ($title != $oldTitle || $date != $oldDate))) {
                                 if ($company != null) {
-                                    $sentence =  $action . " a task for " . $company->name . ".";
+                                    $sentence = $action . " a task for " . $company->name . ".";
                                 }
                             } elseif ($action == "updated" && $status != $prevStatus) {
                                 if ($status == 0) {
@@ -76,12 +77,21 @@ class ActivityLogService
                                 } else {
                                     $status = " as a closed task";
                                 }
-                                $sentence =  $action . " " .  $company->name  . "'s task " . $status . ".";
+                                $sentence = $action . " " . $company->name . "'s task " . $status . ".";
                             }
                         } elseif (UserCompany::class == $activity->subject_type) {
                             //NAME updated
                             $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity) . " a user";
                             if ($action == "updated") {
+                                $sentence .= " to the company.";
+                            } else {
+                                $sentence .= " from the company.";
+                            }
+                        } elseif (Job::class == $activity->subject_type) {
+                            $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity) . " a job";
+                            if ($action == "created") {
+                                $sentence .= " to the company.";
+                            } elseif ($action == "updated") {
                                 $sentence .= " to the company.";
                             } else {
                                 $sentence .= " from the company.";
@@ -183,7 +193,7 @@ class ActivityLogService
             $oldDate = $activity->getExtraProperty('old')['date_reminder'];
 
             $company = Company::find($activity->changes()->all()['attributes']['company_id']);
-            if ($action == "created" || ($action == "updated" && $status == $prevStatus  && ($title != $oldTitle || $date != $oldDate))) {
+            if ($action == "created" || ($action == "updated" && $status == $prevStatus && ($title != $oldTitle || $date != $oldDate))) {
                 if ($company != null) {
                     return $action . " a task for " . $company->name . ".";
                 }
@@ -195,7 +205,7 @@ class ActivityLogService
                 } else {
                     $status = " as a closed task";
                 }
-                return $action . " " .  $company->name  . "'s task " . $status . ".";
+                return $action . " " . $company->name . "'s task " . $status . ".";
             } else {
                 $status = "";
             }
