@@ -65,7 +65,7 @@ class ActivityLogService
                             $date = $activity->changes()->all()['attributes']['date_reminder'];
                             $oldDate = $activity->getExtraProperty('old')['date_reminder'];
 
-                            if ($action == "created" || ($action == "updated" && $status == $prevStatus && ($title != $oldTitle || $date != $oldDate))) {
+                            if ($action == "created" || $action == "deleted" ||  ($action == "updated" && $status == $prevStatus && ($title != $oldTitle || $date != $oldDate))) {
                                 if ($company != null) {
                                     $sentence = $action . " a task for " . $company->name . ".";
                                 }
@@ -194,7 +194,7 @@ class ActivityLogService
 
             $company = Company::find($activity->changes()->all()['attributes']['company_id']);
             if ($company != null) {
-                if ($action == "created" || ($action == "updated" && $status == $prevStatus && ($title != $oldTitle || $date != $oldDate))) {
+                if ($action == "created" || $action == "deleted" || ($action == "updated" && $status == $prevStatus && ($title != $oldTitle || $date != $oldDate))) {
                     return $action . " a task for " . $company->name . ".";
                 } elseif ($action == "updated" && $status != $prevStatus) {
                     if ($status == 0) {
@@ -209,7 +209,6 @@ class ActivityLogService
                     $status = "";
                 }
             }
-
         }
         return null;
     }
