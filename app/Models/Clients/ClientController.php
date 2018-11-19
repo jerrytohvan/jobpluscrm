@@ -246,7 +246,7 @@ class ClientController extends Controller
         $tasksOpen = $tasks->map(function ($value, $key) {
             $value['company'] = Company::find($value['company_id'])->name;
             $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name : "";
-            $dateNow = date_create(date("Y-m-d H:i:s"));
+            $dateNow = date_create(date("Y-m-d H:i:s"))->modify('+1 day');
             $dateAfter = date_create(date($value['date_reminder']));
             $dateDiff = date_diff($dateNow, $dateAfter);
             $dateString = Self::constructStringFromDateTime($dateDiff);
@@ -260,7 +260,7 @@ class ClientController extends Controller
         $tasksOnGoing = $tasks->map(function ($value, $key) {
             $value['company'] = Company::find($value['company_id'])->name;
             $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name : "";
-            $dateNow = date_create(date("Y-m-d H:i:s"));
+            $dateNow = date_create(date("Y-m-d H:i:s"))->modify('+1 day');
             $dateAfter = date_create(date($value['date_reminder']));
             $dateDiff = date_diff($dateNow, $dateAfter);
             $dateString = Self::constructStringFromDateTime($dateDiff);
@@ -275,7 +275,7 @@ class ClientController extends Controller
         $tasksClosed = $tasks->map(function ($value, $key) {
             $value['company'] = Company::find($value['company_id'])->name;
             $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name : "";
-            $dateNow = date_create(date("Y-m-d H:i:s"));
+            $dateNow = date_create(date("Y-m-d H:i:s"))->modify('+1 day');
             $dateAfter = date_create(date($value['date_reminder']));
             $dateDiff = date_diff($dateNow, $dateAfter);
             $dateString = Self::constructStringFromDateTime($dateDiff);
@@ -286,7 +286,7 @@ class ClientController extends Controller
         })->filter(function ($task, $key) {
             return $task->status == 2;
         })->values();
-        ///////////////////////////////////////////////////////////////////////
+
         $userIds = array();
         $userCompany = UserCompany::whereCompanyId($company->id)->get();
         foreach ($userCompany as $user) {
@@ -296,12 +296,7 @@ class ClientController extends Controller
         $this->taskSvc->insertCollab($tasksByCompany, $userIds);
         return view('layouts.company_view', compact('createdTime', 'updatedTime', 'company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes', 'jobs', 'tasksOpen', 'tasksOnGoing', 'tasksClosed'));
     }
-    // public function showCompanyPost(Company $company, $message = null, $status = null)
-    // {
-    //     $accounts = $company->employees;
-    //     $companyFiles = $company->files;
-    //     return view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles'));
-    // }
+
     public function addNote(Company $company)
     {
         $post = $this->svc->addPost($company, request()->input('body'));
@@ -523,9 +518,9 @@ class ClientController extends Controller
         } elseif ($date->h != '0') {
             $string .= $date->h;
             if ($date->h == '1') {
-                $string .= " day";
+                $string .= " hour";
             } else {
-                $string .= " days";
+                $string .= " hours";
             }
         } elseif ($date->i != '0') {
             $string .= $date->i;
