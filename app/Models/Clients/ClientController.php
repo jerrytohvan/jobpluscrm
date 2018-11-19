@@ -77,7 +77,7 @@ class ClientController extends Controller
     public function index_companies_clients()
     {
         $employees = Employee::all();
-        $tasks = Task::all();
+        $tasks = Task::where('user_id', Auth::user()->id)->get();
         if (Auth::user()->admin == true) {
             $array = $this->svc->getAllClients();
             $allEmployees = $this->svc->getAllEmployees($array, $employees);
