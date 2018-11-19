@@ -155,7 +155,6 @@ $(window).load(function() {
               $.each(keywordsConcat, function(idx2,val2) {
                 blkstr.push(val2);
               });
-              // return [$matchingJobs,$points, $accuracy, $keywordsMatch, $keywords];
 
             var $wrapper = $('<div class="col-md-12 col-sm-12 col-xs-12 widget_tally_box">');
             var $xpannel = $('<div class="x_panel ui-ribbon-container">');
@@ -172,7 +171,7 @@ $(window).load(function() {
 
             $xpannel.prepend(
               $('<div class="x_content">' +
-              '<div style="text-align: center; margin-bottom: 17px">' +
+              '<div style="text-align: center; margin-bottom: 17px">' 
               + '</div>' + '<h3 class="name_title">' + data[0][i].job_title + '</h3>' +
               '<div class="bs-example" data-example-id="simple-jumbotron"><div class="jumbotron"><h1>' +
                 Math.round(data[1][i]) +

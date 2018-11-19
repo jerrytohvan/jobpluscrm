@@ -22,21 +22,6 @@ class SmartMatchController extends Controller
         return view('layouts.index_smart_match');
     }
 
-    public function matchDescriptionWithPotentialJobs()
-    {
-        $file = request()->file('resume');
-        $path = public_path()."/";
-        $file->move($path, $file->getClientOriginalName());
-        $original_name = $file->getClientOriginalName();
-        $interest = explode(',', request()->get('interest'));
-        $jobDesc = $this->svc->extract_keywords(request()->get('job_description'));
-        $skills =  $this->svc->extract_keywords(request()->get('skills'));
-        $additionalQuery = array_merge($interest, array_merge($skills, $jobDesc));
-        unlink(realpath($_SERVER["DOCUMENT_ROOT"])."/". $original_name);
-        $results = $this->svc->matchResumeWithSampleData($original_name, $additionalQuery, 1);
-        return view('layouts.results_smart_match', compact('results'));
-    }
-
     public function matchCandidatesWithJobs(Candidate $candidate)
     {
         $file = $candidate->files->first();
@@ -45,7 +30,6 @@ class SmartMatchController extends Controller
             $keywords = array_merge(explode(',', $candidate->summary_keywords), $keywords);
         }
         $results = $this->svc->matchPersonWithJobs($keywords);
-        // return view('layouts.results_smart_match', compact('results'));
         return view('layouts.smart_match_ajax', compact('results'));
     }
 
