@@ -10,7 +10,8 @@ use App\Http\Controllers\Controller;
 
 class TelegramService
 {
-    public function send($array) {
+    public function send($array)
+    {
         $apiToken = "634750556:AAGSwjVz0FjbzQrwoHNtZTxk18-i5WsJWPI";
         $companyArr = array();
         $companies = Company::all();
@@ -46,8 +47,8 @@ class TelegramService
                 'chat_id' => $user_teleid,
                 'text' => $message
                 ];
-           
-            $response = file_get_contents("https://api.telegram.org/bot$apiToken/sendMessage?" . http_build_query($data) );
+
+            $response = file_get_contents("https://api.telegram.org/bot$apiToken/sendMessage?" . http_build_query($data));
         }
     }
 }
