@@ -193,22 +193,23 @@ class ActivityLogService
             $oldDate = $activity->getExtraProperty('old')['date_reminder'];
 
             $company = Company::find($activity->changes()->all()['attributes']['company_id']);
-            if ($action == "created" || ($action == "updated" && $status == $prevStatus && ($title != $oldTitle || $date != $oldDate))) {
-                if ($company != null) {
+            if ($company != null) {
+                if ($action == "created" || ($action == "updated" && $status == $prevStatus && ($title != $oldTitle || $date != $oldDate))) {
                     return $action . " a task for " . $company->name . ".";
-                }
-            } elseif ($action == "updated" && $status != $prevStatus) {
-                if ($status == 0) {
-                    $status = " as an open task";
-                } elseif ($status == 1) {
-                    $status = " as an on-going task";
+                } elseif ($action == "updated" && $status != $prevStatus) {
+                    if ($status == 0) {
+                        $status = " as an open task";
+                    } elseif ($status == 1) {
+                        $status = " as an on-going task";
+                    } else {
+                        $status = " as a closed task";
+                    }
+                    return $action . " " . $company->name . "'s task " . $status . ".";
                 } else {
-                    $status = " as a closed task";
+                    $status = "";
                 }
-                return $action . " " . $company->name . "'s task " . $status . ".";
-            } else {
-                $status = "";
             }
+
         }
         return null;
     }
