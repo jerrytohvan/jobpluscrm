@@ -294,25 +294,14 @@ class ClientController extends Controller
         }
         $tasksByCompany = Task::whereCompanyId($company->id)->get();
         $this->taskSvc->insertCollab($tasksByCompany, $userIds);
-        // $crTasks = Task::whereCompanyId($company->id)->whereUserId(Auth::user()->id)->get();
-        // $aTasks = Task::whereCompanyId($company->id)->whereAssignedId(Auth::user()->id)->get();
-        // $coTasks = Task::whereCompanyId($company->id)->where('collaborator->Auth::user()->id')->get();
-        // if (sizeof($crTasks) > 0) {
-        //     return $crTasks;
-        // } else if (sizeof($aTasks) > 0) {
-        //     return $aTasks;
-        // } else if (sizeof($coTasks) > 0) {
-        //     return $coTasks;
-        // }
-
         return view('layouts.company_view', compact('createdTime', 'updatedTime', 'company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes', 'jobs', 'tasksOpen', 'tasksOnGoing', 'tasksClosed'));
     }
-    public function showCompanyPost(Company $company, $message = null, $status = null)
-    {
-        $accounts = $company->employees;
-        $companyFiles = $company->files;
-        return view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles'));
-    }
+    // public function showCompanyPost(Company $company, $message = null, $status = null)
+    // {
+    //     $accounts = $company->employees;
+    //     $companyFiles = $company->files;
+    //     return view('layouts.company_view', compact('company', 'accounts', 'message', 'status', 'companyFiles'));
+    // }
     public function addNote(Company $company)
     {
         $post = $this->svc->addPost($company, request()->input('body'));
@@ -555,15 +544,4 @@ class ClientController extends Controller
         }
         return $string;
     }
-    // public function filterByIndustry(Request $request)
-    // {
-    //     $industry = $request->input('industry');
-    //     if ($industry == "All") {
-    //         $array = Company::whereClient(1)->orderBy('name', 'asc')->get();
-    //     } else {
-    //         $array = Company::where('industry', $industry)->get();
-    //     }
-    //     $score = $this->svc->getUrgencyScore($array);
-    //     return view('layouts.companies_clients', compact('array', 'score'));
-    // }
 }

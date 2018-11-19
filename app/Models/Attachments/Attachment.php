@@ -13,10 +13,6 @@ class Attachment extends Model
 
     protected static $logAttributes = ["*"];
 
-    public function message()
-    {
-        return $this->belongsTo('App\Models\Messages\Message');
-    }
 
     public function sender()
     {
@@ -26,16 +22,6 @@ class Attachment extends Model
     public function receiver()
     {
         return $this->belongsTo('App\Models\Users\User');
-    }
-
-    public function projectGroup()
-    {
-        return $this->belongsTo('App\Models\ProjectGroups\ProjectGroup');
-    }
-
-    public function event()
-    {
-        return $this->belongsTo('App\Models\Events\Event');
     }
 
     public function resume()
