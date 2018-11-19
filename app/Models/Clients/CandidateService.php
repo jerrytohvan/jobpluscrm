@@ -41,31 +41,6 @@ class CandidateService
         $candidate->save();
         return $candidate;
     }
-    // public function addFileToCompany()
-    // {
-    //     $file = request()->file('file_upload');
-    //     if ($file != null) {
-    //         $path = storage_path()."/app/attachments";
-    //         $original_name = $file->getClientOriginalName();
-    //         $ext = pathinfo($original_name, PATHINFO_EXTENSION);
-    //         $company =  Company::find(request()->input('company_id'));
-    //         //add image & file compressor
-    //         $hashed_name = md5($original_name. time()) . "." . $ext;
-    //         $file->move($path, $hashed_name);
-    //         $storedFile = $this->compSvc->addCompanyFiles($hashed_name, $original_name, $company);
-    //         if ($storedFile != null) {
-    //             $status = 1;
-    //             $message = "File is successfully added!";
-    //             $accounts = $company->employees;
-    //             $companyFiles = $company->files;
-    //             return redirect()->back()->with(['message' => $message, 'status' => $status]);
-    //         }
-    //     }
-    //     $status = 0;
-    //     $message = "Failed to add file";
-    //     return redirect()->back()->with(['message' => $message, 'status' => $status]);
-    // }
-
 
     public function addCandidateFile($array)
     {

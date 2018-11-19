@@ -19,24 +19,12 @@ class Candidate extends Model
     {
         return $this->hasMany('App\Models\Employees\Employee');
     }
-    public function events()
-    {
-        return $this->belongsToMany('App\Models\Events\Event');
-    }
+
     public function company()
     {
         return $this->belongsToMany('App\Models\Clients\Company');
     }
 
-    public function interests()
-    {
-        return $this->hasMany('App\Models\Interests\Interest');
-    }
-
-    public function fields()
-    {
-        return $this->hasMany('App\Models\Fields\Field');
-    }
     public function files()
     {
         return $this->morphMany('App\Models\Attachments\Attachment', 'attachable');

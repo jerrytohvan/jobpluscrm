@@ -37,15 +37,7 @@ class User extends Authenticatable
     /**
      * @return Relationship
      */
-    public function messages()
-    {
-        return $this->hasMany('App\Messages\Message');
-    }
 
-    public function projectGroups()
-    {
-        return $this->belongsToMany('App\Models\ProjectGroups\ProjectGroup');
-    }
 
     public function posts()
     {
