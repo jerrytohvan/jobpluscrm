@@ -412,7 +412,7 @@ html {
                                         <a class="edit btn btn-sm btn-warning">Edit Company Profile</a>
                                      </div>
                                      <br>
-                                     <h5>Company files</h5>
+                                     <h5>Company files <small>(LIMIT 1MB)</small></h5>
                                      <ul class="list-unstyled project_files">
                                         @if(!empty($companyFiles))
                                         @foreach($companyFiles as $file)
@@ -644,7 +644,7 @@ html {
                                 <option value="Inbound Phone Calls">Inbound Phone Calls</option>
                                 <option value="Media Coverage">Media Coverage</option>
                                 <option value="Organic Search">Organic Search</option>
-                                <option value="Other">Other</option>
+                                <option value="Other">Others</option>
                                 <option value="Outbound Sales">Outbound Sales</option>
                                 <option value="Premium Content">Premium Content</option>
                                 <option value="Referrals">Referrals</option>
@@ -727,7 +727,7 @@ html {
                     </div>
                     <div class="modal-footer">
                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                       <button type="button" class="btn btn-primary"  onclick="updateAccountForm();" >Update Account</button>
+                       <button type="button" class="btn btn-primary"  onclick="updateAccountForm();" >Update Contact</button>
                     </div>
                  </div>
                  <!-- /.modal-content -->
@@ -865,7 +865,7 @@ html {
                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span>
                          </label>
                          <div class="col-md-6 col-sm-9 col-xs-12">
-                            <input type="text" name="title" id="title" required="required" class="form-control col-md-7 col-xs-12" data-parsley-required-message="Please enter a title" tabindex="-1">
+                            <input type="text" name="title" id="title" required="required" class="form-control col-md-7 col-xs-12" data-parsley-required-message="Please enter a title">
 
                          </div>
                       </div>
