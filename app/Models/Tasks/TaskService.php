@@ -56,17 +56,6 @@ class TaskService
         }
     }
 
-    // create a reminder
-    public function storeReminder($array)
-    {
-        return Task::Create([
-            'title' => $array['title'],
-            'date_reminder' => $array['date_reminder'],
-            'user_id' => Auth::user()->id,
-            'company_id' => $array['company_id'],
-            'type' => true,
-        ]);
-    }
 
 
 

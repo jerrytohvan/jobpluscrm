@@ -163,10 +163,10 @@ Route::group(['middleware' => ['auth']], function () {
   'uses' => '\App\Models\Clients\ClientController@showCompany'
   ]);
 
-    // Route::post('/view/{company}', [
-    //   'as' => 'view.company',
-    //   'uses' => '\App\Models\Clients\ClientController@showCompanyPost'
-    //   ]);
+    Route::post('/view/{company}', [
+      'as' => 'view.company',
+      'uses' => '\App\Models\Clients\ClientController@showCompanyPost'
+      ]);
 
     Route::post('/note/delete', [
       'as' => 'delete.note',
@@ -319,6 +319,16 @@ Route::group(['middleware' => ['auth']], function () {
       'as' => 'delete.job',
     'uses' => '\App\Models\Jobs\JobController@delete_job'
     ]);
+
+    Route::post('/admin/revoke',[
+      'as' => 'revoke.admin',
+      'uses' => '\App\Http\Controllers\Auth\RegisterController@revokeAdmin'
+    ]);
+
+    Route::post('/admin/promote',[
+      'as' => 'promote.admin',
+      'uses' => '\App\Http\Controllers\Auth\RegisterController@promoteAdmin'
+    ]);
 });
 Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
 // Route::get('/telegram', [
@@ -337,11 +347,11 @@ Route::get('/telegram-send', [
 'uses' => '\App\Models\Chats\TelegramController@send'
 ]);
 
-Route::get('/employees', 'EmployeeController@index');
-Route::get('/employees/{id}', 'EmployeeController@show');
-Route::post('/employees/create', 'EmployeeController@store');
-Route::delete('/employees/{id}', 'EmployeeController@destroy');
-Route::put('/employees/{id}', 'EmployeeController@update');
+Route::get('/employees', 'employeeController@index');
+Route::get('/employees/{id}', 'employeeController@show');
+Route::post('/employees/create', 'employeeController@store');
+Route::delete('/employees/{id}', 'employeeController@destroy');
+Route::put('/employees/{id}', 'employeeController@update');
 Route::get('/projectGroups', 'ProjectGroupsController@index');
 Route::get('/projectGroups/{id}', 'ProjectGroupsController@show');
 Route::post('/projectGroups/create', 'ProjectGroupsController@store');
@@ -391,11 +401,11 @@ Route::post('/likes/create', 'LikesController@store');
 Route::delete('/likes/{like}', 'LikesController@destroy');
 Route::put('/likes/{like}', 'LikesController@update');
 //API
-Route::get('/employees', 'EmployeeController@index');
-Route::get('/employees/{id}', 'EmployeeController@show');
-Route::post('/employees/create', 'EmployeeController@store');
-Route::delete('/employees/{id}', 'EmployeeController@destroy');
-Route::put('/employees/{id}', 'EmployeeController@update');
+Route::get('/employees', 'employeeController@index');
+Route::get('/employees/{id}', 'employeeController@show');
+Route::post('/employees/create', 'employeeController@store');
+Route::delete('/employees/{id}', 'employeeController@destroy');
+Route::put('/employees/{id}', 'employeeController@update');
 Route::get('/projectGroups', 'ProjectGroupsController@index');
 Route::get('/projectGroups/{id}', 'ProjectGroupsController@show');
 Route::post('/projectGroups/create', 'ProjectGroupsController@store');
