@@ -171,8 +171,7 @@ $(window).load(function() {
 
             $xpannel.prepend(
               $('<div class="x_content">' +
-              '<div style="text-align: center; margin-bottom: 17px">' 
-              + '</div>' + '<h3 class="name_title">' + data[0][i].job_title + '</h3>' +
+              '<div style="text-align: center; margin-bottom: 17px">'  + '<h3 class="name_title">' + data[0][i].job_title + '</h3>' +
               '<div class="bs-example" data-example-id="simple-jumbotron"><div class="jumbotron"><h1>' +
                 Math.round(data[1][i]) +
                 '</h1><p>Keyword(s) Matched</p></div></div>'
