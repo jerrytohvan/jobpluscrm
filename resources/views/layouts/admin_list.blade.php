@@ -53,6 +53,12 @@
                               <a onclick="edituser( {{ $user }} )" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i>Edit</a>
                               <a onclick="resetuser( {{ $user }} )" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Reset Password </a>
                               <a onclick="deleteuser( {{ $user }} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                              @if($user->admin == 1)
+                              <a onclick ="revokeuser( {{ $user }} )" class="btn btn-danger btn-xs"><i class="fa fa-close"></i> Revoke </a>
+                              @endif
+                              @if($user->admin ==0)
+                              <a onclick="promoteuser( {{ $user }} )" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i>Promote</a>
+                              @endif
                           </td>
                           </tr>
                           @endforeach
@@ -197,6 +203,58 @@
       <!-- /.modal-dialog -->
 	  </div>
 
+
+
+      <div class="modal fade" tabindex="-1" role="dialog" id="revoke-user">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title">Revoke Admin</h4>
+            </div>
+            <div class="modal-body">
+               {{  Form::open(['route' => 'revoke.admin','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'revoke_form']) }}
+               <p>Are you sure you want to revoke this user? This action cannot be undone.</P>
+               <input type="hidden" id="usid" name="usid" value="">
+
+               {!! Form::close() !!}
+
+               <button type="button" class="btn btn-danger"  onclick="revokeAdmin();" >Confirm Revoke</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+            </div>
+
+         </div>
+         <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+	  </div>
+
+      <div class="modal fade" tabindex="-1" role="dialog" id="promote-user">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title">Promote to Admin</h4>
+            </div>
+            <div class="modal-body">
+               {{  Form::open(['route' => 'promote.admin','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'promote_form']) }}
+               <p>Are you sure you want to promote this user? This action cannot be undone.</P>
+               <input type="hidden" id="paid" name="paid" value="">
+
+               {!! Form::close() !!}
+
+               <button type="button" class="btn btn-primary"  onclick="promoteAdmin();" >Confirm Promote</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+            </div>
+
+         </div>
+         <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+	  </div>
+
     </div>
 
 @endsection
@@ -255,6 +313,16 @@ function deleteuser(user) {
   $('#delete-user').modal('show');
 }
 
+function revokeuser(user) {
+  $('#usid').val(user.id);
+  $('#revoke-user').modal('show');
+}
+
+function promoteuser(user){
+  $('#paid').val(user.id);
+  $('#promote-user').modal('show');
+}
+
 function updateAdmin(){
   $('#account_form').submit();
 }
@@ -267,6 +335,13 @@ function deleteAdmin() {
   $('#delete_form').submit();
 }
 
+function revokeAdmin(){
+  $('#revoke_form').submit();
+}
+
+function promoteAdmin(){
+  $('#promote_form').submit();
+}
 
 $(document).ready(function () {
   $('.ui-pnotify').remove();

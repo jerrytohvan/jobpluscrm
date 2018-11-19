@@ -12,20 +12,9 @@ class Employee extends Model
     protected $guarded = [];
     protected static $logAttributes = ["*"];
 
-
-    public function customer()
-    {
-        return $this->belongsTo('App\Models\Clients\Customer');
-    }
-
     public function candidate()
     {
         return $this->belongsTo('App\Models\Clients\Candidate');
-    }
-
-    public function resume()
-    {
-        return $this->hasOne('App\Models\Resumes\Resume');
     }
 
     public function company()
@@ -33,10 +22,6 @@ class Employee extends Model
         return $this->belongsTo('App\Models\Clients\Company');
     }
 
-    public function events()
-    {
-        return $this->hasMany('App\Models\Events\Event');
-    }
     public function tasks()
     {
         return $this->hasMany('App\Models\Tasks\Task');

@@ -319,6 +319,16 @@ Route::group(['middleware' => ['auth']], function () {
       'as' => 'delete.job',
     'uses' => '\App\Models\Jobs\JobController@delete_job'
     ]);
+
+    Route::post('/admin/revoke',[
+      'as' => 'revoke.admin',
+      'uses' => '\App\Http\Controllers\Auth\RegisterController@revokeAdmin'
+    ]);
+
+    Route::post('/admin/promote',[
+      'as' => 'promote.admin',
+      'uses' => '\App\Http\Controllers\Auth\RegisterController@promoteAdmin'
+    ]);
 });
 Route::get('/tasks/data', '\App\Models\Tasks\TaskController@display');
 // Route::get('/telegram', [

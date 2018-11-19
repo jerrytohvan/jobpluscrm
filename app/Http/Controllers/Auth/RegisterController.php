@@ -219,4 +219,38 @@ class RegisterController extends Controller
             return view('layouts.register', compact('message', 'status'));
         }
     }
+
+    public function promoteAdmin(){
+        $requestArray = request()->all();
+        $id = $requestArray['paid'];
+        $message = "";
+        $status = 1;
+        $user = User::where('id',$id)->first();
+        if($user->admin != true){
+            $user->admin = true;
+            $message = "User has been promoted as an admin";
+            $user->save();
+        }else{
+            $message = "user cannot be promoted to an admin";
+            $status = 0;
+        }
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
+
+    public function revokeAdmin(){
+        $requestArray = request()->all();
+        $id = $requestArray['usid'];
+        $message = "";
+        $status = 1;
+        $user = User::where('id', $id)->first();
+        if($user->admin == true){
+            $message = "user admin access has been revoked";
+            $user->admin = false;
+            $user->save();
+        }else{
+            $message = "user does not have the admin access rights to be revoked";
+            $status = 0;
+        }
+        return redirect()->back()->with(['message' => $message, 'status' => $status]);
+    }
 }
