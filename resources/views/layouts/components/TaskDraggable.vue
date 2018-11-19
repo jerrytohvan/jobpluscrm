@@ -6,21 +6,21 @@
                 <draggable class="drag-area" :list="tasksOpenNew" :options="{animation:200, group:'status'}" :element="'article'" @add="onAdd($event, 0)"  @change="update">
                     <article class="cardOpen" v-for="(task, index) in tasksOpenNew" :key="task.id" :data-id="task.id" >
                       <a class="remove-item" @click="removeItem(task.id,index,0)">x</a>
-                        <header style="font-size:14px;color:#FFFFFF;">
+                        <header style="font-size:14px;color:#222323;">
                             {{ task.title }}
                         </header>
-                        <p style="font-size:8px;color:#FFFFFF;">{{ task.description }}</p>
-                        <p style="font-size:8px;color:#FFFFFF;">{{ task.date_string }}</p>
+                        <p style="font-size:12px;color:#222323;">{{ task.description }}</p>
+                        <p style="font-size:12px;color:#222323;">{{ task.date_string }}</p>
                         <ul class="list-inline">
                           <li v-if="task.assignee != ''">
-                              <p style="font-size:8px;color:#FFFFFF;">Assigned To: {{ task.assignee }}</p>
+                              <p style="font-size:12px;color:#222323;">Assign Consultant: {{ task.assignee }}</p>
                           </li>
                           <li>
-                              <p style="font-size:8px;color:#FFFFFF;">Company: {{ task.company }}</p>
+                              <p style="font-size:12px;color:#222323;">Company: {{ task.company }}</p>
                           </li>
 
                         </ul>
-                        <a onclick="editTask(this)" :data-id="task.id" :data-title="task.title" :data-desc="task.description" :data-date="task.date" :data-company="task.company" :data-assignee="task.assignee" :data-creator="task.creator"  class="btn btn-primary btn-xs edit-item"><i class="fa fa-pencil"></i></a>
+                        <a onclick="editTask(this)" :data-id="task.id" :data-title="task.title" :data-desc="task.description" :data-date="task.date" :data-company="task.company" :data-assignee="task.assignee" :data-creator="task.creator"  class="btn btn-primary btn-xs edit-item">Edit</a>
                     </article>
                 </draggable>
             </section>
@@ -31,20 +31,20 @@
                 <draggable class="drag-area"  :list="tasksOnGoingNew" :options="{animation:200, group:'status'}" :element="'article'" @add="onAdd($event, 1)"  @change="update">
                     <article class="cardInProgress" v-for="(task, index) in tasksOnGoingNew" :key="task.id" :data-id="task.id" >
                       <a class="remove-item" @click="removeItem(task.id, index,1)">x</a>
-                        <header  style="font-size:14px;color:#FFFFFF;">
+                        <header  style="font-size:14px;color:#222323;">
                             {{ task.title }}
                         </header>
-                        <p  style="font-size:8px;color:#FFFFFF;">{{ task.description }}</p>
-                        <p  style="font-size:8px;color:#FFFFFF;">{{ task.date_string }}</p>
+                        <p  style="font-size:12px;color:#222323;">{{ task.description }}</p>
+                        <p  style="font-size:12px;color:#222323;">{{ task.date_string }}</p>
                         <ul class="list-inline">
                           <li v-if="task.assignee != ''">
-                              <p  style="font-size:8px;color:#FFFFFF;">Assigned By: {{ task.assignee }}</p>
+                              <p  style="font-size:12px;color:#222323;">Assign Consultant: {{ task.assignee }}</p>
                           </li>
                           <li>
-                              <p  style="font-size:8px;color:#FFFFFF;">Company: {{ task.company }}</p>
+                              <p  style="font-size:12px;color:#222323;">Company: {{ task.company }}</p>
                           </li>
                         </ul>
-                        <a onclick="editTask(this)" :data-id="task.id" :data-title="task.title" :data-desc="task.description" :data-date="task.date" :data-company="task.company" :data-assignee="task.assignee" :data-creator="task.creator"  class="btn btn-primary btn-xs edit-item"><i class="fa fa-pencil"></i></a>
+                        <a onclick="editTask(this)" :data-id="task.id" :data-title="task.title" :data-desc="task.description" :data-date="task.date" :data-company="task.company" :data-assignee="task.assignee" :data-creator="task.creator"  class="btn btn-primary btn-xs edit-item">Edit</a>
                     </article>
                 </draggable>
             </section>
@@ -55,20 +55,20 @@
                 <draggable class="drag-area"  :list="tasksClosedNew" :options="{animation:200, group:'status'}" :element="'article'" @add="onAdd($event, 2)"  @change="update">
                     <article class="cardClosed" v-for="(task, index) in tasksClosedNew" :key="task.id" :data-id="task.id">
                       <a class="remove-item" @click="removeItem(task.id, index,2)">x</a>
-                        <header style="font-size:14px;color:#FFFFFF;">
+                        <header style="font-size:14px;color:#222323;">
                             {{ task.title }}
                         </header>
-                        <p style="font-size:8px;color:#FFFFFF;">{{ task.description }}</p>
-                        <p style="font-size:8px;color:#FFFFFF;">{{ task.date_string }}</p>
+                        <p style="font-size:12px;color:#222323;">{{ task.description }}</p>
+                        <p style="font-size:12px;color:#222323;">{{ task.date_string }}</p>
                         <ul class="list-inline">
                           <li v-if="task.assignee != ''">
-                              <p  style="font-size:8px;color:#FFFFFF;">Assigned By: {{ task.assignee }}</p>
+                              <p  style="font-size:12px;color:#222323;">Assign Consultant: {{ task.assignee }}</p>
                           </li>
                           <li>
-                              <p  style="font-size:8px;color:#FFFFFF;">Company: {{ task.company }}</p>
+                              <p  style="font-size:12px;color:#222323;">Company: {{ task.company }}</p>
                           </li>
                         </ul>
-                        <a onclick="editTask(this)" :data-id="task.id" :data-title="task.title" :data-desc="task.description" :data-date="task.date" :data-company="task.company" :data-assignee="task.assignee" :data-creator="task.creator"  class="btn btn-primary btn-xs edit-item"><i class="fa fa-pencil"></i></a>
+                        <a onclick="editTask(this)" :data-id="task.id" :data-title="task.title" :data-desc="task.description" :data-date="task.date" :data-company="task.company" :data-assignee="task.assignee" :data-creator="task.creator"  class="btn btn-primary btn-xs edit-item">Edit</a>
                     </article>
                 </draggable>
             </section>
@@ -187,7 +187,7 @@
 
 <style>
   .list {
-    background-color: #354751;
+    background-color: #25192B;
     border-radius: 3px;
     margin: 5px 5px;
     padding: 10px;
@@ -216,8 +216,8 @@
   }
 
   .list .cardInProgress {
-    background-color: #E6CB92;
-    border-bottom: 1px solid #CCC;
+    background-color: #F6F6F2;
+    border-bottom: 1px solid #C6C7C1;
     padding: 15px 10px;
     cursor: pointer;
     font-size: 16px;
@@ -225,8 +225,8 @@
   }
 
   .list .cardClosed {
-    background-color: #B5C385;
-    border-bottom: 1px solid #CCC;
+    background-color: #F6F6F2;
+    border-bottom: 1px solid #C6C7C1;
     padding: 15px 10px;
     cursor: pointer;
     font-size: 16px;
@@ -234,8 +234,8 @@
   }
 
   .list .cardOpen {
-    background-color: #87C3B9;
-    border-bottom: 1px solid #CCC;
+    background-color: #F6F6F2;
+    border-bottom: 1px solid #C6C7C1;
     padding: 15px 10px;
     cursor: pointer;
     font-size: 16px;
@@ -265,7 +265,7 @@
   }
 
   .edit-item {
-    margin-left: 90%;
+    margin-left: 85%;
     background: #32213A;
     color: white;
     opacity: 0.5;
@@ -273,10 +273,9 @@
   }
 
   .edit-item:hover {
-    margin-left: 90%;
-    background: #32213A;
-
-    color: #CA3C25;
+    margin-left: 85%;
+    background: #CDC8D2;
+    color: white;
     opacity: 1;
   }
 </style>
