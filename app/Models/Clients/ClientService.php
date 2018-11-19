@@ -46,32 +46,35 @@ class ClientService
     }
     public function getAllClients()
     {
-        return Company::whereClient(1)->orderBy('name', 'asc')->take(1000)->get();
+        return Company::whereClient(1)->orderBy('name', 'asc')->get();
     }
 
     public function getAllLeads()
     {
-        return Company::whereClient(0)->orderBy('name', 'asc')->take(1000)->get();
+        return Company::whereClient(0)->orderBy('name', 'asc')->get();
     }
-    public function getSpecificUserCompany(){
-         return Company::whereUserId(Auth::user()->id)->orderBy('name','asc')->get();
+    public function getSpecificUserCompany()
+    {
+        return Company::whereUserId(Auth::user()->id)->orderBy('name', 'asc')->get();
     }
 
-    public function getSpecificUserClients(){
+    public function getSpecificUserClients()
+    {
         $userCompanyIds = UserCompany::whereUserId(Auth::user()->id)->pluck('company_id')->toArray();
         $ids = Company::whereUserId(Auth::user()->id)->whereClient(1)->pluck('id')->toArray();
         $assignedIds = Task::whereAssignedId(Auth::user()->id)->pluck('company_id')->toArray();
-        $mergedIds = array_merge($userCompanyIds,$ids,$assignedIds);
-        
-        return Company::whereIn('id',$mergedIds)->whereClient(1)->orderBy('name', 'asc')->take(1000)->get();
+        $mergedIds = array_merge($userCompanyIds, $ids, $assignedIds);
+
+        return Company::whereIn('id', $mergedIds)->whereClient(1)->orderBy('name', 'asc')->get();
     }
 
-    public function getSpecificUserLeads(){
+    public function getSpecificUserLeads()
+    {
         $userCompanyIds = UserCompany::whereUserId(Auth::user()->id)->pluck('company_id')->toArray();
         $ids = Company::whereUserId(Auth::user()->id)->whereClient(0)->pluck('id')->toArray();
         $assignedIds = Task::whereAssignedId(Auth::user()->id)->pluck('company_id')->toArray();
-        $mergedIds = array_merge($userCompanyIds,$ids,$assignedIds);
-        return Company::whereIn('id',$mergedIds)->whereClient(0)->orderBy('name', 'asc')->take(1000)->get();
+        $mergedIds = array_merge($userCompanyIds, $ids, $assignedIds);
+        return Company::whereIn('id', $mergedIds)->whereClient(0)->orderBy('name', 'asc')->get();
     }
 
     /**
@@ -101,7 +104,6 @@ class ClientService
     public function updateCompanyProfile(Company $company, $array)
     {
         foreach ($array as $key => $value) {
-            
             $company->$key = $value;
         }
         $company->save();
@@ -140,7 +142,8 @@ class ClientService
         return $comment;
     }
 
-    public function getAllEmployees($array, $allEmployees) {
+    public function getAllEmployees($array, $allEmployees)
+    {
         $employeesArray = array();
 
         foreach ($allEmployees as $employee) {
@@ -159,7 +162,8 @@ class ClientService
         return $employeesArray;
     }
 
-    public function getUrgency($array, $alltasks) {
+    public function getUrgency($array, $alltasks)
+    {
         $sizeArray = array('0'=>0.6, '1-5'=>0.5, '6-20'=>0.4, '21-100'=>0.3, '101-500'=>0.2, '>501'=>0.1);
 
         $tasksArray = array();
@@ -186,7 +190,7 @@ class ClientService
             }
         }
         asort($tasksArray);
-        
+
         $urgencyArray = array();
         foreach ($tasksArray as $id=>$res) {
             if ($res < 1) {
@@ -259,19 +263,18 @@ class ClientService
         }
         return $updateArray;
     }
-    
-    public function getAllCollaborators($array) {
 
+    public function getAllCollaborators($array)
+    {
         $allCollaborators = array();
 
         $userCompany = UserCompany::join('users', 'users.id', '=', 'user_id')->get();
-        
+
         $i = 0;
         foreach ($array as $company) {
             $company_id = $company['id'];
-            
+
             foreach ($userCompany as $user) {
-               
                 $cid = $user['company_id'];
                 if ($cid == $company_id) {
                     $name = $user['name'];
@@ -280,7 +283,7 @@ class ClientService
                     if (!empty($url['scheme'])) {
                         $profilePic = $profile;
                     } else {
-                        $profilePic = 'https://jobplusplus.s3.amazonaws.com/' . $user['profile_pic'];
+                        $profilePic = 'https://s3.' . env('AWS_DEFAULT_REGION') . '.amazonaws.com/' . env('AWS_BUCKET') . '/' . $user['profile_pic'];
                     }
                     $array = array($company_id, $name, $profilePic);
                     $allCollaborators[$i] = $array;
@@ -301,7 +304,7 @@ class ClientService
     //     $now = Carbon::now()->format('Y-m-d 00:00:00');
 
     //     $alltasks = Task::all();
-        
+
     //     foreach ($array as $company) {
     //         $score = 0;
 
@@ -320,7 +323,7 @@ class ClientService
     //                 }
     //             }
     //         }
-            
+
     //         $score = ($companySize * 0.2) + ($numTasks * 0.3) + ($weekTasks * 0.5);
     //         $scoreArray[$companyID] = $score;
     //     }

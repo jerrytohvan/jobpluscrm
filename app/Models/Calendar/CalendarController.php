@@ -18,7 +18,7 @@ class CalendarController extends Controller
     public function index()
     {
         $tasks = Task::all()->sortBy('created_at');
-        return view('layouts.index_calendar',compact('tasks'));
+        return view('layouts.index_calendar', compact('tasks'));
     }
 
     public function add_new_event(Request $request)
@@ -38,10 +38,10 @@ class CalendarController extends Controller
     }
 
     public function removeTask($task_id)
-  {
-      $task = Task::where('id', $task_id)->first();
-      $message = "Task deleted";
-      $task->delete();
-      return redirect()->route('layouts.index_calendar')->with(['message']);
-  }
+    {
+        $task = Task::where('id', $task_id)->first();
+        $message = "Task deleted";
+        $task->delete();
+        return redirect()->route('layouts.index_calendar')->with(['message']);
+    }
 }

@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Faker\Factory;
 use App\Models\Employees\Employee;
-use App\Models\Employees\employeeService;
+use App\Models\Employees\EmployeeService;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -17,7 +17,7 @@ class EmployeeServiceTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->svc = app(employeeService::class);
+        $this->svc = app(EmployeeService::class);
         $this->employee = factory(Employee::class)->create();
         // dd($this->user);
         $this->faker = \Faker\Factory::create();
