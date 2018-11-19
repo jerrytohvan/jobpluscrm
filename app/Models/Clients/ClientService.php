@@ -164,45 +164,54 @@ class ClientService
 
     public function getUrgency($array, $alltasks)
     {
-        $sizeArray = array('0'=>0.6, '1-5'=>0.5, '6-20'=>0.4, '21-100'=>0.3, '101-500'=>0.2, '>501'=>0.1);
-
+        $sizeArray = array('0'=>0, '1-5'=>1, '6-20'=>2, '21-100'=>3, '101-500'=>4, '>501'=>5);
         $tasksArray = array();
 
-        foreach ($alltasks as $task) {
+       //Get the oldest duedate
+       foreach ($alltasks as $task) {
             $company_id = $task['company_id'];
             $duedate = $task['date_reminder'];
-            if (!isset($tasksArray[$company_id]) || strtotime($duedate) <= $tasksArray[$company_id]) {
-                $tasksArray[$company_id] = strtotime($duedate);
+            if (!isset($tasksArray[$company_id]['duedate']) || strtotime($duedate) <= $tasksArray[$company_id]['duedate']) {
+                $tasksArray[$company_id]['duedate'] = strtotime($duedate);
+                $tasksArray[$company_id]['date'] = $duedate;
             }
         }
 
         foreach ($array as $company) {
             $id = $company['id'];
+            $tasksArray[$id]['id'] = $id;
+            if (!isset($tasksArray[$id]['duedate'])) {
+                $tasksArray[$id]['duedate'] = 10000000000;
+            }
+            if (!isset($tasksArray[$id]['date'])) {
+                $tasksArray[$id]['date'] = "None";
+            }
+        }
+
+        //Get size of company
+        foreach ($array as $company) {
+            $id = $company['id'];
             $companySize = $company['no_employees'];
             if ($companySize == null) {
-                $companySize = 0;
-            }
-            if (!isset($tasksArray[$id])) {
-                $tasksArray[$id] = $sizeArray[$companySize];
+                $tasksArray[$id]['size'] = 0;
             } else {
-                $date = $tasksArray[$id];
-                $tasksArray[$id] = $date + $sizeArray[$companySize];
+                $tasksArray[$id]['size'] = $sizeArray[$companySize];
             }
         }
-        asort($tasksArray);
 
-        $urgencyArray = array();
-        foreach ($tasksArray as $id=>$res) {
-            if ($res < 1) {
-                $urgencyArray[$id] = "None";
-            } else {
-                $date = date('Y-m-d', $res);
-                $decimal = $res - (int) $res;
-                $dec = round($decimal, 2);
-                $urgencyArray[$id] = $date . " " . $dec;
-            }
+        //Get number of closed tasks
+        foreach ($array as $company) {
+            $id = $company['id'];
+            $closedTasks = Task::whereCompanyId($id)->where('status', '=', 2)->count();
+            $tasksArray[$id]['closedTasks'] = $closedTasks;
         }
-        return $urgencyArray;
+
+        array_multisort(array_column($tasksArray, 'duedate'), SORT_ASC,
+                        array_column($tasksArray,  'size'), SORT_DESC,
+                        array_column($tasksArray, 'closedTasks'), SORT_DESC, $tasksArray);
+     
+
+        return $tasksArray;
     }
 
     public function getLastUpdate($array, $employees, $tasks)
