@@ -167,7 +167,7 @@ class ClientController extends Controller
         ]);
 
         if ($this->svc->addAccount(request()->all())) {
-            $message = "Account successfully added!";
+            $message = "Contact successfully added!";
             $status = 1;
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
@@ -211,10 +211,10 @@ class ClientController extends Controller
         $employee_id = $requestArray['contact_id'];
         $employee = Employee::find($employee_id);
         if ($employee->delete()) {
-            $message = "Employee successfully removed!";
+            $message = "Contact successfully removed!";
             $status = 1;
         } else {
-            $message = "Failed to remove account!";
+            $message = "Failed to remove contact!";
             $status = 0;
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);

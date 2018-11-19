@@ -180,7 +180,7 @@
                       <option value="Inbound Phone Calls">Inbound Phone Calls</option>
                       <option value="Media Coverage">Media Coverage</option>
                       <option value="Organic Search">Organic Search</option>
-                      <option value="Other">Other</option>
+                      <option value="Others">Others</option>
                       <option value="Outbound Sales">Outbound Sales</option>
                       <option value="Premium Content">Premium Content</option>
                       <option value="Referrals">Referrals</option>
