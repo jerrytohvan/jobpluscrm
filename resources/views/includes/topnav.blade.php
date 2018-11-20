@@ -73,7 +73,7 @@
 
          <div class="compose-header">
    New Message
-  
+
  </div>
 
  <div class="compose-body">
@@ -203,6 +203,8 @@
 
       @push('scripts')
       <script>
+      $('#editor').cleanHtml();
+
       $(function() {
           $('#submit-email').on("submit",function(e) {
               $('#emailMessage').val($('#editor').text());
