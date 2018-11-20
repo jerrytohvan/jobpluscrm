@@ -38,7 +38,7 @@ class MailController extends Controller
         }
         //format the message content into HTML
         $emailContent = $arraReq['emailMessage'];
-        $formatMsg = nl2br($emailContent,xhtml);
+        $formatMsg = nl2br($emailContent);
 
         // email data packet
         $data = array(
