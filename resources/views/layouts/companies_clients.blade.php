@@ -85,11 +85,13 @@
                                   </td>
 
                                   @foreach ($urgency as $result)
-                                    @if ($result['id'] == $data->id)
+                                      @if (in_array($data->id,$result))
                                       <td>
                                         {{ $result['date'] }}
                                       </td>
                                     @endif
+                                    <td>
+                                    </td>
                                   @endforeach
 
                                   @foreach ($lastUpdate as $companyId=>$thisUpdate)
