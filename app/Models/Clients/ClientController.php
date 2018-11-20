@@ -78,7 +78,7 @@ class ClientController extends Controller
     {
         $employees = Employee::all();
         if (Auth::user()->admin == true) {
-            $tasks = Task::all();
+            $tasks = Task::where('status','<',2)->get();
             $array = $this->svc->getAllClients();
             $allEmployees = $this->svc->getAllEmployees($array, $employees);
             $urgency = $this->svc->getUrgency($array, $tasks);
@@ -86,7 +86,7 @@ class ClientController extends Controller
             $allCollaborators = $this->svc->getAllCollaborators($array);
             return view('layouts.companies_clients', compact('status', 'array', 'allEmployees', 'urgency', 'lastUpdate', 'allCollaborators'));
         } else {
-            $tasks = Task::where('user_id', Auth::user()->id)->get();
+            $tasks = Task::where('user_id', Auth::user()->id)->where('status','<',2)->get();
             $array = $this->svc->getSpecificUserClients();
             $allEmployees = $this->svc->getAllEmployees($array, $employees);
             $urgency = $this->svc->getUrgency($array, $tasks);
