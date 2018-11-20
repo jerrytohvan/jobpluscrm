@@ -1,59 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#notfound {
+  position: relative;
+  height: 100vh;
+}
+
+#notfound .notfound {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.notfound {
+  max-width: 460px;
+  width: 100%;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.notfound .notfound-404 {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin: 0px auto 50px;
+}
+
+.notfound .notfound-404>div:first-child {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: #ffa200;
+  -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+          transform: rotate(45deg);
+  border: 5px dashed #000;
+  border-radius: 5px;
+}
+
+.notfound .notfound-404>div:first-child:before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  top: -5px;
+  -webkit-box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.1) inset;
+          box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.1) inset;
+  border-radius: 5px;
+}
+
+.notfound .notfound-404 h1 {
+  font-family: 'Cabin', sans-serif;
+  color: #000;
+  font-weight: 700;
+  margin: 0;
+  font-size: 90px;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  left: 50%;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+}
+
+.notfound h2 {
+  font-family: 'Cabin', sans-serif;
+  font-size: 33px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 7px;
+}
+
+.notfound p {
+  font-family: 'Cabin', sans-serif;
+  font-size: 16px;
+  color: #000;
+  font-weight: 400;
+}
+
+.notfound a {
+  font-family: 'Cabin', sans-serif;
+  display: inline-block;
+  padding: 10px 25px;
+  background-color: #8f8f8f;
+  border: none;
+  border-radius: 40px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+  -webkit-transition: 0.2s all;
+  transition: 0.2s all;
+}
+
+.notfound a:hover {
+  background-color: #2c2c2c;
+}
+
+</style>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Job Plus Plus! | </title>
+	<title>JobPlusPlus - Page Not Found!</title>
 
-    <!-- Bootstrap -->
-    <link href="{{ asset("css/bootstrap.min.css") }}" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="{{ asset("css/font-awesome.min.css") }}" rel="stylesheet">
-    <!-- Custom Theme Style -->
-    <link href="{{ asset("css/gentelella.min.css") }}" rel="stylesheet">
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Cabin:400,700" rel="stylesheet">
+
 </head>
 
-<body class="nav-md">
-<div class="container body">
-    <div class="main_container">
-        <!-- page content -->
-        <div class="col-md-12">
-            <div class="col-middle">
-                <div class="text-center text-center">
-                    <h1 class="error-number">404</h1>
-                    <h2>Sorry but we couldn't find this page</h2>
-                    <p>This page you are looking for does not exist <a href="#">Report this?</a>
-                    </p>
-                    <div class="mid_center">
-                        <h3>Search</h3>
-                        <form>
-                            <div class="col-xs-12 form-group pull-right top_search">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search for...">
-                                    <span class="input-group-btn">
-                              <button class="btn btn-default" type="button">Go!</button>
-                          </span>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /page content -->
-    </div>
-</div>
+<body>
 
-<!-- jQuery -->
-<script src="{{ asset("js/jquery.min.js") }}"></script>
-<!-- Bootstrap -->
-<script src="{{ asset("js/bootstrap.min.js") }}"></script>
-<!-- Custom Theme Scripts -->
-<script src="{{ asset("js/gentelella.min.js") }}"></script>
+	<div id="notfound">
+		<div class="notfound">
+			<div class="notfound-404">
+				<div></div>
+				<h1>404</h1>
+			</div>
+			<h2>Page not found</h2>
+			<p>The page you are looking for might have been removed had its name changed or is temporarily unavailable.</p>
+			<a href="/">home page</a>
+		</div>
+	</div>
 
 </body>
+
 </html>

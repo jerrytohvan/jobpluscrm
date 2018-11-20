@@ -124,11 +124,19 @@ class TaskController extends Controller
         $task = Task::find(request()->input('task_id'));
         if ($task!=null) {
             $mod_date = date('Y-m-d H:i:s', strtotime(request()->input('date')));
-            $task->update([
+
+            if (!empty(request()->input('consultant'))) {
+                $task->update([
             'title' => request()->input('title'),
             'date_reminder' =>  $mod_date,
             'assigned_id' => !empty(request()->input('consultant')) ? request()->input('consultant') : null
           ]);
+            } else {
+                $task->update([
+          'title' => request()->input('title'),
+          'date_reminder' =>  $mod_date
+        ]);
+            }
             $task->save();
             $message = "Task succesfully updated!";
             $status = 1;
