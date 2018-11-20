@@ -66,7 +66,8 @@ class MailController extends Controller
                       );
             }
             // text of the actual email
-            $message->setBody($data['emailMessage']);
+            $text = nl2br(str_replace('  ', ' &nbsp;', htmlspecialchars($data['emailMessage'])));          
+            $message->setBody($text);
         });
 
         //error_log(print_r("sent", true));
