@@ -83,15 +83,14 @@
                                       <a href="{{ route('view.company', ['company' => $data->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View / Edit </a>
                                       <a onclick="deleteClient( {{ $data->id}} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
                                   </td>
+
                                   @foreach ($urgency as $result)
-                                  @if(in_array($data->id,$result,TRUE))
+                                      @if ($result['id'] == $data->id && $result['id'] != null)
                                       <td>
                                         {{ $result['date'] }}
                                       </td>
                                     @endif
                                   @endforeach
-
-
 
                                   @foreach ($lastUpdate as $companyId=>$thisUpdate)
                                     @if ($companyId == $data->id)
