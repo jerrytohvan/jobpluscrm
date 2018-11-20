@@ -159,15 +159,6 @@ $(window).load(function() {
             var $wrapper = $('<div class="col-md-12 col-sm-12 col-xs-12 widget_tally_box">');
             var $xpannel = $('<div class="x_panel ui-ribbon-container">');
             var $ribbon = $('<div class="ui-ribbon-wrapper">');
-            // $ribbon.prepend($('<div class="ui-ribbon">'+ Math.round(data[1][i].reduce((a, b) => a + b, 0)) +' Points</div>'));
-
-            // <div class="bs-example" data-example-id="simple-jumbotron">
-            //       <div class="jumbotron">
-            //         <h1>Number</h1>
-            //         <p>Keyword(s) Matched</p>
-            //       </div>
-            //     </div>
-            // '<span class="chart" data-percent="' + Math.round(data[2][i]) + '"><span class="percent">' + Math.round(data[2][i]) + '</span></span>'
 
             $xpannel.prepend(
               $('<div class="x_content">' +
@@ -178,7 +169,7 @@ $(window).load(function() {
               +
               '<p>' + data[0][i].industry + '</p>'
              + '<div class="divider"></div>' +
-             '<h4 class="name_title">Job Description</h4><br/>'+
+             '<h4 class="name_title">Job Description</h4><br/>'
               + '<p>' + data[0][i].job_description+ '</p>' + '<div class="divider"></div>' + '<h4 class="name_title">Job Skills</h4><br/><p>'
              + data[0][i].skills+ '</p>' + '<div class="divider"></div><h4 class="name_title">Resume Skills Keyword(s) matched</h4><br/>' + '<p>'  + blkstr.join(", ") + '</p>' + '</div>'));
              $xpannel.prepend($('<div class="x_title">' + '<h2>#' + (count+1) + '</h2>' + '<div class="clearfix"></div>' + '</div>'));
