@@ -203,7 +203,12 @@ class ClientService
         foreach ($array as $company) {
             $id = $company['id'];
             $closedTasks = Task::whereCompanyId($id)->where('status', '=', 2)->count();
-            $tasksArray[$id]['closedTasks'] = $closedTasks;
+            if ($closedTasks == null) {
+                $tasksArray[$id]['closedTasks'] = 0;
+            } else {
+                $tasksArray[$id]['closedTasks'] = $closedTasks;
+            }
+            
         }
 
         array_multisort(array_column($tasksArray, 'duedate'), SORT_ASC,
