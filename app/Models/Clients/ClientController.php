@@ -77,8 +77,8 @@ class ClientController extends Controller
     public function index_companies_clients()
     {
         $employees = Employee::all();
-        $tasks = Task::where('user_id', Auth::user()->id)->get();
         if (Auth::user()->admin == true) {
+			$tasks = Task::all();
             $array = $this->svc->getAllClients();
             $allEmployees = $this->svc->getAllEmployees($array, $employees);
             // $score = $this->svc->getUrgencyScore($array);
@@ -87,6 +87,7 @@ class ClientController extends Controller
             $allCollaborators = $this->svc->getAllCollaborators($array);
             return view('layouts.companies_clients', compact('status', 'companies', 'array', 'allEmployees', 'urgency', 'lastUpdate', 'allCollaborators'));
         } else {
+			$tasks = Task::where('user_id', Auth::user()->id)->get();
             $array = $this->svc->getSpecificUserClients();
             $allEmployees = $this->svc->getAllEmployees($array, $employees);
             $urgency = $this->svc->getUrgency($array, $tasks);
