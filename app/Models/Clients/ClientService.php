@@ -3,17 +3,13 @@
 namespace App\Models\Clients;
 
 use App\Models\Clients\Company;
-use App\Models\Employees\Employee;
 use App\Models\Comments\Comment;
+use App\Models\Employees\Employee;
 use App\Models\Posts\Post;
 use App\Models\Tasks\Task;
-use App\Models\Users\UserCompany;
 use App\Models\Users\User;
-use Carbon\Carbon;
-
+use App\Models\Users\UserCompany;
 use Illuminate\Support\Facades\Auth;
-
-use Illuminate\Http\Request;
 
 class ClientService
 {
@@ -26,19 +22,19 @@ class ClientService
     public function addCompany($array)
     {
         return Company::create([
-      'name' => $array['company_name'],
-        'address' => $array['address'],
-        'email' => $array['company_email'],
-      'telephone_no' => $array['telephone'],
-      'client' => $array['client'],
-      'website' => $array['website'],
-      'no_employees' => $array['no_employees'] == "" ? 0 :$array['no_employees'],
-      'industry' => $array['industry'],
-      'lead_source' => $array['lead_source'],
-      'description' => $array['description'],
-      'user_id' => Auth::user()->id,
-      'uen' => $array['uen']
-      ]);
+            'name' => $array['company_name'],
+            'address' => $array['address'],
+            'email' => $array['company_email'],
+            'telephone_no' => $array['telephone'],
+            'client' => $array['client'],
+            'website' => $array['website'],
+            'no_employees' => $array['no_employees'] == "" ? 0 : $array['no_employees'],
+            'industry' => $array['industry'],
+            'lead_source' => $array['lead_source'],
+            'description' => $array['description'],
+            'user_id' => Auth::user()->id,
+            'uen' => $array['uen'],
+        ]);
     }
     public function getAllCompany()
     {
@@ -86,12 +82,12 @@ class ClientService
     public function addAccount($array)
     {
         return Employee::create([
-        'name' => $array['name'],
-        'email' => $array['email'],
-        'title' => $array['title'],
-        'handphone' => $array['handphone'],
-        'telephone' => $array['telephone'],
-        'company_id' => $array['company_id']
+            'name' => $array['name'],
+            'email' => $array['email'],
+            'title' => $array['title'],
+            'handphone' => $array['handphone'],
+            'telephone' => $array['telephone'],
+            'company_id' => $array['company_id'],
         ]);
     }
 
@@ -123,8 +119,8 @@ class ClientService
     public function leadToClient(Company $company)
     {
         $company->update([
-      'client' => 1,
-      ]);
+            'client' => 1,
+        ]);
         $company->save();
         return $company;
     }
@@ -132,7 +128,7 @@ class ClientService
     public function addPost($company, $content)
     {
         $post = new Post([
-          'content' => $content
+            'content' => $content,
         ]);
         if (Auth::user()->comments()->save($post)) {
             $company->posts()->save($post);
@@ -164,11 +160,11 @@ class ClientService
 
     public function getUrgency($array, $alltasks)
     {
-        $sizeArray = array('0'=>0, '1-5'=>1, '6-20'=>2, '21-100'=>3, '101-500'=>4, '>501'=>5);
+        $sizeArray = array('0' => 0, '1-5' => 1, '6-20' => 2, '21-100' => 3, '101-500' => 4, '>501' => 5);
         $tasksArray = array();
 
-       //Get the oldest duedate
-       foreach ($alltasks as $task) {
+        //Get the oldest duedate
+        foreach ($alltasks as $task) {
             $company_id = $task['company_id'];
             $duedate = $task['date_reminder'];
             if (!isset($tasksArray[$company_id]['duedate']) || strtotime($duedate) <= $tasksArray[$company_id]['duedate']) {
@@ -201,20 +197,35 @@ class ClientService
 
         //Get number of closed tasks
         foreach ($array as $company) {
+            $iniArray =array();
             $id = $company['id'];
-            $closedTasks = Task::whereCompanyId($id)->where('status', '=', 2)->count();
-            if ($closedTasks == null) {
-                $tasksArray[$id]['closedTasks'] = 0;
-            } else {
-                $tasksArray[$id]['closedTasks'] = $closedTasks;
+            $closedTasks = Task::where('status','=',2)->get();
+            foreach($closedTasks as $closed){
+                array_push($iniArray,$closed);
             }
-            
-        }
+            if ($closedTasks == null || sizeof($closedTasks) <= 0) {
+                array_multisort(array_column($tasksArray, 'duedate'), SORT_ASC,
+                        array_column($tasksArray,  'size'), SORT_DESC);
 
-        array_multisort(array_column($tasksArray, 'duedate'), SORT_ASC,
-                        array_column($tasksArray,  'size'), SORT_DESC,
-                        array_column($tasksArray, 'closedTasks'), SORT_DESC, $tasksArray);
-     
+            } else {
+                    if(sizeof($tasksArray) > sizeof($closedTasks)){
+                        $diff = sizeof($tasksArray) - sizeof($closedTasks);
+                        for($x = 0; $x < $diff; $x++){
+                            
+                             array_push($iniArray,"");
+                        }
+                        array_multisort($tasksArray,$iniArray);
+                        $iniArray = array();
+                    }else{
+                        $diff = sizeof($closedTasks) - sizeof($tasksArray);
+                        for($x = 0; $x < $diff; $x++){
+                            array_push($tasksArray,"");
+                        }
+                        array_multisort($tasksArray,$iniArray);
+                        $iniArray = array();
+                    }
+            }
+        }
 
         return $tasksArray;
     }
@@ -309,38 +320,38 @@ class ClientService
     }
 }
 
-    // //Improved version
-    // public function getUrgencyScore($array)
-    // {
-    //     $scoreArray = array();
+// //Improved version
+// public function getUrgencyScore($array)
+// {
+//     $scoreArray = array();
 
-    //     $oneweek = Carbon::now()->addDays(7)->format('Y-m-d 00:00:00');
-    //     $now = Carbon::now()->format('Y-m-d 00:00:00');
+//     $oneweek = Carbon::now()->addDays(7)->format('Y-m-d 00:00:00');
+//     $now = Carbon::now()->format('Y-m-d 00:00:00');
 
-    //     $alltasks = Task::all();
+//     $alltasks = Task::all();
 
-    //     foreach ($array as $company) {
-    //         $score = 0;
+//     foreach ($array as $company) {
+//         $score = 0;
 
-    //         $companyID = $company['id'];
-    //         $companySize = $company['no_employees'];
+//         $companyID = $company['id'];
+//         $companySize = $company['no_employees'];
 
-    //         $numTasks = 0;
-    //         $weekTasks = 0;
-    //         foreach ($alltasks as $thistask) {
-    //             $task_company = $thistask['company_id'];
-    //             if ($task_company == $companyID) {
-    //                 $numTasks = $numTasks + 1;
-    //                 $date_reminder = strtotime($thistask['date_reminder']);
-    //                 if ($date_reminder >= strtotime($now) && $date_reminder <= strtotime($oneweek)) {
-    //                     $weekTasks = $weekTasks + 1;
-    //                 }
-    //             }
-    //         }
+//         $numTasks = 0;
+//         $weekTasks = 0;
+//         foreach ($alltasks as $thistask) {
+//             $task_company = $thistask['company_id'];
+//             if ($task_company == $companyID) {
+//                 $numTasks = $numTasks + 1;
+//                 $date_reminder = strtotime($thistask['date_reminder']);
+//                 if ($date_reminder >= strtotime($now) && $date_reminder <= strtotime($oneweek)) {
+//                     $weekTasks = $weekTasks + 1;
+//                 }
+//             }
+//         }
 
-    //         $score = ($companySize * 0.2) + ($numTasks * 0.3) + ($weekTasks * 0.5);
-    //         $scoreArray[$companyID] = $score;
-    //     }
-    //     asort($scoreArray);
-    //     return $scoreArray;
-    // }
+//         $score = ($companySize * 0.2) + ($numTasks * 0.3) + ($weekTasks * 0.5);
+//         $scoreArray[$companyID] = $score;
+//     }
+//     asort($scoreArray);
+//     return $scoreArray;
+// }

@@ -1011,6 +1011,8 @@ html {
                                       @foreach($users as $user)
                                           <option value="{{ $user->id }}">{{ $user->name }}</option>
                                       @endforeach
+                                      <option value="">No user assigned</option>
+
                                     </select>
                                   </div>
                                 </div>
@@ -1339,7 +1341,9 @@ $(document).ready(function () {
       var task_id = e.getAttribute('data-id');
       var task_title = e.getAttribute('data-title');
       var task_desc = e.getAttribute('data-desc');
-      var task_date = e.getAttribute('data-date');
+      var task_date = new Date(e.getAttribute('data-date'));
+      task_date.setDate(task_date.getDate() + 1);
+
       var task_company = e.getAttribute('data-company');
       var task_assignee = e.getAttribute('data-assignee');
       var task_creator = e.getAttribute('data-creator');
@@ -1349,7 +1353,7 @@ $(document).ready(function () {
       $('#updateTask').find('input[name=company]').val(task_company);
       $('#updateTask').find('input[name=description]').val(task_desc);
 
-      document.getElementById("task_date").valueAsDate = new Date(task_date);
+      document.getElementById("task_date").valueAsDate = task_date;
 
       if(task_assignee === ""){
         document.getElementById("assigned_user").value = '0';

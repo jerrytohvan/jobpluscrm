@@ -78,22 +78,21 @@ class ClientController extends Controller
     {
         $employees = Employee::all();
         if (Auth::user()->admin == true) {
-			$tasks = Task::all();
+            $tasks = Task::where('status','<',2)->get();
             $array = $this->svc->getAllClients();
             $allEmployees = $this->svc->getAllEmployees($array, $employees);
-            // $score = $this->svc->getUrgencyScore($array);
             $urgency = $this->svc->getUrgency($array, $tasks);
             $lastUpdate = $this->svc->getLastUpdate($array, $employees, $tasks);
             $allCollaborators = $this->svc->getAllCollaborators($array);
-            return view('layouts.companies_clients', compact('status', 'companies', 'array', 'allEmployees', 'urgency', 'lastUpdate', 'allCollaborators'));
+            return view('layouts.companies_clients', compact('status', 'array', 'allEmployees', 'urgency', 'lastUpdate', 'allCollaborators'));
         } else {
-			$tasks = Task::where('user_id', Auth::user()->id)->get();
+            $tasks = Task::where('user_id', Auth::user()->id)->where('status','<',2)->get();
             $array = $this->svc->getSpecificUserClients();
             $allEmployees = $this->svc->getAllEmployees($array, $employees);
             $urgency = $this->svc->getUrgency($array, $tasks);
             $lastUpdate = $this->svc->getLastUpdate($array, $employees, $tasks);
             $allCollaborators = $this->svc->getAllCollaborators($array);
-            return view('layouts.companies_clients', compact('status', 'companies', 'array', 'allEmployees', 'urgency', 'lastUpdate', 'allCollaborators'));
+            return view('layouts.companies_clients', compact('status', 'array', 'allEmployees', 'urgency', 'lastUpdate', 'allCollaborators'));
         }
     }
 
@@ -247,7 +246,7 @@ class ClientController extends Controller
         $tasksOpen = $tasks->map(function ($value, $key) {
             $value['company'] = Company::find($value['company_id'])->name;
             $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name : "";
-            $dateNow = date_create(date("Y-m-d H:i:s"))->modify('+1 day');
+            $dateNow = date_create(date("Y-m-d H:i:s"));
             $dateAfter = date_create(date($value['date_reminder']));
             $dateDiff = date_diff($dateNow, $dateAfter);
             $dateString = Self::constructStringFromDateTime($dateDiff);
@@ -261,7 +260,7 @@ class ClientController extends Controller
         $tasksOnGoing = $tasks->map(function ($value, $key) {
             $value['company'] = Company::find($value['company_id'])->name;
             $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name : "";
-            $dateNow = date_create(date("Y-m-d H:i:s"))->modify('+1 day');
+            $dateNow = date_create(date("Y-m-d H:i:s"));
             $dateAfter = date_create(date($value['date_reminder']));
             $dateDiff = date_diff($dateNow, $dateAfter);
             $dateString = Self::constructStringFromDateTime($dateDiff);
@@ -276,7 +275,7 @@ class ClientController extends Controller
         $tasksClosed = $tasks->map(function ($value, $key) {
             $value['company'] = Company::find($value['company_id'])->name;
             $value['assignee'] = !empty($value['assigned_id']) ? User::find($value['assigned_id'])->name : "";
-            $dateNow = date_create(date("Y-m-d H:i:s"))->modify('+1 day');
+            $dateNow = date_create(date("Y-m-d H:i:s"));
             $dateAfter = date_create(date($value['date_reminder']));
             $dateDiff = date_diff($dateNow, $dateAfter);
             $dateString = Self::constructStringFromDateTime($dateDiff);
