@@ -45,23 +45,18 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public $user;
 
     public function __construct(TaskService $taskService)
     {
-        $this->middleware(function ($request, $next) {
-            $this->user = Auth::user();
-            if (!$this->user = Auth::user()->admin) {
-                abort(500);
-            }
-            return $next($request);
-        });
         $this->middleware('web');
         $this->taskSvc = $taskService;
     }
 
     public function adminlist()
     {
+        if (!Auth::user()->admin) {
+            abort(403);
+        }
         $status = "";
         $message = "";
         $users = User::all();
@@ -70,6 +65,9 @@ class RegisterController extends Controller
 
     public function updateAdmin()
     {
+        if (!Auth::user()->admin) {
+            abort(403);
+        }
         $message = "User successfully updated!";
         $status = 1;
 
@@ -104,6 +102,9 @@ class RegisterController extends Controller
 
     public function resetAdmin()
     {
+        if (!Auth::user()->admin) {
+            abort(403);
+        }
         $requestArray = request()->all();
         $id = $requestArray['id'];
         $user = User::where('id', $id)->first();
@@ -152,6 +153,9 @@ class RegisterController extends Controller
 
     public function deleteAdmin()
     {
+        if (!Auth::user()->admin) {
+            abort(403);
+        }
         $requestArray = request()->all();
         $id = $requestArray['uid'];
         $user = User::where('id', $id)->delete();
@@ -233,6 +237,9 @@ class RegisterController extends Controller
 
     public function promoteAdmin()
     {
+        if (!Auth::user()->admin) {
+            abort(403);
+        }
         $requestArray = request()->all();
         $id = $requestArray['paid'];
         $message = "";
@@ -251,6 +258,9 @@ class RegisterController extends Controller
 
     public function revokeAdmin()
     {
+        if (!Auth::user()->admin) {
+            abort(403);
+        }
         $requestArray = request()->all();
         $id = $requestArray['usid'];
         $message = "";
