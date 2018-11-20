@@ -191,7 +191,7 @@
                       <select class="select2_single form-control" id="consultant" name="consultant" disabled tabindex="-1">
 
                       @endif
-                        <option id="assigned_user" value="">Select a User</option>
+                        <option id="assigned_user"  selected="selected" value="">Select a User</option>
                         @foreach($consultants as $user)
                             <option value="{{ $user-> id }}">{{ $user->name }}</option>
                         @endforeach
@@ -306,6 +306,7 @@ function editTask(e) {
     for (var i = 0; i < ar.length; i++) {
       if(ar[i].name == task_assignee){
           document.getElementById("assigned_user").value = ar[i].id;
+          console.log(document.getElementById("assigned_user").value);
           document.getElementById("assigned_user").text = task_assignee;
       }
     }
