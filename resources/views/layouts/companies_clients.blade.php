@@ -90,8 +90,7 @@
                                         {{ $result['date'] }}
                                       </td>
                                     @endif
-                                    <td>
-                                    </td>
+
                                   @endforeach
 
                                   @foreach ($lastUpdate as $companyId=>$thisUpdate)
