@@ -222,28 +222,11 @@ class MLService
 
     public function cmp($a, $b)
     {
-        // if (array_sum($a[1]) == array_sum($b[1])) {
-        //     return 0;
-        // }
-        // return (array_sum($a[1]) > array_sum($b[1])) ? -1 : 1;
         if ($a[3] == $b[3]) {
             return 0;
         }
         return ($a[3] > $b[3]) ? -1 : 1;
     }
-
-    public function potentialMaxPoints($portionArray, $pointsArray, $keywordsTotal)
-    {
-        $max = 0;
-        for ($i = 0; $i < sizeof($portionArray); $i++) {
-            if ($pointsArray[$i] != 0) {
-                //100% match means that all the keywords matches on that attribute comparison
-                $max += $keywordsTotal * $portionArray[$i];
-            }
-        }
-        return $max;
-    }
-
 
     public function matchPersonWithJobs($keywords, $industry = null)
     {
@@ -311,9 +294,5 @@ class MLService
         }
 
         return [$matchingJobs,$points, $accuracy, $keywordsMatch, $keywords];
-    }
-
-    public function updateJobMatch()
-    {
     }
 }

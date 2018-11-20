@@ -55,17 +55,17 @@
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <div id="gender" class="btn-group" data-toggle="buttons" >
                   <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                    <input type="radio" name="gender"  value="M"  required="required">  Male 
+                    <input type="radio" name="gender"  value="M"  required="required">  Male
                   </label>
                   <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                    <input type="radio" name="gender"  value="F"  required="required">  Female 
+                    <input type="radio" name="gender"  value="F"  required="required">  Female
                   </label>
                 </div>
               </div>
             </div>
 
               <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Job Title<span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title<span class="required">*</span></label>
                         <div class="col-md-6 col-sm-9 col-xs-12">
                           <input type="text" id="title" name="title" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
