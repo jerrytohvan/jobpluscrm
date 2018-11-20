@@ -1007,7 +1007,7 @@ html {
                                     <select class="select2_single form-control" id="consultant" name="consultant" required="required" disabled tabindex="-1">
 
                                     @endif
-                                      <option id="assigned_user" value="">Select a User</option>
+                                      <option id="assigned_user" value=""  selected="selected">Select a User</option>
                                       @foreach($users as $user)
                                           <option value="{{ $user->id }}">{{ $user->name }}</option>
                                       @endforeach
