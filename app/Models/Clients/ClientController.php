@@ -226,7 +226,7 @@ class ClientController extends Controller
         $userId =Auth::user()->id;
         $companyCollaborators = $company->collaborators()->get()->pluck('id')->toArray();
         if (!Auth::user()->admin && !in_array($userId, $companyCollaborators)) {
-            abort(500);
+            abort(403);
         }
 
         date_default_timezone_set('Asia/Singapore');
