@@ -1011,8 +1011,7 @@ html {
                                       @foreach($users as $user)
                                           <option class="select2_single form-control" id="consultant" name="consultant" value="{{ $user->id }}">{{ $user->name }}</option>
                                       @endforeach
-                                      <option class="select2_single form-control" id="consultant" name="consultant" value="">No user assigned</option>
-
+                                      <option value="">No user assigned</option>
                                     </select>
                                   </div>
                                 </div>
@@ -1356,7 +1355,7 @@ $(document).ready(function () {
       document.getElementById("task_date").valueAsDate = task_date;
 
       if(task_assignee === ""){
-        document.getElementById("assigned_user").value = '0';
+        document.getElementById("assigned_user").value = '';
         document.getElementById("assigned_user").text = 'Select a User';
       }else{
         for (var i = 0; i < ar.length; i++) {
@@ -1368,14 +1367,7 @@ $(document).ready(function () {
        }
 
       $('#edit-task').modal('show');
-    }
-    // var elems = document.getElementsByClassName('confirmation');
-    // var confirmIt = function (e) {
-    //     if (!confirm('Are you sure?')) e.preventDefault();
-    // };
-    // for (var i = 0, l = elems.length; i < l; i++) {
-    //     elems[i].addEventListener('click', confirmIt, false);
-    // }
+  }
 </script>
 
 <script>
