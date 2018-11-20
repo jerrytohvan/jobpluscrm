@@ -87,7 +87,7 @@
                                   @foreach ($urgency as $result)
                                       @if (in_array($data->id,$result))
                                       <td>
-                                        {{ $result['date'] }}
+                                        {{ array_column($result,'date') }}
                                       </td>
                                     @endif
 
