@@ -53,7 +53,7 @@
                               <a onclick="edituser( {{ $user }} )" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i>Edit</a>
                               <a onclick="resetuser( {{ $user }} )" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Reset Password </a>
                               <a onclick="deleteuser( {{ $user }} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
-                              @if($user->admin == 1)
+                              @if($user->admin == 1 && $user->id != Auth::user()->id)
                               <a onclick ="revokeuser( {{ $user }} )" class="btn btn-danger btn-xs"><i class="fa fa-close"></i> Revoke </a>
                               @endif
                               @if($user->admin ==0)
