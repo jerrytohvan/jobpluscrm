@@ -85,13 +85,12 @@
                                   </td>
 
                                   @foreach ($urgency as $result)
-                                      @if (in_array($data->id,$result))
-                                      <td>
-                                        {{ array_column($result,'date') }}
-                                      </td>
-                                    @endif
-
-                                  @endforeach
+                                        @if (!empty($result['id']) && $result['id'] == $data->id )
+                                        <td>
+                                          {{ $result['date'] }}
+                                        </td>
+                                      @endif
+                                    @endforeach
 
                                   @foreach ($lastUpdate as $companyId=>$thisUpdate)
                                     @if ($companyId == $data->id)
