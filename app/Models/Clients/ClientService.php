@@ -214,7 +214,7 @@ class ClientService
                             
                              array_push($iniArray,"");
                         }
-                        array_multisort($tasksArray,$iniArray);
+                        array_multisort(array_colum($tasksArray,'id'),array_column($tasksArray,'duedate'),$iniArray);
                         $iniArray = array();
                     }else{
                         $diff = sizeof($closedTasks) - sizeof($tasksArray);
