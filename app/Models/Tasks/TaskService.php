@@ -23,7 +23,7 @@ class TaskService
     {
         $status = Auth::user()->admin;
         $dateIni = Carbon::parse($array['date_reminder']);
-        $beforeDate = $dateIni->addDay(1)->format('Y-m-d H:i:s');
+        $beforeDate = $dateIni->format('Y-m-d H:i:s');
 
         if (!$status) {
             return Task::Create([
@@ -130,9 +130,9 @@ class TaskService
     {
         if (sizeof($requestArray) != 0) {
             $dateIni = Carbon::parse($requestArray['from']);
-            $dateFrom = $dateIni->addDays(1)->format('Y-m-d H:i:s');
+            $dateFrom = $dateIni->format('Y-m-d H:i:s');
             $dateIni = Carbon::parse($requestArray['to']);
-            $dateTo = $dateIni->addDays(1)->format('Y-m-d H:i:s');
+            $dateTo = $dateIni->format('Y-m-d H:i:s');
         }
         if ($dateFrom != null && $dateTo != null) {
             $companies = Company::all();
@@ -142,7 +142,6 @@ class TaskService
             });
             $users = User::all();
             $tasks = Task::whereUserId($id)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhere('assigned_id', $id)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhereIn('company_id', $collaboratorsIn)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orderBy('date_reminder', 'desc')->get();
-
             $tasksOpen = $tasks->map(function ($value, $key) use ($companies, $users) {
                 $value['company'] =  $companies->filter(function ($company) use ($value) {
                     return $company->id == $value['company_id'];
@@ -150,7 +149,7 @@ class TaskService
                 $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
                     return $user->id == $value['assigned_id'];
                 })->first()->name :  "";
-                $dateNow =  date_create(date("Y-m-d H:i:s"))->modify('+1 day');
+                $dateNow =  date_create(date("Y-m-d H:i:s"));
                 $dateAfter =  date_create(date($value['date_reminder']));
                 $dateDiff = date_diff($dateNow, $dateAfter);
                 $dateString = Self::constructStringFromDateTime($dateDiff);
@@ -171,7 +170,7 @@ class TaskService
                 $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
                     return $user->id == $value['assigned_id'];
                 })->first()->name :  "";
-                $dateNow =  date_create(date("Y-m-d H:i:s"))->modify('+1 day');
+                $dateNow =  date_create(date("Y-m-d H:i:s"));
                 $dateAfter =  date_create(date($value['date_reminder']));
                 $dateDiff = date_diff($dateNow, $dateAfter);
                 $dateString = Self::constructStringFromDateTime($dateDiff);
@@ -192,7 +191,7 @@ class TaskService
                 $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
                     return $user->id == $value['assigned_id'];
                 })->first()->name :  "";
-                $dateNow =  date_create(date("Y-m-d H:i:s"))->modify('+1 day');
+                $dateNow =  date_create(date("Y-m-d H:i:s"));
                 $dateAfter =  date_create(date($value['date_reminder']));
                 $dateDiff = date_diff($dateNow, $dateAfter);
                 $dateString = Self::constructStringFromDateTime($dateDiff);

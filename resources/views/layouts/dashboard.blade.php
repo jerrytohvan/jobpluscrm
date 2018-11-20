@@ -79,6 +79,7 @@
 <!-- page content -->
 <div class="right_col" role="main">
   <!-- top tiles -->
+
   <div class="row tile_count">
     <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
       <span class="count_top"><i class="fa fa-clock-o"></i> Task(s) Overdue </span>
@@ -196,9 +197,9 @@
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Select User</label>
                     <div class="col-md-9 col-sm-9 col-xs-12">
                       @if(Auth::user()->admin == true)
-                      <select class="select2_single form-control" id="consultant" name="consultant" required="required"  tabindex="-1">
+                      <select class="select2_single form-control" id="consultant" name="consultant"   tabindex="-1">
                       @else
-                      <select class="select2_single form-control" id="consultant" name="consultant" required="required" disabled tabindex="-1">
+                      <select class="select2_single form-control" id="consultant" name="consultant" disabled tabindex="-1">
 
                       @endif
                         <option id="assigned_user" value="">Select a User</option>
@@ -293,7 +294,9 @@ function editTask(e) {
   var task_id = e.getAttribute('data-id');
   var task_title = e.getAttribute('data-title');
   var task_desc = e.getAttribute('data-desc');
-  var task_date = e.getAttribute('data-date');
+  var task_date = new Date(e.getAttribute('data-date'));
+  task_date.setDate(task_date.getDate() + 1);
+
   var task_company = e.getAttribute('data-company');
   var task_assignee = e.getAttribute('data-assignee');
   var task_creator = e.getAttribute('data-creator');
@@ -303,7 +306,8 @@ function editTask(e) {
   $('#updateTask').find('input[name=company]').val(task_company);
   $('#updateTask').find('input[name=description]').val(task_desc);
 
-  document.getElementById("date").valueAsDate = new Date(task_date);
+
+  document.getElementById("date").valueAsDate = task_date;
 
   if(task_assignee === ""){
     document.getElementById("consultant").value = '';

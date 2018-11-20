@@ -103,7 +103,7 @@ class TaskController extends Controller
 
 
 
-  
+
 
     public function closeTask($id)
     {
@@ -128,7 +128,7 @@ class TaskController extends Controller
               'assigned_id' => request()->input('consultant')
               ]);
             }
-            $mod_date = date('Y-m-d H:i:s', strtotime(request()->input('date') . ' +1 day'));
+            $mod_date = date('Y-m-d H:i:s', strtotime(request()->input('date')));
             $task->update([
             'title' => request()->input('title'),
             'date_reminder' =>  $mod_date,
