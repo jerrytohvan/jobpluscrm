@@ -58,15 +58,13 @@
                                     @endif
                                   @endforeach
                                   <td>{{ $job->job_title }}</td>
-                                  <!-- <td>{{ $job->job_description}}</td>
-                                  <td>{{ $job->skills }}</td> -->
                                   <td>
                                   @foreach($companies as $company)
                                     @if ($company->id == $job->company_id)
                                     <a onclick="viewjob( {{ $job }}, {{ $company }} )" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View </a>
                                     @endif
                                   @endforeach
-                                    
+
                                     <a onclick="editjob( {{ $job }} )" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i> Edit </a>
                                     <a onclick="deletejob( {{ $job }} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
                                   </td>
@@ -90,14 +88,14 @@
                <h4 class="modal-title" id="company_name1"></h4>
             </div>
             <div class="modal-body">
-				
+
                 <strong><p id="job_title1"></p></strong>
                 <strong>Description: </strong><p id="job_description1"></p>
                 <strong>Skills: </strong><p id="skills1"></p>
                 <strong>Summary Keywords: </strong><p id="tags1"></p>
 				        <input type="hidden" id="company_id1" name="company_id1" value="">
                 <!-- <input type="hidden" id="job_id1" name="job_id1" value=""> -->
-              
+
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -130,9 +128,9 @@
                 <div class="form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12" for="job_description">Job Description:</label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                  
+
                   <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-one">
-              
+
                     <div class="btn-group">
                       <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
                       <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
@@ -168,9 +166,9 @@
                       <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
                     </div>
                   </div>
-				  
+
                   <div id="editor-one" class="editor-wrapper"></div>
-				  
+
                   <textarea name="job_description" id="job_description" placeholder="Type job description here" style="display:none;"></textarea>
                   <br />
 				 </div>
@@ -180,9 +178,9 @@
 			<div class="form-group">
              <label class="control-label  col-md-3 col-sm-3 col-xs-12" for="job_description">Skills & Qualifications:</label>
 			 <div class="col-md-6 col-sm-6 col-xs-12">
-                  
+
                   <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-two">
-              
+
                     <div class="btn-group">
                       <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
                       <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
@@ -218,9 +216,9 @@
                       <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
                     </div>
                   </div>
-				  
+
                   <div id="editor-two" class="editor-wrapper"></div>
-				  
+
                   <textarea name="skills" id="skills" placeholder="Type skills here" style="display:none;"></textarea>
                   <br />
 
