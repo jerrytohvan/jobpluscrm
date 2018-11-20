@@ -99,26 +99,15 @@
      <span class="count_top"><i class="fa fa-clock-o"></i> Completed Task(s) YTD</span>
      <div class="count"> {{$totalTaskCompletedThisYear }}</div>
      <span class="count_bottom">
-       <!-- <i class="green"><i class="fa fa-sort-desc"></i></i> -->
      </span>
    </div>
-    <!-- <div class="col-md-2 col-sm-2 col-xs-6 tile_stats_count">
-      <span class="count_top"><i class="fa fa-user"></i> New Companies This Week</span>
-      <div class="count">{{$leadsThisWeek}}</div>
-      <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>>{{$leadsComparison}}%</i> From last Week</span>
-    </div> -->
+
 
      <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
       <span class="count_top"><i class="fa fa-user"></i> Total Companies YTD</span>
       <div class="count"> {{$companiesYTD}}</div>
-      <!-- <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i></i></span> -->
     </div>
-    <!-- <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-      <span class="count_top"><i class="fa fa-user"></i> Total Connections</span>
-      <div class="count">5</div>
-      <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
-    </div>
-  </div>  -->
+
   <!-- /top tiles-->
 
     <!-- start vue -->
@@ -206,6 +195,7 @@
                         @foreach($consultants as $user)
                             <option value="{{ $user-> id }}">{{ $user->name }}</option>
                         @endforeach
+                        <option value="">No user assigned</option>
                       </select>
                     </div>
                   </div>
