@@ -50,7 +50,7 @@
             <br />
             {{  Form::open(['route' => 'add.job','method'=>'post', 'id'=>'submit-form', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']) }}
               <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="job_title">Job Title
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="job_title">Job Title<span class="required">*</span>
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                   <input type="text" id="job_title" name="job_title" required="required" class="form-control col-md-7 col-xs-12">
@@ -158,7 +158,7 @@
 			</div> <!-- End of Skills -->
 
       <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="years_of_experience">Minimum years of experience
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="years_of_experience">Minimum years of experience<span class="required">*</span>
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                   <input type="text" id="years_of_experience" name="years_of_experience" required="required" data-parsley-type="integer" class="form-control col-md-7 col-xs-12">
@@ -166,7 +166,7 @@
               </div>
 
               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry *</label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry<span class="required">*</span></label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <select class="select2_single form-control" required="required" id="industry" name="industry" tabindex="-1">
                     <option value="">Select an Industry</option>
@@ -236,10 +236,10 @@
               </div>
 
               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company">Client *</label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company">Client<span class="required">*</span></label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                    <select class="select2_single form-control"  required="required"id="company" name="company" tabindex="-1">
-                      <option value = "0">Select a company</option>
+                    <select class="select2_single form-control" required="required" id="company" name="company" tabindex="-1">
+                      <option value ="">Select a company</option>
                       @foreach($companies as $company)
                         <option value="{{ $company->id }}">{{ $company->name }}</option>
                       @endforeach
@@ -249,7 +249,8 @@
 
             <div class="form-group">
               <div class="control-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for"keywords">Summary Keywords<br/><small>Press enter for each keyword</small></label>
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for"keywords">Summary Keywords<span class="required">*</span>
+                <br/><small>Press enter for each keyword</small></label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                   <input id="tags_1" type="text" class="tags" required="required" name="keywords" id="keywords" value="" style="display: none;">
                 </div>

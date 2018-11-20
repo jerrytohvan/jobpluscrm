@@ -47,7 +47,6 @@
                                       <th>Industry</th>
                                       <th style="width: 15%">Action</th>
                                       <th>Due Date</th>
-                                      <th>Urgency Score</th>
                                       <th>Last Update</th>
                                   </tr>
                               </thead>
@@ -85,13 +84,10 @@
                                       <a onclick="deleteClient( {{ $data->id}} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
                                   </td>
 
-                                  @foreach ($urgency as $companyId=>$thisUrgency)
-                                    @if ($companyId == $data->id)
+                                  @foreach ($urgency as $result)
+                                    @if ($result['id'] == $data->id)
                                       <td>
-                                        {{ $thisUrgency }}
-                                      </td>
-                                      <td>
-                                        {{ $thisUrgency }}
+                                        {{ $result['date'] }}
                                       </td>
                                     @endif
                                   @endforeach
@@ -162,14 +158,14 @@ $(document).ready(function() {
     loadNotification();
 
     $('#datatable').DataTable( {
-      "order": [[ 7, "desc" ]],
+      "order": [[ 6, "desc" ]],
       dom: 'lBfrtip',
         select: true,
         buttons: [
           'copy','csv','print',{
                 text: 'Sort by Urgency',
                 action: function () {
-                  this.column(6).order('asc').draw();
+                  this.column(5).order('asc').draw();
                 }
             }
         ],
@@ -202,9 +198,6 @@ $(document).ready(function() {
                     return data.substring(0,10);
                 },
                 "targets": 5
-            },
-            { "targets": [6],
-              "visible": false,
             }
         ]
     } );
