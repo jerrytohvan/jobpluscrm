@@ -249,7 +249,6 @@ class ClientController extends Controller
         $notes = $company->posts;
         $jobs = Job::whereCompanyId($company->id)->take(20)->get();
         $consultants = User::all();
-
         $tasks = Task::orderBy('order')->whereCompanyId($company->id)->get();
 
         $tasksOpen = $tasks->map(function ($value, $key) {
@@ -419,7 +418,7 @@ class ClientController extends Controller
         $jobs = Job::where('company_id', $company_id);
         $employees = Employee::where('company_id', $company_id);
         $posts = Post::where('company_id', $company_id);
-        
+        $files = Attachment::where('attachable_id',$company_id)->get();
         try {
             $employee->delete();
             $company->delete();
@@ -427,6 +426,10 @@ class ClientController extends Controller
             $jobs->delete();
             $employees->delete();
             $posts->delete();
+            foreach($files as $file){
+
+                $this->removeFileFromCompany( $file);
+            }
             $message = "Company's profile successfully removed!";
             $status = 1;
         } catch (Exception $e) {
