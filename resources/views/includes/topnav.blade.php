@@ -206,7 +206,7 @@
 
       $(function() {
           $('#submit-email').on("submit",function(e) {
-              $('#emailMessage').val($('#editor').text());
+              $('#emailMessage').val($('#editor').html());
           $('#submit-email').submit();
         });
       });

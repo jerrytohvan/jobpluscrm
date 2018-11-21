@@ -199,10 +199,6 @@ class ClientService
         foreach ($array as $company) {
             $iniArray =array();
             $id = $company['id'];
-
-
-
-
             $closedTasks = Task::where('status','=',2)->get();
             foreach($closedTasks as $closed){
                 array_push($iniArray,$closed);
@@ -210,7 +206,6 @@ class ClientService
             if ($closedTasks == null || sizeof($closedTasks) <= 0) {
                 array_multisort(array_column($tasksArray, 'duedate'), SORT_ASC,
                         array_column($tasksArray,  'size'), SORT_DESC);
-
 
             } else {
                     if(sizeof($tasksArray) > sizeof($closedTasks)){
