@@ -225,7 +225,8 @@ class ClientController extends Controller
         //verifiy if user is indeed a collaborator
         $userId =Auth::user()->id;
         $companyCollaborators = $company->collaborators()->get()->pluck('id')->toArray();
-        if (!Auth::user()->admin && !in_array($userId, $companyCollaborators)) {
+        $companyAssinee = $company->tasks()->get()->pluck('assigned_id')->toArray();
+        if (!Auth::user()->admin && $userId != $company->user_id && !in_array($userId, array_merge($companyCollaborators, $companyAssinee))) {
             abort(403);
         }
 

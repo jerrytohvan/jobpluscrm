@@ -86,7 +86,7 @@
 
 
                                   @foreach ($urgency as $result)
-                                      @if (!empty($result['id']) && $result['id'] == $data->id )
+                                      @if (!empty($result['id']) && $result['id'] == $data->id && $result['id'] != null)
                                       <td>
                                         {{ $result['date'] }}
                                       </td>
