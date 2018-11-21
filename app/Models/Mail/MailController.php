@@ -36,11 +36,15 @@ class MailController extends Controller
         if (!empty($arraReq['ccEmail'])) {
             $ccEmail = explode(",", $arraReq['ccEmail']);
         }
+        //format the message content into HTML
+        $emailContent = $arraReq['emailMessage'];
+        $formatMsg = nl2br($emailContent);
+
         // email data packet
         $data = array(
             'toEmail' =>$toEmail,
             'subject'=>$request->subject,
-            'emailMessage' =>$request->emailMessage,
+            'emailMessage' =>$formatMsg,
             'emailAttachment'=>$request->emailAttachment,
             'ccEmail'=>$ccEmail
           );
@@ -62,7 +66,15 @@ class MailController extends Controller
                       );
             }
             // text of the actual email
-            $message->setBody($data['emailMessage']);
+            //Fix Temp
+            $msg = $data['emailMessage'];
+            $msg = str_replace("<div>","\n",$msg);
+            $msg = str_replace("<br>","\n",$msg);
+            $msg = str_replace("</div>","",$msg);
+            $msg = str_replace("</li><li>","\n",$msg);
+            $msg = str_replace("&nbsp;"," ",$msg);
+            $msg = strip_tags($msg);
+            $message->setBody($msg);
         });
 
         //error_log(print_r("sent", true));

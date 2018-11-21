@@ -84,7 +84,6 @@
                                       <a onclick="deleteClient( {{ $data->id}} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
                                   </td>
 
-
                                   @foreach ($urgency as $result)
                                       @if (!empty($result['id']) && $result['id'] == $data->id && $result['id'] != null)
                                       <td>
