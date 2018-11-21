@@ -197,45 +197,6 @@ class ClientService
             }
         }
 
-        // //Get number of closed tasks
-        // foreach ($array as $company) {
-        //     $iniArray =array();
-        //     $id = $company['id'];
-        //     $closedTasks = Task::where('status','=',2)->where('company_id', $id)->get();
-        //     // dd($tasksArray);
-        //     // $count = 0;
-        //     foreach($closedTasks as $closed){
-        //         array_push($iniArray,$closed);
-        //         // $count++;
-        //     }
-        //     // $tasksArray[$id]['closed'] = $count;
-        //     if ($closedTasks == null || sizeof($closedTasks) <= 0) {
-        //         array_multisort(array_column($tasksArray, 'duedate'), SORT_ASC,
-        //                 array_column($tasksArray,  'size'), SORT_DESC, $tasksArray);
-        //     } else {
-        //             // $closed = sizeof($closedTasks);
-        //             // $a = $tasksArray[$id]['closed'];
-        //             // dd($a);
-        //             if(sizeof($tasksArray) > sizeof($closedTasks)){
-        //                 // dd($closedTasks);
-        //                 // error_log(print_r(sizeof($closedTasks),true));
-        //                 $diff = sizeof($tasksArray) - sizeof($closedTasks);
-        //                 for($x = 0; $x < $diff; $x++){
-        //                      array_push($iniArray,"");
-        //                 }
-        //                 array_multisort($tasksArray,$iniArray);
-        //                 $iniArray = array();
-        //             }else{
-        //                 $diff = sizeof($closedTasks) - sizeof($tasksArray);
-        //                 for($x = 0; $x < $diff; $x++){
-        //                     array_push($tasksArray,"");
-        //                 }
-        //                 array_multisort($tasksArray,$iniArray);
-        //                 $iniArray = array();
-        //             }
-        //     }
-        // }
-
         //Get number of closed tasks for all companies
         foreach ($array as $company) {
             $id = $company['id'];
