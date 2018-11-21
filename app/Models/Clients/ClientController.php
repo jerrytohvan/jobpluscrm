@@ -417,12 +417,17 @@ class ClientController extends Controller
         $tasks = Task::where('company_id', $company_id);
         $jobs = Job::where('company_id', $company_id);
         $employees = Employee::where('company_id', $company_id);
+        $files = Attachment::where('attachable_id',$company_id)->get();
         try {
             $employee->delete();
             $company->delete();
             $tasks->delete();
             $jobs->delete();
             $employees->delete();
+            foreach($files as $file){
+
+                $this->removeFileFromCompany( $file);
+            }
             $message = "Company's profile successfully removed!";
             $status = 1;
         } catch (Exception $e) {
