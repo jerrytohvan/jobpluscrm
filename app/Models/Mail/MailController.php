@@ -62,7 +62,14 @@ class MailController extends Controller
                       );
             }
             // text of the actual email
-            $message->setBody($data['emailMessage']);
+            //Fix Temp
+            $msg = $data['emailMessage'];
+            $msg = str_replace("<div>","\n",$msg);
+            $msg = str_replace("<br>","\n",$msg);
+            $msg = str_replace("</div>","",$msg);
+            $msg = str_replace("</li><li>","\n",$msg);
+            $msg = strip_tags($msg);
+            $message->setBody($msg);
         });
 
         //error_log(print_r("sent", true));
