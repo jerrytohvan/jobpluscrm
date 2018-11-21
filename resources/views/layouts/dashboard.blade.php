@@ -306,7 +306,6 @@ function editTask(e) {
     for (var i = 0; i < ar.length; i++) {
       if(ar[i].name == task_assignee){
           document.getElementById("assigned_user").value = ar[i].id;
-          console.log(document.getElementById("assigned_user").value);
           document.getElementById("assigned_user").text = task_assignee;
       }
     }
