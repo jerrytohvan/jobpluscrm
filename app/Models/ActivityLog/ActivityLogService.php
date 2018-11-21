@@ -171,7 +171,11 @@ class ActivityLogService
                     $objectName = isset($object->filename) ? $object->filename : $activity->changes()->all()['attributes']['file_name'];
                     try {
                         $company = Company::find($activity->changes()->all()['attributes']['attachable_id']);
-                        return $action . " " . $objectName . " for company " . $company->name . ".";
+                        if ($company != null) {
+                            return $action . " " . $objectName . " for company " . $company->name . ".";
+                        } else {
+                            return $action . " file " . $objectName . ".";
+                        }
                     } catch (Exception $e) {
                         return $action . " file " . $objectName . ".";
                     }
@@ -179,13 +183,20 @@ class ActivityLogService
             } elseif (User::class == $activity->subject_type && $activity->causer_id == Auth::user()->id) {
                 if ($activity->subject_id != $activity->causer_id) {
                     $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
-                    return $action . " " . $objectName . "'s account as an admin.";
+                    if (!$object->admin) {
+                        return $action . " " . $objectName . "'s account as an user.";
+                    } else {
+                        return $action . " " . $objectName . "'s account as an admin.";
+                    }
                 }
                 return $action . " your own profile.";
             } elseif (Employee::class == $activity->subject_type) {
                 $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
                 $company = Company::find($activity->changes()->all()['attributes']['company_id']);
-                return $action . " " . $objectName . "'s account for company " . $company->name . ".";
+                if ($company!= null) {
+                    return $action . " " . $objectName . "'s account for company " . $company->name . ".";
+                }
+                return $action . " " . $objectName . "'s account for a company (id:" . $activity->changes()->all()['attributes']['company_id']. ").";
             } elseif (Post::class == $activity->subject_type) {
                 return $action . " a post on announcement board.";
             } elseif (Task::class == $activity->subject_type) {
