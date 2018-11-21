@@ -1053,8 +1053,7 @@ html {
                 <strong>Description: </strong><p id="job_description1"></p>
                 <strong>Skills: </strong><p id="skills1"></p>
                 <strong>Summary Keywords: </strong><p id="tags1"></p>
-                <strong>Industry: </strong><p id="industry"></p>
-				        <input type="hidden" id="company_id1" name="company_id1" value="">
+                <input type="hidden" id="company_id1" name="company_id1" value="">
                 <!-- <input type="hidden" id="job_id1" name="job_id1" value=""> -->
 
             </div>
@@ -1237,7 +1236,6 @@ function viewjob(job, company) {
   $('#job_title1').html(job.job_title);
   $('#job_description1').html(job.job_description);
   $('#skills1').html(job.skills);
-  $('#industry').html(job.industry);
   $('#tags1').html(job.summary_keywords);
 
    $('#view-job').modal('show');
