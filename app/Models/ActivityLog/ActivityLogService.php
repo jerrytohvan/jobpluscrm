@@ -179,11 +179,7 @@ class ActivityLogService
             } elseif (User::class == $activity->subject_type && $activity->causer_id == Auth::user()->id) {
                 if ($activity->subject_id != $activity->causer_id) {
                     $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
-                    if (!$object->admin){
-                    	return $action . " " . $objectName . "'s account as an user.";
-		            }else{
-		                return $action . " " . $objectName . "'s account as an admin.";
-		            }
+                    return $action . " " . $objectName . "'s account as an admin.";
                 }
                 return $action . " your own profile.";
             } elseif (Employee::class == $activity->subject_type) {
