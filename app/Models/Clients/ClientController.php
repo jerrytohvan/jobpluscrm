@@ -78,7 +78,7 @@ class ClientController extends Controller
     {
         $employees = Employee::all();
         if (Auth::user()->admin == true) {
-            $tasks = Task::where('status','<',2)->get();
+            $tasks = Task::where('status', '<', 2)->get();
             $array = $this->svc->getAllClients();
             $allEmployees = $this->svc->getAllEmployees($array, $employees);
             $urgency = $this->svc->getUrgency($array, $tasks);
@@ -86,7 +86,7 @@ class ClientController extends Controller
             $allCollaborators = $this->svc->getAllCollaborators($array);
             return view('layouts.companies_clients', compact('status', 'array', 'allEmployees', 'urgency', 'lastUpdate', 'allCollaborators'));
         } else {
-            $tasks = Task::where('user_id', Auth::user()->id)->where('status','<',2)->get();
+            $tasks = Task::where('user_id', Auth::user()->id)->where('status', '<', 2)->get();
             $array = $this->svc->getSpecificUserClients();
             $allEmployees = $this->svc->getAllEmployees($array, $employees);
             $urgency = $this->svc->getUrgency($array, $tasks);
@@ -222,6 +222,14 @@ class ClientController extends Controller
 
     public function showCompany(Company $company)
     {
+        //verifiy if user is indeed a collaborator
+        $userId =Auth::user()->id;
+        $companyCollaborators = $company->collaborators()->get()->pluck('id')->toArray();
+        $companyAssinee = $company->tasks()->get()->pluck('assigned_id')->toArray();
+        if (!Auth::user()->admin && $userId != $company->user_id && !in_array($userId, array_merge($companyCollaborators, $companyAssinee))) {
+            abort(403);
+        }
+
         date_default_timezone_set('Asia/Singapore');
         $message = request()->input('message');
         $status = request()->input('status');
@@ -232,7 +240,7 @@ class ClientController extends Controller
         $created_at = strtotime($company->created_at->addhours(8));
         $updated_at = strtotime($company->updated_at->addhours(8));
         $createdTime = new DateTime();
-        $updatedTime = new DateTIme();
+        $updatedTime = new DateTime();
         $createdTime->setTimestamp($created_at);
         $updatedTime->setTimestamp($updated_at);
         $collaborators = $company->collaborators;

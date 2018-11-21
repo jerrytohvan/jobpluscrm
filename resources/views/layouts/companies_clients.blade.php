@@ -85,12 +85,12 @@
                                   </td>
 
                                   @foreach ($urgency as $result)
-                                        @if (!empty($result['id']) && $result['id'] == $data->id )
-                                        <td>
-                                          {{ $result['date'] }}
-                                        </td>
-                                      @endif
-                                    @endforeach
+                                      @if (!empty($result['id']) && $result['id'] == $data->id && $result['id'] != null)
+                                      <td>
+                                        {{ $result['date'] }}
+                                      </td>
+                                    @endif
+                                  @endforeach
 
                                   @foreach ($lastUpdate as $companyId=>$thisUpdate)
                                     @if ($companyId == $data->id)

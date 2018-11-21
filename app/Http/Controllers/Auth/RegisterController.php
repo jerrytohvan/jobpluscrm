@@ -20,6 +20,7 @@ use Thomaswelton\LaravelGravatar\Facades\Gravatar;
 
 class RegisterController extends Controller
 {
+
     /*
     |--------------------------------------------------------------------------
     | Register Controller
@@ -44,6 +45,7 @@ class RegisterController extends Controller
      *
      * @return void
      */
+
     public function __construct(TaskService $taskService)
     {
         $this->middleware('web');
@@ -52,6 +54,9 @@ class RegisterController extends Controller
 
     public function adminlist()
     {
+        if (!Auth::user()->admin) {
+            abort(403);
+        }
         $status = "";
         $message = "";
         $users = User::all();
@@ -60,6 +65,9 @@ class RegisterController extends Controller
 
     public function updateAdmin()
     {
+        if (!Auth::user()->admin) {
+            abort(403);
+        }
         $message = "User successfully updated!";
         $status = 1;
 
@@ -79,21 +87,24 @@ class RegisterController extends Controller
             return redirect()->back()->with(['message' => $message, 'status' => $status]);
         } else {
             $user = User::where('id', $id)->first();
-            $user -> name = $requestArray['name'];
-            $user -> email =  $requestArray['email'];
-            $user -> handphone = $requestArray['handphone'];
-            $user -> tele_id = $requestArray['teleid'];
+            $user->name = $requestArray['name'];
+            $user->email =  $requestArray['email'];
+            $user->handphone = $requestArray['handphone'];
+            $user->tele_id = $requestArray['teleid'];
             $birthday = $requestArray['birthdate'];
             if ($birthday != "") {
-                $user -> birth_date = $requestArray['birthdate'];
+                $user->birth_date = $requestArray['birthdate'];
             }
-            $user -> save();
+            $user->save();
             return redirect()->back()->with(['message' => $message, 'status' => $status]);
         }
     }
 
     public function resetAdmin()
     {
+        if (!Auth::user()->admin) {
+            abort(403);
+        }
         $requestArray = request()->all();
         $id = $requestArray['id'];
         $user = User::where('id', $id)->first();
@@ -101,8 +112,8 @@ class RegisterController extends Controller
         $password = $requestArray['password'];
         $confirmpw = $requestArray['confirmpw'];
         if ($password == $confirmpw) {
-            $user -> password = bcrypt($password);
-            $user -> save();
+            $user->password = bcrypt($password);
+            $user->save();
             $message = "User successfully updated!";
             $status = 1;
         } else {
@@ -111,8 +122,9 @@ class RegisterController extends Controller
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
-	
-	public function resetPwd() {
+
+    public function resetPwd()
+    {
         $requestArray = request()->all();
         $user = Auth::user();
 
@@ -122,7 +134,7 @@ class RegisterController extends Controller
         if (Hash::check($currentPwd, $userPwd)) {
             $password = $requestArray['new-password'];
             $confirmpw = $requestArray['confirm-password'];
-            
+
             if ($password == $confirmpw) {
                 $user -> password = bcrypt($password);
                 $user -> save();
@@ -141,25 +153,28 @@ class RegisterController extends Controller
 
     public function deleteAdmin()
     {
+        if (!Auth::user()->admin) {
+            abort(403);
+        }
         $requestArray = request()->all();
         $id = $requestArray['uid'];
         $user = User::where('id', $id)->delete();
-        $userCom = UserCompany::where('user_id',$id)->delete();
-        $companies = Company::where('user_id',$id)->get();
-        foreach($companies as $company){
+        $userCom = UserCompany::where('user_id', $id)->delete();
+        $companies = Company::where('user_id', $id)->get();
+        foreach ($companies as $company) {
             $company->user_id = 1;
             $company->save();
         }
-        $post = Post::where('user_id',$id)->delete();
-        $candidates = Candidate::where('user_id',$id)->get();
-        foreach($candidates as $candidate){
+        $post = Post::where('user_id', $id)->delete();
+        $candidates = Candidate::where('user_id', $id)->get();
+        foreach ($candidates as $candidate) {
             $candidate->user_id = 1;
             $candidate->save();
         }
-        $like = Like::where('user_id',$id)->delete();
-        
+        $like = Like::where('user_id', $id)->delete();
+
         $this->taskSvc->removingAcc($id);
-        
+
 
         if ($user = User::where('id', $id)->first()==null) {
             $message = "User successfully deleted!";
@@ -220,34 +235,42 @@ class RegisterController extends Controller
         }
     }
 
-    public function promoteAdmin(){
+    public function promoteAdmin()
+    {
+        if (!Auth::user()->admin) {
+            abort(403);
+        }
         $requestArray = request()->all();
         $id = $requestArray['paid'];
         $message = "";
         $status = 1;
-        $user = User::where('id',$id)->first();
-        if($user->admin != true){
+        $user = User::where('id', $id)->first();
+        if ($user->admin != true) {
             $user->admin = true;
             $message = "User has been promoted as an admin";
             $user->save();
-        }else{
+        } else {
             $message = "user cannot be promoted to an admin";
             $status = 0;
         }
         return redirect()->back()->with(['message' => $message, 'status' => $status]);
     }
 
-    public function revokeAdmin(){
+    public function revokeAdmin()
+    {
+        if (!Auth::user()->admin) {
+            abort(403);
+        }
         $requestArray = request()->all();
         $id = $requestArray['usid'];
         $message = "";
         $status = 1;
         $user = User::where('id', $id)->first();
-        if($user->admin == true){
+        if ($user->admin == true) {
             $message = "user admin access has been revoked";
             $user->admin = false;
             $user->save();
-        }else{
+        } else {
             $message = "user does not have the admin access rights to be revoked";
             $status = 0;
         }
