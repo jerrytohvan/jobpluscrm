@@ -72,7 +72,7 @@ class MailController extends Controller
             $msg = str_replace("<br>","\n",$msg);
             $msg = str_replace("</div>","",$msg);
             $msg = str_replace("</li><li>","\n",$msg);
-            $msg = str_replace("&nspb"," ",$msg);
+            $msg = str_replace("&nbsp"," ",$msg);
             $msg = strip_tags($msg);
             $message->setBody($msg);
         });
