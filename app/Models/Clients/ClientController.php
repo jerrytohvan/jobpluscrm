@@ -419,6 +419,7 @@ class ClientController extends Controller
         $jobs = Job::where('company_id', $company_id);
         $employees = Employee::where('company_id', $company_id);
         $posts = Post::where('company_id', $company_id);
+        
         try {
             $employee->delete();
             $company->delete();

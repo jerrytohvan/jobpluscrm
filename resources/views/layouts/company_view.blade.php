@@ -551,6 +551,7 @@ html {
                           <div class="col-md-6 col-sm-6 col-xs-12">
 
                               <select class="select2_single form-control" id="no_employees" name="no_employees" tabindex="-1">
+                                  <option value="0"></option>
                                   <option value="1-5">1-5</option>
                                   <option value="6-20">6-20</option>
                                   <option value="21-100">21-100</option>
@@ -633,8 +634,9 @@ html {
                        <div class="form-group">
                           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lead_source">Lead Source</label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
-                             <select class="select2_single form-control" required="required" id="lead_source" name="lead_source" tabindex="-1">
+                             <select class="select2_single form-control" id="lead_source" name="lead_source" tabindex="-1">
                                 <!-- http://www.themarketingscore.com/blog/bid/317180/18-Possible-Lead-Sources-Your-Organization-Needs-to-Measure -->
+                                <option value=""></option>
                                 <option value="Affiliate / Partner Programs">Affiliate / Partner Programs</option>
                                 <option value="Blogging">Blogging</option>
                                 <option value="Digital Advertising">Digital Advertising</option>
