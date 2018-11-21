@@ -419,7 +419,7 @@ class ClientController extends Controller
         $employees = Employee::where('company_id', $company_id);
         $files = Attachment::where('attachable_id',$company_id)->get();
         $posts = Post::where('company_id', $company_id);
-        $files = Attachment::where('attachable_id',$company_id)->get();
+      
 
         try {
             $employee->delete();
