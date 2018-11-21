@@ -73,7 +73,7 @@
 
          <div class="compose-header">
    New Message
-  
+
  </div>
 
  <div class="compose-body">
@@ -203,9 +203,10 @@
 
       @push('scripts')
       <script>
+
       $(function() {
           $('#submit-email').on("submit",function(e) {
-              $('#emailMessage').val($('#editor').text());
+              $('#emailMessage').val($('#editor').html());
           $('#submit-email').submit();
         });
       });
