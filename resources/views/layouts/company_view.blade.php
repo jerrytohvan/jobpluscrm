@@ -19,6 +19,7 @@
 <link href="{{ asset('css/scroller.bootstrap.min.css') }}" rel="stylesheet">
 <style>
 
+
 #file_upload{
     display:none;
 }
@@ -264,21 +265,21 @@ html {
                          <table id="datatable_job" class="table table-striped table-bordered dataTables">
                             <thead>
                                  <tr>
-                                     <th style="width: 10%">Title</th>
-                                     <th style="width: 20%">Description</th>
-                                     <th style="width: 5%">Skills</th>
-                                     <th style="width: 5%">Industry</th>
-                                     <th style="width: 15%">Action</th>
+                                     <th style="width: 20%">Title</th>
+                                     <!-- <th style="width: 20%">Description</th>
+                                     <th style="width: 5%">Skills</th> -->
+                                     <th style="width: 10%">Industry</th>
+                                     <th style="width: 10%">Action</th>
                                  </tr>
                              </thead>
                              <tbody>
                                @foreach($jobs as $job)
                                <tr role="row" class="{{ (($job->id % 2) == 1) ? 'odd':'even'}}">
                                  <td>{{ $job->job_title }}</td>
-                                 <td class="ellipsis">{{ $job->job_description }}</td>
-                                 <td class="ellipsis">{{ $job->skills }}</td>
                                  <td>{{ $job->industry == '' ? '-' : $job->industry }}</td>
                                  <td>
+                                 <a onclick="viewjob( {{ $job }}, {{ $company }} )" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View </a>
+                                 <a onclick="deletejob( {{ $job }} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
                                  </td>
                                </tr>
                                @endforeach
@@ -1036,6 +1037,60 @@ html {
                         </div>
                         <!-- /.modal-dialog -->
                   	  </div>
+					  
+	 <div class="modal fade" tabindex="-1" role="dialog" id="view-job">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title" id="company_name1"></h4>
+            </div>
+            <div class="modal-body">
+
+                <strong><p id="job_title1"></p></strong>
+                <strong>Description: </strong><p id="job_description1"></p>
+                <strong>Skills: </strong><p id="skills1"></p>
+                <strong>Summary Keywords: </strong><p id="tags1"></p>
+                <strong>Industry: </strong><p id="industry"></p>
+				        <input type="hidden" id="company_id1" name="company_id1" value="">
+                <!-- <input type="hidden" id="job_id1" name="job_id1" value=""> -->
+
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+         <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+	  </div>
+	  <!-- End of view-job modal -->
+	  
+	   <div class="modal fade" tabindex="-1" role="dialog" id="delete-job">
+    <div class="modal-dialog">
+       <div class="modal-content">
+          <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+             <h4 class="modal-title">Delete Job Post</h4>
+          </div>
+          <div class="modal-body">
+             {{  Form::open(['route' => 'delete.job','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'deletejob_form']) }}
+             <p>Are you sure you want to delete this Job post? This action cannot be undone.</P>
+             <input type="hidden" id="job" name="job" value="">
+
+             {!! Form::close() !!}
+
+             <button type="button" class="btn btn-danger"  onclick="deleteJob();" >Confirm Delete</button>
+             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+          </div>
+
+       </div>
+       <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>	  
+	  
   </div>
               <!-- recent activities -> notes -->
 @endsection
@@ -1172,6 +1227,27 @@ function deleteNote(noteId) {
 
 function submitFormNote() {
     $('#delete_formNote').submit();
+}
+
+function viewjob(job, company) {
+  $('#company_name1').html(company.name);
+  $('#company_id1').html(job.company_id);
+  $('#job_title1').html(job.job_title);
+  $('#job_description1').html(job.job_description);
+  $('#skills1').html(job.skills);
+  $('#industry').html(job.industry);
+  $('#tags1').html(job.summary_keywords);
+
+   $('#view-job').modal('show');
+}
+
+function deletejob(job) {
+  $('#job').val(job.id);
+  $('#delete-job').modal('show');
+}
+
+function deleteJob() {
+  $('#deletejob_form').submit();
 }
 
 $(document).ready(function () {
