@@ -15,7 +15,6 @@ use App\Models\Jobs\Job;
 use App\Models\Clients\Company;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use  App\Models\Attachments\AttachmentService;
-
 use Smalot\PdfParser\Parser;
 
 class MLService
@@ -64,17 +63,17 @@ class MLService
         "Computer / Information Technology (Hardware)",
          "Computer / Information Technology (Software)",
           "Construction / Building / Engineering",
-          "Consulting (Business &amp; Management)",
-        "Consulting (IT, Science, Engineering &amp; Technical)",
+          "Consulting (Business & Management)",
+        "Consulting (IT, Science, Engineering & Technical)",
          "Consumer Products / FMCG",
           "Education",
-           "Electrical &amp; Electronics",
+           "Electrical & Electronics",
         "Entertainment / Media",
         "Environment / Health / Safety",
          "Exhibitions / Event management / MICE",
-         "Food &amp; Beverage / Catering / Restaurant",
+         "Food & Beverage / Catering / Restaurant",
           "Gems / Jewellery",
-        "General &amp; Wholesale Trading",
+        "General & Wholesale Trading",
         "Government / Defence",
          "Grooming / Beauty / Fitness",
          "Healthcare / Medical",
@@ -93,10 +92,10 @@ class MLService
            "Polymer / Plastic / Rubber / Tyres",
           "Printing / Publishing",
           "Property / Real Estate",
-          "R&amp;D",
-          "Repair &amp; Maintenance Services",
+          "R&D",
+          "Repair & Maintenance Services",
           "Retail / Merchandise",
-          "Science &amp; Technology",
+          "Science & Technology",
           "Security / Law Enforcement",
           "Semiconductor / Wafer Fabrication",
           "Sports",
@@ -232,7 +231,7 @@ class MLService
     {
         //ADD ON FILTER BY JOB INDUSTRY
         if ($industry!= null) {
-            $chunks = Job::where('industry', '=', $industry)->get()->chunk(100);
+            $chunks = Job::where('industry', '=', $industry)->orderBy('id', 'asc')->get()->chunk(100);
         } else {
             $chunks = Job::all()->chunk(100);
         }
@@ -258,7 +257,6 @@ class MLService
             }
         }
 
-        // dd($points);
 
         $retrieveIndex = array_map(function ($row) {
             return $row[0];
@@ -274,7 +272,12 @@ class MLService
 
         //array of keywords match of the top 10 selection
         $keywordsMatch = [];
-        $matchingJobs = Job::whereIn('id', $retrieveIndex)->get();
+        $matchingJobs= [];
+        // $matchingJobs = Job::whereIn('id', $retrieveIndex)->get();
+
+        foreach ($retrieveIndex as $id) {
+            $matchingJobs[] = Job::find($id);
+        }
 
         foreach ($matchingJobs as $jobs) {
             $job_title =  Self::extract_keywords($jobs->job_title);
