@@ -65,7 +65,7 @@
                                     @endif
                                   @endforeach
 
-                                    <a onclick="editjob( {{ $job }} )" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                                    <a onclick="editjob( {{ $job }} )" class="edit btn btn-primary btn-xs"><i class="fa fa-pencil"></i> Edit </a>
                                     <a onclick="deletejob( {{ $job }} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
                                   </td>
                                 </tr>
@@ -230,11 +230,7 @@
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry *</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <select class="select2_single form-control" required="required" id="industry_edit" name="industry" tabindex="-1">
-                        @foreach($jobs as $job)
-                          @if ($company->id == $job->company_id)
-                            <option value="{{ $job->industry }}">{{  $job->industry }}</option>
-                          @endif
-                        @endforeach
+                        
                         <option value="Accounting / Audit / Tax Services">Accounting / Audit / Tax Services</option>
                         <option value="Advertising / Marketing / Promotion / PR">Advertising / Marketing / Promotion / PR</option>
                         <option value="Aerospace / Aviation / Airline">Aerospace / Aviation / Airline</option>
@@ -470,6 +466,24 @@ function deletejob(job) {
 function deleteJob() {
   $('#delete_form').submit();
 }
+
+$(document).ready(function () {
+
+$(".edit").click(function () {
+
+    var jobIndustry = "{{ $job->industry }}";
+    var inLen = document.getElementById("industry_edit").length;
+    for (var i=0; i<inLen; i++) {
+      var inVal = document.getElementById("industry_edit").options[i].text;
+      if (inVal == companyIndustry) {
+        document.getElementById("industry_edit").options[i].selected = true;
+      }
+    }
+
+    $('#edit-modal').modal('show');
+  });
+
+});
 
 $(document).ready(function () {
   $('.ui-pnotify').remove();
