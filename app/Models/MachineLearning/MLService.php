@@ -258,7 +258,6 @@ class MLService
             }
         }
 
-        // dd($points);
 
         $retrieveIndex = array_map(function ($row) {
             return $row[0];
@@ -275,7 +274,6 @@ class MLService
         //array of keywords match of the top 10 selection
         $keywordsMatch = [];
         $matchingJobs = Job::whereIn('id', $retrieveIndex)->get();
-
         foreach ($matchingJobs as $jobs) {
             $job_title =  Self::extract_keywords($jobs->job_title);
             $job_description = Self::extract_keywords($jobs->job_description);
@@ -293,6 +291,6 @@ class MLService
             $keywordsMatch[] = array_unique(array_merge($titlesArray, $descArray, $skillsArray, $summaryArray));
         }
 
-        return [$matchingJobs->reverse(),$points, $accuracy, $keywordsMatch, $keywords];
+        return [$matchingJobs,$points, $accuracy, $keywordsMatch, $keywords];
     }
 }
