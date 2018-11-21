@@ -148,67 +148,74 @@ class ActivityLogService
         $objectO = new $activity->subject_type;
         $subject = $subjectO::find($activity->causer_id);
         $object = $objectO::find($activity->subject_id);
-
-        if (Company::class == $activity->subject_type) {
-            $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
-            if (isset($activity->changes()->all()['attributes']) && ($activity->changes()->all()['attributes']['client'] == true) && (isset($activity->changes()->all()['old']) && $activity->changes()->all()['old']['client'] == false)) {
-                return "converted company " . $objectName . " as a client.";
-            }
-            return $action . " " . $objectName . "'s data.";
-        } elseif (Company::class == $activity->subject_type) {
-            $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
-            if (isset($activity->changes()->all()['attributes']) && ($activity->changes()->all()['attributes']['client'] == true) && (isset($activity->changes()->all()['old']) && $activity->changes()->all()['old']['client'] == false)) {
-                return "converted company " . $objectName . " as a client.";
-            }
-            return $action . " " . $objectName . "'s data.";
-        } elseif (Candidate::class == $activity->subject_type) {
-            $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
-            return $action . " " . $objectName . " in the candidates list.";
-        } elseif (Attachment::class == $activity->subject_type) {
-            //escape resume added for resumes
-            $type = $activity->getExtraProperty('attributes')['attachable_type'];
-            if ($type != Candidate::class) {
-                $objectName = isset($object->filename) ? $object->filename : $activity->changes()->all()['attributes']['file_name'];
-                $company = Company::find($activity->changes()->all()['attributes']['attachable_id']);
-                return $action . " " . $objectName . " for company " . $company->name . ".";
-            }
-        } elseif (User::class == $activity->subject_type && $activity->causer_id == Auth::user()->id) {
-            if ($activity->subject_id != $activity->causer_id) {
+        try {
+            if (Company::class == $activity->subject_type) {
                 $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
-                return $action . " " . $objectName . "'s account as an admin.";
-            }
-            return $action . " your own profile.";
-        } elseif (Employee::class == $activity->subject_type) {
-            $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
-            $company = Company::find($activity->changes()->all()['attributes']['company_id']);
-            return $action . " " . $objectName . "'s account for company " . $company->name . ".";
-        } elseif (Post::class == $activity->subject_type) {
-            return $action . " a post on announcement board.";
-        } elseif (Task::class == $activity->subject_type) {
-            $status = $activity->changes()->all()['attributes']['status'];
-            $prevStatus = $activity->getExtraProperty('old')['status'];
-            $title = $activity->changes()->all()['attributes']['title'];
-            $oldTitle = $activity->getExtraProperty('old')['title'];
-            $date = $activity->changes()->all()['attributes']['date_reminder'];
-            $oldDate = $activity->getExtraProperty('old')['date_reminder'];
-
-            $company = Company::find($activity->changes()->all()['attributes']['company_id']);
-            if ($company != null) {
-                if ($action == "created" || $action == "deleted" || ($action == "updated" && $status == $prevStatus && ($title != $oldTitle || $date != $oldDate))) {
-                    return $action . " a task for " . $company->name . ".";
-                } elseif ($action == "updated" && $status != $prevStatus) {
-                    if ($status == 0) {
-                        $status = " as an open task";
-                    } elseif ($status == 1) {
-                        $status = " as an on-going task";
-                    } else {
-                        $status = " as a closed task";
+                if (isset($activity->changes()->all()['attributes']) && ($activity->changes()->all()['attributes']['client'] == true) && (isset($activity->changes()->all()['old']) && $activity->changes()->all()['old']['client'] == false)) {
+                    return "converted company " . $objectName . " as a client.";
+                }
+                return $action . " " . $objectName . "'s data.";
+            } elseif (Company::class == $activity->subject_type) {
+                $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
+                if (isset($activity->changes()->all()['attributes']) && ($activity->changes()->all()['attributes']['client'] == true) && (isset($activity->changes()->all()['old']) && $activity->changes()->all()['old']['client'] == false)) {
+                    return "converted company " . $objectName . " as a client.";
+                }
+                return $action . " " . $objectName . "'s data.";
+            } elseif (Candidate::class == $activity->subject_type) {
+                $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
+                return $action . " " . $objectName . " in the candidates list.";
+            } elseif (Attachment::class == $activity->subject_type) {
+                //escape resume added for resumes
+                $type = $activity->getExtraProperty('attributes')['attachable_type'];
+                if ($type != Candidate::class) {
+                    $objectName = isset($object->filename) ? $object->filename : $activity->changes()->all()['attributes']['file_name'];
+                    try {
+                        $company = Company::find($activity->changes()->all()['attributes']['attachable_id']);
+                        return $action . " " . $objectName . " for company " . $company->name . ".";
+                    } catch (Exception $e) {
+                        return $action . " file " . $objectName . ".";
                     }
-                    return $action . " " . $company->name . "'s task " . $status . ".";
-                } else {
-                    $status = "";
+                }
+            } elseif (User::class == $activity->subject_type && $activity->causer_id == Auth::user()->id) {
+                if ($activity->subject_id != $activity->causer_id) {
+                    $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
+                    return $action . " " . $objectName . "'s account as an admin.";
+                }
+                return $action . " your own profile.";
+            } elseif (Employee::class == $activity->subject_type) {
+                $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
+                $company = Company::find($activity->changes()->all()['attributes']['company_id']);
+                return $action . " " . $objectName . "'s account for company " . $company->name . ".";
+            } elseif (Post::class == $activity->subject_type) {
+                return $action . " a post on announcement board.";
+            } elseif (Task::class == $activity->subject_type) {
+                $status = $activity->changes()->all()['attributes']['status'];
+                $prevStatus = $activity->getExtraProperty('old')['status'];
+                $title = $activity->changes()->all()['attributes']['title'];
+                $oldTitle = $activity->getExtraProperty('old')['title'];
+                $date = $activity->changes()->all()['attributes']['date_reminder'];
+                $oldDate = $activity->getExtraProperty('old')['date_reminder'];
+
+                $company = Company::find($activity->changes()->all()['attributes']['company_id']);
+                if ($company != null) {
+                    if ($action == "created" || $action == "deleted" || ($action == "updated" && $status == $prevStatus && ($title != $oldTitle || $date != $oldDate))) {
+                        return $action . " a task for " . $company->name . ".";
+                    } elseif ($action == "updated" && $status != $prevStatus) {
+                        if ($status == 0) {
+                            $status = " as an open task";
+                        } elseif ($status == 1) {
+                            $status = " as an on-going task";
+                        } else {
+                            $status = " as a closed task";
+                        }
+                        return $action . " " . $company->name . "'s task " . $status . ".";
+                    } else {
+                        $status = "";
+                    }
                 }
             }
+        } catch (Exception $e) {
+            return 'EXCEPTION: ' . 'Something happened! Caught exception: ' . $e->getMessage() . "\n";
         }
         return null;
     }
