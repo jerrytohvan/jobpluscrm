@@ -199,31 +199,33 @@ class ClientService
         foreach ($array as $company) {
             $iniArray =array();
             $id = $company['id'];
-            $closedTasks = Task::where('status','=',2)->get();
-            foreach($closedTasks as $closed){
-                array_push($iniArray,$closed);
+            $closedTasks = Task::where('status', '=', 2)->get();
+            foreach ($closedTasks as $closed) {
+                array_push($iniArray, $closed);
             }
             if ($closedTasks == null || sizeof($closedTasks) <= 0) {
-                array_multisort(array_column($tasksArray, 'duedate'), SORT_ASC,
-                        array_column($tasksArray,  'size'), SORT_DESC);
-
+                array_multisort(
+                    array_column($tasksArray, 'duedate'),
+                    SORT_ASC,
+                        array_column($tasksArray, 'size'),
+                    SORT_DESC
+                );
             } else {
-                    if(sizeof($tasksArray) > sizeof($closedTasks)){
-                        $diff = sizeof($tasksArray) - sizeof($closedTasks);
-                        for($x = 0; $x < $diff; $x++){
-                            
-                             array_push($iniArray,"");
-                        }
-                        array_multisort($tasksArray,$iniArray);
-                        $iniArray = array();
-                    }else{
-                        $diff = sizeof($closedTasks) - sizeof($tasksArray);
-                        for($x = 0; $x < $diff; $x++){
-                            array_push($tasksArray,"");
-                        }
-                        array_multisort($tasksArray,$iniArray);
-                        $iniArray = array();
+                if (sizeof($tasksArray) > sizeof($closedTasks)) {
+                    $diff = sizeof($tasksArray) - sizeof($closedTasks);
+                    for ($x = 0; $x < $diff; $x++) {
+                        array_push($iniArray, "");
                     }
+                    array_multisort($tasksArray, $iniArray);
+                    $iniArray = array();
+                } else {
+                    $diff = sizeof($closedTasks) - sizeof($tasksArray);
+                    for ($x = 0; $x < $diff; $x++) {
+                        array_push($tasksArray, "");
+                    }
+                    array_multisort($tasksArray, $iniArray);
+                    $iniArray = array();
+                }
             }
         }
 
