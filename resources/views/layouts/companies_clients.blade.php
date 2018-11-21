@@ -47,6 +47,7 @@
                                       <th>Industry</th>
                                       <th style="width: 15%">Action</th>
                                       <th>Due Date</th>
+                                      <th>Position</th>
                                       <th>Last Update</th>
                                   </tr>
                               </thead>
@@ -84,13 +85,18 @@
                                       <a onclick="deleteClient( {{ $data->id}} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
                                   </td>
 
+
                                   @foreach ($urgency as $result)
                                       @if (!empty($result['id']) && $result['id'] == $data->id && $result['id'] != null)
                                       <td>
                                         {{ $result['date'] }}
                                       </td>
+                                      <td>
+                                        {{ $result['position'] }}
+                                      </td>
                                     @endif
                                   @endforeach
+
 
                                   @foreach ($lastUpdate as $companyId=>$thisUpdate)
                                     @if ($companyId == $data->id)
@@ -158,14 +164,14 @@ $(document).ready(function() {
     loadNotification();
 
     $('#datatable').DataTable( {
-      "order": [[ 6, "desc" ]],
+      "order": [[ 7, "desc" ]],
       dom: 'lBfrtip',
         select: true,
         buttons: [
           'copy','csv','print',{
                 text: 'Sort by Urgency',
                 action: function () {
-                  this.column(5).order('asc').draw();
+                  this.column(6).order('asc').draw();
                 }
             }
         ],
@@ -198,6 +204,10 @@ $(document).ready(function() {
                     return data.substring(0,10);
                 },
                 "targets": 5
+            },
+            {
+                "targets": [ 6 ],
+                "visible": false
             }
         ]
     } );
