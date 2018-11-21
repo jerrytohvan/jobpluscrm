@@ -248,6 +248,7 @@ class ClientController extends Controller
         $users = User::orderBy('name', 'asc')->get();
         $notes = $company->posts;
         $jobs = Job::whereCompanyId($company->id)->take(20)->get();
+        $consultants = User::all();
 
         $tasks = Task::orderBy('order')->whereCompanyId($company->id)->get();
 
@@ -302,7 +303,7 @@ class ClientController extends Controller
         }
         $tasksByCompany = Task::whereCompanyId($company->id)->get();
         $this->taskSvc->insertCollab($tasksByCompany, $userIds);
-        return view('layouts.company_view', compact('createdTime', 'updatedTime', 'company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes', 'jobs', 'tasksOpen', 'tasksOnGoing', 'tasksClosed'));
+        return view('layouts.company_view', compact('createdTime', 'updatedTime', 'company', 'accounts', 'message', 'status', 'companyFiles', 'activities', 'collaborators', 'users', 'collaboratorsId', 'notes', 'jobs', 'tasksOpen', 'tasksOnGoing', 'tasksClosed', 'consultants'));
     }
 
     public function addNote(Company $company)

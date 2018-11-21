@@ -1002,14 +1002,14 @@ html {
                                   <label class="control-label col-md-3 col-sm-3 col-xs-12">Select User</label>
                                   <div class="col-md-9 col-sm-9 col-xs-12">
                                     @if(Auth::user()->admin == true)
-                                    <select class="select2_single form-control" id="consultant" name="consultant" required="required"  tabindex="-1">
+                                    <select class="select2_single form-control" id="consultant" name="consultant"   tabindex="-1">
                                     @else
-                                    <select class="select2_single form-control" id="consultant" name="consultant" required="required" disabled tabindex="-1">
+                                    <select class="select2_single form-control" id="consultant" name="consultant" disabled tabindex="-1">
 
                                     @endif
-                                      <option id="assigned_user" value=""  selected="selected">Select a User</option>
-                                      @foreach($users as $user)
-                                          <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    <option id="assigned_user"  selected="selected" value="">Select a User</option>
+                                      @foreach($consultants as $user)
+                                          <option value="{{ $user-> id }}">{{ $user->name }}</option>
                                       @endforeach
                                       <option value="">No user assigned</option>
                                     </select>
