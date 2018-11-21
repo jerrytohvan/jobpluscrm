@@ -131,6 +131,12 @@ class TaskController extends Controller
             'date_reminder' =>  $mod_date,
             'assigned_id' => !empty(request()->input('consultant')) ? request()->input('consultant') : null
           ]);
+            } elseif (request()->input('consultant')=="") {
+                $task->update([
+        'title' => request()->input('title'),
+        'date_reminder' =>  $mod_date,
+        'assigned_id' => null
+      ]);
             } else {
                 $task->update([
           'title' => request()->input('title'),
