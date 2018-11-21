@@ -15,7 +15,6 @@ use App\Models\Jobs\Job;
 use App\Models\Clients\Company;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use  App\Models\Attachments\AttachmentService;
-
 use Smalot\PdfParser\Parser;
 
 class MLService
@@ -232,7 +231,7 @@ class MLService
     {
         //ADD ON FILTER BY JOB INDUSTRY
         if ($industry!= null) {
-            $chunks = Job::where('industry', '=', $industry)->get()->chunk(100);
+            $chunks = Job::where('industry', '=', $industry)->orderBy('id', 'asc')->get()->chunk(100);
         } else {
             $chunks = Job::all()->chunk(100);
         }
@@ -273,7 +272,13 @@ class MLService
 
         //array of keywords match of the top 10 selection
         $keywordsMatch = [];
-        $matchingJobs = Job::whereIn('id', $retrieveIndex)->get();
+        $matchingJobs= [];
+        // $matchingJobs = Job::whereIn('id', $retrieveIndex)->get();
+
+        foreach ($retrieveIndex as $id) {
+            $matchingJobs[] = Job::find($id);
+        }
+
         foreach ($matchingJobs as $jobs) {
             $job_title =  Self::extract_keywords($jobs->job_title);
             $job_description = Self::extract_keywords($jobs->job_description);
