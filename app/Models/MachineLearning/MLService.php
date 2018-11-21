@@ -293,6 +293,6 @@ class MLService
             $keywordsMatch[] = array_unique(array_merge($titlesArray, $descArray, $skillsArray, $summaryArray));
         }
 
-        return [array_reverse($matchingJobs),$points, $accuracy, $keywordsMatch, $keywords];
+        return [$matchingJobs->reverse(),$points, $accuracy, $keywordsMatch, $keywords];
     }
 }
