@@ -229,7 +229,7 @@
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry *</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                     <select class="select2_single form-control" required="required" id="industry" name="industry" tabindex="-1">
+                     <select class="select2_single form-control" required="required" id="industry_edit" name="industry" tabindex="-1">
                         @foreach($jobs as $job)
                           @if ($company->id == $job->company_id)
                             <option value="{{ $job->industry }}">{{  $job->industry }}</option>
@@ -431,7 +431,7 @@ function editjob(job) {
   $('#job_id').val(job.id);
   $('#job_title').val(job.job_title);
   $('#category').val(job.category);
-  $('#industry').val(job.industry);
+  $('#industry_edit').val(job.industry);
   $('#years_experience').val(job.years_experience);
   $('.tags').importTags(job.summary_keywords);
   $('#company_id').val(job.company_id);
