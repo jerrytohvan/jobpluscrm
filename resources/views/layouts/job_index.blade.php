@@ -230,7 +230,7 @@
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="industry">Industry *</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <select class="select2_single form-control" required="required" id="industry_edit" name="industry" tabindex="-1">
-                        
+
                         <option value="Accounting / Audit / Tax Services">Accounting / Audit / Tax Services</option>
                         <option value="Advertising / Marketing / Promotion / PR">Advertising / Marketing / Promotion / PR</option>
                         <option value="Aerospace / Aviation / Airline">Aerospace / Aviation / Airline</option>
@@ -468,20 +468,6 @@ function deleteJob() {
 }
 
 $(document).ready(function () {
-
-$(".edit").click(function () {
-
-    var jobIndustry = "{{ $job->industry }}";
-    var inLen = document.getElementById("industry_edit").length;
-    for (var i=0; i<inLen; i++) {
-      var inVal = document.getElementById("industry_edit").options[i].text;
-      if (inVal == companyIndustry) {
-        document.getElementById("industry_edit").options[i].selected = true;
-      }
-    }
-
-    $('#edit-modal').modal('show');
-  });
 
 });
 

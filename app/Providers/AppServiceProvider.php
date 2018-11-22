@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
         //
         \URL::forceScheme('https');
 
-        //\Debugbar::disable();
+        \Debugbar::disable();
     }
 
     /**
