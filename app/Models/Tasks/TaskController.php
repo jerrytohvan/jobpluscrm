@@ -91,7 +91,7 @@ class TaskController extends Controller
         $client = new Client();
 
         try {
-            $res = $client->request('GET', 'https://dbscript.herokuapp.com/mailData');
+            $res = $client->request('GET', 'https://dbscript1.herokuapp.com/mailData');
             $content = $res->getBody()->getContents();
             $var = json_decode($content, true);
             $emailSend = $this->mTc->processTaskForEmail($var);
