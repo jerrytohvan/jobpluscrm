@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
 			abort(500);
 			//return response()->view('errors.500', [], 500);
 		}
-		if( $exception){
+		if( $exception instanceof \MethodNotAllowedHttpException){
 			abort (500);
 			//return response()->view('errors.500', [], 500);
 		}
