@@ -53,7 +53,9 @@ class ActivityLogService
 
                     if ($subject != null) {
                         if (Attachment::class == $activity->subject_type) {
-                            $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity);
+                            if ($subject!=null) {
+                                $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity);
+                            }
                         } elseif (Task::class == $activity->subject_type) {
                             $company = Company::find($activity->changes()->all()['attributes']['company_id']);
                             $status = $activity->changes()->all()['attributes']['status'];
@@ -81,31 +83,37 @@ class ActivityLogService
                             }
                         } elseif (UserCompany::class == $activity->subject_type) {
                             //NAME updated
-                            $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity) . " a user";
-                            if ($action == "updated") {
-                                $sentence .= " to the company.";
-                            } else {
-                                $sentence .= " from the company.";
+                            if ($subject!=null) {
+                                $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity) . " a user";
+                                if ($action == "updated") {
+                                    $sentence .= " to the company.";
+                                } else {
+                                    $sentence .= " from the company.";
+                                }
                             }
                         } elseif (Job::class == $activity->subject_type) {
-                            $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity) . " a job";
-                            if ($action == "created") {
-                                $sentence .= " to the company.";
-                            } elseif ($action == "updated") {
-                                $sentence .= " to the company.";
-                            } else {
-                                $sentence .= " from the company.";
+                            if ($subject!=null) {
+                                $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity) . " a job";
+                                if ($action == "created") {
+                                    $sentence .= " to the company.";
+                                } elseif ($action == "updated") {
+                                    $sentence .= " to the company.";
+                                } else {
+                                    $sentence .= " from the company.";
+                                }
                             }
                         } else {
-                            $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity);
-                            //filter object is company, user, social wall, post, tasks
-                            $name = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
+                            if ($subject!=null) {
+                                $sentence = $subject->name . " " . Self::constructSentenceFromAction($action, $activity);
+                                //filter object is company, user, social wall, post, tasks
+                                $name = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
 
-                            if (Company::class == $activity->subject_type) {
-                                $sentence .= "company's " . $name . " data.";
-                            } elseif (Employee::class == $activity->subject_type) {
-                                //accounts added to the company
-                                $sentence .= $name . " as an account for company " . $company->name . ".";
+                                if (Company::class == $activity->subject_type) {
+                                    $sentence .= "company's " . $name . " data.";
+                                } elseif (Employee::class == $activity->subject_type) {
+                                    //accounts added to the company
+                                    $sentence .= $name . " as an account for company " . $company->name . ".";
+                                }
                             }
                         }
                         if ($sentence != "") {
@@ -183,10 +191,12 @@ class ActivityLogService
             } elseif (User::class == $activity->subject_type && $activity->causer_id == Auth::user()->id) {
                 if ($activity->subject_id != $activity->causer_id) {
                     $objectName = isset($object->name) ? $object->name : $activity->changes()->all()['attributes']['name'];
-                    if (!$object->admin) {
-                        return $action . " " . $objectName . "'s account as an user.";
-                    } else {
-                        return $action . " " . $objectName . "'s account as an admin.";
+                    if ($object!= null) {
+                        if (!$object->admin) {
+                            return $action . " " . $objectName . "'s account as an user.";
+                        } else {
+                            return $action . " " . $objectName . "'s account as an admin.";
+                        }
                     }
                 }
                 return $action . " your own profile.";
