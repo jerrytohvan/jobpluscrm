@@ -196,6 +196,7 @@ class ClientService
                 $tasksArray[$id]['size'] = $sizeArray[$companySize];
             }
         }
+        
 
         //Get number of closed tasks for all companies
         foreach ($array as $company) {
