@@ -17,7 +17,8 @@ class JobService
       'industry' => $array['industry'],
       'years_experience' => $array['years_of_experience'],
       'summary_keywords' => $array['keywords'],
-      'company_id' => $array['company']
+      'company_id' => $array['company'],
+      'date' => date_create('now', timezone_open('Asia/Singapore'))->format('Y-m-d H:i:s')
       ]);
     }
 
@@ -34,7 +35,7 @@ class JobService
             $job->$key = $value;
         }
         $job->save();
-    
+
         return $job;
-    }    
+    }
 }
