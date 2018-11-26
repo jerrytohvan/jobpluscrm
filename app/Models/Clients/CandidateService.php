@@ -62,7 +62,6 @@ class CandidateService
                   'telephone' => $array['telephone'],
                   'industry' => $array['industry'],
                   'summary_keywords' => empty($array['keywords']) ? "" : $array['keywords'],
-                  'birthdate'=> date_create('now', timezone_open('Asia/Singapore'))->format('Y-m-d H:i:s'),
                   'user_id' => Auth::user()->id
               ]);
 

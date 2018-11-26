@@ -3,7 +3,6 @@
 namespace App\Models\Tasks;
 
 use App\Models\Clients\Company;
-
 use App\Models\Tasks\Task;
 use App\Models\Users\User;
 use Auth;
@@ -29,21 +28,21 @@ class TaskService
             return Task::Create([
                 'title' => $array['title'],
                 'date_reminder' => $beforeDate,
-                'company_id' =>  $array['company_id'],
+                'company_id' => $array['company_id'],
                 'status' => 1,
                 'user_id' => Auth::user()->id,
-                'type' => 1
+                'type' => 1,
             ]);
         } elseif ($status) {
-            if ((int)$array['assigned_id'] == 0) {
+            if ((int) $array['assigned_id'] == 0) {
                 return Task::Create([
                     'title' => $array['title'],
-                    'date_reminder' =>$beforeDate,
-                    'company_id' =>  $array['company_id'],
-                    'assigned_id' =>  0,
+                    'date_reminder' => $beforeDate,
+                    'company_id' => $array['company_id'],
+                    'assigned_id' => 0,
                     'status' => 0,
                     'user_id' => Auth::user()->id,
-                    'type' => 1
+                    'type' => 1,
                 ]);
             } else {
                 return Task::Create([
@@ -52,15 +51,12 @@ class TaskService
                     'company_id' => $array['company_id'],
                     'status' => 1,
                     'user_id' => Auth::user()->id,
-                    'assigned_id' => (int)$array['assigned_id'],
-                    'type' => 1
+                    'assigned_id' => (int) $array['assigned_id'],
+                    'type' => 1,
                 ]);
             }
         }
     }
-
-
-
 
     /**
      * Update the specified resource in storage.
@@ -121,7 +117,7 @@ class TaskService
     public function insertCollab($tasks, $userIds)
     {
         foreach ($tasks as $task) {
-            $task->update(['collaborator' =>$userIds]);
+            $task->update(['collaborator' => $userIds]);
             $task->save();
         }
     }
@@ -141,144 +137,284 @@ class TaskService
                 return $value->id;
             });
             $users = User::all();
-            if(Auth::user()->admin == true ){
-                $tasks = Task::whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhere('assigned_id', $id)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhereIn('company_id', $collaboratorsIn)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orderBy('date_reminder', 'desc')->get();
-            $tasksOpen = $tasks->map(function ($value, $key) use ($companies, $users) {
-                $value['company'] =  $companies->filter(function ($company) use ($value) {
-                    return $company->id == $value['company_id'];
-                })->first()->name;
-                $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
-                    return $user->id == $value['assigned_id'];
-                })->first()->name :  "";
-                $dateNow =  date_create(date("Y-m-d H:i:s"));
-                $dateAfter =  date_create(date($value['date_reminder']));
-                $dateDiff = date_diff($dateNow, $dateAfter);
-                $dateString = Self::constructStringFromDateTime($dateDiff);
-                $value['date_string'] = $dateString;
-                $value['date'] = $value['date_reminder'];
-                $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
-                    return $user->id == $value['user_id'];
-                })->first()->name : "";
-                return $value;
-            })->filter(function ($task, $key) {
-                return $task->status == 0;
-            })->values();
+            if (Auth::user()->admin == true) {
+                $tasks = Task::whereBetween('date_reminder', [$dateFrom, $dateTo])->orWhere('assigned_id', $id)->whereBetween('date_reminder', [$dateFrom, $dateTo])->orWhereIn('company_id', $collaboratorsIn)->whereBetween('date_reminder', [$dateFrom, $dateTo])->orderBy('date_reminder', 'desc')->get();
+                $tasksOpen = $tasks->map(function ($value, $key) use ($companies, $users) {
+                    $value['company'] = $companies->filter(function ($company) use ($value) {
+                        return $company->id == $value['company_id'];
+                    })->first()->name;
+                    $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['assigned_id'];
+                    })->first()->name : "";
+                    $dateNow = date_create(date("Y-m-d H:i:s"));
+                    $dateAfter = date_create(date($value['date_reminder']));
+                    $dateDiff = date_diff($dateNow, $dateAfter);
+                    $dateString = Self::constructStringFromDateTime($dateDiff);
+                    $value['date_string'] = $dateString;
+                    $value['date'] = $value['date_reminder'];
+                    $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['user_id'];
+                    })->first()->name : "";
+                    return $value;
+                })->filter(function ($task, $key) {
+                    return $task->status == 0;
+                })->values();
 
-            $tasksOnGoing = $tasks->map(function ($value, $key) use ($companies, $users) {
-                $value['company'] =  $companies->filter(function ($company) use ($value) {
-                    return $company->id == $value['company_id'];
-                })->first()->name;
-                $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
-                    return $user->id == $value['assigned_id'];
-                })->first()->name :  "";
-                $dateNow =  date_create(date("Y-m-d H:i:s"));
-                $dateAfter =  date_create(date($value['date_reminder']));
-                $dateDiff = date_diff($dateNow, $dateAfter);
-                $dateString = Self::constructStringFromDateTime($dateDiff);
-                $value['date_string'] = $dateString;
-                $value['date'] = $value['date_reminder'];
-                $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
-                    return $user->id == $value['user_id'];
-                })->first()->name : "";
-                return $value;
-            })->filter(function ($task, $key) {
-                return $task->status == 1;
-            })->values();
+                $tasksOnGoing = $tasks->map(function ($value, $key) use ($companies, $users) {
+                    $value['company'] = $companies->filter(function ($company) use ($value) {
+                        return $company->id == $value['company_id'];
+                    })->first()->name;
+                    $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['assigned_id'];
+                    })->first()->name : "";
+                    $dateNow = date_create(date("Y-m-d H:i:s"));
+                    $dateAfter = date_create(date($value['date_reminder']));
+                    $dateDiff = date_diff($dateNow, $dateAfter);
+                    $dateString = Self::constructStringFromDateTime($dateDiff);
+                    $value['date_string'] = $dateString;
+                    $value['date'] = $value['date_reminder'];
+                    $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['user_id'];
+                    })->first()->name : "";
+                    return $value;
+                })->filter(function ($task, $key) {
+                    return $task->status == 1;
+                })->values();
 
-            $tasksClosed = $tasks->map(function ($value, $key) use ($companies, $users) {
-                $value['company'] =  $companies->filter(function ($company) use ($value) {
-                    return $company->id == $value['company_id'];
-                })->first()->name;
-                $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
-                    return $user->id == $value['assigned_id'];
-                })->first()->name :  "";
-                $dateNow =  date_create(date("Y-m-d H:i:s"));
-                $dateAfter =  date_create(date($value['date_reminder']));
-                $dateDiff = date_diff($dateNow, $dateAfter);
-                $dateString = Self::constructStringFromDateTime($dateDiff);
-                $value['date_string'] = $dateString;
-                $value['date'] = $value['date_reminder'];
-                $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
-                    return $user->id == $value['user_id'];
-                })->first()->name : "";
-                return $value;
-            })->filter(function ($task, $key) {
-                return $task->status == 2;
-            })->values();
+                $tasksClosed = $tasks->map(function ($value, $key) use ($companies, $users) {
+                    $value['company'] = $companies->filter(function ($company) use ($value) {
+                        return $company->id == $value['company_id'];
+                    })->first()->name;
+                    $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['assigned_id'];
+                    })->first()->name : "";
+                    $dateNow = date_create(date("Y-m-d H:i:s"));
+                    $dateAfter = date_create(date($value['date_reminder']));
+                    $dateDiff = date_diff($dateNow, $dateAfter);
+                    $dateString = Self::constructStringFromDateTime($dateDiff);
+                    $value['date_string'] = $dateString;
+                    $value['date'] = $value['date_reminder'];
+                    $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['user_id'];
+                    })->first()->name : "";
+                    return $value;
+                })->filter(function ($task, $key) {
+                    return $task->status == 2;
+                })->values();
 
-            return [$tasksOpen, $tasksOnGoing,$tasksClosed];
-            }else{
-                $tasks = Task::whereUserId($id)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhere('assigned_id', $id)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orWhereIn('company_id', $collaboratorsIn)->whereBetween('date_reminder', [$dateFrom,$dateTo])->orderBy('date_reminder', 'desc')->get();
-            $tasksOpen = $tasks->map(function ($value, $key) use ($companies, $users) {
-                $value['company'] =  $companies->filter(function ($company) use ($value) {
-                    return $company->id == $value['company_id'];
-                })->first()->name;
-                $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
-                    return $user->id == $value['assigned_id'];
-                })->first()->name :  "";
-                $dateNow =  date_create(date("Y-m-d H:i:s"));
-                $dateAfter =  date_create(date($value['date_reminder']));
-                $dateDiff = date_diff($dateNow, $dateAfter);
-                $dateString = Self::constructStringFromDateTime($dateDiff);
-                $value['date_string'] = $dateString;
-                $value['date'] = $value['date_reminder'];
-                $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
-                    return $user->id == $value['user_id'];
-                })->first()->name : "";
-                return $value;
-            })->filter(function ($task, $key) {
-                return $task->status == 0;
-            })->values();
+                return [$tasksOpen, $tasksOnGoing, $tasksClosed];
+            } else {
+                $tasks = Task::whereUserId($id)->whereBetween('date_reminder', [$dateFrom, $dateTo])->orWhere('assigned_id', $id)->whereBetween('date_reminder', [$dateFrom, $dateTo])->orWhereIn('company_id', $collaboratorsIn)->whereBetween('date_reminder', [$dateFrom, $dateTo])->orderBy('date_reminder', 'desc')->get();
+                $tasksOpen = $tasks->map(function ($value, $key) use ($companies, $users) {
+                    $value['company'] = $companies->filter(function ($company) use ($value) {
+                        return $company->id == $value['company_id'];
+                    })->first()->name;
+                    $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['assigned_id'];
+                    })->first()->name : "";
+                    $dateNow = date_create(date("Y-m-d H:i:s"));
+                    $dateAfter = date_create(date($value['date_reminder']));
+                    $dateDiff = date_diff($dateNow, $dateAfter);
+                    $dateString = Self::constructStringFromDateTime($dateDiff);
+                    $value['date_string'] = $dateString;
+                    $value['date'] = $value['date_reminder'];
+                    $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['user_id'];
+                    })->first()->name : "";
+                    return $value;
+                })->filter(function ($task, $key) {
+                    return $task->status == 0;
+                })->values();
 
-            $tasksOnGoing = $tasks->map(function ($value, $key) use ($companies, $users) {
-                $value['company'] =  $companies->filter(function ($company) use ($value) {
-                    return $company->id == $value['company_id'];
-                })->first()->name;
-                $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
-                    return $user->id == $value['assigned_id'];
-                })->first()->name :  "";
-                $dateNow =  date_create(date("Y-m-d H:i:s"));
-                $dateAfter =  date_create(date($value['date_reminder']));
-                $dateDiff = date_diff($dateNow, $dateAfter);
-                $dateString = Self::constructStringFromDateTime($dateDiff);
-                $value['date_string'] = $dateString;
-                $value['date'] = $value['date_reminder'];
-                $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
-                    return $user->id == $value['user_id'];
-                })->first()->name : "";
-                return $value;
-            })->filter(function ($task, $key) {
-                return $task->status == 1;
-            })->values();
+                $tasksOnGoing = $tasks->map(function ($value, $key) use ($companies, $users) {
+                    $value['company'] = $companies->filter(function ($company) use ($value) {
+                        return $company->id == $value['company_id'];
+                    })->first()->name;
+                    $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['assigned_id'];
+                    })->first()->name : "";
+                    $dateNow = date_create(date("Y-m-d H:i:s"));
+                    $dateAfter = date_create(date($value['date_reminder']));
+                    $dateDiff = date_diff($dateNow, $dateAfter);
+                    $dateString = Self::constructStringFromDateTime($dateDiff);
+                    $value['date_string'] = $dateString;
+                    $value['date'] = $value['date_reminder'];
+                    $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['user_id'];
+                    })->first()->name : "";
+                    return $value;
+                })->filter(function ($task, $key) {
+                    return $task->status == 1;
+                })->values();
 
-            $tasksClosed = $tasks->map(function ($value, $key) use ($companies, $users) {
-                $value['company'] =  $companies->filter(function ($company) use ($value) {
-                    return $company->id == $value['company_id'];
-                })->first()->name;
-                $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
-                    return $user->id == $value['assigned_id'];
-                })->first()->name :  "";
-                $dateNow =  date_create(date("Y-m-d H:i:s"));
-                $dateAfter =  date_create(date($value['date_reminder']));
-                $dateDiff = date_diff($dateNow, $dateAfter);
-                $dateString = Self::constructStringFromDateTime($dateDiff);
-                $value['date_string'] = $dateString;
-                $value['date'] = $value['date_reminder'];
-                $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
-                    return $user->id == $value['user_id'];
-                })->first()->name : "";
-                return $value;
-            })->filter(function ($task, $key) {
-                return $task->status == 2;
-            })->values();
+                $tasksClosed = $tasks->map(function ($value, $key) use ($companies, $users) {
+                    $value['company'] = $companies->filter(function ($company) use ($value) {
+                        return $company->id == $value['company_id'];
+                    })->first()->name;
+                    $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['assigned_id'];
+                    })->first()->name : "";
+                    $dateNow = date_create(date("Y-m-d H:i:s"));
+                    $dateAfter = date_create(date($value['date_reminder']));
+                    $dateDiff = date_diff($dateNow, $dateAfter);
+                    $dateString = Self::constructStringFromDateTime($dateDiff);
+                    $value['date_string'] = $dateString;
+                    $value['date'] = $value['date_reminder'];
+                    $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['user_id'];
+                    })->first()->name : "";
+                    return $value;
+                })->filter(function ($task, $key) {
+                    return $task->status == 2;
+                })->values();
 
-            return [$tasksOpen, $tasksOnGoing,$tasksClosed];
+                return [$tasksOpen, $tasksOnGoing, $tasksClosed];
             }
-            
+
+        }else{
+            $companies = Company::all();
+            $id = Auth::user()->id;
+            $collaboratorsIn = Auth::user()->companies->map(function ($value, $key) {
+                return $value->id;
+            });
+            $users = User::all();
+            $dateFrom = Carbon::now();
+            if (Auth::user()->admin == true) {
+                $tasks = Task::whereBetween('date_reminder', [$dateFrom, $dateTo])->orWhere('assigned_id', $id)->whereBetween('date_reminder', [$dateFrom, $dateTo])->orWhereIn('company_id', $collaboratorsIn)->whereBetween('date_reminder', [$dateFrom, $dateTo])->orderBy('date_reminder', 'desc')->get();
+                $tasksOpen = $tasks->map(function ($value, $key) use ($companies, $users) {
+                    $value['company'] = $companies->filter(function ($company) use ($value) {
+                        return $company->id == $value['company_id'];
+                    })->first()->name;
+                    $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['assigned_id'];
+                    })->first()->name : "";
+                    $dateNow = date_create(date("Y-m-d H:i:s"));
+                    $dateAfter = date_create(date($value['date_reminder']));
+                    $dateDiff = date_diff($dateNow, $dateAfter);
+                    $dateString = Self::constructStringFromDateTime($dateDiff);
+                    $value['date_string'] = $dateString;
+                    $value['date'] = $value['date_reminder'];
+                    $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['user_id'];
+                    })->first()->name : "";
+                    return $value;
+                })->filter(function ($task, $key) {
+                    return $task->status == 0;
+                })->values();
+
+                $tasksOnGoing = $tasks->map(function ($value, $key) use ($companies, $users) {
+                    $value['company'] = $companies->filter(function ($company) use ($value) {
+                        return $company->id == $value['company_id'];
+                    })->first()->name;
+                    $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['assigned_id'];
+                    })->first()->name : "";
+                    $dateNow = date_create(date("Y-m-d H:i:s"));
+                    $dateAfter = date_create(date($value['date_reminder']));
+                    $dateDiff = date_diff($dateNow, $dateAfter);
+                    $dateString = Self::constructStringFromDateTime($dateDiff);
+                    $value['date_string'] = $dateString;
+                    $value['date'] = $value['date_reminder'];
+                    $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['user_id'];
+                    })->first()->name : "";
+                    return $value;
+                })->filter(function ($task, $key) {
+                    return $task->status == 1;
+                })->values();
+
+                $tasksClosed = $tasks->map(function ($value, $key) use ($companies, $users) {
+                    $value['company'] = $companies->filter(function ($company) use ($value) {
+                        return $company->id == $value['company_id'];
+                    })->first()->name;
+                    $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['assigned_id'];
+                    })->first()->name : "";
+                    $dateNow = date_create(date("Y-m-d H:i:s"));
+                    $dateAfter = date_create(date($value['date_reminder']));
+                    $dateDiff = date_diff($dateNow, $dateAfter);
+                    $dateString = Self::constructStringFromDateTime($dateDiff);
+                    $value['date_string'] = $dateString;
+                    $value['date'] = $value['date_reminder'];
+                    $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['user_id'];
+                    })->first()->name : "";
+                    return $value;
+                })->filter(function ($task, $key) {
+                    return $task->status == 2;
+                })->values();
+
+                return [$tasksOpen, $tasksOnGoing, $tasksClosed];
+            } else {
+                $tasks = Task::whereUserId($id)->whereBetween('date_reminder', [$dateFrom, $dateTo])->orWhere('assigned_id', $id)->whereBetween('date_reminder', [$dateFrom, $dateTo])->orWhereIn('company_id', $collaboratorsIn)->whereBetween('date_reminder', [$dateFrom, $dateTo])->orderBy('date_reminder', 'desc')->get();
+                $tasksOpen = $tasks->map(function ($value, $key) use ($companies, $users) {
+                    $value['company'] = $companies->filter(function ($company) use ($value) {
+                        return $company->id == $value['company_id'];
+                    })->first()->name;
+                    $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['assigned_id'];
+                    })->first()->name : "";
+                    $dateNow = date_create(date("Y-m-d H:i:s"));
+                    $dateAfter = date_create(date($value['date_reminder']));
+                    $dateDiff = date_diff($dateNow, $dateAfter);
+                    $dateString = Self::constructStringFromDateTime($dateDiff);
+                    $value['date_string'] = $dateString;
+                    $value['date'] = $value['date_reminder'];
+                    $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['user_id'];
+                    })->first()->name : "";
+                    return $value;
+                })->filter(function ($task, $key) {
+                    return $task->status == 0;
+                })->values();
+
+                $tasksOnGoing = $tasks->map(function ($value, $key) use ($companies, $users) {
+                    $value['company'] = $companies->filter(function ($company) use ($value) {
+                        return $company->id == $value['company_id'];
+                    })->first()->name;
+                    $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['assigned_id'];
+                    })->first()->name : "";
+                    $dateNow = date_create(date("Y-m-d H:i:s"));
+                    $dateAfter = date_create(date($value['date_reminder']));
+                    $dateDiff = date_diff($dateNow, $dateAfter);
+                    $dateString = Self::constructStringFromDateTime($dateDiff);
+                    $value['date_string'] = $dateString;
+                    $value['date'] = $value['date_reminder'];
+                    $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['user_id'];
+                    })->first()->name : "";
+                    return $value;
+                })->filter(function ($task, $key) {
+                    return $task->status == 1;
+                })->values();
+
+                $tasksClosed = $tasks->map(function ($value, $key) use ($companies, $users) {
+                    $value['company'] = $companies->filter(function ($company) use ($value) {
+                        return $company->id == $value['company_id'];
+                    })->first()->name;
+                    $value['assignee'] = !empty($value['assigned_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['assigned_id'];
+                    })->first()->name : "";
+                    $dateNow = date_create(date("Y-m-d H:i:s"));
+                    $dateAfter = date_create(date($value['date_reminder']));
+                    $dateDiff = date_diff($dateNow, $dateAfter);
+                    $dateString = Self::constructStringFromDateTime($dateDiff);
+                    $value['date_string'] = $dateString;
+                    $value['date'] = $value['date_reminder'];
+                    $value['creator'] = !empty($value['user_id']) ? $users->filter(function ($user) use ($value) {
+                        return $user->id == $value['user_id'];
+                    })->first()->name : "";
+                    return $value;
+                })->filter(function ($task, $key) {
+                    return $task->status == 2;
+                })->values();
+
+                return [$tasksOpen, $tasksOnGoing, $tasksClosed];
+            }
         }
         return [[], [], []];
     }
-
 
     public function constructStringFromDateTime($date)
     {

@@ -88,6 +88,7 @@
               <a href="{{ route('social.wall') }}"><i class="fa fa-comments-o"></i>Announcements </a>
             </li>
 
+
           </ul>
           </div>
 
