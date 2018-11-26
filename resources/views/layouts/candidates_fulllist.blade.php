@@ -36,7 +36,7 @@
                            <th>Email</th>
                            <th>Handphone No.</th>
                            <th>Telephone No.</th>
-                           <th>Birthdate</th>
+                           <th>Date Created</th>
                            <th style="width: 25%;">Action</th>
                          </tr>
                         </thead>
@@ -48,8 +48,7 @@
                             <td>{{ $candidate->email }}</td>
                             <td>{{ $candidate->handphone }}</td>
                             <td>{{ $candidate->telephone == null ? "-" : $candidate->telephone }}</td>
-                            <td>{{
-                              date("F d, Y", strtotime($candidate->birthdate))}}</td>
+                            <td>{{ $candidate->created_at}}</td>
                             <td>
                                  <a href="{{ route('get.resume', ['file'=> $candidate->files->first()->id])}}"  class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Resume</a>
                                  <a onclick="deleteCandidate( {{ $candidate->id }} )" class="btn btn-danger btn-xs confirmation"><i class="fa fa-trash-o"></i> Delete </a>

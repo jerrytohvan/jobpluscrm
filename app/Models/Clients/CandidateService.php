@@ -62,7 +62,6 @@ class CandidateService
                   'telephone' => $array['telephone'],
                   'industry' => $array['industry'],
                   'summary_keywords' => empty($array['keywords']) ? "" : $array['keywords'],
-                  'birthdate' => $array['birthdate'],
                   'user_id' => Auth::user()->id
               ]);
 

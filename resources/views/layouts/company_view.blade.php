@@ -513,6 +513,13 @@ html {
                     <div class="modal-body">
                        {{  Form::open(['route' => 'update.company','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'modal_form_id']) }}
                        <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Company <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                             <input type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12" value="{{ $company->name }}">
+                          </div>
+                       </div>
+                       <div class="form-group">
                           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="address">Address <span class="required">*</span>
                           </label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
@@ -1291,6 +1298,7 @@ $(document).ready(function () {
       processData: false,
       contentType: false,
       data:  {
+        company_name:$('#name').val(),
         company_id:$('#company-id').val(),
         email: $('#email').val(),
         telephone_no: $('#telephone_no').val(),

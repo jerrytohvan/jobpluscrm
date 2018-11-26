@@ -45,6 +45,7 @@
                                       <th style="width: 10%">Job Title</th>
                                       <!-- <th style="width: 25%">Description</th>
                                       <th>Skills & Qualifications</th> -->
+                                      <th style ="width 15%">Date Created</th>
                                       <th style="width: 15%">Action</th>
 
                                   </tr>
@@ -58,13 +59,13 @@
                                     @endif
                                   @endforeach
                                   <td>{{ $job->job_title }}</td>
+                                  <td>{{$job->created_at}}</td>
                                   <td>
                                   @foreach($companies as $company)
                                     @if ($company->id == $job->company_id)
                                     <a onclick="viewjob( {{ $job }}, {{ $company }} )" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View </a>
                                     @endif
                                   @endforeach
-
                                     <a onclick="editjob( {{ $job }} )" class="edit btn btn-primary btn-xs"><i class="fa fa-pencil"></i> Edit </a>
                                     <a onclick="deletejob( {{ $job }} )" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
                                   </td>
