@@ -279,6 +279,8 @@ class TaskService
             });
             $users = User::all();
             $dateFrom = Carbon::now();
+            //edited here
+            $dateTo = $dateFrom->addMonth(3);
             if (Auth::user()->admin == true) {
                 $tasks = Task::whereBetween('date_reminder', [$dateFrom, $dateTo])->orWhere('assigned_id', $id)->whereBetween('date_reminder', [$dateFrom, $dateTo])->orWhereIn('company_id', $collaboratorsIn)->whereBetween('date_reminder', [$dateFrom, $dateTo])->orderBy('date_reminder', 'desc')->get();
                 $tasksOpen = $tasks->map(function ($value, $key) use ($companies, $users) {
