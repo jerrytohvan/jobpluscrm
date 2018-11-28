@@ -1039,7 +1039,7 @@ html {
                         </div>
                         <!-- /.modal-dialog -->
                   	  </div>
-					  
+
 	 <div class="modal fade" tabindex="-1" role="dialog" id="view-job">
       <div class="modal-dialog">
          <div class="modal-content">
@@ -1066,7 +1066,7 @@ html {
       <!-- /.modal-dialog -->
 	  </div>
 	  <!-- End of view-job modal -->
-	  
+
 	   <div class="modal fade" tabindex="-1" role="dialog" id="delete-job">
     <div class="modal-dialog">
        <div class="modal-content">
@@ -1090,8 +1090,8 @@ html {
        <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
-  </div>	  
-	  
+  </div>
+
   </div>
               <!-- recent activities -> notes -->
 @endsection
