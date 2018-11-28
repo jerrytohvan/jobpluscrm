@@ -27,7 +27,8 @@ class AccountController extends Controller
     {
         if (empty(request()->input('dateInserted'))) {
             $fromDate = Carbon::now('Asia/Singapore')->format('Y-m-d 00:00:00');
-            $toDate = Carbon::tomorrow('Asia/Singapore')->format('Y-m-d 00:00:00');
+            $toDate = Carbon::now('Asia/Singapore')->addMonth(3)->format('Y-m-d 00:00:00');
+            //$toDate = Carbon::tomorrow('Asia/Singapore')->format('Y-m-d 00:00:00');
             $tasksArray =   $this->svc->topfew(request()->all(), $fromDate, $toDate);
         } else {
             $fromDate =  request()->input('from');
