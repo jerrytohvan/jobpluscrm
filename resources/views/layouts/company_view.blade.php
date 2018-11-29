@@ -463,7 +463,7 @@ html {
                                      <br>
                                      <div class="text-center mtop20">
                                         {{  Form::open(['route' => 'update.company.file','method'=>'post', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left', 'id'=>'file_uploader', 'enctype'=>'multipart/form-data']) }}
-                                        <input id="file_upload" name="file_upload" type="file"  data-parsley-filemaxmegabytes="2" data-parsley-trigger="change" data-parsley-filemimetypes="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf,image/jpeg, image/pipeg, image/png, image/bmp, image/webp, application/x-7z-compressed, image/gif,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.presentationml.slide,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain,application/zip,application/x-rar-compressed, application/vnd.ms-excel,application/vnd.ms-powerpoint	" />
+                                        <input id="file_upload" name="file_upload" type="file"  data-parsley-filemaxmegabytes="5" data-parsley-trigger="change" data-parsley-filemimetypes="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf,image/jpeg, image/pipeg, image/png, image/bmp, image/webp, application/x-7z-compressed, image/gif,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.presentationml.slide,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain,application/zip,application/x-rar-compressed, application/vnd.ms-excel,application/vnd.ms-powerpoint	" />
                                         <input type="hidden" id="company_id" name="company_id" value="{{ $company->id }}">
                                         <a href="" id="upload_link" class="btn btn-sm btn-primary">Add file</a>
                                         </form>
@@ -1046,7 +1046,7 @@ html {
                         </div>
                         <!-- /.modal-dialog -->
                   	  </div>
-					  
+
 	 <div class="modal fade" tabindex="-1" role="dialog" id="view-job">
       <div class="modal-dialog">
          <div class="modal-content">
@@ -1073,7 +1073,7 @@ html {
       <!-- /.modal-dialog -->
 	  </div>
 	  <!-- End of view-job modal -->
-	  
+
 	   <div class="modal fade" tabindex="-1" role="dialog" id="delete-job">
     <div class="modal-dialog">
        <div class="modal-content">
@@ -1097,8 +1097,8 @@ html {
        <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
-  </div>	  
-	  
+  </div>
+
   </div>
               <!-- recent activities -> notes -->
 @endsection
